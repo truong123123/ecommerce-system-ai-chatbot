@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Next.js build output
+.next/
+out/
+build/
+dist/
+
+# Java Spring Boot build output
+target/
+.mvn/
+*.jar
+*.war
+
+# Environment & Secrets
+.env
+.env.local
+*.log
+
+# IDE & OS files
+.idea/
+.vscode/
+*.swp
+*.DS_Store
+~$*
