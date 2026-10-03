@@ -1,0 +1,264 @@
+.dashboardWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 1200px;
+}
+
+.welcomeBanner {
+  background: linear-gradient(135deg, #1e2235 0%, #161824 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 24px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.welcomeText h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.welcomeText p {
+  margin: 6px 0 0;
+  font-size: 14px;
+  color: #9ca3af;
+}
+
+.flashSaleAlertCard {
+  background: linear-gradient(135deg, rgba(230, 57, 70, 0.15) 0%, rgba(179, 20, 26, 0.25) 100%);
+  border: 1px solid rgba(230, 57, 70, 0.4);
+  border-radius: 12px;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.flashSaleAlertInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.flashIcon {
+  font-size: 24px;
+  background: #ff4d4f;
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flashTitle {
+  font-weight: 700;
+  color: #fff;
+  font-size: 15px;
+}
+
+.flashDesc {
+  font-size: 13px;
+  color: #fca5a5;
+  margin-top: 2px;
+}
+
+.manageFlashBtn {
+  background: #ff4d4f;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.manageFlashBtn:hover {
+  background: #ff7875;
+}
+
+/* Thẻ chỉ số KPI (KPI Cards) */
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.kpiCard {
+  background: #161824;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.kpiHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #9ca3af;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.kpiValue {
+  font-size: 22px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.kpiTrend {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.trendUp {
+  color: #10b981;
+}
+
+.trendDown {
+  color: #ef4444;
+}
+
+/* Bảng đơn hàng gần đây */
+.sectionCard {
+  background: #161824;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 22px;
+}
+
+.sectionTitle {
+  margin: 0 0 16px 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 13px;
+}
+
+.table th {
+  padding: 10px 14px;
+  color: #9ca3af;
+  font-weight: 700;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.statusBadge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.statusCompleted {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+}
+
+.statusPending {
+  background: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+}
+
+@media (max-width: 1024px) {
+  .kpiGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.showcaseNavSection {
+  background: #161824;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 20px 24px;
+}
+
+.showcaseNavTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 16px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.showcaseNavGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.showcaseCard {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 16px 18px;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: all 0.25s ease;
+}
+
+.showcaseCard:hover {
+  background: rgba(230, 57, 70, 0.08);
+  border-color: rgba(230, 57, 70, 0.4);
+  transform: translateY(-2px);
+}
+
+.showcaseCardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.showcaseIcon {
+  font-size: 24px;
+}
+
+.showcaseArrow {
+  color: #ef4444;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.showcaseName {
+  font-size: 15px;
+  font-weight: 700;
+  color: #f3f4f6;
+  margin: 0;
+}
+
+.showcaseDesc {
+  font-size: 12px;
+  color: #9ca3af;
+  margin: 0;
+  line-height: 1.4;
+}
+

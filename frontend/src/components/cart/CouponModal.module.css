@@ -1,0 +1,201 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal {
+  background: #ffffff;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 480px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  animation: slideUp 0.25s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.header {
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #888;
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px;
+}
+
+.body {
+  padding: 20px 24px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.inputGroup {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #d70018;
+  box-shadow: 0 0 0 3px rgba(215, 0, 24, 0.1);
+}
+
+.applyBtn {
+  background: #d70018;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.applyBtn:hover {
+  background: #b80014;
+}
+
+.applyBtn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.errorMsg {
+  color: #d70018;
+  font-size: 13px;
+  margin-top: -12px;
+  margin-bottom: 16px;
+  background: #fff0f0;
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+.sectionTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #666;
+  margin-bottom: 12px;
+}
+
+.couponList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.couponCard {
+  border: 1px dashed #d70018;
+  background: #fff9f9;
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.couponCard:hover {
+  background: #fff0f0;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(215, 0, 24, 0.08);
+}
+
+.couponCardSelected {
+  background: #ffe8e8;
+  border-style: solid;
+  border-color: #d70018;
+}
+
+.couponLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.couponCode {
+  font-weight: 700;
+  font-size: 15px;
+  color: #d70018;
+}
+
+.couponDesc {
+  font-size: 13px;
+  color: #4b5563;
+}
+
+.couponExpiry {
+  font-size: 11px;
+  color: #9ca3af;
+}
+
+.selectCouponBtn {
+  background: #fff;
+  border: 1px solid #d70018;
+  color: #d70018;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.couponCardSelected .selectCouponBtn {
+  background: #d70018;
+  color: #fff;
+}

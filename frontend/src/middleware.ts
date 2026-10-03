@@ -6,7 +6,7 @@ export function middleware(request: NextRequest) {
   const token = request.cookies.get('auth_token')?.value || request.headers.get('Authorization');
   const { pathname } = request.nextUrl;
 
-  const protectedRoutes = ['/account', '/checkout'];
+  const protectedRoutes = ['/account'];
   const isProtected = protectedRoutes.some(route => pathname.startsWith(route));
 
   if (isProtected && !token) {
@@ -19,5 +19,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/account/:path*', '/checkout/:path*'],
+  matcher: ['/account/:path*'],
 };

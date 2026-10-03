@@ -1,0 +1,267 @@
+.footerWrapper {
+  background-color: #f5f5f7;
+  color: #6e6e73;
+  font-size: 12px;
+  line-height: 1.33337;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  font-family: var(--font-family);
+  border-top: 1px solid #e5e7eb;
+  padding: 0;
+  width: 100%;
+}
+
+.footerContainer {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 17px 20px 24px;
+}
+
+/* 1. Footnotes / Disclaimers */
+.footnotesSection {
+  padding-bottom: 12px;
+  border-bottom: 1px solid #d2d2d7;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: #86868b;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.footnotesSection p {
+  margin: 0;
+}
+
+.footnotesLink {
+  color: #424245;
+  text-decoration: underline;
+  transition: color 0.15s ease;
+}
+
+.footnotesLink:hover {
+  color: #1d1d1f;
+}
+
+/* 2. Directory Columns */
+.directoryGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0 24px;
+  padding-top: 18px;
+}
+
+.directoryCol {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.directoryGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.groupTitle {
+  font-size: 12px;
+  line-height: 1.33337;
+  font-weight: 600;
+  color: #1d1d1f;
+  margin-bottom: 9px;
+  letter-spacing: -0.01em;
+}
+
+.groupList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.groupItem {
+  margin: 0;
+}
+
+.groupLink {
+  color: #424245;
+  font-size: 12px;
+  line-height: 1.33337;
+  text-decoration: none;
+  transition: color 0.15s ease, text-decoration 0.15s ease;
+}
+
+.groupLink:hover {
+  color: #1d1d1f;
+  text-decoration: underline;
+}
+
+/* Mobile Accordion Elements (Hidden by default on Desktop) */
+.accordionHeader {
+  display: none;
+}
+
+/* 3. Shop & Buy Section */
+.shopSection {
+  margin-top: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #d2d2d7;
+  color: #86868b;
+  font-size: 12px;
+  line-height: 1.33337;
+}
+
+.shopLink {
+  color: #0066cc;
+  text-decoration: none;
+  transition: text-decoration 0.15s ease;
+}
+
+.shopLink:hover {
+  text-decoration: underline;
+}
+
+/* 4. Bottom Legal / Copyright Section */
+.bottomSection {
+  padding-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px 16px;
+  font-size: 11px;
+  line-height: 1.36364;
+  color: #86868b;
+}
+
+.legalLeft {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 16px;
+}
+
+.copyright {
+  color: #86868b;
+  white-space: nowrap;
+}
+
+.legalLinks {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.legalItem {
+  display: inline-flex;
+  align-items: center;
+}
+
+.legalItem:not(:last-child)::after {
+  content: "|";
+  margin: 0 8px;
+  color: #d2d2d7;
+}
+
+.legalLink {
+  color: #424245;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.legalLink:hover {
+  color: #1d1d1f;
+  text-decoration: underline;
+}
+
+.localeSelector {
+  display: inline-flex;
+  align-items: center;
+  color: #424245;
+  font-weight: 400;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.15s ease;
+}
+
+.localeSelector:hover {
+  color: #1d1d1f;
+  text-decoration: underline;
+}
+
+/* Responsive Mobile Navigation */
+@media (max-width: 833px) {
+  .directoryGrid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .directoryCol {
+    gap: 0;
+  }
+
+  .directoryGroup {
+    border-bottom: 1px solid #d2d2d7;
+  }
+
+  .groupTitle {
+    display: none;
+  }
+
+  .accordionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    color: #1d1d1f;
+    text-align: left;
+    outline: none;
+  }
+
+  .accordionIcon {
+    font-size: 14px;
+    font-weight: 300;
+    color: #86868b;
+    transition: transform 0.2s ease;
+  }
+
+  .accordionHeader[aria-expanded="true"] .accordionIcon {
+    transform: rotate(45deg);
+  }
+
+  .groupList {
+    padding-bottom: 12px;
+    display: none;
+  }
+
+  .groupList.open {
+    display: flex;
+    animation: fadeIn 0.2s ease;
+  }
+
+  .bottomSection {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .legalLeft {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .legalLinks {
+    gap: 4px 0;
+  }
+}

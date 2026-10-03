@@ -1,0 +1,277 @@
+/* Boxed Container Hero Banner (Đồng bộ khung chuẩn 1240px với toàn trang) */
+.sectionContainer {
+  max-width: 1240px;
+  margin: 20px auto 24px;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.bannerWrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #101014 0%, #1c1c24 50%, #0d0d10 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+}
+
+.bannerSlide {
+  width: 100%;
+  margin: 0 auto;
+  padding: 40px 48px 48px;
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 36px;
+  box-sizing: border-box;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.textCol {
+  flex: 1;
+  max-width: 580px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.productBadge {
+  display: inline-block;
+  background: rgba(215, 0, 24, 0.15);
+  color: #ff4d4f;
+  border: 1px solid rgba(215, 0, 24, 0.3);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 4px 14px;
+  border-radius: 9999px;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+}
+
+.headline {
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1.15;
+  color: #ffffff;
+  margin-bottom: 14px;
+  letter-spacing: -0.025em;
+}
+
+.subHeadline {
+  font-size: 16px;
+  line-height: 1.55;
+  font-weight: 400;
+  color: #d1d5db;
+  margin-bottom: 26px;
+}
+
+.buttonGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #d70018;
+  color: #ffffff;
+  padding: 12px 28px;
+  border-radius: 9999px;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 16px rgba(215, 0, 24, 0.35);
+}
+
+.btnPrimary:hover {
+  background-color: #b90014;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(215, 0, 24, 0.45);
+}
+
+.btnSecondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  padding: 12px 26px;
+  border-radius: 9999px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btnSecondary:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.45);
+  transform: translateY(-2px);
+}
+
+.imageCol {
+  width: 480px;
+  height: 330px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.bannerImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 18px;
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bannerWrapper:hover .bannerImg {
+  transform: scale(1.04);
+}
+
+/* Navigation Semicircle Buttons on left/right edges (CellphoneS Style) */
+.arrowBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 64px;
+  width: 32px;
+  background: rgba(55, 55, 55, 0.75);
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(4px);
+  z-index: 10;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  padding: 0;
+}
+
+.prevBtn {
+  left: 0;
+  border-radius: 0 32px 32px 0;
+  padding-left: 4px;
+}
+
+.nextBtn {
+  right: 0;
+  border-radius: 32px 0 0 32px;
+  padding-right: 4px;
+}
+
+.arrowBtn:hover {
+  background: rgba(30, 30, 30, 0.95);
+  width: 38px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.prevBtn:hover {
+  padding-left: 6px;
+}
+
+.nextBtn:hover {
+  padding-right: 6px;
+}
+
+/* Indicators */
+.indicators {
+  position: absolute;
+  bottom: 16px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  z-index: 10;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+}
+
+.dotActive {
+  width: 28px;
+  border-radius: 12px;
+  background: #d70018;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 1024px) {
+  .bannerSlide {
+    padding: 32px 24px 44px;
+    gap: 24px;
+    min-height: 380px;
+  }
+  .headline {
+    font-size: 32px;
+  }
+  .imageCol {
+    width: 360px;
+    height: 240px;
+  }
+}
+
+@media (max-width: 768px) {
+  .bannerSlide {
+    flex-direction: column;
+    padding: 28px 16px 40px;
+    text-align: center;
+    min-height: auto;
+  }
+  .textCol {
+    align-items: center;
+    text-align: center;
+  }
+  .headline {
+    font-size: 24px;
+  }
+  .subHeadline {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+  .imageCol {
+    width: 100%;
+    height: 210px;
+  }
+  .arrowBtn {
+    display: none;
+  }
+}

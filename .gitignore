@@ -19,9 +19,27 @@ target/
 .env.local
 *.log
 
+# Ignore Local Word & Excel Report Files (Do not push to Git)
+*.docx
+*.xlsx
+BAO_CAO_TIEN_DO.docx
+
 # IDE & OS files
 .idea/
 .vscode/
 *.swp
 *.DS_Store
 ~$*
+*.tsbuildinfo
+
+# Local tools & Agent configurations
+tools/
+.backup_apple_design/
+.agents/
+.continue/
+skills-lock.json
+
+# Local backups & dumps
+*.dump
+*.bak
+

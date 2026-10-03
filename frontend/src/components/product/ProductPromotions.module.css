@@ -1,0 +1,205 @@
+.promotionsBox {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #bfdbfe;
+  box-shadow: 0 2px 6px rgba(0, 113, 227, 0.06);
+  overflow: hidden;
+}
+
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: #f0f7ff;
+  border-bottom: 1px solid #e0f2fe;
+}
+
+.titleWrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.giftIcon {
+  color: #0071e3;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0369a1;
+  margin: 0;
+}
+
+.viewVouchersBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  color: #0071e3;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.viewVouchersBtn:hover {
+  text-decoration: underline;
+}
+
+.vouchersSlider {
+  display: flex;
+  gap: 10px;
+  padding: 12px 16px;
+  overflow-x: auto;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.voucherCard {
+  flex: 1;
+  min-width: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: #f8fafc;
+  border: 1px dashed #93c5fd;
+  border-radius: 8px;
+  gap: 8px;
+}
+
+.voucherLeft {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  border-right: 1px dashed #cbd5e1;
+  padding-right: 8px;
+}
+
+.ticketIcon {
+  color: #0071e3;
+}
+
+.voucherDiscount {
+  font-size: 11px;
+  font-weight: 800;
+  color: #0071e3;
+}
+
+.voucherMiddle {
+  flex: 1;
+}
+
+.voucherTitle {
+  font-size: 12px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.voucherSub {
+  font-size: 10px;
+  color: #64748b;
+}
+
+.saveCodeBtn {
+  padding: 4px 10px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #0071e3;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.saveCodeBtn:hover {
+  background: #0071e3;
+  color: #ffffff;
+}
+
+.savedBtn {
+  background: #10b981;
+  color: #ffffff;
+  border-color: #10b981;
+}
+
+.perksList {
+  list-style: none;
+  padding: 12px 16px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.perkItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.checkIcon {
+  color: #0071e3;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.perkText {
+  font-size: 13px;
+  color: #334155;
+  line-height: 1.4;
+}
+
+.tradeInFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 16px;
+  background: #f8fafc;
+  border-top: 1px solid #f1f5f9;
+  font-size: 12px;
+  color: #334155;
+}
+
+.tradeInLeft {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sparkleIcon {
+  color: #f59e0b;
+}
+
+.tradeInLeft strong {
+  color: #0071e3;
+}
+
+.tradeInBtn {
+  padding: 5px 12px;
+  background: #ffffff;
+  border: 1px solid #0071e3;
+  color: #0071e3;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.tradeInBtn:hover {
+  background: #eff6ff;
+}
+
+@media (max-width: 640px) {
+  .tradeInFooter {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

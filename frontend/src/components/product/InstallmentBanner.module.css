@@ -1,0 +1,103 @@
+.bannerContainer {
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #0284c7 100%);
+  border-radius: 12px;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+}
+
+.leftContent {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mainTitle {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: #38bdf8;
+  text-transform: uppercase;
+}
+
+.subTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #f8fafc;
+}
+
+.divider {
+  color: #94a3b8;
+}
+
+.rightLogos {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cardLogo {
+  background: #ffffff;
+  border-radius: 6px;
+  padding: 4px 8px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.visaText {
+  color: #1a1f71;
+  font-weight: 900;
+  font-size: 14px;
+  font-style: italic;
+  letter-spacing: -0.5px;
+}
+
+.masterCircles {
+  display: flex;
+  position: relative;
+  width: 26px;
+  height: 16px;
+  align-items: center;
+}
+
+.circleRed {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #eb001b;
+  position: absolute;
+  left: 0;
+}
+
+.circleYellow {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #f79e1b;
+  position: absolute;
+  right: 0;
+  opacity: 0.9;
+}
+
+.jcbText {
+  color: #007934;
+  font-weight: 900;
+  font-size: 11px;
+}
+
+@media (max-width: 480px) {
+  .bannerContainer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}

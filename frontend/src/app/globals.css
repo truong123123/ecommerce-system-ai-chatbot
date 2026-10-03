@@ -1,0 +1,79 @@
+/* Design System & Global Styles */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  
+  /* Brand Colors - CellphoneS Signature Red */
+  --color-primary: #d70018;
+  --color-primary-hover: #b90014;
+  --color-primary-light: #fff5f5;
+  --color-primary-border: #fed7d7;
+
+  /* Accent Colors */
+  --color-blue: #0071e3;
+  --color-blue-hover: #005bb5;
+  --color-blue-light: #f0f7ff;
+  --color-green: #10b981;
+  --color-green-light: #e8f5e9;
+  --color-orange: #f59e0b;
+  --color-orange-light: #fff3e0;
+
+  /* Neutrals */
+  --color-bg-page: #f4f6f8;
+  --color-bg-card: #ffffff;
+  --color-text-title: #111827;
+  --color-text-body: #374151;
+  --color-text-muted: #6b7280;
+  --color-border: #e5e7eb;
+  --color-border-subtle: #f0f0f0;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family);
+}
+
+html, body {
+  font-family: var(--font-family);
+  background-color: var(--color-bg-page);
+  color: var(--color-text-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Common smooth animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+}

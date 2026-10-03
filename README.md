@@ -1,6 +1,6 @@
-# StoreKit Enterprise Platform
+# Ecommerce System AI Chatbot Platform
 
-StoreKit Enterprise is a full-stack, production-grade e-commerce application designed for authentic tech and electronics retail. The project features an Apple-inspired minimal frontend built with Next.js 14, a robust Java 17 Spring Boot backend microservice layer, relational SQL database migrations, and a floating AI Assistant widget.
+Ecommerce System AI Chatbot is a full-stack, production-grade e-commerce application designed for authentic tech and electronics retail. The project features an Apple-inspired minimal frontend built with Next.js 14, a robust Java 17 Spring Boot backend microservice layer, relational SQL database migrations, and a floating AI Assistant widget.
 
 ---
 
@@ -83,7 +83,7 @@ The system follows a multi-tier decoupled architecture:
 ## Repository Structure
 
 ```
-LNT_Webstore/
+ecommerce-system-ai-chatbot/
 ├── frontend/                     # Next.js 14+ App Router Frontend
 │   ├── public/                   # Static assets & SVG icons
 │   ├── src/
@@ -154,8 +154,8 @@ Ensure the following tools are installed on your environment before starting:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/truong123123/LNT_Webstore.git
-   cd LNT_Webstore
+   git clone https://github.com/truong123123/ecommerce-system-ai-chatbot.git
+   cd ecommerce-system-ai-chatbot
    ```
 
 2. Copy the environment variables template:

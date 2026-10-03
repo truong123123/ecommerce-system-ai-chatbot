@@ -1,0 +1,182 @@
+.storeSection {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.titleWrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mapIcon {
+  color: #0071e3;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.countBadge {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.countBadge strong {
+  color: #0071e3;
+}
+
+.filterRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.selectWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.selectBox {
+  width: 100%;
+  padding: 7px 28px 7px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #1e293b;
+  background-color: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  appearance: none;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.15s ease;
+}
+
+.selectBox:focus {
+  border-color: #0071e3;
+  background-color: #ffffff;
+}
+
+.dropdownIcon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #64748b;
+}
+
+.storesList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 220px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.storesList::-webkit-scrollbar {
+  width: 4px;
+}
+
+.storesList::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.storeCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 10px;
+  background: #f8fafc;
+  border: 1px solid #f1f5f9;
+  border-radius: 8px;
+  transition: all 0.15s ease;
+}
+
+.storeCard:hover {
+  background: #f0f7ff;
+  border-color: #bfdbfe;
+}
+
+.storeMain {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.storeAddressRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.inStockIcon {
+  color: #10b981;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.storeAddress {
+  font-size: 12px;
+  font-weight: 500;
+  color: #1e293b;
+  line-height: 1.35;
+}
+
+.storeActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: 20px;
+}
+
+.phoneLink, .mapLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+  color: #0071e3;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.phoneLink:hover, .mapLink:hover {
+  text-decoration: underline;
+}
+
+.stockBadge {
+  font-size: 11px;
+  font-weight: 600;
+  color: #059669;
+  background: #ecfdf5;
+  padding: 3px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.emptyNote {
+  font-size: 12px;
+  color: #94a3b8;
+  text-align: center;
+  padding: 16px 8px;
+}

@@ -1,0 +1,479 @@
+.sectionWrapper {
+  max-width: 1240px;
+  margin: 24px auto;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.container {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  padding: 18px;
+  display: flex;
+  gap: 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* =======================================================
+   CỘT TRÁI: BANNER DỌC
+======================================================= */
+.bannerCol {
+  width: 250px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-self: stretch;
+  min-height: 0;
+}
+
+.posterCard {
+  width: 100%;
+  flex: 1 1 0%;
+  min-height: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  position: relative;
+  display: flex;
+  text-decoration: none;
+}
+
+.posterCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.posterImageWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.posterImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.posterCard:hover .posterImage {
+  transform: scale(1.03);
+}
+
+/* =======================================================
+   CỘT PHẢI: TABS, FILTERS & GRID
+======================================================= */
+.mainContent {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Header Tabs */
+.headerNav {
+  display: flex;
+  width: 100%;
+  border-bottom: 2px solid #f0f0f0;
+  margin-bottom: 4px;
+}
+
+.tabButton {
+  background: transparent;
+  border: none;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0 20px 10px;
+  color: #444444;
+  position: relative;
+  letter-spacing: 0.5px;
+  transition: color 0.2s ease;
+}
+
+.tabButton:hover {
+  color: #d70018;
+}
+
+.tabButton.active {
+  color: #d70018 !important;
+  font-weight: 800;
+}
+
+.tabIndicator {
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #d70018;
+  border-radius: 3px 3px 0 0;
+}
+
+/* Quick Feature Filter Pills */
+.featureFiltersBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+  position: relative;
+}
+
+.featureFilterItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 6px 14px;
+  color: #333333;
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.featureFilterItem:hover {
+  border-color: #d70018;
+  color: #d70018;
+}
+
+.featureFilterItem.active {
+  background: #fff5f5 !important;
+  border-color: #d70018 !important;
+  color: #d70018 !important;
+  font-weight: 600;
+}
+
+.featureThumbWrapper {
+  width: 20px;
+  height: 20px;
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #f3f4f6;
+}
+
+.featureThumbImage {
+  object-fit: cover;
+}
+
+.scrollMoreBtn {
+  margin-left: auto;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #666666;
+  flex-shrink: 0;
+}
+
+/* Brand Filter Pills */
+.brandRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.brandPill {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 4px 12px;
+  font-size: 12px;
+  color: #444444;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.brandPill:hover {
+  border-color: #d70018;
+  color: #d70018;
+}
+
+.brandPill.active {
+  background: #fff5f5;
+  border-color: #d70018;
+  color: #d70018;
+  font-weight: 600;
+}
+
+.viewAllLink {
+  margin-left: auto;
+  color: #0071e3;
+  font-size: 12px;
+  font-weight: 600;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.viewAllLink:hover {
+  text-decoration: underline;
+}
+
+/* Product Cards Grid (4 Cột Chuẩn Không Bị Tràn Viền) */
+.productGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.productCard {
+  background: #ffffff;
+  border: 1px solid #f0f0f0;
+  border-radius: 12px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.25s ease;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
+  text-decoration: none;
+  position: relative;
+  min-width: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.productCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  border-color: #e5e7eb;
+}
+
+.badgeRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 20px;
+  margin-bottom: 6px;
+}
+
+.discountBadge {
+  background: #e11b22;
+  color: #ffffff;
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.installmentBadge {
+  background: #f0f9ff;
+  color: #0284c7;
+  border: 1px solid #bae6fd;
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.imageContainer {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  margin: 4px 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.productImage {
+  object-fit: contain;
+}
+
+.productInfo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.productName {
+  margin: 0 0 6px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #1f2937;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 36px;
+}
+
+.statusTagContainer {
+  min-height: 20px;
+  margin-bottom: 4px;
+}
+
+.statusTag {
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.statusNewArrival {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.statusComingSoon {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.statusHotSale,
+.statusSpecialDeal {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.priceRow {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.currentPrice {
+  color: #d70018;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.oldPrice {
+  color: #9ca3af;
+  font-size: 12px;
+  text-decoration: line-through;
+}
+
+.smemberBox {
+  background: #f0f7ff;
+  color: #0284c7;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 6px;
+  border-radius: 4px;
+  margin-bottom: 4px;
+  border: 1px solid #e0f2fe;
+  line-height: 1.25;
+}
+
+.studentBox {
+  background: #f5f3ff;
+  color: #7c3aed;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 6px;
+  border-radius: 4px;
+  margin-bottom: 4px;
+  border: 1px solid #ede9fe;
+  line-height: 1.25;
+}
+
+.installmentNote {
+  font-size: 10px;
+  color: #6b7280;
+  line-height: 1.3;
+  margin-bottom: 8px;
+  background: #f9fafb;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.cardFooter {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #f3f4f6;
+  padding-top: 6px;
+}
+
+.footerLeft {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.fastDeliveryBadge {
+  font-size: 11px;
+  font-weight: 700;
+  color: #0284c7;
+}
+
+.ratingDisplay {
+  font-size: 11px;
+  font-weight: 600;
+  color: #f59e0b;
+}
+
+.heartBtn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  color: #9ca3af;
+  transition: all 0.2s ease;
+}
+
+.heartBtn:hover {
+  transform: scale(1.15);
+}
+
+.heartBtn.favorited {
+  color: #e11b22;
+}
+
+@media (max-width: 1024px) {
+  .container {
+    flex-direction: column;
+  }
+  .bannerCol {
+    width: 100%;
+    flex-direction: row;
+    height: 180px;
+  }
+  .productGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .productGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

@@ -1,0 +1,732 @@
+.cartPage {
+  background-color: #f4f6f8;
+  min-height: 100vh;
+  padding: 24px 0 60px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: #1f2937;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* 1. Header Bar */
+.topNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.backLink {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #4b5563;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.backLink:hover {
+  color: #d70018;
+}
+
+.shippingBanner {
+  background-color: #e8f2ff;
+  color: #0066cc;
+  padding: 6px 16px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* 2. Main Content Grid */
+.cartLayout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 20px;
+  align-items: start;
+}
+
+/* 3. Left Column: Cart Items */
+.leftColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Top control bar: Checkbox Tất cả & Nút Mua ngay */
+.topActionBar {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #e5e7eb;
+}
+
+.selectAllLabel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+  cursor: pointer;
+  user-select: none;
+}
+
+.quickBuyBtn {
+  border: 1px solid #0066cc;
+  color: #ffffff;
+  background: #0066cc;
+  padding: 6px 18px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.quickBuyBtn:hover:not(:disabled) {
+  background: #0052cc;
+  border-color: #0052cc;
+}
+
+.quickBuyBtn:disabled {
+  background: #334155;
+  border: 1px solid #475569;
+  color: #94a3b8;
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* Product Card */
+.productCard {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.cardMainRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.itemCheckbox {
+  margin-top: 6px;
+  width: 18px;
+  height: 18px;
+  accent-color: #d70018;
+  cursor: pointer;
+}
+
+.itemCheckbox:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.thumbnailWrapper {
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  border: 1px solid #f0f0f0;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fafafa;
+}
+
+.thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.itemInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.productTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+  text-decoration: none;
+  line-height: 1.4;
+  transition: color 0.2s;
+}
+
+.productTitle:hover {
+  color: #d70018;
+}
+
+.tagsRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.discountBadge {
+  font-size: 12px;
+  color: #d70018;
+  background: #fef2f2;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.studentBadge {
+  font-size: 11px;
+  font-weight: 600;
+  color: #059669;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* Out of Stock Notice */
+.outOfStockRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  margin-top: 2px;
+}
+
+.outOfStockText {
+  font-weight: 700;
+  color: #111827;
+}
+
+.similarLink {
+  color: #0066cc;
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.similarLink:hover {
+  text-decoration: underline;
+}
+
+/* Right side of item: Price & Stepper */
+.priceAndActionCol {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.priceBox {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.salePrice {
+  font-size: 16px;
+  font-weight: 700;
+  color: #d70018;
+}
+
+.originalPrice {
+  font-size: 13px;
+  color: #9ca3af;
+  text-decoration: line-through;
+}
+
+.actionRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.deleteBtn {
+  background: none;
+  border: none;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.deleteBtn:hover {
+  color: #d70018;
+}
+
+/* Quantity Stepper */
+.quantityStepper {
+  display: flex;
+  align-items: center;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.stepBtn {
+  background: #f9fafb;
+  border: none;
+  width: 28px;
+  height: 28px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #374151;
+  transition: background 0.2s;
+}
+
+.stepBtn:hover:not(:disabled) {
+  background: #e5e7eb;
+}
+
+.stepBtn:disabled {
+  color: #d1d5db;
+  cursor: not-allowed;
+}
+
+.quantityDisplay {
+  width: 32px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: #111827;
+}
+
+/* Bonus Gift Banner */
+.giftBanner {
+  background: #fffdf5;
+  border: 1px solid #fef3c7;
+  border-radius: 10px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.giftTag {
+  background: #ecfdf5;
+  color: #059669;
+  border: 1px solid #a7f3d0;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.giftTitle {
+  font-size: 13px;
+  color: #374151;
+  font-weight: 500;
+}
+
+/* Extra promotional items */
+.promoList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed #e5e7eb;
+}
+
+.promoRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #4b5563;
+  cursor: pointer;
+}
+
+.promoTitle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #d70018;
+  font-weight: 600;
+}
+
+.promoBullets {
+  list-style: none;
+  padding: 0;
+  margin: 6px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.promoBulletItem {
+  font-size: 12px;
+  color: #4b5563;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.promoBulletItem::before {
+  content: '•';
+  color: #0066cc;
+  font-weight: bold;
+}
+
+/* Cross-sell / Mua kèm tiết kiệm */
+.crossSellSection {
+  background: #fdfaf6;
+  border: 1px solid #fcefe3;
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.crossSellHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.crossSellTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: #d70018;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.crossSellLink {
+  font-size: 12px;
+  color: #0066cc;
+  text-decoration: none;
+}
+
+.crossSellGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.crossSellCard {
+  background: #ffffff;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.crossSellThumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+  object-fit: cover;
+  background: #fafafa;
+}
+
+.crossSellInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.crossSellName {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1f2937;
+  line-height: 1.3;
+}
+
+.crossSellDiscount {
+  font-size: 11px;
+  color: #059669;
+  font-weight: 500;
+}
+
+.crossSellAction {
+  font-size: 11px;
+  color: #0066cc;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0;
+}
+
+/* 4. Right Column: Order Summary Card */
+.orderSummaryCard {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: sticky;
+  top: 80px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+.summaryTitle {
+  font-size: 17px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+/* Coupon Row in Summary */
+.couponBar {
+  background: #fdf2f2;
+  border: 1px dashed #fca5a5;
+  border-radius: 8px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.couponBarLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #b91c1c;
+}
+
+.couponSelectBtn {
+  background: none;
+  border: none;
+  color: #d70018;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.summaryRows {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.summaryRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #4b5563;
+}
+
+.summaryRowValue {
+  font-weight: 600;
+  color: #111827;
+}
+
+.discountValue {
+  color: #059669;
+  font-weight: 600;
+}
+
+.totalRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding-top: 4px;
+}
+
+.totalLabel {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+  display: flex;
+  flex-direction: column;
+}
+
+.vatNotice {
+  font-size: 11px;
+  color: #6b7280;
+  font-weight: 400;
+  margin-top: 2px;
+}
+
+.totalAmount {
+  font-size: 22px;
+  font-weight: 800;
+  color: #d70018;
+  text-align: right;
+}
+
+.savingsRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #059669;
+  font-weight: 600;
+  background: #ecfdf5;
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+/* Big Checkout Button */
+.checkoutBtn {
+  background: linear-gradient(135deg, #0066cc 0%, #0052cc 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 20px;
+  width: 100%;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(0, 102, 204, 0.3);
+}
+
+.checkoutBtn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #0052cc 0%, #003d99 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0, 102, 204, 0.4);
+}
+
+.checkoutBtn:disabled {
+  background: #2b394e;
+  color: #94a3b8;
+  box-shadow: none;
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.75;
+  transform: none;
+}
+
+.checkoutBtn:disabled .checkoutBtnSub {
+  color: #64748b;
+}
+
+.checkoutBtnTitle {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.checkoutBtnSub {
+  font-size: 11px;
+  font-weight: 400;
+  opacity: 0.9;
+}
+
+/* QR Code Section */
+.qrCard {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.qrImage {
+  width: 60px;
+  height: 60px;
+  border-radius: 6px;
+  background: #ffffff;
+  padding: 4px;
+  border: 1px solid #e5e7eb;
+}
+
+.qrText {
+  font-size: 12px;
+  color: #4b5563;
+  line-height: 1.4;
+}
+
+/* Empty Cart State */
+.emptyCartState {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 60px 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  border: 1px solid #e5e7eb;
+}
+
+.emptyCartTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.emptyCartText {
+  font-size: 14px;
+  color: #6b7280;
+  max-width: 400px;
+}
+
+.shopNowBtn {
+  background: #d70018;
+  color: #ffffff;
+  padding: 12px 28px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.shopNowBtn:hover {
+  background: #b80014;
+}
+
+/* Responsive Media Queries */
+@media (max-width: 900px) {
+  .cartLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .orderSummaryCard {
+    position: static;
+  }
+
+  .crossSellGrid {
+    grid-template-columns: 1fr;
+  }
+}

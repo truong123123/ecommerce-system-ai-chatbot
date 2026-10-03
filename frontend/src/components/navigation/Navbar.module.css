@@ -1,0 +1,852 @@
+/* Apple-Style Navigation & Smooth Mega Menu Dropdown */
+
+.navHeader {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  width: 100%;
+  background-color: #ffffff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  font-family: var(--font-family);
+  transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.navHeaderActive {
+  background-color: #ffffff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.navContainer {
+  max-width: 1240px;
+  margin: 0 auto;
+  height: 44px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  letter-spacing: -0.01em;
+  position: relative;
+  z-index: 10002;
+}
+
+.navLeft {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.navButtonGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 20px; /* Cách logo thêm 1 chút đừng sát logo quá */
+  height: 100%;
+}
+
+.navLogo {
+  display: flex;
+  align-items: center;
+  color: #1d1d1f;
+  opacity: 0.85;
+  transition: opacity 0.2s ease;
+  padding: 8px 2px;
+}
+
+.navLogo:hover {
+  opacity: 1;
+}
+
+/* =========================================
+   Location / Branch Selector (Chọn chi nhánh)
+   ========================================= */
+.locationWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  z-index: 10003;
+}
+
+.locationBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #0284c7 0%, #0071e3 100%);
+  color: #ffffff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 113, 227, 0.25);
+  user-select: none;
+}
+
+.locationWrapper:hover .locationBtn,
+.locationBtn:hover,
+.locationBtnActive {
+  background: linear-gradient(135deg, #0369a1 0%, #005bb5 100%);
+  box-shadow: 0 4px 12px rgba(0, 113, 227, 0.38);
+}
+
+.locationChevron {
+  transition: transform 0.22s ease;
+}
+
+.locationChevronRotated {
+  transform: rotate(180deg);
+}
+
+/* Location Dropdown Modal */
+.locationDropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 420px;
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.16), 0 2px 8px rgba(0, 0, 0, 0.04);
+  z-index: 10006;
+  overflow: hidden;
+  animation: categoryDropdownFade 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.locationHeaderBar {
+  background: linear-gradient(135deg, #0284c7 0%, #0071e3 100%);
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.locationSearchBox {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 8px;
+  padding: 6px 10px;
+  color: #ffffff;
+}
+
+.locationSearchInput {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-size: 13px;
+  font-family: inherit;
+}
+
+.locationSearchInput::placeholder {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.locationCloseBtn {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  padding: 4px 6px;
+  border-radius: 6px;
+  transition: background 0.15s ease;
+}
+
+.locationCloseBtn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.locationBody {
+  padding: 14px 16px 16px;
+}
+
+.locationSubtitle {
+  font-size: 12px;
+  color: #64748b;
+  margin: 0 0 12px;
+  line-height: 1.4;
+}
+
+.locationGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px 14px;
+  max-height: 280px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.locationGrid::-webkit-scrollbar {
+  width: 5px;
+}
+
+.locationGrid::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.locationItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  font-size: 13px;
+  color: #1e293b;
+  border: none;
+  background: transparent;
+  text-align: left;
+  border-bottom: 1px solid #f1f5f9;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.15s ease, color 0.15s ease;
+  font-family: inherit;
+}
+
+.locationItem:hover {
+  background: #f0f7ff;
+  color: #0071e3;
+}
+
+.locationItemActive {
+  font-weight: 700;
+  color: #0071e3;
+  background: #f0f7ff;
+}
+
+.locationCheckIcon {
+  color: #0071e3;
+  flex-shrink: 0;
+}
+
+/* =========================================
+   Category Button & Hover Dropdown (Danh mục)
+   ========================================= */
+.categoryWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  margin: 0;
+  z-index: 10003;
+}
+
+.categoryBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #0284c7 0%, #0071e3 100%);
+  color: #ffffff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 113, 227, 0.25);
+  user-select: none;
+}
+
+.categoryWrapper:hover .categoryBtn,
+.categoryBtn:hover,
+.categoryBtnActive {
+  background: linear-gradient(135deg, #0369a1 0%, #005bb5 100%);
+  box-shadow: 0 4px 12px rgba(0, 113, 227, 0.38);
+}
+
+.categoryChevron {
+  transition: transform 0.22s ease;
+}
+
+.categoryWrapper:hover .categoryChevron,
+.chevronRotated {
+  transform: rotate(180deg);
+}
+
+.categoryDropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  width: 240px;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.14), 0 2px 6px rgba(0, 0, 0, 0.04);
+  padding: 6px 0;
+  z-index: 10005;
+  display: none;
+  flex-direction: column;
+  animation: categoryDropdownFade 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  /* Không dùng overflow:hidden để mega submenu không bị clip */
+  overflow: visible;
+}
+
+/* Cầu nối vô hình giúp rê chuột mượt mà từ nút xuống danh sách không bị ngắt quãng */
+.categoryDropdown::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 0;
+  width: 100%;
+  height: 8px;
+}
+
+.categoryWrapper:hover .categoryDropdown,
+.categoryWrapper:focus-within .categoryDropdown,
+.categoryDropdownOpen {
+  display: flex !important;
+}
+
+.categoryNavList {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.categoryItemWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.categoryItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  color: #1e293b;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.15s ease, color 0.15s ease;
+  cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.categoryItemWrapper:hover .categoryItem,
+.categoryItem:hover,
+.categoryItemHovered,
+.categoryItemWrapperActive .categoryItem {
+  background: #f0f7ff;
+  color: #0071e3;
+  font-weight: 600;
+}
+
+.categoryItemIcon {
+  font-size: 15px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.categoryItemArrow {
+  margin-left: auto;
+  color: #94a3b8;
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.categoryItemArrowActive,
+.categoryItemWrapper:hover .categoryItemArrow,
+.categoryItemWrapperActive .categoryItemArrow {
+  color: #0071e3;
+  transform: translateX(2px);
+}
+
+/* =========================================
+   Mega Submenu (hiện khi hover danh mục)
+   Neo trực tiếp vào đỉnh categoryDropdown
+   ========================================= */
+.megaSubmenu {
+  position: absolute;
+  top: 0;
+  left: calc(100% + 5px);
+  min-width: 640px;
+  max-width: 920px;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.06);
+  padding: 18px 20px 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  z-index: 10010;
+  overflow-y: auto;
+  max-height: 520px;
+  animation: megaSubmenuFadeIn 0.15s ease-out;
+}
+
+/* Cầu nối vô hình giúp rê chuột chéo từ danh sách sang submenu cực kỳ mượt mà (che phủ khoảng hở 5px) */
+.megaSubmenu::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -20px;
+  bottom: 0;
+  width: 25px;
+  background: transparent;
+  z-index: 10;
+}
+
+@keyframes megaSubmenuFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Hàng trên: các cột chính nằm ngang */
+.megaSubmenuMain {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+}
+
+/* Hàng dưới: mức giá */
+.megaSubmenuPriceRow {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.megaSubmenuPriceTitle {
+  font-size: 11px;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+
+.megaSubmenuPriceItems {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.megaSubmenuPriceItem {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #475569;
+  text-decoration: none;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  white-space: nowrap;
+}
+
+.megaSubmenuPriceItem:hover {
+  background: #eff6ff;
+  color: #0071e3;
+  border-color: #bfdbfe;
+}
+
+@keyframes megaSubmenuSlide {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.megaSubmenu::-webkit-scrollbar {
+  width: 5px;
+}
+
+.megaSubmenu::-webkit-scrollbar-thumb {
+  background: #e2e8f0;
+  border-radius: 4px;
+}
+
+.megaSubmenuColumn {
+  min-width: 150px;
+  flex: 1;
+}
+
+.megaSubmenuColumnTitle {
+  font-size: 11px;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0 0 8px 0;
+  margin-bottom: 4px;
+  border-bottom: 1px solid #f1f5f9;
+  white-space: nowrap;
+}
+
+.megaSubmenuList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.megaSubmenuItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 7px 8px;
+  font-size: 13px;
+  color: #334155;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background 0.13s ease, color 0.13s ease;
+  white-space: nowrap;
+}
+
+.megaSubmenuItem:hover {
+  background: #f0f7ff;
+  color: #0071e3;
+}
+
+/* Badge styles */
+.subItemBadge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 5px;
+  border-radius: 4px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.badge_new {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+.badge_hot {
+  background: #f97316;
+  color: #ffffff;
+}
+
+.badge_sale {
+  background: #8b5cf6;
+  color: #ffffff;
+}
+
+.categoryItemText {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.categoryItemArrow {
+  color: #94a3b8;
+  transition: transform 0.15s ease, color 0.15s ease;
+  flex-shrink: 0;
+}
+
+.categoryItem:hover .categoryItemArrow {
+  color: #0071e3;
+  transform: translateX(3px);
+}
+
+@keyframes categoryDropdownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.desktopNav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  height: 100%;
+}
+
+.navItem {
+  color: rgba(0, 0, 0, 0.72);
+  font-size: 12px;
+  font-weight: 400;
+  height: 44px;
+  line-height: 44px;
+  padding: 0 4px;
+  text-decoration: none;
+  white-space: nowrap;
+  display: inline-block;
+  cursor: pointer;
+  transition: color 0.15s ease;
+  position: relative;
+}
+
+.navItem:hover,
+.navItemActive {
+  color: #d70018;
+}
+
+.actionIcons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.iconButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.76);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: 50%;
+  transition: color 0.2s ease;
+}
+
+.iconButton:hover {
+  color: #000000;
+}
+
+/* =======================================================
+   Mega Menu Flyout Dropdown (CSS Grid Auto-Height Expansion)
+   Sử dụng Pre-rendered Panels - Chống 100% giật và chớp trắng
+   ======================================================= */
+.dropdownOverlay {
+  position: absolute;
+  top: 44px;
+  left: 0;
+  width: 100%;
+  background-color: #ffffff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.15);
+  z-index: 10001;
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
+  /* Chuyển động lúc thu lên (đóng) mượt mà y hệt như lúc mở xuống */
+  transition: grid-template-rows 0.36s cubic-bezier(0.32, 0.72, 0, 1),
+              opacity 0.32s cubic-bezier(0.32, 0.72, 0, 1);
+  will-change: grid-template-rows, opacity;
+  transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.dropdownOpen {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  pointer-events: auto;
+  transition: grid-template-rows 0.36s cubic-bezier(0.32, 0.72, 0, 1),
+              opacity 0.28s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.dropdownInnerWrapper {
+  min-height: 0;
+  overflow: hidden;
+  width: 100%;
+  transform: translateY(-16px);
+  transition: transform 0.36s cubic-bezier(0.32, 0.72, 0, 1);
+  will-change: transform;
+}
+
+.dropdownOpen .dropdownInnerWrapper {
+  transform: translateY(0);
+}
+
+.dropdownInner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 32px 24px 44px;
+  display: flex;
+  gap: 68px;
+}
+
+.panelHidden {
+  display: none !important;
+}
+
+.panelVisible {
+  display: flex !important;
+}
+
+.dropdownColumn {
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+}
+
+.columnHeading {
+  font-size: 12px;
+  line-height: 1.33337;
+  font-weight: 500;
+  color: #86868b;
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+}
+
+.columnList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.columnListItem {
+  margin: 0;
+}
+
+.primaryMenuItem {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.38;
+  color: #1d1d1f;
+  text-decoration: none;
+  display: inline-block;
+  transition: color 0.15s ease;
+}
+
+.primaryMenuItem:hover {
+  color: #0066cc;
+}
+
+.secondaryMenuItem {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.45;
+  color: #424245;
+  text-decoration: none;
+  display: inline-block;
+  transition: color 0.15s ease;
+}
+
+.secondaryMenuItem:hover {
+  color: #0066cc;
+}
+
+/* =========================================
+   Backdrop Screen (Ổn định, không lag GPU)
+   ========================================= */
+.screenBackdrop {
+  position: fixed;
+  top: 44px;
+  left: 0;
+  width: 100vw;
+  height: calc(100vh - 44px);
+  background-color: rgba(0, 0, 0, 0.45);
+  z-index: 9990;
+  transition: opacity 0.36s cubic-bezier(0.32, 0.72, 0, 1),
+              visibility 0.36s ease;
+  transform: translate3d(0, 0, 0);
+  will-change: opacity;
+}
+
+.backdropVisible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.backdropHidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* =========================================
+   Search & Bag Dropdowns
+   ========================================= */
+.searchDropdown {
+  position: absolute;
+  top: 44px;
+  left: 0;
+  width: 100%;
+  background-color: #ffffff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  padding: 28px 0 40px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  z-index: 10001;
+  animation: simpleFade 0.2s ease-out;
+}
+
+.bagDropdown {
+  position: absolute;
+  top: 44px;
+  right: calc((100vw - 1024px) / 2);
+  width: 320px;
+  background-color: #ffffff;
+  border-radius: 0 0 16px 16px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-top: none;
+  padding: 24px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+  z-index: 10001;
+  animation: simpleFade 0.2s ease-out;
+}
+
+@keyframes simpleFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 1040px) {
+  .bagDropdown {
+    right: 16px;
+  }
+}
+
+/* =========================================
+   Mobile Navigation
+   ========================================= */
+.mobileToggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.8);
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+@media (max-width: 834px) {
+  .desktopNav {
+    display: none !important;
+  }
+  .mobileToggle {
+    display: flex !important;
+  }
+}

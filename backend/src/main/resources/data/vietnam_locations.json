@@ -1,0 +1,230 @@
+[
+  {
+    "code": "77",
+    "name": "Bà Rịa - Vũng Tàu",
+    "districts": [
+      {
+        "code": "747",
+        "name": "Thành phố Vũng Tàu",
+        "wards": ["Phường 1", "Phường 2", "Phường 3", "Phường 4", "Phường 5", "Phường 7", "Phường 8", "Phường 9", "Phường 10", "Phường 11", "Phường 12", "Phường Thắng Nhì", "Phường Thắng Tam", "Phường Thắng Nhất", "Phường Rạch Dừa", "Phường Nguyễn An Ninh", "Xã Long Sơn"]
+      },
+      {
+        "code": "748",
+        "name": "Thành phố Bà Rịa",
+        "wards": ["Phường Phước Hưng", "Phường Phước Trung", "Phường Phước Hiệp", "Phường Phước Nguyên", "Phường Long Hương", "Phường Long Tâm", "Phường Long Toàn", "Phường Kim Dinh", "Xã Tân Hưng", "Xã Hòa Long", "Xã Long Phước"]
+      },
+      {
+        "code": "750",
+        "name": "Thị xã Phú Mỹ",
+        "wards": ["Phường Phú Mỹ", "Phường Mỹ Xuân", "Phường Hắc Dịch", "Phường Tân Phước", "Phường Phước Hòa", "Xã Tân Hòa", "Xã Tân Hải", "Xã Sông Xoài", "Xã Châu Pha", "Xã Tóc Tiên"]
+      },
+      {
+        "code": "751",
+        "name": "Huyện Châu Đức",
+        "wards": ["Thị trấn Ngãi Giao", "Xã Bình Ba", "Xã Suối Nghệ", "Xã Kim Long", "Xã Bàu Chinh", "Xã Láng Lớn", "Xã Nghĩa Thành"]
+      },
+      {
+        "code": "752",
+        "name": "Huyện Xuyên Mộc",
+        "wards": ["Thị trấn Phước Bửu", "Xã Phước Thuận", "Xã Hòa Bình", "Xã Bưng Riềng", "Xã Bình Châu", "Xã Xuyên Mộc"]
+      },
+      {
+        "code": "753",
+        "name": "Huyện Long Điền",
+        "wards": ["Thị trấn Long Điền", "Thị trấn Long Hải", "Xã An Ngãi", "Xã Tam Phước", "Xã An Nhứt", "Xã Phước Hưng", "Xã Phước Tỉnh"]
+      },
+      {
+        "code": "754",
+        "name": "Huyện Đất Đỏ",
+        "wards": ["Thị trấn Đất Đỏ", "Thị trấn Phước Hải", "Xã Phước Hội", "Xã Long Mỹ", "Xã Lộc An", "Xã Phước Long Thọ"]
+      },
+      {
+        "code": "755",
+        "name": "Huyện Côn Đảo",
+        "wards": ["Thị trấn Côn Đảo"]
+      }
+    ]
+  },
+  {
+    "code": "79",
+    "name": "Hồ Chí Minh",
+    "districts": [
+      {
+        "code": "760",
+        "name": "Quận 1",
+        "wards": ["Phường Bến Nghé", "Phường Bến Thành", "Phường Cầu Kho", "Phường Cầu Ông Lãnh", "Phường Cô Giang", "Phường Đa Kao", "Phường Nguyễn Cư Trinh", "Phường Nguyễn Thái Bình", "Phường Phạm Ngũ Lão", "Phường Tân Định"]
+      },
+      {
+        "code": "761",
+        "name": "Quận 3",
+        "wards": ["Phường 1", "Phường 2", "Phường 3", "Phường 4", "Phường 5", "Phường 9", "Phường 11", "Phường 12", "Phường 14", "Phường Võ Thị Sáu"]
+      },
+      {
+        "code": "771",
+        "name": "Quận 10",
+        "wards": ["Phường 1", "Phường 2", "Phường 4", "Phường 5", "Phường 6", "Phường 7", "Phường 8", "Phường 9", "Phường 10", "Phường 11", "Phường 12", "Phường 13", "Phường 14", "Phường 15"]
+      },
+      {
+        "code": "769",
+        "name": "Thành phố Thủ Đức",
+        "wards": ["Phường An Khánh", "Phường An Lợi Đông", "Phường An Phú", "Phường Bình Chiểu", "Phường Bình Thọ", "Phường Hiệp Bình Chánh", "Phường Hiệp Bình Phước", "Phường Linh Chiểu", "Phường Linh Trung", "Phường Linh Xuân", "Phường Thảo Điền", "Phường Tăng Nhơn Phú A", "Phường Tăng Nhơn Phú B"]
+      },
+      {
+        "code": "764",
+        "name": "Quận Gò Vấp",
+        "wards": ["Phường 1", "Phường 3", "Phường 4", "Phường 5", "Phường 6", "Phường 7", "Phường 8", "Phường 9", "Phường 10", "Phường 11", "Phường 12", "Phường 13", "Phường 14", "Phường 15", "Phường 16", "Phường 17"]
+      },
+      {
+        "code": "765",
+        "name": "Quận Bình Thạnh",
+        "wards": ["Phường 1", "Phường 2", "Phường 3", "Phường 5", "Phường 6", "Phường 7", "Phường 11", "Phường 12", "Phường 13", "Phường 14", "Phường 15", "Phường 17", "Phường 19", "Phường 21", "Phường 22", "Phường 24", "Phường 25", "Phường 26", "Phường 27", "Phường 28"]
+      },
+      {
+        "code": "766",
+        "name": "Quận Tân Bình",
+        "wards": ["Phường 1", "Phường 2", "Phường 3", "Phường 4", "Phường 5", "Phường 6", "Phường 7", "Phường 8", "Phường 9", "Phường 10", "Phường 11", "Phường 12", "Phường 13", "Phường 14", "Phường 15"]
+      },
+      {
+        "code": "767",
+        "name": "Quận Tân Phú",
+        "wards": ["Phường Hiệp Tân", "Phường Hòa Thạnh", "Phường Phú Thạnh", "Phường Phú Thọ Hòa", "Phường Phú Trung", "Phường Sơn Kỳ", "Phường Tân Quý", "Phường Tân Sơn Nhì", "Phường Tân Thành", "Phường Tân Thới Hòa", "Phường Tây Thạnh"]
+      },
+      {
+        "code": "768",
+        "name": "Quận Phú Nhuận",
+        "wards": ["Phường 1", "Phường 2", "Phường 3", "Phường 4", "Phường 5", "Phường 7", "Phường 8", "Phường 9", "Phường 10", "Phường 11", "Phường 13", "Phường 15", "Phường 17"]
+      },
+      {
+        "code": "772",
+        "name": "Quận 11",
+        "wards": ["Phường 1", "Phường 2", "Phường 3", "Phường 4", "Phường 5", "Phường 6", "Phường 7", "Phường 8", "Phường 9", "Phường 10", "Phường 11", "Phường 12", "Phường 13", "Phường 14", "Phường 15", "Phường 16"]
+      },
+      {
+        "code": "770",
+        "name": "Quận 7",
+        "wards": ["Phường Bình Thuận", "Phường Phú Mỹ", "Phường Phú Thuận", "Phường Tân Hưng", "Phường Tân Kiểng", "Phường Tân Phong", "Phường Tân Phú", "Phường Tân Quy", "Phường Tân Thuận Đông", "Phường Tân Thuận Tây"]
+      }
+    ]
+  },
+  {
+    "code": "01",
+    "name": "Hà Nội",
+    "districts": [
+      {
+        "code": "005",
+        "name": "Quận Cầu Giấy",
+        "wards": ["Phường Dịch Vọng", "Phường Dịch Vọng Hậu", "Phường Mai Dịch", "Phường Nghĩa Đô", "Phường Nghĩa Tân", "Phường Quan Hoa", "Phường Trung Hòa", "Phường Yên Hòa"]
+      },
+      {
+        "code": "006",
+        "name": "Quận Đống Đa",
+        "wards": ["Phường Cát Linh", "Phường Hàng Bột", "Phường Khâm Thiên", "Phường Khương Thượng", "Phường Kim Liên", "Phường Láng Hạ", "Phường Láng Thượng", "Phường Nam Đồng", "Phường Ngã Tư Sở", "Phường Ô Chợ Dừa", "Phường Phương Liên", "Phường Phương Mai", "Phường Quang Trung", "Phường Quốc Tử Giám", "Phường Thịnh Quang", "Phường Thổ Quan", "Phường Trung Liệt", "Phường Trung Phụng", "Phường Trung Tự", "Phường Văn Chương", "Phường Văn Miếu"]
+      },
+      {
+        "code": "001",
+        "name": "Quận Ba Đình",
+        "wards": ["Phường Cống Vị", "Phường Điện Biên", "Phường Đội Cấn", "Phường Giảng Võ", "Phường Kim Mã", "Phường Liễu Giai", "Phường Ngọc Hà", "Phường Ngọc Khánh", "Phường Nguyễn Trung Trực", "Phường Phúc Xá", "Phường Quán Thánh", "Phường Thành Công", "Phường Trúc Bạch", "Phường Vĩnh Phúc"]
+      },
+      {
+        "code": "002",
+        "name": "Quận Hoàn Kiếm",
+        "wards": ["Phường Chương Dương", "Phường Cửa Đông", "Phường Cửa Nam", "Phường Đồng Xuân", "Phường Hàng Bạc", "Phường Hàng Bài", "Phường Hàng Bồ", "Phường Hàng Bông", "Phường Hàng Buồm", "Phường Hàng Đào", "Phường Hàng Gai", "Phường Hàng Mã", "Phường Hàng Trống", "Phường Lý Thái Tổ", "Phường Phan Chu Trinh", "Phường Phúc Tân", "Phường Tràng Tiền", "Phường Trần Hưng Đạo"]
+      },
+      {
+        "code": "007",
+        "name": "Quận Thanh Xuân",
+        "wards": ["Phường Hạ Đình", "Phường Khương Đình", "Phường Khương Mai", "Phường Khương Trung", "Phường Kim Giang", "Phường Nhân Chính", "Phường Phương Liệt", "Phường Thanh Xuân Bắc", "Phường Thanh Xuân Nam", "Phường Thanh Xuân Trung", "Phường Thượng Đình"]
+      },
+      {
+        "code": "004",
+        "name": "Quận Hai Bà Trưng",
+        "wards": ["Phường Bạch Đằng", "Phường Bách Khoa", "Phường Bạch Mai", "Phường Cầu Dền", "Phường Đống Mác", "Phường Đồng Nhân", "Phường Đồng Tâm", "Phường Lê Đại Hành", "Phường Minh Khai", "Phường Nguyễn Du", "Phường Phạm Đình Hổ", "Phường Phố Huế", "Phường Quỳnh Lôi", "Phường Quỳnh Mai", "Phường Thanh Lương", "Phường Thanh Nhàn", "Phường Trương Định", "Phường Vĩnh Tuy"]
+      }
+    ]
+  },
+  {
+    "code": "48",
+    "name": "Đà Nẵng",
+    "districts": [
+      {
+        "code": "492",
+        "name": "Quận Hải Châu",
+        "wards": ["Phường Bình Hiên", "Phường Bình Thuận", "Phường Hải Châu I", "Phường Hải Châu II", "Phường Hòa Cường Bắc", "Phường Hòa Cường Nam", "Phường Hòa Thuận Đông", "Phường Hòa Thuận Tây", "Phường Nam Dương", "Phường Phước Ninh", "Phường Thạch Thang", "Phường Thanh Bình", "Phường Thuận Phước"]
+      },
+      {
+        "code": "493",
+        "name": "Quận Thanh Khê",
+        "wards": ["Phường An Khê", "Phường Chính Gián", "Phường Hòa Khê", "Phường Tam Thuận", "Phường Tân Chính", "Phường Thạc Gián", "Phường Thanh Khê Đông", "Phường Thanh Khê Tây", "Phường Vĩnh Trung", "Phường Xuân Hà"]
+      },
+      {
+        "code": "494",
+        "name": "Quận Sơn Trà",
+        "wards": ["Phường An Hải Bắc", "Phường An Hải Đông", "Phường An Hải Tây", "Phường Mân Thái", "Phường Nại Hiên Đông", "Phường Phước Mỹ", "Phường Thọ Quang"]
+      },
+      {
+        "code": "495",
+        "name": "Quận Ngũ Hành Sơn",
+        "wards": ["Phường Hòa Hải", "Phường Hòa Quý", "Phường Khuê Mỹ", "Phường Mỹ An"]
+      }
+    ]
+  },
+  {
+    "code": "74",
+    "name": "Bình Dương",
+    "districts": [
+      {
+        "code": "718",
+        "name": "Thành phố Thủ Dầu Một",
+        "wards": ["Phường Chánh Mỹ", "Phường Chánh Nghĩa", "Phường Định Hòa", "Phường Hiệp An", "Phường Hiệp Thành", "Phường Hòa Phú", "Phường Phú Cường", "Phường Phú Hòa", "Phường Phú Lợi", "Phường Phú Mỹ", "Phường Phú Tân", "Phường Phú Thọ", "Phường Tân An", "Phường Tương Bình Hiệp"]
+      },
+      {
+        "code": "721",
+        "name": "Thành phố Thuận An",
+        "wards": ["Phường An Phú", "Phường An Thạnh", "Phường Bình Chuẩn", "Phường Bình Hòa", "Phường Bình Nhâm", "Phường Hưng Định", "Phường Lái Thiêu", "Phường Thuận Giao", "Phường Vĩnh Phú", "Xã An Sơn"]
+      },
+      {
+        "code": "722",
+        "name": "Thành phố Dĩ An",
+        "wards": ["Phường An Bình", "Phường Bình An", "Phường Bình Thắng", "Phường Dĩ An", "Phường Đông Hòa", "Phường Tân Bình", "Phường Tân Đông Hiệp"]
+      }
+    ]
+  },
+  {
+    "code": "75",
+    "name": "Đồng Nai",
+    "districts": [
+      {
+        "code": "731",
+        "name": "Thành phố Biên Hòa",
+        "wards": ["Phường An Bình", "Phường An Hòa", "Phường Bình Đa", "Phường Bửu Hòa", "Phường Bửu Long", "Phường Hiệp Hòa", "Phường Hóa An", "Phường Hòa Bình", "Phường Hố Nai", "Phường Long Bình", "Phường Long Bình Tân", "Phường Quang Vinh", "Phường Quyết Thắng", "Phường Tam Hiệp", "Phường Tam Hòa", "Phường Tam Phước", "Phường Tân Biên", "Phường Tân Hạnh", "Phường Tân Hòa", "Phường Tân Hiệp", "Phường Tân Mai", "Phường Tân Phong", "Phường Tân Tiến", "Phường Tân Vạn", "Phường Thanh Bình", "Phường Thống Nhất", "Phường Trảng Dài", "Phường Trung Dũng", "Xã Long Hưng"]
+      }
+    ]
+  },
+  {
+    "code": "92",
+    "name": "Cần Thơ",
+    "districts": [
+      {
+        "code": "916",
+        "name": "Quận Ninh Kiều",
+        "wards": ["Phường An Bình", "Phường An Cư", "Phường An Hòa", "Phường An Khánh", "Phường An Nghiệp", "Phường Cái Khế", "Phường Hưng Lợi", "Phường Tân An", "Phường Thới Bình", "Phường Xuân Khánh", "Phường Tân Hưng"]
+      }
+    ]
+  },
+  {
+    "code": "31",
+    "name": "Hải Phòng",
+    "districts": [
+      {
+        "code": "303",
+        "name": "Quận Hồng Bàng",
+        "wards": ["Phường Hạ Lý", "Phường Hoàng Văn Thụ", "Phường Hùng Vương", "Phường Minh Khai", "Phường Phan Bội Châu", "Phường Quán Toan", "Phường Sở Dầu", "Phường Thượng Lý", "Phường Trại Chuối"]
+      },
+      {
+        "code": "304",
+        "name": "Quận Ngô Quyền",
+        "wards": ["Phường Cầu Đất", "Phường Cầu Tre", "Phường Đằng Giang", "Phường Đông Khê", "Phường Đổng Quốc Bình", "Phường Gia Viên", "Phường Lạc Viên", "Phường Lạch Tray", "Phường Lê Lợi", "Phường Máy Chai", "Phường Máy Tơ", "Phường Vạn Mỹ"]
+      }
+    ]
+  }
+]

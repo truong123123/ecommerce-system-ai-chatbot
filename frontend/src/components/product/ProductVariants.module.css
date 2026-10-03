@@ -1,0 +1,130 @@
+.variantsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.groupBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.groupTitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.variantGrid, .configGrid {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.variantCard {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: left;
+}
+
+.variantCard:hover {
+  border-color: #93c5fd;
+  background: #f8fafc;
+}
+
+.variantCard.activeCard {
+  border-color: #0071e3;
+  background: #f0f7ff;
+}
+
+.colorIndicator {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.laptopIcon {
+  color: #ffffff;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.4));
+}
+
+.variantInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.variantName {
+  font-size: 13px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.variantPrice {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0071e3;
+}
+
+.configCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 14px;
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: left;
+}
+
+.configCard:hover {
+  border-color: #93c5fd;
+  background: #f8fafc;
+}
+
+.configCard.activeConfig {
+  border-color: #0071e3;
+  background: #f0f7ff;
+}
+
+.configLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.configPrice {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0071e3;
+}
+
+.selectedBadge {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  background: #0071e3;
+  color: #ffffff;
+  width: 18px;
+  height: 18px;
+  border-bottom-left-radius: 6px;
+  border-top-right-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

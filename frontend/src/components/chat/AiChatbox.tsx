@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 export const AiChatbox: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<{ sender: 'bot' | 'user'; text: string }[]>([
-    { sender: 'bot', text: 'Xin chào 👋! Tôi là Trợ lý Apple Intelligence. Bạn cần tư vấn về sản phẩm iPhone, Mac hay iPad chính hãng VN/A?' }
+    { sender: 'bot', text: 'Xin chào ! Tôi là Trợ lý Apple Intelligence. Bạn cần tư vấn về sản phẩm iPhone, Mac hay iPad chính hãng VN/A?' }
   ]);
   const [input, setInput] = useState('');
 
