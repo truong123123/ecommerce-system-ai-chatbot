@@ -95,6 +95,9 @@ export const showcaseService = {
               nameLower.includes('ipad') ||
               nameLower.includes('tab');
 
+            const smemberAmt = Math.round((minPrice * 0.01) / 1000) * 1000;
+            const studentAmt = Math.round((minPrice * 0.03) / 1000) * 1000;
+
             return {
               id: String(p.id),
               name: p.name,
@@ -110,7 +113,8 @@ export const showcaseService = {
                 : nameLower.includes('ultra')
                 ? 'special_deal'
                 : 'new_arrival') as any,
-              smemberDiscount: 'Smember giảm thêm đến 1%',
+              smemberDiscount: smemberAmt > 0 ? `Smember giảm đến ${new Intl.NumberFormat('vi-VN').format(smemberAmt)}đ` : undefined,
+              studentDiscount: studentAmt > 0 ? `S-Student giảm thêm ${new Intl.NumberFormat('vi-VN').format(studentAmt)}đ` : undefined,
               installmentNote: 'Trả góp 0% lãi suất',
               rating: 5,
               isFastDelivery: true,

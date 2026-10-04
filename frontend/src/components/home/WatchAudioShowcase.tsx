@@ -230,7 +230,7 @@ export const WatchAudioShowcase: React.FC = () => {
                 price,
                 oldPrice,
                 discountPercent: discount,
-                smemberText: `Smember giảm đến ${new Intl.NumberFormat('vi-VN').format(Math.round(price * 0.01))}đ`,
+                smemberText: `Smember giảm đến ${new Intl.NumberFormat('vi-VN').format(Math.round((price * 0.01) / 1000) * 1000 || Math.round(price * 0.01))}đ`,
                 installmentText: 'Trả góp 0% - 0đ phụ phí - 0đ trả trước - kỳ hạn đến 6 tháng',
                 rating: 5,
               };

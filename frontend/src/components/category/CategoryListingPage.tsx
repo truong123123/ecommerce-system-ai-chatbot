@@ -460,7 +460,7 @@ export const CategoryListingPage: React.FC<CategoryListingPageProps> = ({
 
                     {/* Smember Box */}
                     <div className={styles.smemberBox}>
-                      Smember giảm thêm đến {formatVND(Math.round(prod.price * 0.01))}
+                      Smember giảm đến {formatVND(Math.round((prod.price * 0.01) / 1000) * 1000)}
                     </div>
                   </div>
 
