@@ -69,4 +69,12 @@ public class FlashSaleItem {
     @Column(length = 50)
     @Builder.Default
     private String status = "AVAILABLE"; // AVAILABLE, SOLD_OUT
+
+    @Column(name = "display_order")
+    @Builder.Default
+    private Integer displayOrder = 0;
+
+    @Version
+    @Column(name = "version")
+    private Long version;
 }

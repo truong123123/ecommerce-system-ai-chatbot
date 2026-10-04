@@ -40,9 +40,21 @@ public class FlashSaleCampaign {
     @Builder.Default
     private String status = "ACTIVE"; // UPCOMING, ACTIVE, ENDED, INACTIVE
 
+    @Column(name = "publish_status", length = 20)
+    @Builder.Default
+    private String publishStatus = "ACTIVE"; // DRAFT, ACTIVE, PAUSED
+
     @Column(name = "is_active")
     @Builder.Default
     private Boolean isActive = true;
+
+    @Version
+    @Column(name = "version")
+    private Long version;
+
+    @Column(name = "updated_by", length = 100)
+    @Builder.Default
+    private String updatedBy = "Admin";
 
     @Column(name = "created_at")
     @Builder.Default

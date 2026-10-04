@@ -17,6 +17,7 @@ import java.util.Map;
 public class OrderController {
 
     private final OrderRepository orderRepository;
+    private final com.store.service.CheckoutService checkoutService;
 
     @GetMapping
     public ResponseEntity<List<Order>> getAllOrders() {
@@ -45,6 +46,12 @@ public class OrderController {
                 OrderStatus newStatus = OrderStatus.valueOf(statusStr.toLowerCase());
                 order.setStatus(newStatus);
                 orderRepository.save(order);
+
+                // Nếu đơn bị hủy hoặc hoàn trả -> giải phóng giữ chỗ / hoàn lại suất Flash Sale
+                if (newStatus == OrderStatus.cancelled || newStatus == OrderStatus.returned) {
+                    checkoutService.handleOrderCancellation(order.getOrderId());
+                }
+
                 return ResponseEntity.ok(order);
             } catch (IllegalArgumentException e) {
                 return ResponseEntity.badRequest().body(Map.of("message", "Trạng thái không hợp lệ: " + statusStr));

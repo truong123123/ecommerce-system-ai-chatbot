@@ -37,4 +37,8 @@ public class FlashSaleTimeSlot {
     @Column(name = "is_active")
     @Builder.Default
     private Boolean isActive = false;
+
+    @Version
+    @Column(name = "version")
+    private Long version;
 }

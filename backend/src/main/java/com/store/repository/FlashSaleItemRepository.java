@@ -38,8 +38,24 @@ public interface FlashSaleItemRepository extends JpaRepository<FlashSaleItem, Lo
            "WHERE f.id = :id AND f.reservedQuantity >= :qty")
     int atomicConsumeQuantity(@Param("id") Long id, @Param("qty") Integer qty);
 
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Query("UPDATE FlashSaleItem f SET f.soldCount = f.soldCount - :qty " +
+           "WHERE f.id = :id AND f.soldCount >= :qty")
+    int atomicRefundSoldQuantity(@Param("id") Long id, @Param("qty") Integer qty);
+
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Query("UPDATE FlashSaleItem f SET f.soldCount = f.soldCount + :qty " +
+           "WHERE f.id = :id AND (f.totalStock - f.soldCount) >= :qty")
+    int atomicDirectIncrementSold(@Param("id") Long id, @Param("qty") Integer qty);
+
     @Query("SELECT f FROM FlashSaleItem f " +
            "WHERE f.product.productId = :productId AND f.campaign.isActive = true " +
-           "AND f.timeSlot.startTime <= CURRENT_TIMESTAMP AND f.timeSlot.endTime >= CURRENT_TIMESTAMP")
-    Optional<FlashSaleItem> findActiveFlashSaleItemByProductId(@Param("productId") Long productId);
+           "AND f.timeSlot.startTime <= CURRENT_TIMESTAMP AND f.timeSlot.endTime >= CURRENT_TIMESTAMP " +
+           "ORDER BY f.id DESC")
+    List<FlashSaleItem> findActiveFlashSaleItemsByProductId(@Param("productId") Long productId);
+
+    default Optional<FlashSaleItem> findActiveFlashSaleItemByProductId(Long productId) {
+        List<FlashSaleItem> list = findActiveFlashSaleItemsByProductId(productId);
+        return list.isEmpty() ? Optional.empty() : Optional.of(list.get(0));
+    }
 }

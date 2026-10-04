@@ -84,9 +84,7 @@ public class PaymentController {
             checkoutService.handlePaymentSuccess(txnRef, transactionNo, allParams.toString());
             return ResponseEntity.ok(Map.of("RspCode", "00", "Message", "Confirm Success"));
         } else {
-            txn.setStatus("FAILED");
-            txn.setCallbackPayload(allParams.toString());
-            paymentTransactionRepository.save(txn);
+            checkoutService.handlePaymentFailure(txnRef, allParams.toString());
             return ResponseEntity.ok(Map.of("RspCode", "00", "Message", "Confirm Success"));
         }
     }

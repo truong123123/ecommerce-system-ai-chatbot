@@ -33,21 +33,46 @@ public class FlashSaleController {
     }
 
     /**
-     * GET /api/v1/flash-sales/active hoặc /api/v1/flash-sale/current
+     * GET /api/v1/flash-sale, /api/v1/flash-sales/active, /api/v1/flash-sales/current
      */
-    @GetMapping({"/active", "/current"})
+    @GetMapping({"", "/active", "/current"})
     public ResponseEntity<?> getActiveCampaign() {
         FlashSaleCampaignDto campaign = flashSaleService.getActiveCampaign();
-        if (campaign == null) {
-            return ResponseEntity.noContent().build();
+        java.time.OffsetDateTime now = java.time.OffsetDateTime.now();
+        if (campaign == null || Boolean.FALSE.equals(campaign.getIsActive()) || "INACTIVE".equalsIgnoreCase(campaign.getStatus())) {
+            java.util.Map<String, Object> emptyResp = new java.util.LinkedHashMap<>();
+            emptyResp.put("campaign", null);
+            emptyResp.put("serverTime", now);
+            return ResponseEntity.ok()
+                    .cacheControl(org.springframework.http.CacheControl.noCache().noStore().mustRevalidate())
+                    .body(emptyResp);
         }
-        return ResponseEntity.ok(campaign);
+        java.util.Map<String, Object> result = new java.util.LinkedHashMap<>();
+        result.put("campaign", campaign);
+        result.put("serverTime", now);
+        result.put("campaignId", campaign.getCampaignId());
+        result.put("id", campaign.getCampaignId());
+        result.put("title", campaign.getTitle());
+        result.put("note", campaign.getDisclaimer());
+        result.put("disclaimer", campaign.getDisclaimer());
+        result.put("startTime", campaign.getStartTime());
+        result.put("endTime", campaign.getEndTime());
+        result.put("slots", campaign.getTimeSlots());
+        result.put("timeSlots", campaign.getTimeSlots());
+        result.put("products", campaign.getProducts());
+        result.put("serverNow", now);
+        result.put("status", campaign.getStatus());
+        result.put("isActive", campaign.getIsActive());
+
+        return ResponseEntity.ok()
+                .cacheControl(org.springframework.http.CacheControl.noCache().noStore().mustRevalidate())
+                .body(result);
     }
 
     /**
-     * GET /api/v1/flash-sales
+     * GET /api/v1/flash-sales/all
      */
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<FlashSaleCampaignDto>> getAllCampaigns() {
         return ResponseEntity.ok(flashSaleService.getAllCampaigns());
     }

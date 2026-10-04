@@ -92,13 +92,15 @@ export const ProductDetailClient: React.FC<ProductDetailClientProps> = ({ initia
         sku: primaryVariant?.sku || `SKU-${vId}`,
         slug: product.slug,
         imageUrl:
-          product.images?.[0] ||
+          (typeof product.images?.[0] === 'string'
+            ? product.images[0]
+            : (product.images?.[0] as any)?.url) ||
           'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?w=400',
         price: itemPrice,
         originalPrice: originalPrice,
         discountAmount: discount,
-        stockQuantity: primaryVariant?.stock ?? 20,
-        inStock: (primaryVariant?.stock ?? 20) > 0,
+        stockQuantity: (primaryVariant as any)?.stock ?? 20,
+        inStock: ((primaryVariant as any)?.stock ?? 20) > 0,
       });
       showToast('Đã thêm sản phẩm vào giỏ hàng thành công! 🛒');
     } catch (err: any) {
@@ -124,13 +126,15 @@ export const ProductDetailClient: React.FC<ProductDetailClientProps> = ({ initia
         sku: primaryVariant?.sku || `SKU-${vId}`,
         slug: product.slug,
         imageUrl:
-          product.images?.[0] ||
+          (typeof product.images?.[0] === 'string'
+            ? product.images[0]
+            : (product.images?.[0] as any)?.url) ||
           'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?w=400',
         price: itemPrice,
         originalPrice: originalPrice,
         discountAmount: discount,
-        stockQuantity: primaryVariant?.stock ?? 20,
-        inStock: (primaryVariant?.stock ?? 20) > 0,
+        stockQuantity: (primaryVariant as any)?.stock ?? 20,
+        inStock: ((primaryVariant as any)?.stock ?? 20) > 0,
       });
       router.push('/cart');
     } catch (err: any) {

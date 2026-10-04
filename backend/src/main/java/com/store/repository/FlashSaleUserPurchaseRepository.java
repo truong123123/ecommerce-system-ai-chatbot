@@ -11,4 +11,17 @@ public interface FlashSaleUserPurchaseRepository extends JpaRepository<FlashSale
 
     @Query("SELECT COALESCE(SUM(p.quantity), 0) FROM FlashSaleUserPurchase p WHERE p.item.id = :itemId AND p.customer.customerId = :customerId")
     Integer sumPurchasedQuantity(@Param("itemId") Long itemId, @Param("customerId") Long customerId);
+
+    @Query("SELECT COALESCE(SUM(p.quantity), 0) FROM FlashSaleUserPurchase p " +
+           "WHERE (p.item.id = :itemId OR p.item.product.productId = :productId) " +
+           "AND ((:customerId IS NOT NULL AND p.customer.customerId = :customerId) " +
+           "     OR (:phone IS NOT NULL AND :phone <> '' AND p.order.customerPhone = :phone))")
+    Integer countPurchasedByCustomerOrPhone(
+            @Param("itemId") Long itemId,
+            @Param("productId") Long productId,
+            @Param("customerId") Long customerId,
+            @Param("phone") String phone
+    );
+
+    void deleteByOrderOrderId(Long orderId);
 }

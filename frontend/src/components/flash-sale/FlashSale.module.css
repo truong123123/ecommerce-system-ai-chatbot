@@ -5,18 +5,18 @@
   box-sizing: border-box;
 }
 
-/* Khung lớn bo góc màu xanh hoàng gia CellphoneS style với viền vàng nổi bật */
+/* Khung lớn bo góc màu đỏ rực rỡ phong cách CellphoneS với viền vàng nhạt và chiều sâu */
 .container {
   position: relative;
-  background: linear-gradient(180deg, #0056D6 0%, #0047B3 100%);
-  border: 3px solid #ffcc00; /* Viền vàng tinh tế như trong hình mẫu */
+  background: linear-gradient(180deg, #D70018 0%, #B90014 100%);
+  border: 2.5px solid #FFD666;
   border-radius: 20px;
-  padding: 16px 20px 14px 20px;
-  box-shadow: 0 10px 30px rgba(0, 71, 179, 0.35);
+  padding: 18px 20px 16px 20px;
+  box-shadow: 0 12px 32px rgba(185, 0, 20, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.25);
   overflow: visible;
 }
 
-/* 2 Voucher 3D hai bên góc trên (như trong ảnh mẫu) */
+/* 2 Icon % 3D màu cam ở hai góc trên */
 .voucherTagLeft {
   position: absolute;
   top: -10px;
@@ -59,17 +59,18 @@
   z-index: 5;
 }
 
-/* 1. Hàng trên cùng: Date Tabs (03/10, 04/10) căn giữa chính xác như trong ảnh */
+/* 1. Hàng Date Tabs căn giữa */
 .topDateTabs {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 12px;
   margin-bottom: 14px;
+  flex-wrap: wrap;
 }
 
 .dateTab {
-  padding: 6px 24px;
+  padding: 7px 24px;
   border-radius: 9999px;
   font-size: 15px;
   font-weight: 800;
@@ -77,41 +78,45 @@
   transition: all 0.2s ease;
   white-space: nowrap;
   outline: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
-/* Tab Ngày đang chọn: Nền xanh viền trắng 2px như ảnh mẫu */
+/* Tab Ngày đang chọn: Nền đỏ đậm viền trắng 2.5px */
 .dateTabActive {
-  background: #0056D6;
+  background: #B90014;
   color: #ffffff;
   border: 2.5px solid #ffffff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.28);
 }
 
-/* Tab Ngày chưa chọn: Nền trắng chữ xanh như ảnh mẫu */
+/* Tab Ngày chưa chọn: Nền trắng chữ đỏ */
 .dateTabInactive {
   background: #ffffff;
-  color: #0056D6;
+  color: #D70018;
   border: 2.5px solid #ffffff;
 }
 
 .dateTabInactive:hover {
-  background: #f1f5f9;
+  background: #FFF1F0;
+  transform: translateY(-1px);
 }
 
-/* Tab Ngày đã kết thúc hoàn toàn */
+/* Tab Ngày đã kết thúc toàn bộ slot: vẫn xem được sản phẩm nhưng mờ hơn */
 .dateTabEnded {
-  background: rgba(255, 255, 255, 0.45);
-  color: #94a3b8;
-  border: 2.5px dashed rgba(255, 255, 255, 0.6);
-  cursor: not-allowed;
-  opacity: 0.65;
+  background: rgba(255, 255, 255, 0.85);
+  color: #8c8c8c;
+  border: 2px dashed rgba(255, 255, 255, 0.9);
+  opacity: 0.8;
 }
 
 .dateTabEnded:hover {
-  background: rgba(255, 255, 255, 0.45);
+  background: #ffffff;
+  opacity: 1;
 }
 
-/* 2. Hàng thứ hai: Khung giờ bên trái + Countdown bên phải */
+/* 2. Sub-Header: Khung giờ bên trái + Countdown Timer bên phải */
 .subHeaderRow {
   display: flex;
   justify-content: space-between;
@@ -144,37 +149,40 @@
   transition: all 0.2s ease;
   white-space: nowrap;
   outline: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
-/* Slot đang chọn: Nền xanh viền trắng 2.5px */
+/* Slot đang chọn: Nền đỏ viền trắng 2.5px */
 .slotTabActive {
-  background: #0056D6;
+  background: #B90014;
   color: #ffffff;
   border: 2.5px solid #ffffff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
 }
 
-/* Slot chưa chọn: Nền trắng chữ xanh */
+/* Slot chưa chọn: Nền trắng chữ đỏ */
 .slotTabInactive {
   background: #ffffff;
-  color: #0056D6;
+  color: #D70018;
   border: 2.5px solid #ffffff;
 }
 
 .slotTabInactive:hover {
-  background: #f8fafc;
+  background: #FFF1F0;
 }
 
 .slotTabEnded {
-  background: rgba(255, 255, 255, 0.35);
-  color: #64748b;
-  border: 2px dashed rgba(255, 255, 255, 0.5);
-  cursor: not-allowed;
-  opacity: 0.6;
+  background: rgba(255, 255, 255, 0.7);
+  color: #8c8c8c;
+  border: 2px dashed rgba(255, 255, 255, 0.8);
+  opacity: 0.75;
 }
 
 .slotTabEnded:hover {
-  background: rgba(255, 255, 255, 0.35);
+  background: #ffffff;
+  opacity: 1;
 }
 
 /* Countdown Container bên phải */
@@ -186,7 +194,7 @@
 
 .countdownLabel {
   color: #ffffff;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 900;
   letter-spacing: 0.5px;
   text-transform: uppercase;
@@ -198,7 +206,7 @@
   gap: 4px;
 }
 
-/* Hộp số đếm ngược màu trắng, chữ đen đậm, đúng tỷ lệ như ảnh */
+/* Hộp số đếm ngược màu trắng, chữ đen đậm, tabular-nums */
 .countdownDigit {
   background: #ffffff;
   color: #000000;
@@ -211,7 +219,7 @@
   align-items: center;
   justify-content: center;
   font-variant-numeric: tabular-nums;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .countdownSeparator {
@@ -223,15 +231,16 @@
 
 .endedLabel {
   color: #ffffff;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 900;
   text-transform: uppercase;
-  background: rgba(0, 0, 0, 0.2);
-  padding: 6px 12px;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 6px 14px;
   border-radius: 8px;
+  letter-spacing: 0.5px;
 }
 
-/* 3. Product Carousel (5 cards như ảnh) */
+/* 3. Product Carousel (Chuẩn 5 cards cân đối trên Desktop) */
 .productWrapper {
   position: relative;
   display: flex;
@@ -246,6 +255,7 @@
   scrollbar-width: none;
   padding: 4px 0;
   -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
 }
 
 .carouselViewport::-webkit-scrollbar {
@@ -255,28 +265,28 @@
 .carouselTrack {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: calc((100% - 4 * 10px) / 5); /* Chuẩn 5 cards cân đối */
+  grid-auto-columns: calc((100% - 4 * 10px) / 5);
   gap: 10px;
 }
 
-/* Mũi tên tròn trắng 2 bên như trong ảnh */
+/* Mũi tên tròn trắng 2 bên */
 .arrowBtn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   background: #ffffff;
   border: 1px solid #e2e8f0;
   color: #1e293b;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
   z-index: 10;
   transition: all 0.2s ease;
   line-height: 1;
@@ -284,7 +294,7 @@
 
 .arrowBtn:hover:not(:disabled) {
   background: #f8fafc;
-  transform: translateY(-50%) scale(1.08);
+  transform: translateY(-50%) scale(1.1);
 }
 
 .arrowBtn:disabled {
@@ -294,14 +304,14 @@
 }
 
 .arrowLeft {
-  left: -14px;
+  left: -16px;
 }
 
 .arrowRight {
-  right: -14px;
+  right: -16px;
 }
 
-/* Product Card màu trắng chuẩn mẫu CellphoneS (gọn gàng, vừa vặn) */
+/* Product Card màu trắng gọn gàng, vừa vặn CellphoneS Style */
 .productCard {
   background: #ffffff;
   border-radius: 12px;
@@ -312,25 +322,25 @@
   box-sizing: border-box;
   text-decoration: none;
   color: inherit;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   height: 100%;
+  scroll-snap-align: start;
 }
 
 .productCard:hover {
   transform: translateY(-3px);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.14);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.16);
 }
 
 .cardEnded {
-  opacity: 0.65;
-  filter: grayscale(40%);
-  cursor: not-allowed !important;
+  opacity: 0.7;
+  filter: grayscale(35%);
 }
 
 .cardEnded:hover {
-  transform: none !important;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08) !important;
+  transform: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .imageWrapper {
@@ -354,12 +364,11 @@
 }
 
 .productCard:hover .productImg {
-  transform: scale(1.04);
+  transform: scale(1.05);
 }
 
 .imageEnded {
   filter: grayscale(40%);
-  opacity: 0.8;
 }
 
 .productInfo {
@@ -373,12 +382,12 @@
   font-size: 13px;
   font-weight: 600;
   line-height: 1.35;
-  height: 35px;
+  height: 48px;
   margin: 0 0 6px 0;
   color: #1e293b;
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 }
 
@@ -392,7 +401,7 @@
 }
 
 .salePrice {
-  color: #d70018;
+  color: #D70018;
   font-size: 15px;
   font-weight: 800;
 }
@@ -403,11 +412,11 @@
   text-decoration: line-through;
 }
 
-/* Thanh tiến độ với mascot hình ngọn lửa đỏ CellphoneS chuẩn mẫu */
+/* Thanh tiến độ với mascot hình ngọn lửa 🔥 */
 .progressContainer {
   position: relative;
   height: 18px;
-  background: #ffd6db;
+  background: #FFD6DB;
   border-radius: 9px;
   overflow: hidden;
   margin-top: 2px;
@@ -421,7 +430,7 @@
   top: 0;
   left: 0;
   height: 100%;
-  background: linear-gradient(90deg, #ff4d4f, #d70018);
+  background: linear-gradient(90deg, #FF4D4F, #D70018);
   border-radius: 9px;
   transition: width 0.3s ease;
 }
@@ -439,7 +448,7 @@
 .mascotIcon {
   font-size: 10px;
   margin-right: 3px;
-  filter: drop-shadow(0 1px 1px rgba(0,0,0,0.3));
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3));
 }
 
 .progressText {
@@ -451,11 +460,11 @@
   white-space: nowrap;
 }
 
-/* Nút phụ / Quick Action khi hover */
+/* Nút mua hàng / Action Button */
 .cardActionBtn {
   margin-top: 8px;
   width: 100%;
-  padding: 6px 0;
+  padding: 7px 0;
   border-radius: 6px;
   font-size: 12px;
   font-weight: 800;
@@ -463,26 +472,21 @@
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
+  letter-spacing: 0.3px;
+}
+
+.btnLive {
+  background: #D70018;
+  color: #ffffff;
+}
+
+.btnLive:hover {
+  background: #B90014;
 }
 
 .btnUpcoming {
   background: #f1f5f9;
   color: #64748b;
-  cursor: not-allowed;
-}
-
-.btnLive {
-  background: #d70018;
-  color: #ffffff;
-}
-
-.btnLive:hover {
-  background: #b90014;
-}
-
-.btnEnded {
-  background: #f1f5f9;
-  color: #94a3b8;
   cursor: not-allowed;
 }
 
@@ -492,217 +496,42 @@
   cursor: not-allowed;
 }
 
-/* 4. Footer Note trắng tinh tế đúng như trong ảnh */
-.footerDisclaimer {
-  color: #ffffff;
-  font-size: 13px;
-  font-weight: 500;
-  text-align: center;
-  margin-top: 14px;
-  line-height: 1.4;
-  white-space: normal;
-  word-break: break-word;
-}
-
-/* Empty & Error States */
-.emptyStateContainer, .errorContainer {
-  padding: 36px 16px;
-  text-align: center;
-  color: #ffffff;
-}
-
-.emptyStateText {
-  font-size: 15px;
-  font-weight: 700;
-}
-
-.errorText {
-  font-size: 15px;
-  font-weight: 700;
-  margin-bottom: 10px;
-}
-
-.retryBtn {
-  background: #ffffff;
-  color: #0056D6;
-  border: none;
-  padding: 6px 20px;
-  border-radius: 20px;
-  font-size: 13.5px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-/* Skeleton Loading */
-.skeletonCard {
-  background: #ffffff;
-  border-radius: 12px;
-  padding: 10px 10px 12px 10px;
-  box-sizing: border-box;
-  height: 230px;
-}
-
-.skeletonImg {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  background: #e2e8f0;
-  border-radius: 8px;
-  animation: pulse 1.5s infinite ease-in-out;
-  margin-bottom: 8px;
-}
-
-.skeletonLine {
-  height: 14px;
-  background: #e2e8f0;
-  border-radius: 4px;
-  margin-bottom: 6px;
-  animation: pulse 1.5s infinite ease-in-out;
-}
-
-.skeletonShort {
-  width: 55%;
-}
-
-@keyframes pulse {
-  0% { opacity: 0.6; }
-  50% { opacity: 1; }
-  100% { opacity: 0.6; }
-}
-
-/* Modal Checkout */
-.modalBackdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.65);
-  backdrop-filter: blur(4px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  padding: 16px;
-}
-
-.modalContent {
-  background: #ffffff;
-  border-radius: 18px;
-  width: 100%;
-  max-width: 420px;
-  padding: 22px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
-  position: relative;
-}
-
-.modalCloseBtn {
-  position: absolute;
-  top: 12px;
-  right: 12px;
+.btnEnded {
   background: #f1f5f9;
-  border: none;
-  font-size: 18px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: #64748b;
-}
-
-.modalTitle {
-  font-size: 17px;
-  font-weight: 800;
-  color: #0f172a;
-  margin: 0 0 14px 0;
-}
-
-.modalProductInfo {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  background: #f8fafc;
-  padding: 10px;
-  border-radius: 10px;
-  margin-bottom: 14px;
-}
-
-.modalProductImg {
-  width: 56px;
-  height: 56px;
-  object-fit: contain;
-  border-radius: 6px;
-  background: #ffffff;
-}
-
-.modalInputGroup {
-  margin-bottom: 14px;
-}
-
-.modalLabel {
-  display: block;
-  font-size: 13px;
-  font-weight: 700;
-  color: #334155;
-  margin-bottom: 5px;
-}
-
-.modalInput {
-  width: 100%;
-  padding: 10px 12px;
-  border: 1.5px solid #cbd5e1;
-  border-radius: 8px;
-  font-size: 14px;
-  box-sizing: border-box;
-  outline: none;
-}
-
-.modalInput:focus {
-  border-color: #0056D6;
-}
-
-.modalSubmitBtn {
-  width: 100%;
-  padding: 11px;
-  background: #d70018;
-  color: #ffffff;
-  border: none;
-  border-radius: 8px;
-  font-size: 14.5px;
-  font-weight: 800;
-  cursor: pointer;
-}
-
-.modalSubmitBtn:hover:not(:disabled) {
-  background: #b90014;
-}
-
-.modalSubmitBtn:disabled {
-  opacity: 0.6;
+  color: #94a3b8;
   cursor: not-allowed;
 }
 
-.modalMessage {
-  padding: 10px;
-  border-radius: 8px;
-  font-size: 13px;
+/* Empty State */
+.emptyStateContainer {
+  padding: 36px 16px;
+  text-align: center;
+  width: 100%;
+}
+
+.emptyStateText {
+  color: #ffffff;
+  font-size: 14px;
   font-weight: 600;
-  margin-bottom: 12px;
 }
 
-.msgSuccess {
-  background: #dcfce7;
-  color: #166534;
+/* Footer ghi chú chính sách theo chiến dịch thật */
+.bottomDisclaimer {
+  margin-top: 14px;
+  text-align: center;
+  font-size: 12px;
+  color: #ffffff;
+  opacity: 0.9;
+  line-height: 1.5;
+  padding: 0 8px;
 }
 
-.msgError {
-  background: #fee2e2;
-  color: #991b1b;
-}
-
-/* RESPONSIVE */
+/* ==========================================================================
+   RESPONSIVE DESIGN (TABLET & MOBILE)
+   ========================================================================== */
 @media (max-width: 1024px) {
   .carouselTrack {
-    grid-auto-columns: calc((100% - 2 * 10px) / 3);
+    grid-auto-columns: calc((100% - 3 * 10px) / 4); /* 4 cards tablet */
   }
 }
 
@@ -712,68 +541,39 @@
     border-radius: 16px;
   }
 
-  .topDateTabs {
-    margin-bottom: 10px;
+  .carouselTrack {
+    grid-auto-columns: calc((100% - 10px) / 2.3); /* 2.3 cards mobile */
+    gap: 8px;
   }
 
-  .dateTab {
-    padding: 5px 18px;
-    font-size: 14px;
+  .arrowBtn {
+    display: none; /* Mobile dùng vuốt ngang touch friendly */
   }
 
   .subHeaderRow {
     flex-direction: column;
     align-items: flex-start;
-    gap: 10px;
   }
 
   .countdownContainer {
     width: 100%;
     justify-content: space-between;
+    margin-top: 6px;
   }
 
-  .carouselTrack {
-    grid-auto-columns: calc((100% - 10px) / 1.5);
-    scroll-snap-type: x mandatory;
+  .dateTab {
+    padding: 6px 16px;
+    font-size: 13px;
   }
 
-  .productCard {
-    scroll-snap-align: start;
-    min-height: 270px;
-  }
-
-  .arrowBtn {
-    display: none;
+  .slotTab {
+    padding: 5px 14px;
+    font-size: 12.5px;
   }
 }
 
 @media (max-width: 480px) {
   .carouselTrack {
-    grid-auto-columns: calc(100% / 1.35);
+    grid-auto-columns: calc((100% - 8px) / 2.1);
   }
-
-  .countdownDigit {
-    width: 28px;
-    height: 28px;
-    font-size: 14px;
-  }
-
-  .countdownLabel {
-    font-size: 12px;
-  }
-
-  .footerDisclaimer {
-    font-size: 11.5px;
-  }
-}
-
-.bottomDisclaimer {
-  text-align: center;
-  color: #ffffff;
-  font-size: 13px;
-  font-weight: 500;
-  margin-top: 14px;
-  padding: 4px 12px 0;
-  line-height: 1.4;
-  opacity: 0.95;
 }

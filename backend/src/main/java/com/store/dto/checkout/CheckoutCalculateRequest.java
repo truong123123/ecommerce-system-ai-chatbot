@@ -20,6 +20,7 @@ public class CheckoutCalculateRequest {
     private String receiveType; // STORE_PICKUP or HOME_DELIVERY
     private Integer storeId;
     private String couponCode;
+    private String paymentMethod; // VNPAY, MOMO, COD, etc.
 
     @Data
     @NoArgsConstructor

@@ -15,6 +15,8 @@ public interface VoucherUsageRepository extends JpaRepository<VoucherUsage, Long
 
     Optional<VoucherUsage> findByCouponCouponIdAndOrderOrderId(Integer couponId, Long orderId);
 
+    Optional<VoucherUsage> findByOrderOrderId(Long orderId);
+
     @Query("SELECT COUNT(vu) FROM VoucherUsage vu " +
            "WHERE vu.coupon.couponId = :couponId AND vu.customer.customerId = :customerId " +
            "AND vu.status IN ('RESERVED', 'CONSUMED')")

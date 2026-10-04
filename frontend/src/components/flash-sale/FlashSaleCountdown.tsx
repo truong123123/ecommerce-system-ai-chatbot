@@ -4,14 +4,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import styles from './FlashSale.module.css';
 
 interface FlashSaleCountdownProps {
-  status: 'upcoming' | 'live' | 'ended';
-  targetTime?: string;
+  status: 'UPCOMING' | 'ACTIVE' | 'ENDED';
+  targetIso?: string;
   serverOffset: number;
   onFinish?: () => void;
 }
 
 export const FlashSaleCountdown: React.FC<FlashSaleCountdownProps> = React.memo(
-  ({ status, targetTime, serverOffset, onFinish }) => {
+  ({ status, targetIso, serverOffset, onFinish }) => {
+    const [mounted, setMounted] = useState(false);
     const [timeLeft, setTimeLeft] = useState<{
       days: string;
       hours: string;
@@ -26,35 +27,45 @@ export const FlashSaleCountdown: React.FC<FlashSaleCountdownProps> = React.memo(
 
     const hasTriggeredRef = useRef(false);
 
+    // Quy tắc: Countdown là Client Component; tránh hydration mismatch bằng cách chỉ tính thời gian sau khi mount
     useEffect(() => {
+      setMounted(true);
+    }, []);
+
+    useEffect(() => {
+      if (!mounted) return;
+
       hasTriggeredRef.current = false;
 
-      if (status === 'ended' || !targetTime) {
+      if (status === 'ENDED' || !targetIso) {
         return;
       }
 
-      const targetMs = new Date(targetTime).getTime();
+      const targetMs = new Date(targetIso).getTime();
       if (isNaN(targetMs)) {
         return;
       }
 
-      const calculateAndSet = () => {
-        let nowServerMs = Date.now() + serverOffset;
+      const updateClock = () => {
+        let currentMs = Date.now() + serverOffset;
+
+        // Hỗ trợ dev mockTime nếu có
         if (typeof window !== 'undefined') {
           const win = window as any;
           if (win.__FLASH_SALE_MOCK_TIME__) {
-            const parsed = new Date(win.__FLASH_SALE_MOCK_TIME__).getTime();
-            if (!isNaN(parsed)) nowServerMs = parsed;
+            const p = new Date(win.__FLASH_SALE_MOCK_TIME__).getTime();
+            if (!isNaN(p)) currentMs = p;
           } else {
             const params = new URLSearchParams(window.location.search);
-            const mock = params.get('mockTime');
-            if (mock) {
-              const parsed = new Date(mock).getTime();
-              if (!isNaN(parsed)) nowServerMs = parsed;
+            const m = params.get('mockTime');
+            if (m) {
+              const p = new Date(m).getTime();
+              if (!isNaN(p)) currentMs = p;
             }
           }
         }
-        const diffMs = targetMs - nowServerMs;
+
+        const diffMs = targetMs - currentMs;
 
         if (diffMs <= 0) {
           setTimeLeft({ days: '00', hours: '00', minutes: '00', seconds: '00' });
@@ -81,13 +92,30 @@ export const FlashSaleCountdown: React.FC<FlashSaleCountdownProps> = React.memo(
         });
       };
 
-      calculateAndSet();
-      const interval = setInterval(calculateAndSet, 1000);
+      updateClock();
+      const timer = setInterval(updateClock, 1000);
+      return () => clearInterval(timer);
+    }, [mounted, status, targetIso, serverOffset, onFinish]);
 
-      return () => clearInterval(interval);
-    }, [status, targetTime, serverOffset, onFinish]);
+    if (!mounted) {
+      // Trước khi mount (SSR): Render placeholder tĩnh an toàn chống hydration mismatch
+      return (
+        <div className={styles.countdownContainer} suppressHydrationWarning>
+          <span className={styles.countdownLabel}>
+            {status === 'UPCOMING' ? 'BẮT ĐẦU SAU' : 'KẾT THÚC SAU'}
+          </span>
+          <div className={styles.countdownBoxes}>
+            <span className={styles.countdownDigit}>00</span>
+            <span className={styles.countdownSeparator}>:</span>
+            <span className={styles.countdownDigit}>00</span>
+            <span className={styles.countdownSeparator}>:</span>
+            <span className={styles.countdownDigit}>00</span>
+          </div>
+        </div>
+      );
+    }
 
-    if (status === 'ended') {
+    if (status === 'ENDED') {
       return (
         <div className={styles.countdownContainer}>
           <span className={styles.endedLabel}>FLASH SALE ĐÃ KẾT THÚC</span>
@@ -95,14 +123,18 @@ export const FlashSaleCountdown: React.FC<FlashSaleCountdownProps> = React.memo(
       );
     }
 
-    const label = status === 'upcoming' ? 'BẮT ĐẦU SAU' : 'KẾT THÚC SAU';
+    const label = status === 'UPCOMING' ? 'BẮT ĐẦU SAU' : 'KẾT THÚC SAU';
 
     return (
-      <div className={styles.countdownContainer}>
+      <div className={styles.countdownContainer} aria-live="polite">
         <span className={styles.countdownLabel}>{label}</span>
         <div className={styles.countdownBoxes}>
-          <span className={styles.countdownDigit}>{timeLeft.days}</span>
-          <span className={styles.countdownSeparator}>:</span>
+          {Number(timeLeft.days) > 0 && (
+            <>
+              <span className={styles.countdownDigit}>{timeLeft.days}</span>
+              <span className={styles.countdownSeparator}>:</span>
+            </>
+          )}
           <span className={styles.countdownDigit}>{timeLeft.hours}</span>
           <span className={styles.countdownSeparator}>:</span>
           <span className={styles.countdownDigit}>{timeLeft.minutes}</span>

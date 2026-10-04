@@ -15,5 +15,11 @@ public interface CheckoutService {
 
     boolean handlePaymentSuccess(String providerTxnRef, String gatewayTxnNo, String callbackPayload);
 
+    boolean handlePaymentFailure(String providerTxnRef, String callbackPayload);
+
+    void handleOrderCancellation(Long orderId);
+
+    void releaseOrderReservations(Long orderId);
+
     void cleanupExpiredOrders();
 }

@@ -184,7 +184,7 @@ function SuccessContent() {
               alignItems: 'center',
             }}
           >
-            <Clock size={20} flexShrink={0} />
+            <Clock size={20} style={{ flexShrink: 0 }} />
             <span>
               <strong>Lưu ý nhận máy:</strong> Chi nhánh sẽ giữ hàng và bảo lưu giá ưu đãi trong vòng{' '}
               <strong>{storeHours} giờ</strong>. Quý khách vui lòng đến nhận máy đúng hạn kèm mã đơn hàng.

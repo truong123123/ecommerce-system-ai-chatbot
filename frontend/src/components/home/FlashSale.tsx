@@ -1,405 +1,307 @@
 'use client';
 
-import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import Link from 'next/link';
-import styles from './FlashSale.module.css';
-import {
-  FlashSaleCampaign,
-  FlashSaleItem,
-  FlashSaleTimeSlot,
-} from '../../types/flashSale';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import styles from '../flash-sale/FlashSale.module.css';
+import { FlashSaleCampaign, FlashSaleSlot, FlashSaleProduct } from '../../types/flashSale';
 import { flashSaleService } from '../../services/flashSaleService';
-import { FlashSaleCountdown } from './FlashSaleCountdown';
+import {
+  formatVNDate,
+  computeSlotStatus,
+  getEffectiveNow,
+  groupSlotsByStartDate,
+  selectDefaultSlot,
+} from '../../utils/flashSaleTime';
+import {
+  FlashSaleDays,
+  FlashSaleSlots,
+  FlashSaleCountdown,
+  FlashSaleProducts,
+} from '../flash-sale';
 
+/**
+ * ============================================================================
+ * FLASH SALE MODULE - CELLPHONES UX/UI STYLE
+ * ============================================================================
+ * - Nền đỏ rực rỡ, viền vàng nhạt, bo góc 20px, 2 icon % 3D ở hai góc
+ * - Countdown realtime (Ngày : Giờ : Phút : Giây), tự chuyển UPCOMING -> ACTIVE -> ENDED
+ * - Tab ngày tự động nhóm theo ngày của start (Asia/Ho_Chi_Minh)
+ * - Tự động chọn slot mặc định (ACTIVE sớm nhất -> UPCOMING gần nhất -> ENDED gần nhất)
+ * - Xử lý đúng slot qua nửa đêm và slot chồng giờ
+ * - Polling realtime mỗi 30 giây + cập nhật lại khi quay lại tab (visibilitychange / window focus)
+ * - Tuyệt đối không hardcode dữ liệu
+ */
 export const FlashSale: React.FC = () => {
+  const [mounted, setMounted] = useState<boolean>(false);
   const [campaign, setCampaign] = useState<FlashSaleCampaign | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [serverOffset, setServerOffset] = useState<number>(0);
 
+  // Tab & Slot đang được chọn
   const [selectedDate, setSelectedDate] = useState<string>('');
   const [selectedSlotId, setSelectedSlotId] = useState<number | null>(null);
 
-  // Carousel scroll ref and arrow states
-  const viewportRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState<boolean>(false);
-  const [canScrollRight, setCanScrollRight] = useState<boolean>(false);
+  // Tick để re-evaluate trạng thái mỗi 10 giây hoặc khi countdown kết thúc
+  const [tick, setTick] = useState<number>(0);
 
-  // Helper: Chuyển đổi múi giờ UTC sang Asia/Ho_Chi_Minh (GMT+7)
-  const formatVNDate = useCallback((dateStr: string): string => {
-    try {
-      const d = new Date(dateStr);
-      return new Intl.DateTimeFormat('en-GB', {
-        timeZone: 'Asia/Ho_Chi_Minh',
-        day: '2-digit',
-        month: '2-digit',
-      }).format(d);
-    } catch {
-      return '';
-    }
-  }, []);
+  // Tính toán thời gian thực theo serverTime + bù độ lệch (hoặc mockTime cho dev/test)
+  const currentNowMs = useMemo(() => {
+    return getEffectiveNow(serverOffset);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [serverOffset, tick]);
 
-  const formatSlotPillLabel = useCallback((startUtc: string, endUtc: string): string => {
+  // ==========================================================================
+  // 1. TẢI DỮ LIỆU TỪ API THẬT (KHÔNG HARDCODE DATA)
+  // ==========================================================================
+  const loadCampaign = useCallback(async (isInitial = false) => {
     try {
-      const start = new Date(startUtc);
-      const end = new Date(endUtc);
-      const tfHour = new Intl.DateTimeFormat('en-GB', {
-        timeZone: 'Asia/Ho_Chi_Minh',
-        hour: 'numeric',
-        hour12: false,
-      });
-      const tfDate = new Intl.DateTimeFormat('en-GB', {
-        timeZone: 'Asia/Ho_Chi_Minh',
-        day: '2-digit',
-        month: '2-digit',
-      });
-      return `${tfHour.format(start)}-${tfHour.format(end)}h ${tfDate.format(start)}`;
-    } catch {
-      return '';
-    }
-  }, []);
-
-  // 1. Tải chiến dịch Flash Sale ĐANG HOẠT ĐỘNG từ API /flash-sales/active
-  // TUYỆT ĐỐI KHÔNG dùng mock data / localStorage fallback
-  const loadActiveCampaign = useCallback(async () => {
-    try {
-      setLoading(true);
+      if (isInitial) setLoading(true);
       const data = await flashSaleService.getActiveCampaign();
-      if (!data || !data.products || data.products.length === 0) {
+
+      if (!data || !data.slots || data.slots.length === 0) {
         setCampaign(null);
         return;
       }
 
-      const offset = data.serverNow
-        ? new Date(data.serverNow).getTime() - Date.now()
+      // Tính độ lệch serverTime vs local time (Section 6)
+      const serverTimeStr = data.serverNow || (data as any).serverTime;
+      const offset = serverTimeStr
+        ? new Date(serverTimeStr).getTime() - Date.now()
         : 0;
       setServerOffset(offset);
       setCampaign(data);
 
-      const slots = data.timeSlots || [];
-      if (slots.length > 0) {
-        // Ưu tiên chọn: 1. LIVE -> 2. UPCOMING gần nhất -> 3. ENDED cuối cùng
-        const liveSlot = slots.find((s) => s.status === 'live');
-        if (liveSlot) {
-          setSelectedDate(formatVNDate(liveSlot.startTime));
-          setSelectedSlotId(liveSlot.id);
-        } else {
-          const upcomingSlot = slots.find((s) => s.status === 'upcoming');
-          if (upcomingSlot) {
-            setSelectedDate(formatVNDate(upcomingSlot.startTime));
-            setSelectedSlotId(upcomingSlot.id);
-          } else {
-            const endedSlots = slots.filter((s) => s.status === 'ended');
-            if (endedSlots.length > 0) {
-              const lastEnded = endedSlots[endedSlots.length - 1];
-              setSelectedDate(formatVNDate(lastEnded.startTime));
-              setSelectedSlotId(lastEnded.id);
-            } else {
-              setSelectedDate(formatVNDate(slots[0].startTime));
-              setSelectedSlotId(slots[0].id);
-            }
-          }
+      const effectiveNow = getEffectiveNow(offset);
+
+      // Nếu lần đầu tải hoặc slot đang chọn không còn tồn tại -> chọn slot mặc định theo Section 8
+      setSelectedSlotId((prevSlotId) => {
+        const slotExists = data.slots.some((s) => s.id === prevSlotId);
+        if (isInitial || !prevSlotId || !slotExists) {
+          const defaultPick = selectDefaultSlot(data.slots, effectiveNow);
+          setSelectedDate(defaultPick.selectedDate);
+          return defaultPick.selectedSlotId;
         }
-      } else {
-        setSelectedDate('');
-        setSelectedSlotId(null);
-      }
+        return prevSlotId;
+      });
     } catch (err: any) {
-      console.error('Lỗi khi tải Flash Sale active:', err);
-      // Khi API lỗi: ẩn hoàn toàn khối Flash Sale, không dùng bất kỳ dữ liệu giả nào
-      setCampaign(null);
+      console.error('Lỗi khi tải Flash Sale:', err);
+      // Khi API lỗi: ẩn khối Flash Sale hoặc hiển thị an toàn, không làm crash trang (Section 20)
+      if (isInitial) setCampaign(null);
     } finally {
-      setLoading(false);
+      if (isInitial) setLoading(false);
     }
-  }, [formatVNDate]);
+  }, []);
 
+  // Gọi lần đầu khi mount
   useEffect(() => {
-    loadActiveCampaign();
-  }, [loadActiveCampaign]);
+    setMounted(true);
+    loadCampaign(true);
+  }, [loadCampaign]);
 
-  const slots = useMemo(() => campaign?.timeSlots || [], [campaign]);
+  // ==========================================================================
+  // 2. REALTIME POLLING (30-60 GIÂY) & VISIBILITY CHANGE (Section 19)
+  // ==========================================================================
+  useEffect(() => {
+    // Polling định kỳ mỗi 30 giây để cập nhật sold, quota, slots mới nhất
+    const pollingInterval = setInterval(() => {
+      loadCampaign(false);
+    }, 30000);
 
-  // Nhóm các Ngày duy nhất (VD: 03/10, 04/10) sắp xếp tăng dần
-  const availableDates = useMemo(() => {
-    const datesSet = new Set<string>();
-    slots.forEach((s) => {
-      const dateStr = formatVNDate(s.startTime);
-      if (dateStr) datesSet.add(dateStr);
-    });
-    return Array.from(datesSet);
-  }, [slots, formatVNDate]);
+    // Timer re-evaluate trạng thái khung giờ mỗi 5 giây
+    const tickInterval = setInterval(() => {
+      setTick((prev) => prev + 1);
+    }, 5000);
 
-  // Các slots thuộc ngày đang chọn
-  const slotsForSelectedDate = useMemo(() => {
-    if (!selectedDate) return slots;
-    return slots.filter((s) => formatVNDate(s.startTime) === selectedDate);
-  }, [slots, selectedDate, formatVNDate]);
+    // Khi người dùng quay lại tab (window focus hoặc tab visibilitychange) -> tải lại ngay
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        loadCampaign(false);
+        setTick((prev) => prev + 1);
+      }
+    };
 
-  // Khi click chọn Date tab
-  const handleSelectDate = (date: string) => {
+    const handleWindowFocus = () => {
+      loadCampaign(false);
+      setTick((prev) => prev + 1);
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('focus', handleWindowFocus);
+
+    return () => {
+      clearInterval(pollingInterval);
+      clearInterval(tickInterval);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('focus', handleWindowFocus);
+    };
+  }, [loadCampaign]);
+
+  // ==========================================================================
+  // 3. XỬ LÝ NHÓM NGÀY & KHUNG GIỜ THEO MÚI GIỜ VIỆT NAM (Section 7, 9, 10, 11)
+  // ==========================================================================
+  const allSlots: FlashSaleSlot[] = useMemo(() => {
+    return campaign?.slots || [];
+  }, [campaign]);
+
+  // Nhóm slots theo ngày bắt đầu (Asia/Ho_Chi_Minh)
+  const groupedDates = useMemo(() => {
+    return groupSlotsByStartDate(allSlots, currentNowMs);
+  }, [allSlots, currentNowMs]);
+
+  const dateTabsData = useMemo(() => {
+    return groupedDates.map((g) => ({ date: g.date, isEnded: g.isEnded }));
+  }, [groupedDates]);
+
+  // Các slot thuộc ngày đang chọn (được sắp xếp theo start tăng dần)
+  const slotsForSelectedDate: FlashSaleSlot[] = useMemo(() => {
+    if (!selectedDate) {
+      return groupedDates[0]?.slots || [];
+    }
+    const found = groupedDates.find((g) => g.date === selectedDate);
+    return found ? found.slots : [];
+  }, [groupedDates, selectedDate]);
+
+  // Khi người dùng click chọn 1 Tab Ngày
+  const handleSelectDate = useCallback((date: string) => {
     setSelectedDate(date);
-    const dateSlots = slots.filter((s) => formatVNDate(s.startTime) === date);
-    if (dateSlots.length > 0) {
-      const live = dateSlots.find((s) => s.status === 'live');
+    const dayGroup = groupedDates.find((g) => g.date === date);
+    if (dayGroup && dayGroup.slots.length > 0) {
+      // Ưu tiên chọn: 1. LIVE -> 2. UPCOMING gần nhất -> 3. Slot đầu tiên của ngày đó
+      const live = dayGroup.slots.find((s) => {
+        const start = s.start || s.startTime || '';
+        const end = s.end || s.endTime || '';
+        return computeSlotStatus(start, end, currentNowMs) === 'ACTIVE';
+      });
       if (live) {
         setSelectedSlotId(live.id);
       } else {
-        const upcoming = dateSlots.find((s) => s.status === 'upcoming');
-        setSelectedSlotId(upcoming ? upcoming.id : dateSlots[0].id);
+        const upcoming = dayGroup.slots
+          .filter((s) => {
+            const start = s.start || s.startTime || '';
+            const end = s.end || s.endTime || '';
+            return computeSlotStatus(start, end, currentNowMs) === 'UPCOMING';
+          })
+          .sort((a, b) => {
+            const aStart = new Date(a.start || a.startTime || '').getTime();
+            const bStart = new Date(b.start || b.startTime || '').getTime();
+            return aStart - bStart;
+          });
+        setSelectedSlotId(upcoming.length > 0 ? upcoming[0].id : dayGroup.slots[0].id);
       }
     } else {
       setSelectedSlotId(null);
     }
-  };
+  }, [groupedDates, currentNowMs]);
 
   // Slot hiện đang được chọn
-  const currentSlot: FlashSaleTimeSlot | undefined = useMemo(() => {
-    if (!selectedSlotId) return slots[0];
-    return slots.find((s) => s.id === selectedSlotId) || slots[0];
-  }, [slots, selectedSlotId]);
+  const currentSlot: FlashSaleSlot | undefined = useMemo(() => {
+    if (!selectedSlotId) return slotsForSelectedDate[0];
+    return slotsForSelectedDate.find((s) => s.id === selectedSlotId) || slotsForSelectedDate[0];
+  }, [slotsForSelectedDate, selectedSlotId]);
 
-  // Sản phẩm thuộc slot đang chọn (hoặc tất cả sản phẩm của campaign nếu chưa có slotId)
-  const currentProducts: FlashSaleItem[] = useMemo(() => {
-    if (!campaign?.products) return [];
-    if (!selectedSlotId) return campaign.products;
-    return campaign.products.filter((p) => p.slotId === selectedSlotId || !p.slotId);
-  }, [campaign, selectedSlotId]);
+  // Trạng thái khung giờ hiện tại
+  const currentSlotStatus = useMemo(() => {
+    if (!currentSlot) return 'ENDED';
+    const start = currentSlot.start || currentSlot.startTime || '';
+    const end = currentSlot.end || currentSlot.endTime || '';
+    return computeSlotStatus(start, end, currentNowMs);
+  }, [currentSlot, currentNowMs]);
 
-  // Kiểm tra scroll arrows của Carousel
-  const updateScrollArrows = useCallback(() => {
-    const el = viewportRef.current;
-    if (!el) return;
-    setCanScrollLeft(el.scrollLeft > 5);
-    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 5);
-  }, []);
-
-  useEffect(() => {
-    updateScrollArrows();
-    const el = viewportRef.current;
-    if (el) {
-      el.addEventListener('scroll', updateScrollArrows, { passive: true });
-      window.addEventListener('resize', updateScrollArrows);
-      return () => {
-        el.removeEventListener('scroll', updateScrollArrows);
-        window.removeEventListener('resize', updateScrollArrows);
-      };
+  // Danh sách sản phẩm của slot đang chọn
+  const currentProducts: FlashSaleProduct[] = useMemo(() => {
+    if (!currentSlot) return [];
+    if (currentSlot.products && currentSlot.products.length > 0) {
+      return currentSlot.products;
     }
-  }, [updateScrollArrows, currentProducts]);
+    // Fallback: nếu slot chưa gắn trực tiếp sản phẩm, lọc từ campaign.products theo slotId
+    if (campaign?.products) {
+      return campaign.products.filter(
+        (p: any) => p.slotId === currentSlot.id || !p.slotId
+      );
+    }
+    return [];
+  }, [currentSlot, campaign]);
 
-  const handleScroll = (direction: 'left' | 'right') => {
-    if (!viewportRef.current) return;
-    const scrollAmount = 240 * 2;
-    viewportRef.current.scrollBy({
-      left: direction === 'left' ? -scrollAmount : scrollAmount,
-      behavior: 'smooth',
-    });
-  };
+  // Mốc thời gian mục tiêu đếm ngược
+  const countdownTarget = useMemo(() => {
+    if (!currentSlot) return undefined;
+    if (currentSlotStatus === 'UPCOMING') {
+      return currentSlot.start || currentSlot.startTime;
+    }
+    if (currentSlotStatus === 'ACTIVE') {
+      return currentSlot.end || currentSlot.endTime;
+    }
+    return undefined;
+  }, [currentSlot, currentSlotStatus]);
 
+  // Khi countdown về 0: re-evaluate và tải lại dữ liệu mà không reload trang (Section 13)
   const handleCountdownFinish = useCallback(() => {
-    loadActiveCampaign();
-  }, [loadActiveCampaign]);
+    setTick((prev) => prev + 1);
+    loadCampaign(false);
+  }, [loadCampaign]);
 
-  const formatPrice = (p?: number) => {
-    if (p == null) return '0đ';
-    return p.toLocaleString('vi-VN') + 'đ';
-  };
-
-  // NẾU KHÔNG CÓ DỮ LIỆU HOẶC API LỖI: ẨN KHỐI FLASH SALE HOÀN TOÀN
-  if (loading) {
+  // ==========================================================================
+  // RENDER FALLBACK & XỬ LÝ KHÔNG CÓ DỮ LIỆU (Section 20 & 21)
+  // ==========================================================================
+  if (!mounted || loading) {
     return null;
   }
 
-  if (!campaign || !campaign.products || campaign.products.length === 0) {
+  if (!campaign || allSlots.length === 0) {
     return null;
   }
-
-  const slotStatus = currentSlot?.status || 'live';
-  const countdownTarget =
-    slotStatus === 'upcoming'
-      ? currentSlot?.startTime
-      : slotStatus === 'live'
-      ? currentSlot?.endTime
-      : undefined;
 
   return (
-    <section className={styles.flashSaleSection}>
+    <section className={styles.flashSaleSection} aria-label="Chương trình Flash Sale">
       <div className={styles.container}>
-        {/* 2 Voucher 3D hai bên góc trên */}
+        {/* 2 Voucher % 3D ở hai góc trên */}
         <div className={styles.voucherTagLeft}>%</div>
         <div className={styles.voucherTagRight}>%</div>
 
-        {/* 1. Date Tabs (03/10, 04/10) */}
-        {availableDates.length > 1 && (
-          <div className={styles.topDateTabs}>
-            {availableDates.map((date) => {
-              const isActive = selectedDate === date;
-              return (
-                <button
-                  key={date}
-                  className={`${styles.dateTab} ${
-                    isActive ? styles.dateTabActive : styles.dateTabInactive
-                  }`}
-                  onClick={() => handleSelectDate(date)}
-                >
-                  {date}
-                </button>
-              );
-            })}
-          </div>
-        )}
+        {/* 1. Date Tabs (dd/MM) */}
+        <FlashSaleDays
+          dates={dateTabsData}
+          selectedDate={selectedDate}
+          onSelectDate={handleSelectDate}
+        />
 
-        {/* 2. Sub-Header: Khung giờ bên trái + Countdown Timer bên phải */}
+        {/* 2. Sub-Header: Khung giờ + Đồng hồ đếm ngược Countdown */}
         <div className={styles.subHeaderRow}>
           {slotsForSelectedDate.length > 0 ? (
-            <div className={styles.timeSlotTabs}>
-              {slotsForSelectedDate.map((slot) => {
-                const label = formatSlotPillLabel(slot.startTime, slot.endTime);
-                const isSelected = slot.id === selectedSlotId;
-                const isEnded = slot.status === 'ended';
-
-                return (
-                  <button
-                    key={slot.id}
-                    className={`${styles.slotTab} ${
-                      isSelected ? styles.slotTabActive : styles.slotTabInactive
-                    } ${isEnded ? styles.slotTabEnded : ''}`}
-                    onClick={() => setSelectedSlotId(slot.id)}
-                  >
-                    {label}
-                  </button>
-                );
-              })}
-            </div>
+            <FlashSaleSlots
+              slots={slotsForSelectedDate}
+              selectedSlotId={selectedSlotId}
+              onSelectSlot={(id) => setSelectedSlotId(id)}
+              nowMs={currentNowMs}
+            />
           ) : (
-            <div style={{ color: '#ffffff', fontWeight: 700, fontSize: '16px' }}>
+            <div style={{ color: '#ffffff', fontWeight: 800, fontSize: '16px' }}>
               ⚡ {campaign.title || 'FLASHSALE'}
             </div>
           )}
 
-          {/* Countdown Clock */}
-          {currentSlot && countdownTarget && (
+          {/* Countdown Timer */}
+          {currentSlot && (
             <FlashSaleCountdown
-              status={slotStatus}
-              targetTime={countdownTarget}
+              status={currentSlotStatus}
+              targetIso={countdownTarget}
               serverOffset={serverOffset}
               onFinish={handleCountdownFinish}
             />
           )}
         </div>
 
-        {/* 3. Product Carousel */}
-        <div className={styles.productWrapper}>
-          {canScrollLeft && (
-            <button
-              className={`${styles.arrowBtn} ${styles.arrowLeft}`}
-              onClick={() => handleScroll('left')}
-              aria-label="Cuộn trái"
-            >
-              ‹
-            </button>
-          )}
+        {/* 3. Product Carousel (5 sản phẩm desktop, vuốt ngang mobile) */}
+        <FlashSaleProducts
+          products={currentProducts}
+          slotStatus={currentSlotStatus}
+        />
 
-          <div className={styles.carouselViewport} ref={viewportRef}>
-            {currentProducts.length === 0 ? (
-              <div className={styles.emptyStateContainer}>
-                <p className={styles.emptyStateText}>
-                  Chưa có sản phẩm trong khung giờ này
-                </p>
-              </div>
-            ) : (
-              <div className={styles.carouselTrack}>
-                {currentProducts.map((product) => {
-                  const sold = product.soldCount || 0;
-                  const stock = product.totalStock || 1;
-                  const percentSold = Math.min((sold / stock) * 100, 100);
-                  const isSoldOut = sold >= stock;
-                  const isEnded = slotStatus === 'ended';
-                  const isUpcoming = slotStatus === 'upcoming';
-
-                  const productHref = product.productSlug
-                    ? `/products/${product.productSlug}`
-                    : `/products/${product.productId}`;
-
-                  return (
-                    <Link
-                      key={product.id}
-                      href={productHref}
-                      className={styles.productCard}
-                    >
-                      {/* Ảnh vuông */}
-                      <div className={styles.imageWrapper}>
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={
-                            product.imageUrl ||
-                            'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?w=600&q=80'
-                          }
-                          alt={product.name}
-                          className={`${styles.productImg} ${
-                            isEnded ? styles.imageEnded : ''
-                          }`}
-                          loading="lazy"
-                        />
-                      </div>
-
-                      {/* Thông tin sản phẩm */}
-                      <div className={styles.productInfo}>
-                        <h3 className={styles.productName} title={product.name}>
-                          {product.name}
-                        </h3>
-
-                        {/* Hàng giá */}
-                        <div className={styles.priceRow}>
-                          <span className={styles.salePrice}>
-                            {formatPrice(product.salePrice)}
-                          </span>
-                          {product.originalPrice > product.salePrice && (
-                            <span className={styles.originalPrice}>
-                              {formatPrice(product.originalPrice)}
-                            </span>
-                          )}
-                        </div>
-
-                        {/* Thanh tiến độ */}
-                        <div className={styles.progressContainer}>
-                          <div
-                            className={styles.progressBar}
-                            style={{ width: `${percentSold}%` }}
-                          />
-                          <div className={styles.progressContent}>
-                            <span className={styles.mascotIcon}>🔥</span>
-                            <span className={styles.progressText}>
-                              {isSoldOut
-                                ? 'Hết suất'
-                                : isUpcoming
-                                ? 'Sắp mở bán'
-                                : `Đã bán ${sold}/${stock} suất`}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
-                  );
-                })}
-              </div>
-            )}
+        {/* 4. Footer Note / Ghi chú chính sách của Admin (Section 18) */}
+        {(campaign.note || campaign.disclaimer) && (
+          <div className={styles.bottomDisclaimer}>
+            {campaign.note || campaign.disclaimer}
           </div>
-
-          {canScrollRight && (
-            <button
-              className={`${styles.arrowBtn} ${styles.arrowRight}`}
-              onClick={() => handleScroll('right')}
-              aria-label="Cuộn phải"
-            >
-              ›
-            </button>
-          )}
-        </div>
-
-        {/* Footer ghi chú chính sách theo chiến dịch thật */}
-        <div className={styles.bottomDisclaimer}>
-          {campaign.disclaimer ||
-            'Chỉ áp dụng thanh toán online thành công — Mỗi SĐT chỉ được mua 1 sản phẩm cùng loại - Không áp dụng cùng ưu đãi S-Student'}
-        </div>
+        )}
       </div>
     </section>
   );

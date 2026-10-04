@@ -507,7 +507,7 @@ export default function CheckoutClient() {
               fontSize: '14px',
             }}
           >
-            <AlertCircle size={20} flexShrink={0} />
+            <AlertCircle size={20} style={{ flexShrink: 0 }} />
             <span>{errorMsg}</span>
           </div>
         )}

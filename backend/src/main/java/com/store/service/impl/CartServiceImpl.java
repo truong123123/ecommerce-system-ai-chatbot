@@ -27,6 +27,9 @@ public class CartServiceImpl implements CartService {
     private final InventoryRepository inventoryRepository;
     private final CouponRepository couponRepository;
     private final OrderRepository orderRepository;
+    private final FlashSaleItemRepository flashSaleItemRepository;
+    private final FlashSaleUserPurchaseRepository flashSaleUserPurchaseRepository;
+    private final InventoryReservationRepository inventoryReservationRepository;
 
     private static final BigDecimal FREE_SHIPPING_THRESHOLD = new BigDecimal("300000");
     private static final BigDecimal DEFAULT_SHIPPING_FEE = new BigDecimal("30000");
@@ -76,8 +79,36 @@ public class CartServiceImpl implements CartService {
             }
 
             BigDecimal salePrice = variant.getSalePrice() != null ? variant.getSalePrice() : BigDecimal.ZERO;
-            // Tính giá gốc giả định nếu costPrice có hoặc lấy salePrice * 1.1 để hiển thị % giảm giá CellphoneS
             BigDecimal originalPrice = salePrice.multiply(new BigDecimal("1.12")).setScale(0, RoundingMode.HALF_UP);
+
+            // Quy tắc: Giá hiển thị ở giỏ hàng do BACKEND quyết định: nếu sản phẩm thuộc slot đang ACTIVE và còn suất thì áp giá Flash Sale, ngược lại dùng giá thường.
+            // Giới hạn: Mỗi SĐT/tài khoản chỉ mua tối đa 1 sản phẩm cùng loại trong Flash Sale.
+            Optional<FlashSaleItem> fsOpt = flashSaleItemRepository.findActiveFlashSaleItemByProductId(product.getProductId());
+            if (fsOpt.isPresent()) {
+                FlashSaleItem fsi = fsOpt.get();
+                int remaining = (fsi.getTotalStock() != null ? fsi.getTotalStock() : 0)
+                        - (fsi.getSoldCount() != null ? fsi.getSoldCount() : 0)
+                        - (fsi.getReservedQuantity() != null ? fsi.getReservedQuantity() : 0);
+
+                boolean userAlreadyBought = false;
+                if (customer != null) {
+                    int bought = flashSaleUserPurchaseRepository.countPurchasedByCustomerOrPhone(
+                            fsi.getId(), product.getProductId(), customer.getCustomerId(), customer.getPhone());
+                    int reserved = inventoryReservationRepository.getReservedQuantityForUserOrPhoneAndFlashSaleItem(
+                            fsi.getId(), customer.getCustomerId(), customer.getPhone());
+                    if (bought > 0 || reserved > 0) {
+                        userAlreadyBought = true;
+                    }
+                }
+
+                if (remaining >= ci.getQuantity() && !userAlreadyBought && ci.getQuantity() <= 1) {
+                    salePrice = fsi.getSalePrice();
+                    if (fsi.getOriginalPrice() != null && fsi.getOriginalPrice().compareTo(BigDecimal.ZERO) > 0) {
+                        originalPrice = fsi.getOriginalPrice();
+                    }
+                }
+            }
+
             BigDecimal discountAmount = originalPrice.subtract(salePrice);
             if (discountAmount.compareTo(BigDecimal.ZERO) < 0) {
                 discountAmount = BigDecimal.ZERO;

@@ -80,6 +80,12 @@ public class CheckoutServiceImpl implements CheckoutService {
         }
     }
 
+    public static boolean isOnlinePayment(String method) {
+        if (method == null) return false;
+        String m = method.trim().toLowerCase();
+        return !m.equals("cod") && !m.equals("store") && !m.equals("cash");
+    }
+
     @Override
     @Transactional(readOnly = true)
     public CheckoutPreviewDto preview(Customer customer, List<Long> variantIds, List<Integer> quantities) {
@@ -138,11 +144,28 @@ public class CheckoutServiceImpl implements CheckoutService {
             BigDecimal originalPrice = salePrice.multiply(new BigDecimal("1.15")).setScale(0, RoundingMode.HALF_UP);
 
             // Kiểm tra xem có trong Flash Sale đang active không
+            // Quy tắc: Giá hiển thị ở giỏ hàng/thanh toán do BACKEND quyết định: nếu sản phẩm thuộc slot đang ACTIVE và còn suất thì áp giá Flash Sale
+            // Mỗi SĐT/tài khoản chỉ mua tối đa 1 sản phẩm cùng loại
             boolean isFlashSale = false;
             Optional<FlashSaleItem> fsOpt = flashSaleItemRepository.findActiveFlashSaleItemByProductId(product.getProductId());
             if (fsOpt.isPresent()) {
                 FlashSaleItem fsi = fsOpt.get();
-                if ((fsi.getTotalStock() - fsi.getSoldCount() - fsi.getReservedQuantity()) >= qty) {
+                int remaining = (fsi.getTotalStock() != null ? fsi.getTotalStock() : 0)
+                        - (fsi.getSoldCount() != null ? fsi.getSoldCount() : 0)
+                        - (fsi.getReservedQuantity() != null ? fsi.getReservedQuantity() : 0);
+
+                boolean userAlreadyBought = false;
+                if (customer != null) {
+                    int bought = flashSaleUserPurchaseRepository.countPurchasedByCustomerOrPhone(
+                            fsi.getId(), product.getProductId(), customer.getCustomerId(), customer.getPhone());
+                    int reserved = inventoryReservationRepository.getReservedQuantityForUserOrPhoneAndFlashSaleItem(
+                            fsi.getId(), customer.getCustomerId(), customer.getPhone());
+                    if (bought > 0 || reserved > 0) {
+                        userAlreadyBought = true;
+                    }
+                }
+
+                if (remaining >= qty && !userAlreadyBought && qty <= 1) {
                     salePrice = fsi.getSalePrice();
                     originalPrice = fsi.getOriginalPrice();
                     isFlashSale = true;
@@ -226,10 +249,28 @@ public class CheckoutServiceImpl implements CheckoutService {
             BigDecimal originalPrice = salePrice.multiply(new BigDecimal("1.15")).setScale(0, RoundingMode.HALF_UP);
 
             // Flash Sale check
+            // Quy tắc: Chỉ áp dụng khi online, còn suất, và mỗi tài khoản/SĐT tối đa 1 sản phẩm
             Optional<FlashSaleItem> fsOpt = flashSaleItemRepository.findActiveFlashSaleItemByProductId(variant.getProduct().getProductId());
             if (fsOpt.isPresent()) {
                 FlashSaleItem fsi = fsOpt.get();
-                if ((fsi.getTotalStock() - fsi.getSoldCount() - fsi.getReservedQuantity()) >= qty) {
+                int remaining = (fsi.getTotalStock() != null ? fsi.getTotalStock() : 0)
+                        - (fsi.getSoldCount() != null ? fsi.getSoldCount() : 0)
+                        - (fsi.getReservedQuantity() != null ? fsi.getReservedQuantity() : 0);
+
+                boolean userAlreadyBought = false;
+                if (customer != null) {
+                    int bought = flashSaleUserPurchaseRepository.countPurchasedByCustomerOrPhone(
+                            fsi.getId(), variant.getProduct().getProductId(), customer.getCustomerId(), customer.getPhone());
+                    int reserved = inventoryReservationRepository.getReservedQuantityForUserOrPhoneAndFlashSaleItem(
+                            fsi.getId(), customer.getCustomerId(), customer.getPhone());
+                    if (bought > 0 || reserved > 0) {
+                        userAlreadyBought = true;
+                    }
+                }
+
+                boolean isOnline = request.getPaymentMethod() == null || isOnlinePayment(request.getPaymentMethod());
+
+                if (remaining >= qty && !userAlreadyBought && qty <= 1 && isOnline) {
                     salePrice = fsi.getSalePrice();
                     originalPrice = fsi.getOriginalPrice();
                 }
@@ -402,26 +443,48 @@ public class CheckoutServiceImpl implements CheckoutService {
             Optional<FlashSaleItem> fsOpt = flashSaleItemRepository.findActiveFlashSaleItemByProductId(product.getProductId());
             if (fsOpt.isPresent()) {
                 FlashSaleItem fsi = fsOpt.get();
-                // Kiểm tra giới hạn max_quantity_per_user
-                int reservedByUser = inventoryReservationRepository.getReservedQuantityForUserAndFlashSaleItem(fsi.getId(), customer.getCustomerId());
-                Number purchasedByUser = (Number) entityManager.createNativeQuery(
-                        "SELECT COALESCE(SUM(quantity), 0) FROM flash_sale_user_purchase WHERE item_id = :itemId AND customer_id = :cId")
-                        .setParameter("itemId", fsi.getId())
-                        .setParameter("cId", customer.getCustomerId())
-                        .getSingleResult();
-
-                int totalCountForUser = (purchasedByUser != null ? purchasedByUser.intValue() : 0) + reservedByUser + qty;
-                int maxAllowed = fsi.getMaxQuantityPerUser() != null ? fsi.getMaxQuantityPerUser() : 1;
-
-                if (totalCountForUser <= maxAllowed) {
-                    // Atomic reserve flash sale item
-                    int fsUpdated = flashSaleItemRepository.atomicReserveQuantity(fsi.getId(), qty);
-                    if (fsUpdated > 0) {
-                        flashSaleItemId = fsi.getId();
-                        salePrice = fsi.getSalePrice();
-                        originalPrice = fsi.getOriginalPrice();
-                    }
+                // 1. Quy tắc: Chỉ áp dụng khi thanh toán online thành công
+                boolean isOnline = isOnlinePayment(request.getPaymentMethod());
+                if (!isOnline) {
+                    throw new IllegalArgumentException("Sản phẩm Flash Sale '" + product.getName() + "' chỉ áp dụng khi thanh toán online (VNPAY, Chuyển khoản, Thẻ). Quý khách vui lòng chọn phương thức thanh toán online.");
                 }
+
+                // 2. Quy tắc: Mỗi SĐT / tài khoản chỉ mua tối đa 1 sản phẩm cùng loại trong Flash Sale
+                if (qty > 1) {
+                    throw new IllegalArgumentException("Sản phẩm Flash Sale '" + product.getName() + "' chỉ được mua tối đa 1 sản phẩm trên mỗi tài khoản / số điện thoại.");
+                }
+
+                String phone = request.getCustomerPhone();
+                if (phone == null || phone.isBlank()) {
+                    phone = customer != null ? customer.getPhone() : null;
+                }
+                if (phone != null) {
+                    phone = phone.trim();
+                    // Khóa Advisory trên Phone Hash để serialize các request cùng SĐT
+                    entityManager.createNativeQuery("SELECT pg_advisory_xact_lock(:pHash)")
+                            .setParameter("pHash", (long) phone.hashCode())
+                            .getSingleResult();
+                }
+
+                // Kiểm tra đã mua hoặc đang giữ chỗ chưa (trong cùng transaction)
+                int purchased = flashSaleUserPurchaseRepository.countPurchasedByCustomerOrPhone(
+                        fsi.getId(), product.getProductId(), customer != null ? customer.getCustomerId() : null, phone);
+                int reserved = inventoryReservationRepository.getReservedQuantityForUserOrPhoneAndFlashSaleItem(
+                        fsi.getId(), customer != null ? customer.getCustomerId() : null, phone);
+
+                if (purchased > 0 || reserved > 0) {
+                    throw new IllegalArgumentException("Số điện thoại hoặc tài khoản của bạn đã mua hoặc đang có đơn giữ chỗ sản phẩm Flash Sale '" + product.getName() + "'. Mỗi số điện thoại / tài khoản chỉ được mua tối đa 1 sản phẩm.");
+                }
+
+                // Atomic conditional reserve Flash Sale item chống oversell
+                int fsUpdated = flashSaleItemRepository.atomicReserveQuantity(fsi.getId(), qty);
+                if (fsUpdated == 0) {
+                    throw new IllegalStateException("Rất tiếc! Suất ưu đãi Flash Sale cho sản phẩm '" + product.getName() + "' đã hết hoặc vừa được khách hàng khác giữ chỗ.");
+                }
+
+                flashSaleItemId = fsi.getId();
+                salePrice = fsi.getSalePrice();
+                originalPrice = fsi.getOriginalPrice();
             }
 
             // Atomic reserve kho
@@ -805,6 +868,97 @@ public class CheckoutServiceImpl implements CheckoutService {
 
         log.info("Đơn hàng #{} đã chuyển sang trạng thái PAID và consume toàn bộ tồn kho thành công.", order.getOrderId());
         return true;
+    }
+
+    @Override
+    @Transactional
+    public boolean handlePaymentFailure(String providerTxnRef, String callbackPayload) {
+        PaymentTransaction txn = paymentTransactionRepository.findByProviderTxnRef(providerTxnRef).orElse(null);
+        if (txn == null) {
+            log.warn("Không tìm thấy giao dịch thanh toán: {}", providerTxnRef);
+            return false;
+        }
+
+        if ("SUCCESS".equalsIgnoreCase(txn.getStatus())) {
+            log.info("Giao dịch {} đã thành công trước đó, không thể đánh dấu thất bại", providerTxnRef);
+            return true;
+        }
+
+        txn.setStatus("FAILED");
+        txn.setCallbackPayload(callbackPayload);
+        paymentTransactionRepository.save(txn);
+
+        Order order = txn.getOrder();
+        if (order != null && (order.getStatus() == OrderStatus.pending_payment || order.getStatus() == OrderStatus.confirmed || order.getStatus() == OrderStatus.pending)) {
+            order.setStatus(OrderStatus.cancelled);
+            order.setUpdatedAt(OffsetDateTime.now());
+            orderRepository.save(order);
+
+            // Hoàn lại suất Flash Sale và tồn kho
+            releaseOrderReservations(order.getOrderId());
+            log.info("Giao dịch thất bại: Đã giải phóng giữ chỗ cho đơn hàng #{}", order.getOrderId());
+        }
+        return true;
+    }
+
+    @Override
+    @Transactional
+    public void handleOrderCancellation(Long orderId) {
+        Order order = orderRepository.findById(orderId).orElse(null);
+        if (order == null) return;
+        releaseOrderReservations(orderId);
+    }
+
+    @Override
+    @Transactional
+    public void releaseOrderReservations(Long orderId) {
+        OffsetDateTime now = OffsetDateTime.now();
+        List<InventoryReservation> reservations = inventoryReservationRepository.findByOrderOrderId(orderId);
+        for (InventoryReservation res : reservations) {
+            if ("RESERVED".equals(res.getStatus())) {
+                inventoryRepository.atomicReleaseStock(res.getVariant().getVariantId(), res.getWarehouse().getWarehouseId(), res.getQuantity());
+                if (res.getFlashSaleItemId() != null) {
+                    flashSaleItemRepository.atomicReleaseQuantity(res.getFlashSaleItemId(), res.getQuantity());
+                }
+                res.setStatus("CANCELLED");
+                res.setUpdatedAt(now);
+                inventoryReservationRepository.save(res);
+            } else if ("CONSUMED".equals(res.getStatus())) {
+                inventoryRepository.atomicReleaseStock(res.getVariant().getVariantId(), res.getWarehouse().getWarehouseId(), res.getQuantity());
+                if (res.getFlashSaleItemId() != null) {
+                    flashSaleItemRepository.atomicRefundSoldQuantity(res.getFlashSaleItemId(), res.getQuantity());
+                }
+                res.setStatus("CANCELLED");
+                res.setUpdatedAt(now);
+                inventoryReservationRepository.save(res);
+            }
+        }
+
+        // Xóa purchase record nếu có
+        try {
+            flashSaleUserPurchaseRepository.deleteByOrderOrderId(orderId);
+        } catch (Exception e) {
+            log.warn("Không thể xóa flash_sale_user_purchase cho đơn hàng #" + orderId, e);
+        }
+
+        // Hoàn Voucher nếu có
+        Optional<VoucherUsage> vuOpt = voucherUsageRepository.findByOrderOrderId(orderId);
+        if (vuOpt.isPresent()) {
+            VoucherUsage vu = vuOpt.get();
+            if ("RESERVED".equals(vu.getStatus())) {
+                vu.setStatus("RELEASED");
+                voucherUsageRepository.save(vu);
+                Coupon c = vu.getCoupon();
+                c.setReservedCount(Math.max(0, c.getReservedCount() - 1));
+                couponRepository.save(c);
+            } else if ("CONSUMED".equals(vu.getStatus())) {
+                vu.setStatus("CANCELLED");
+                voucherUsageRepository.save(vu);
+                Coupon c = vu.getCoupon();
+                c.setUsedCount(Math.max(0, c.getUsedCount() - 1));
+                couponRepository.save(c);
+            }
+        }
     }
 
     private boolean attemptReReserve(Order order) {
