@@ -10,13 +10,7 @@ import {
   ChevronLeft,
   Trash2,
   Tag,
-  Shield,
-  Gift,
   ShoppingBag,
-  Sparkles,
-  RefreshCw,
-  QrCode,
-  ArrowRight,
 } from 'lucide-react';
 import { authService } from '../../services/authService';
 
@@ -32,7 +26,6 @@ export default function CartClient() {
     toggleSelect,
     toggleSelectAll,
     applyCoupon,
-    removeCoupon,
   } = useCartStore();
 
   const [isCouponModalOpen, setIsCouponModalOpen] = useState(false);

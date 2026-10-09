@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Shield, Check, Info } from 'lucide-react';
+import { Shield, Info } from 'lucide-react';
 import { WarrantyPlan } from '../../types/productDetail';
 import styles from './ProductWarranty.module.css';
 

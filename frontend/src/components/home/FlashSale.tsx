@@ -5,7 +5,6 @@ import styles from '../flash-sale/FlashSale.module.css';
 import { FlashSaleCampaign, FlashSaleSlot, FlashSaleProduct } from '../../types/flashSale';
 import { flashSaleService } from '../../services/flashSaleService';
 import {
-  formatVNDate,
   computeSlotStatus,
   getEffectiveNow,
   groupSlotsByStartDate,

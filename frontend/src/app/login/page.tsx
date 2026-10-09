@@ -2,10 +2,9 @@
 
 import React, { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import Link from 'next/link';
 import { Eye, EyeOff } from 'lucide-react';
 import styles from './login.module.css';
-import { authService, UserSession } from '../../services/authService';
+import { authService } from '../../services/authService';
 
 function LoginForm() {
   const router = useRouter();

@@ -1,0 +1,237 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 16px 64px;
+}
+
+.header {
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--color-text-title);
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.diffFilterLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-body);
+  cursor: pointer;
+  background: var(--color-bg-card);
+  padding: 8px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+}
+
+.diffFilterLabel input {
+  accent-color: var(--color-primary);
+  width: 16px;
+  height: 16px;
+}
+
+.tableWrapper {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  overflow-x: auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.compareTable {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 650px;
+}
+
+.productHeaderCell {
+  padding: 20px 16px;
+  vertical-align: top;
+  border-bottom: 2px solid var(--color-border);
+  background: #fbfbfb;
+  width: 25%;
+  min-width: 200px;
+  position: relative;
+}
+
+.productCardSummary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+}
+
+.productThumb {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  border-radius: 6px;
+}
+
+.productName {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-text-title);
+  line-height: 1.3;
+  margin: 0;
+}
+
+.productPrice {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.removeColBtn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 4px;
+}
+
+.removeColBtn:hover {
+  color: var(--color-primary);
+}
+
+.viewDetailBtn {
+  display: inline-block;
+  padding: 6px 12px;
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary-border);
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.15s;
+}
+
+.viewDetailBtn:hover {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.groupHeaderRow td {
+  background: #f1f5f9;
+  padding: 12px 16px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #1e293b;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.attrRow {
+  border-bottom: 1px solid var(--color-border-subtle);
+  transition: background 0.1s;
+}
+
+.attrRow:hover {
+  background: #f8fafc;
+}
+
+.attrRowDiff {
+  background: #fffdf5;
+}
+
+.attrLabelCell {
+  padding: 12px 16px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #475569;
+  background: #f8fafc;
+  width: 220px;
+  min-width: 180px;
+  border-right: 1px solid var(--color-border);
+}
+
+.diffBadge {
+  display: inline-block;
+  font-size: 0.65rem;
+  padding: 2px 6px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 4px;
+  margin-left: 6px;
+  font-weight: 600;
+}
+
+.attrValueCell {
+  padding: 12px 16px;
+  font-size: 0.85rem;
+  color: var(--color-text-body);
+  line-height: 1.4;
+  vertical-align: top;
+  border-right: 1px solid var(--color-border-subtle);
+}
+
+.emptyState {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 60px 20px;
+  text-align: center;
+  max-width: 600px;
+  margin: 40px auto;
+}
+
+.emptyIcon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+
+.emptyTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text-title);
+  margin-bottom: 8px;
+}
+
+.emptyText {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 24px;
+}
+
+.backBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: var(--color-primary);
+  color: #fff;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.backBtn:hover {
+  background: var(--color-primary-hover);
+}

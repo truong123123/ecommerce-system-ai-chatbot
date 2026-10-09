@@ -16,7 +16,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.OffsetDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/vouchers")
@@ -38,12 +37,13 @@ public class VoucherController {
 
     @GetMapping("/available")
     public ResponseEntity<List<Map<String, Object>>> getAvailableVouchers(
-            @RequestParam(value = "subtotal", required = false) BigDecimal subtotal
+            @RequestParam(value = "subtotal", required = false) BigDecimal subtotal,
+            @RequestParam(value = "minOrder", required = false) BigDecimal minOrder
     ) {
         Customer customer = resolveCurrentCustomer();
         List<Coupon> activeCoupons = couponRepository.findByIsActiveTrue();
         OffsetDateTime now = OffsetDateTime.now();
-        BigDecimal currentSubtotal = subtotal != null ? subtotal : BigDecimal.ZERO;
+        BigDecimal currentSubtotal = subtotal != null ? subtotal : (minOrder != null ? minOrder : BigDecimal.ZERO);
 
         List<Map<String, Object>> result = new ArrayList<>();
         for (Coupon c : activeCoupons) {
@@ -60,11 +60,21 @@ public class VoucherController {
             map.put("code", c.getCode());
             map.put("title", c.getTitle() != null ? c.getTitle() : c.getCode());
             map.put("description", c.getDescription() != null ? c.getDescription() : "Giảm giá đặc biệt");
-            map.put("type", c.getType().name());
+            String typeStr = c.getType() != null ? c.getType().name() : "fixed";
+            map.put("type", typeStr);
+            map.put("discountType", typeStr);
             map.put("value", c.getValue());
+            map.put("discountValue", c.getValue());
             map.put("minOrderValue", c.getMinOrderValue());
+            map.put("minOrderAmount", c.getMinOrderValue());
             map.put("maxDiscount", c.getMaxDiscount());
             map.put("isEligible", isEligible);
+            map.put("isValid", isEligible);
+            map.put("startDate", c.getStartsAt() != null ? c.getStartsAt().toString() : null);
+            map.put("endDate", c.getEndsAt() != null ? c.getEndsAt().toString() : null);
+            map.put("categoryId", c.getCategoryId());
+            map.put("brandId", c.getBrandId());
+            map.put("productId", c.getProductId());
 
             result.add(map);
         }
@@ -82,6 +92,8 @@ public class VoucherController {
         BigDecimal subtotal = BigDecimal.ZERO;
         if (body.get("subtotal") != null) {
             subtotal = new BigDecimal(body.get("subtotal").toString());
+        } else if (body.get("orderAmount") != null) {
+            subtotal = new BigDecimal(body.get("orderAmount").toString());
         }
 
         Optional<Coupon> opt = couponRepository.findByCodeIgnoreCase(code.trim());
@@ -90,6 +102,10 @@ public class VoucherController {
         }
 
         Coupon c = opt.get();
+        if (Boolean.FALSE.equals(c.getIsActive())) {
+            return ResponseEntity.badRequest().body(Map.of("message", "Mã giảm giá đang bị khóa hoặc ngừng hoạt động."));
+        }
+
         OffsetDateTime now = OffsetDateTime.now();
         if (c.getStartsAt() != null && now.isBefore(c.getStartsAt())) {
             return ResponseEntity.badRequest().body(Map.of("message", "Mã giảm giá chưa đến thời gian áp dụng."));
@@ -127,6 +143,7 @@ public class VoucherController {
                 "valid", true,
                 "code", c.getCode(),
                 "discount", discount,
+                "discountType", c.getType().name(),
                 "description", c.getDescription() != null ? c.getDescription() : "Áp dụng thành công"
         ));
     }

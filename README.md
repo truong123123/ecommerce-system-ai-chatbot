@@ -207,15 +207,71 @@ npm run dev
 
 ---
 
-## Database Schema & Migrations
+## Database Setup & Migrations
 
-Database tables are created and managed via Flyway versioned migration scripts located in `database/migrations/`:
+> [!NOTE]
+> Các bản migration `V1` và `V2` không nằm dưới dạng file riêng lẻ trong repo do cấu trúc schema nền tảng ban đầu đã được đóng gói trực tiếp vào cơ sở dữ liệu gốc. Flyway được thiết lập `baseline-version: 6` để nhận diện toàn bộ các bảng từ V1 đến V6.
 
-- `users`: User credentials, contact details, and role assignments (`ROLE_USER`, `ROLE_ADMIN`).
-- `categories`: Product category hierarchy and slug mappings.
-- `products`: Product SKUs, specifications, pricing, stock levels, and promotional flags.
-- `orders` & `order_items`: Customer transaction history, shipping addresses, and line item details.
-- `reviews`: Customer ratings and review comments.
+### 1. Khởi tạo Database mới (PostgreSQL 15 - 18)
+Tạo cơ sở dữ liệu trên PostgreSQL server:
+```bash
+# Sử dụng psql:
+psql -U postgres -c "CREATE DATABASE \"LNT_Doantotnghiep\";"
+```
+
+### 2. Dựng Schema nền tảng (**Chọn một trong hai cách**):
+
+- **Cách 1: Khôi phục từ file Dump nhị phân (Custom format)**
+  *Lưu ý: Định dạng Dump nhị phân bắt buộc phải sử dụng `pg_restore`, không dùng được qua `psql`.*
+  ```bash
+  pg_restore -U postgres -d LNT_Doantotnghiep -v backup/database_init.dump
+  ```
+
+- **Cách 2: Khôi phục từ file Schema SQL**
+  ```bash
+  psql -U postgres -d LNT_Doantotnghiep -f backup/database_schema_init.sql
+  ```
+
+### 3. Cấu hình biến môi trường (`.env`)
+Sao chép `.env.example` thành `.env` và cung cấp thông tin kết nối thực tế:
+```bash
+cp .env.example .env
+```
+Thiết lập mật khẩu trong môi trường của bạn:
+```properties
+SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/LNT_Doantotnghiep
+SPRING_DATASOURCE_USERNAME=postgres
+SPRING_DATASOURCE_PASSWORD=your_db_password
+SPRING_JPA_SHOW_SQL=false
+```
+
+### 4. Cơ chế Flyway & Hibernate Validation
+Trong `application.yml`, cấu hình kích hoạt kiểm tra tính toàn vẹn:
+```yaml
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/LNT_Doantotnghiep}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: validate   # Xác thực schema khớp 100% với JPA Entities
+    show-sql: ${SPRING_JPA_SHOW_SQL:false}
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    baseline-version: 6    # Coi cấu trúc khởi tạo qua V6 là baseline
+    baseline-description: "Base schema through V6"
+```
+
+### 5. Danh sách các bản Migration (`backend/src/main/resources/db/migration/`)
+- `V3__checkout_complete.sql`: Cập nhật giỏ hàng, thông tin thanh toán, voucher và địa chỉ giao hàng.
+- `V4__flash_sale_cellphones_upgrade.sql`: Nâng cấp hệ thống khung giờ flash sale và quota.
+- `V5__admin_flash_sale_pro.sql`: Bổ sung tính năng quản trị flash sale.
+- `V6__modules_11_to_17_enhancements.sql`: Bổ sung danh sách yêu thích (Wishlist) và các trường mở rộng.
+- `V7__upgrade_product_reviews.sql`: Nâng cấp Product Review gắn với `order_item_id`, kiểm tra đơn hoàn thành (`completed`), chuẩn hóa trạng thái `ReviewStatus` (UPPERCASE) và chống spam review.
+*(Các script rollback độc lập được lưu trữ an toàn tại `backend/src/main/resources/db/rollback/`).*
 
 ---
 

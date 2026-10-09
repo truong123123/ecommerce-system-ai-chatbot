@@ -4,6 +4,7 @@ import React from 'react';
 import { usePathname } from 'next/navigation';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
+import { FloatingCompareBar } from '../compare/FloatingCompareBar';
 
 export const LayoutShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const pathname = usePathname();
@@ -22,6 +23,7 @@ export const LayoutShell: React.FC<{ children: React.ReactNode }> = ({ children 
         {children}
       </div>
       <Footer />
+      <FloatingCompareBar />
     </div>
   );
 };

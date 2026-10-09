@@ -16,15 +16,6 @@ const STATUS_CONFIG: Record<ProductStatusType, { text: string; className: string
   special_deal: { text: 'Giá sốc', className: styles.statusSpecialDeal },
 };
 
-const FEATURE_FILTERS_PHONE = [
-  { id: 'gaming', label: 'Điện thoại chơi game', icon: '🎮' },
-  { id: 'battery', label: 'Điện thoại pin trâu', icon: '🔋' },
-  { id: '5g', label: 'Điện thoại 5G', icon: '📶' },
-  { id: 'camera', label: 'Điện thoại chụp ảnh đẹp', icon: '📸' },
-  { id: 'fold', label: 'Điện thoại gập', icon: '📱' },
-  { id: 'ai', label: 'Điện thoại AI', icon: '✨' },
-];
-
 const BRANDS = [
   'Apple',
   'Samsung',

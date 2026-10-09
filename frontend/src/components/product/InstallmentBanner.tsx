@@ -1,7 +1,5 @@
 'use client';
 
-import React from 'react';
-import { CreditCard, ShieldCheck } from 'lucide-react';
 import styles from './InstallmentBanner.module.css';
 
 export const InstallmentBanner: React.FC = () => {

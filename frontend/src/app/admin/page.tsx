@@ -64,7 +64,6 @@ export default function AdminDashboardPage() {
 
   const recentOrders = overview?.recentOrders || [];
   const lowStockItems = overview?.lowStockItems || [];
-  const pendingOrders = overview?.pendingOrders || [];
   const hasFlashSale = campaign && campaign.products && campaign.products.length > 0;
 
   return (

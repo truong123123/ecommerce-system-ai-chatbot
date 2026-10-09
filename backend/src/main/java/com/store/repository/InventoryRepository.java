@@ -16,6 +16,13 @@ public interface InventoryRepository extends JpaRepository<Inventory, InventoryI
 
     List<Inventory> findByIdVariantId(Long variantId);
 
+    @Query("SELECT i FROM Inventory i " +
+           "JOIN FETCH i.warehouse w " +
+           "JOIN FETCH i.variant v " +
+           "JOIN FETCH v.product p " +
+           "ORDER BY p.name ASC, v.sku ASC")
+    List<Inventory> findAllWithDetails();
+
     @Query("SELECT COALESCE(SUM(i.quantity - i.reservedQty), 0) FROM Inventory i WHERE i.id.variantId = :variantId")
     Integer getAvailableStockByVariantId(@Param("variantId") Long variantId);
 

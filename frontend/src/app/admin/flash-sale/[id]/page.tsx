@@ -9,7 +9,6 @@ import {
   FlashSaleSlot,
   FlashSaleProduct,
   PublishStatus,
-  RuntimeStatus,
   FlashSaleReport,
   FlashSaleAuditLog,
   BulkCreateSlotsPayload,
@@ -26,7 +25,6 @@ import {
   Flame,
   ArrowLeft,
   Calendar,
-  Layers,
   FileText,
   BarChart3,
   History,
@@ -41,13 +39,10 @@ import {
   AlertTriangle,
   CheckCircle,
   XCircle,
-  Clock,
   ArrowUp,
   ArrowDown,
   Search,
-  Filter,
   RefreshCw,
-  Sparkles,
 } from 'lucide-react';
 import { FlashSaleCountdown } from '../../../../components/home/FlashSaleCountdown';
 
@@ -826,7 +821,7 @@ export default function AdminFlashSaleDetailPage() {
                   {/* Day Slots List */}
                   {!isCollapsed && (
                     <div className={styles.slotCardList}>
-                      {slots.map((slot, sIdx) => {
+                      {slots.map((slot) => {
                         const conflictMsg = slotConflicts.get(slot.id);
                         const isSlotLive = slot.status === 'live';
                         const isSlotEnded = slot.status === 'ended';

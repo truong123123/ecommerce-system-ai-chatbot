@@ -3,7 +3,7 @@
 import React, { Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { CheckCircle2, ShoppingBag, ArrowRight, Clock, ShieldCheck, CreditCard, Copy } from 'lucide-react';
+import { CheckCircle2, ShoppingBag, ArrowRight, Clock } from 'lucide-react';
 
 function SuccessContent() {
   const searchParams = useSearchParams();

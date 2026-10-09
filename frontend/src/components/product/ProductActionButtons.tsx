@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { ShoppingCart, Zap, CreditCard } from 'lucide-react';
+import { ShoppingCart } from 'lucide-react';
 import styles from './ProductActionButtons.module.css';
 
 interface ProductActionButtonsProps {

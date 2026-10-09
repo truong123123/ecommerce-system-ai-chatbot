@@ -18,7 +18,6 @@ export const FlashSaleProductCard: React.FC<FlashSaleProductCardProps> = React.m
     const isSoldOut = sold >= quota;
     const isEnded = slotStatus === 'ENDED';
     const isUpcoming = slotStatus === 'UPCOMING';
-    const isLive = slotStatus === 'ACTIVE';
 
     const productHref = product.productSlug
       ? `/products/${product.productSlug}`

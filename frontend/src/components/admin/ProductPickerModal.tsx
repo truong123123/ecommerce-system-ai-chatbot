@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './ProductPickerModal.module.css';
 import { productService, ProductItem } from '../../services/productService';
-import { Search, X, Check } from 'lucide-react';
+import { X } from 'lucide-react';
 
 interface ProductPickerModalProps {
   isOpen: boolean;

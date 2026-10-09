@@ -1,10 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Heart, MessageSquare, SlidersHorizontal, Scale, Star, Share2 } from 'lucide-react';
 import styles from './ProductHeader.module.css';
+import { useWishlistStore } from '../../store/wishlistStore';
+import { useCompareStore } from '../../store/compareStore';
 
 interface ProductHeaderProps {
+  productId?: number | string;
   name: string;
   subtitle: string;
   sku: string;
@@ -13,9 +16,11 @@ interface ProductHeaderProps {
   questionsCount: number;
   onScrollToSpecs?: () => void;
   onScrollToReviews?: () => void;
+  onCompare?: () => void;
 }
 
 export const ProductHeader: React.FC<ProductHeaderProps> = ({
+  productId,
   name,
   subtitle,
   sku,
@@ -23,9 +28,40 @@ export const ProductHeader: React.FC<ProductHeaderProps> = ({
   reviewsCount,
   questionsCount,
   onScrollToSpecs,
-  onScrollToReviews
+  onScrollToReviews,
+  onCompare
 }) => {
-  const [isLiked, setIsLiked] = useState(false);
+  const numId = productId !== undefined && productId !== null ? Number(productId) : undefined;
+
+  const { isInWishlist, toggleWishlist, fetchWishlist } = useWishlistStore();
+  const isLiked = numId !== undefined && !isNaN(numId) ? isInWishlist(numId) : false;
+
+  const { isSelected: isCompared, addProduct, removeProduct } = useCompareStore();
+  const inCompare = numId !== undefined && !isNaN(numId) ? isCompared(numId) : false;
+
+  const handleToggleWishlist = async () => {
+    if (numId !== undefined && !isNaN(numId)) {
+      await toggleWishlist(numId);
+    }
+  };
+
+  const handleToggleCompare = () => {
+    if (numId === undefined || isNaN(numId)) return;
+    if (inCompare) {
+      removeProduct(numId);
+    } else {
+      addProduct({
+        productId: numId,
+        name,
+      });
+    }
+    onCompare?.();
+  };
+
+  useEffect(() => {
+    fetchWishlist();
+  }, [fetchWishlist]);
+
   const [copied, setCopied] = useState(false);
 
   const handleShare = () => {
@@ -70,8 +106,8 @@ export const ProductHeader: React.FC<ProductHeaderProps> = ({
           <button
             type="button"
             className={`${styles.actionBtn} ${isLiked ? styles.liked : ''}`}
-            onClick={() => setIsLiked(!isLiked)}
-            title="Thêm vào danh sách yêu thích"
+            onClick={handleToggleWishlist}
+            title={isLiked ? "Đã yêu thích (Click để hủy)" : "Thêm vào danh sách yêu thích"}
           >
             <Heart size={15} fill={isLiked ? '#ef4444' : 'none'} color={isLiked ? '#ef4444' : 'currentColor'} />
             <span>{isLiked ? 'Đã thích' : 'Yêu thích'}</span>
@@ -99,11 +135,12 @@ export const ProductHeader: React.FC<ProductHeaderProps> = ({
 
           <button
             type="button"
-            className={styles.actionBtn}
-            title="So sánh với sản phẩm khác"
+            className={`${styles.actionBtn} ${inCompare ? styles.liked : ''}`}
+            onClick={handleToggleCompare}
+            title={inCompare ? "Đang chọn so sánh (Click để bỏ)" : "So sánh với sản phẩm khác"}
           >
-            <Scale size={15} />
-            <span>So sánh</span>
+            <Scale size={15} color={inCompare ? '#d70018' : 'currentColor'} />
+            <span>{inCompare ? 'Đã thêm so sánh' : 'So sánh'}</span>
           </button>
 
           <button

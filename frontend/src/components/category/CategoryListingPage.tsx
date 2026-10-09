@@ -3,10 +3,10 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { categoryService, CategoryTreeItem } from '../../services/categoryService';
 import { brandService, BrandItem } from '../../services/brandService';
-import { productService, ProductItem, ProductPageResponse } from '../../services/productService';
+import { productService, ProductPageResponse } from '../../services/productService';
 import styles from './CategoryListingPage.module.css';
 
 interface CategoryListingPageProps {
@@ -31,7 +31,6 @@ export const CategoryListingPage: React.FC<CategoryListingPageProps> = ({
   brandSlug,
 }) => {
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   // State
   const [loading, setLoading] = useState<boolean>(true);

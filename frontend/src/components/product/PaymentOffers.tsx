@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { CreditCard, ChevronRight, Wallet } from 'lucide-react';
+import { ChevronRight, Wallet } from 'lucide-react';
 import { PaymentOffer } from '../../types/productDetail';
 import styles from './PaymentOffers.module.css';
 

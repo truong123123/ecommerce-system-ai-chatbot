@@ -2,12 +2,25 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { Search, ShoppingBag, Menu, X, ChevronRight, User, LayoutGrid, ChevronDown, MapPin, Check } from 'lucide-react';
+import { Search, ShoppingBag, Menu, X, ChevronRight, User, CircleUser, LayoutGrid, ChevronDown, MapPin, Check, LogOut } from 'lucide-react';
 import styles from './Navbar.module.css';
 import { categoryService } from '../../services/categoryService';
 import { brandService } from '../../services/brandService';
 import { productService } from '../../services/productService';
 import { useCartStore } from '../../store/cartStore';
+import { authService, UserSession } from '../../services/authService';
+
+const getDisplayName = (user: UserSession): string => {
+  if (!user || !user.name) {
+    if (user?.email) {
+      return user.email.split('@')[0];
+    }
+    return 'Tài khoản';
+  }
+  const trimmed = user.name.trim();
+  const parts = trimmed.split(/\s+/);
+  return parts[parts.length - 1] || trimmed;
+};
 
 interface SubMenuItem {
   title: string;
@@ -139,8 +152,8 @@ const NAV_CATEGORIES: NavCategory[] = [
       {
         title: 'Đường dẫn nhanh',
         items: [
-          { title: 'Tìm cửa hàng', href: '#' },
-          { title: 'Trạng thái đơn hàng', href: '#' },
+          { title: 'Tìm cửa hàng', href: '/stores' },
+          { title: 'Trạng thái đơn hàng', href: '/account/orders' },
           { title: 'Apple Trade In', href: '#' },
           { title: 'Tài chính', href: '#' },
         ]
@@ -375,12 +388,50 @@ export const Navbar: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [scrolled, setScrolled] = useState<boolean>(false);
 
-  const { cartData, fetchCart, getTotalCount } = useCartStore();
+  const { fetchCart, getTotalCount } = useCartStore();
   const cartCount = getTotalCount();
+  const [currentUser, setCurrentUser] = useState<UserSession | null>(null);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState<boolean>(false);
+  const userMenuTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     fetchCart();
+    const updateSession = () => {
+      setCurrentUser(authService.getCurrentUser());
+    };
+    updateSession();
+    window.addEventListener('storage', updateSession);
+    window.addEventListener('auth_changed', updateSession);
+    return () => {
+      window.removeEventListener('storage', updateSession);
+      window.removeEventListener('auth_changed', updateSession);
+    };
   }, [fetchCart]);
+
+  const handleUserMouseEnter = () => {
+    if (userMenuTimerRef.current) {
+      clearTimeout(userMenuTimerRef.current);
+      userMenuTimerRef.current = null;
+    }
+    setIsUserMenuOpen(true);
+    setIsBagOpen(false);
+    setIsSearchOpen(false);
+  };
+
+  const handleUserMouseLeave = () => {
+    userMenuTimerRef.current = setTimeout(() => {
+      setIsUserMenuOpen(false);
+    }, 220);
+  };
+
+  const handleLogout = () => {
+    authService.logout();
+    setIsUserMenuOpen(false);
+    setCurrentUser(null);
+    if (typeof window !== 'undefined' && (window.location.pathname.startsWith('/account') || window.location.pathname.startsWith('/admin'))) {
+      window.location.href = '/login';
+    }
+  };
 
   const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const categoryCloseTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -589,6 +640,7 @@ export const Navbar: React.FC = () => {
     setActiveCategory(null);
     setIsSearchOpen(false);
     setIsBagOpen(false);
+    setIsUserMenuOpen(false);
   };
 
   const handleMouseLeaveCategory = () => {
@@ -678,6 +730,7 @@ export const Navbar: React.FC = () => {
     setActiveCategory(catId);
     setIsSearchOpen(false);
     setIsBagOpen(false);
+    setIsUserMenuOpen(false);
   };
 
   const handleMouseLeaveNav = () => {
@@ -936,6 +989,7 @@ export const Navbar: React.FC = () => {
               onClick={() => {
                 setIsSearchOpen(!isSearchOpen);
                 setIsBagOpen(false);
+                setIsUserMenuOpen(false);
                 setActiveCategory(null);
               }}
               className={styles.iconButton}
@@ -949,6 +1003,7 @@ export const Navbar: React.FC = () => {
               onClick={() => {
                 setIsBagOpen(!isBagOpen);
                 setIsSearchOpen(false);
+                setIsUserMenuOpen(false);
                 setActiveCategory(null);
               }}
               className={styles.iconButton}
@@ -981,14 +1036,71 @@ export const Navbar: React.FC = () => {
             </button>
 
             {/* User / Login / Admin Button */}
-            <Link
-              href="/login"
-              className={styles.iconButton}
-              aria-label="Tài khoản / Đăng nhập Admin"
-              title="Đăng nhập / Quản trị Admin"
-            >
-              <User size={15} strokeWidth={2.2} />
-            </Link>
+            {currentUser ? (
+              <div
+                className={styles.userMenuWrapper}
+                onMouseEnter={handleUserMouseEnter}
+                onMouseLeave={handleUserMouseLeave}
+              >
+                <Link
+                  href={currentUser.role === 'admin' ? '/admin' : '/account'}
+                  className={styles.userLoggedInBtn}
+                  aria-label={`Tài khoản: ${currentUser.name}`}
+                  title={`Tài khoản: ${currentUser.name}`}
+                  onClick={() => setIsUserMenuOpen(false)}
+                >
+                  <span className={styles.userLoggedInName}>{getDisplayName(currentUser)}</span>
+                  <span className={styles.userLoggedInIcon}>
+                    <CircleUser size={16} strokeWidth={2.2} />
+                  </span>
+                </Link>
+
+                {/* User Dropdown Menu */}
+                {isUserMenuOpen && (
+                  <div className={styles.userDropdown}>
+                    <div className={styles.userDropdownHeader}>
+                      <div className={styles.userDropdownFullName}>{currentUser.name}</div>
+                      <div className={styles.userDropdownEmail}>{currentUser.email}</div>
+                    </div>
+                    <div className={styles.userDropdownMenu}>
+                      <Link
+                        href={currentUser.role === 'admin' ? '/admin' : '/account'}
+                        className={styles.userDropdownItem}
+                        onClick={() => setIsUserMenuOpen(false)}
+                      >
+                        <User size={15} strokeWidth={2} />
+                        <span>{currentUser.role === 'admin' ? 'Trang quản trị (Admin)' : 'Thông tin tài khoản'}</span>
+                      </Link>
+                      <Link
+                        href="/account/orders"
+                        className={styles.userDropdownItem}
+                        onClick={() => setIsUserMenuOpen(false)}
+                      >
+                        <ShoppingBag size={15} strokeWidth={2} />
+                        <span>Đơn hàng của tôi</span>
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={handleLogout}
+                        className={`${styles.userDropdownItem} ${styles.userDropdownItemLogout}`}
+                      >
+                        <LogOut size={15} strokeWidth={2} />
+                        <span>Đăng xuất</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link
+                href="/login"
+                className={styles.iconButton}
+                aria-label="Đăng nhập"
+                title="Đăng nhập tài khoản"
+              >
+                <User size={15} strokeWidth={2.2} />
+              </Link>
+            )}
 
             {/* Mobile Menu Button */}
             <button
@@ -1170,6 +1282,66 @@ export const Navbar: React.FC = () => {
                 {cat.name}
               </Link>
             ))}
+
+            {currentUser ? (
+              <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid rgba(0,0,0,0.08)' }}>
+                <Link
+                  href={currentUser.role === 'admin' ? '/admin' : '/account'}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    fontSize: '18px',
+                    fontWeight: 600,
+                    color: '#0071e3',
+                    marginBottom: '16px'
+                  }}
+                >
+                  <CircleUser size={22} />
+                  <span>Xin chào, {currentUser.name}</span>
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    handleLogout();
+                  }}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    fontSize: '15px',
+                    color: '#ef4444',
+                    background: 'none',
+                    border: 'none',
+                    padding: 0,
+                    cursor: 'pointer'
+                  }}
+                >
+                  <LogOut size={16} />
+                  <span>Đăng xuất</span>
+                </button>
+              </div>
+            ) : (
+              <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid rgba(0,0,0,0.08)' }}>
+                <Link
+                  href="/login"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    fontSize: '18px',
+                    fontWeight: 600,
+                    color: '#0071e3'
+                  }}
+                >
+                  <User size={20} />
+                  <span>Đăng nhập / Đăng ký</span>
+                </Link>
+              </div>
+            )}
           </div>
         )}
       </header>

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Sliders, ChevronRight, X, Cpu, HardDrive, Monitor, BatteryCharging } from 'lucide-react';
+import { Sliders, ChevronRight, X } from 'lucide-react';
 import { ProductSpecRow } from '../../types/productDetail';
 import styles from './ProductSpecs.module.css';
 

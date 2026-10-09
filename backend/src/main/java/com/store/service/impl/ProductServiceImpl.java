@@ -34,7 +34,7 @@ public class ProductServiceImpl implements ProductService {
     private final CategoryRepository categoryRepository;
     private final BrandRepository brandRepository;
     private final SeriesRepository seriesRepository;
-    private final ReviewRepository reviewRepository;
+    private final com.store.service.ReviewService reviewService;
     private final WarehouseRepository warehouseRepository;
     private final CategoryService categoryService;
     private final JdbcTemplate jdbcTemplate;
@@ -343,36 +343,33 @@ public class ProductServiceImpl implements ProductService {
             }
         }
 
-        // Ratings & Reviews directly from database
-        Double avgRating = reviewRepository.getAverageRatingByProductId(product.getProductId());
-        Long reviewCount = reviewRepository.countByProductProductId(product.getProductId());
-        if (avgRating == null) {
-            avgRating = 0.0;
-        }
+        // Ratings & Reviews via ReviewService (chỉ lấy review APPROVED)
+        com.store.dto.review.ReviewSummaryDto summary = reviewService.getReviewSummary(product.getProductId());
+        Double avgRating = summary.getAverageRating();
+        Long reviewCount = summary.getTotalReviews();
 
         List<ProductDetailDto.ReviewDetailDto> reviewDtos = new ArrayList<>();
-        List<Review> reviews = reviewRepository.findByProductProductIdOrderByCreatedAtDesc(product.getProductId());
+        List<com.store.dto.review.ReviewDto> reviews = reviewService.getReviewsByProduct(product.getProductId());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        int star5 = 0, star4 = 0, star3 = 0, star2 = 0, star1 = 0;
-        for (Review r : reviews) {
-            short rate = r.getRating() != null ? r.getRating() : 5;
-            if (rate == 5) star5++;
-            else if (rate == 4) star4++;
-            else if (rate == 3) star3++;
-            else if (rate == 2) star2++;
-            else if (rate == 1) star1++;
-
+        for (com.store.dto.review.ReviewDto r : reviews) {
             reviewDtos.add(ProductDetailDto.ReviewDetailDto.builder()
                     .id(r.getReviewId())
-                    .author(r.getCustomer() != null ? r.getCustomer().getFullName() : "Khách hàng")
+                    .author(r.getCustomerName() != null ? r.getCustomerName() : "Khách hàng")
                     .rating(r.getRating())
                     .comment(r.getComment())
                     .createdAt(r.getCreatedAt() != null ? r.getCreatedAt().format(formatter) : "")
                     .build());
         }
 
-        int totalRev = reviews.size();
+        Map<Integer, Long> breakdown = summary.getRatingBreakdown();
+        int star5 = breakdown != null ? breakdown.getOrDefault(5, 0L).intValue() : 0;
+        int star4 = breakdown != null ? breakdown.getOrDefault(4, 0L).intValue() : 0;
+        int star3 = breakdown != null ? breakdown.getOrDefault(3, 0L).intValue() : 0;
+        int star2 = breakdown != null ? breakdown.getOrDefault(2, 0L).intValue() : 0;
+        int star1 = breakdown != null ? breakdown.getOrDefault(1, 0L).intValue() : 0;
+        long totalRev = summary.getTotalReviews();
+
         ProductDetailDto.ReviewBreakdownDto breakdownDto = ProductDetailDto.ReviewBreakdownDto.builder()
                 .star5Count(star5).star5Pct(totalRev > 0 ? (int) Math.round((star5 * 100.0) / totalRev) : 0)
                 .star4Count(star4).star4Pct(totalRev > 0 ? (int) Math.round((star4 * 100.0) / totalRev) : 0)

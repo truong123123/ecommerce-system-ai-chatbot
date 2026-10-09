@@ -1,8 +1,7 @@
 'use client';
 
-import React, { useState, useEffect, useRef, useTransition } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import styles from './Checkout.module.css';
 import { useCartStore } from '../../store/cartStore';
@@ -29,7 +28,6 @@ import {
   Ticket,
   FileText,
   X,
-  CheckCircle2,
   AlertCircle,
   Loader2,
   Lock,

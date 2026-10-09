@@ -226,7 +226,7 @@ export const Footer: React.FC = () => {
         {/* Shop Section */}
         <section className={styles.shopSection}>
           Xem thêm cách để mua hàng:{' '}
-          <Link href="/retail" className={styles.shopLink}>
+          <Link href="/stores" className={styles.shopLink}>
             Tìm cửa hàng bán lẻ
           </Link>{' '}
           gần bạn. Hoặc gọi{' '}

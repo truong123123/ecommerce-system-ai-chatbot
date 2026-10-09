@@ -70,4 +70,13 @@ public class Coupon {
 
     @Column(name = "ends_at", nullable = false)
     private OffsetDateTime endsAt;
+
+    @Column(name = "category_id")
+    private Integer categoryId;
+
+    @Column(name = "brand_id")
+    private Integer brandId;
+
+    @Column(name = "product_id")
+    private Long productId;
 }

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { ShieldCheck, RefreshCw, Package, ReceiptText, ChevronRight } from 'lucide-react';
+import { ShieldCheck, RefreshCw, Package, ReceiptText } from 'lucide-react';
 import { ProductCommitment } from '../../types/productDetail';
 import styles from './ProductCommitments.module.css';
 

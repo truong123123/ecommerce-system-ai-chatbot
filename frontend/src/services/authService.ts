@@ -33,6 +33,12 @@ export const authService = {
     // Lưu cookie để middleware Next.js có thể đọc được
     document.cookie = `auth_token=${session.token}; path=/; max-age=86400; SameSite=Lax`;
     document.cookie = `user_role=${session.role}; path=/; max-age=86400; SameSite=Lax`;
+
+    try {
+      window.dispatchEvent(new Event('auth_changed'));
+    } catch {
+      // ignore
+    }
   },
 
   // Đăng nhập qua API Backend Spring Boot
@@ -79,6 +85,12 @@ export const authService = {
     localStorage.removeItem('token');
     document.cookie = 'auth_token=; path=/; max-age=0';
     document.cookie = 'user_role=; path=/; max-age=0';
+
+    try {
+      window.dispatchEvent(new Event('auth_changed'));
+    } catch {
+      // ignore
+    }
   },
 
   // Kiểm tra quyền Admin

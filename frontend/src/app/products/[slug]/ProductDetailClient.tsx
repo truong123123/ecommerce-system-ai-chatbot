@@ -181,6 +181,7 @@ export const ProductDetailClient: React.FC<ProductDetailClientProps> = ({ initia
       <div className={styles.container}>
         {/* 2. Product Header */}
         <ProductHeader
+          productId={product.id}
           name={product.name}
           subtitle={product.subtitle}
           sku={product.sku}
@@ -210,6 +211,7 @@ export const ProductDetailClient: React.FC<ProductDetailClientProps> = ({ initia
 
             {/* Đánh giá & nhận xét */}
             <ProductReviews
+              productId={product.id}
               reviews={product.reviews}
               overallRating={product.rating}
               totalReviews={product.reviewsCount}

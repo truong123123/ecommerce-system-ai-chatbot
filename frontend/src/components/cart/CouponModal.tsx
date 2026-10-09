@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import styles from './CouponModal.module.css';
-import { Tag, X, Check } from 'lucide-react';
+import { Tag, X } from 'lucide-react';
 
 interface CouponModalProps {
   isOpen: boolean;
