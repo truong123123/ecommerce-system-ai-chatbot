@@ -43,6 +43,7 @@ export default function AdminCategoryShowcasePage() {
     discountPercent: 10,
     hasZeroInstallment: true,
     status: 'new_arrival',
+    tmemberDiscount: 'giảm đến 300.000đ',
     smemberDiscount: 'giảm đến 300.000đ',
     studentDiscount: '',
     installmentNote: 'Trả góp 0% - 0đ phụ phí - 0đ trả trước - kỳ hạn đến 6 tháng',
@@ -242,7 +243,8 @@ export default function AdminCategoryShowcasePage() {
       discountPercent: newProduct.discountPercent ? Number(newProduct.discountPercent) : undefined,
       hasZeroInstallment: Boolean(newProduct.hasZeroInstallment),
       status: (newProduct.status as ProductStatusType) || 'none',
-      smemberDiscount: newProduct.smemberDiscount || 'Smember giảm đến 200.000đ',
+      tmemberDiscount: (newProduct as any).tmemberDiscount || newProduct.smemberDiscount || 'Tmember giảm đến 200.000đ',
+      smemberDiscount: (newProduct as any).tmemberDiscount || newProduct.smemberDiscount || 'Tmember giảm đến 200.000đ',
       studentDiscount: newProduct.studentDiscount || '',
       installmentNote: newProduct.installmentNote || 'Trả góp 0% - 0đ phụ phí - 0đ trả trước',
       rating: newProduct.rating ? Number(newProduct.rating) : undefined,
@@ -816,24 +818,24 @@ export default function AdminCategoryShowcasePage() {
               </div>
 
               <div className={styles.formGroup}>
-                <label className={styles.label}>Mức giảm Smember</label>
+                <label className={styles.label}>Mức giảm Tmember</label>
                 <input
                   type="text"
                   className={styles.input}
-                  placeholder="Smember giảm đến 420.000đ"
-                  value={editingProduct.smemberDiscount || ''}
+                  placeholder="Tmember giảm đến 420.000đ"
+                  value={editingProduct.tmemberDiscount || editingProduct.smemberDiscount || ''}
                   onChange={(e) =>
-                    setEditingProduct({ ...editingProduct, smemberDiscount: e.target.value })
+                    setEditingProduct({ ...editingProduct, tmemberDiscount: e.target.value, smemberDiscount: e.target.value })
                   }
                 />
               </div>
 
               <div className={styles.formGroup}>
-                <label className={styles.label}>Mức giảm S-Student (Học sinh/Sinh viên)</label>
+                <label className={styles.label}>Mức giảm T-Student (Học sinh/Sinh viên)</label>
                 <input
                   type="text"
                   className={styles.input}
-                  placeholder="S-Student giảm thêm 500.000đ"
+                  placeholder="T-Student giảm thêm 500.000đ"
                   value={editingProduct.studentDiscount || ''}
                   onChange={(e) =>
                     setEditingProduct({ ...editingProduct, studentDiscount: e.target.value })
@@ -1037,17 +1039,18 @@ export default function AdminCategoryShowcasePage() {
               </div>
 
               <div className={styles.formGroup}>
-                <label className={styles.label}>Mức giảm Smember</label>
+                <label className={styles.label}>Mức giảm Tmember</label>
                 <input
                   type="text"
                   className={styles.input}
-                  value={newProduct.smemberDiscount || ''}
-                  onChange={(e) => setNewProduct({ ...newProduct, smemberDiscount: e.target.value })}
+                  placeholder="Tmember giảm đến 420.000đ"
+                  value={(newProduct as any).tmemberDiscount || newProduct.smemberDiscount || ''}
+                  onChange={(e) => setNewProduct({ ...newProduct, smemberDiscount: e.target.value, tmemberDiscount: e.target.value } as any)}
                 />
               </div>
 
               <div className={styles.formGroup}>
-                <label className={styles.label}>Mức giảm S-Student</label>
+                <label className={styles.label}>Mức giảm T-Student</label>
                 <input
                   type="text"
                   className={styles.input}

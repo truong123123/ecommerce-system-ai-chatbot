@@ -68,7 +68,7 @@ export default function NotFound() {
               alignItems: 'center',
               gap: '8px',
               padding: '12px 20px',
-              background: '#0284c7',
+              background: '#d70018',
               color: '#ffffff',
               borderRadius: '10px',
               fontWeight: 600,

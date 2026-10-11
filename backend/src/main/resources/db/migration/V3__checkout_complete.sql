@@ -184,7 +184,7 @@ CREATE TABLE IF NOT EXISTS payment_method_config (
 
 INSERT INTO payment_method_config (code, name, icon, description, sort_order, is_active)
 VALUES
-('STORE', 'Thanh toán tại cửa hàng', 'store', 'CellphoneS sẽ giữ sản phẩm và ưu đãi trong vòng 24 giờ kể từ thời điểm đặt hàng.', 1, true),
+('STORE', 'Thanh toán tại cửa hàng', 'store', 'TruongNgStore sẽ giữ sản phẩm và ưu đãi trong vòng 24 giờ kể từ thời điểm đặt hàng.', 1, true),
 ('BANK_QR', 'Chuyển khoản ngân hàng qua mã QR', 'qr_code', 'Quét mã VietQR thanh toán (Thủ kho xác nhận thủ công).', 2, true),
 ('VNPAY', 'VNPAY', 'vnpay', 'Cổng thanh toán quốc dân VNPAY-QR, Thẻ ATM & Tài khoản ngân hàng.', 3, true),
 ('MOMO', 'MoMo', 'momo', 'Nhập ưu đãi tại cổng, giảm thêm 2% tối đa 200.000đ', 4, false),

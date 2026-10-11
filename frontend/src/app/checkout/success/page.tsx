@@ -76,7 +76,7 @@ function SuccessContent() {
         </h1>
 
         <p style={{ color: '#4b5563', fontSize: '14.5px', marginBottom: '24px', lineHeight: 1.5 }}>
-          Cảm ơn quý khách đã mua sắm tại <strong>CellphoneS / truongngstore</strong>.<br />
+          Cảm ơn quý khách đã mua sắm tại <strong>truongngstore</strong>.<br />
           Đơn hàng của bạn đã được ghi nhận và đang được hệ thống điều phối xử lý.
         </p>
 

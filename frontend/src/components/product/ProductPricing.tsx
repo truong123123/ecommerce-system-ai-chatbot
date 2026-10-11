@@ -10,6 +10,7 @@ interface ProductPricingProps {
   discountPercent?: number;
   monthlyInstallment?: number;
   studentDiscount?: number;
+  tmemberDiscount?: number;
   smemberDiscount?: number;
 }
 
@@ -19,8 +20,10 @@ export const ProductPricing: React.FC<ProductPricingProps> = ({
   discountPercent = 0,
   monthlyInstallment = 0,
   studentDiscount = 0,
+  tmemberDiscount,
   smemberDiscount = 0
 }) => {
+  const effectiveTmemberDiscount = tmemberDiscount ?? smemberDiscount;
   const formatVND = (amount: number) => {
     return new Intl.NumberFormat('vi-VN').format(amount) + '₫';
   };
@@ -55,7 +58,7 @@ export const ProductPricing: React.FC<ProductPricingProps> = ({
       </div>
 
       {/* Membership & Student perks row (only when discount values exist) */}
-      {(studentDiscount > 0 || smemberDiscount > 0) && (
+      {(studentDiscount > 0 || effectiveTmemberDiscount > 0) && (
         <div className={styles.perksRow}>
           {studentDiscount > 0 && (
             <div className={styles.perkCard}>
@@ -69,14 +72,14 @@ export const ProductPricing: React.FC<ProductPricingProps> = ({
             </div>
           )}
 
-          {smemberDiscount > 0 && (
+          {effectiveTmemberDiscount > 0 && (
             <div className={styles.perkCard}>
               <div className={styles.perkHeader}>
                 <Award size={16} className={styles.perkIconGold} />
-                <span className={styles.perkTitle}>Smember</span>
+                <span className={styles.perkTitle}>Tmember</span>
               </div>
               <div className={styles.perkValue}>
-                Giảm thêm đến <strong>{formatVND(smemberDiscount)}</strong>
+                Giảm thêm đến <strong>{formatVND(effectiveTmemberDiscount)}</strong>
               </div>
             </div>
           )}

@@ -9,8 +9,8 @@ import {
   FeatureFilterItem,
   ShowcaseProduct,
 } from '../../../types/categoryShowcase';
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1';
+import { API_BASE_URL } from '@/lib/env';
+import { revalidateShowcaseAction } from '@/actions/revalidateShowcase';
 
 const DEFAULT_LAPTOP_BANNERS: ShowcaseBannerItem[] = [
   {
@@ -102,7 +102,8 @@ export default function AdminLaptopShowcasePage() {
                 discountPercent: discount,
                 hasZeroInstallment: true,
                 status: 'new_arrival' as const,
-                smemberDiscount: `Smember giảm đến ${new Intl.NumberFormat('vi-VN').format(Math.round(price * 0.01))}đ`,
+                tmemberDiscount: `Tmember giảm đến ${new Intl.NumberFormat('vi-VN').format(Math.round(price * 0.01))}đ`,
+                smemberDiscount: `Tmember giảm đến ${new Intl.NumberFormat('vi-VN').format(Math.round(price * 0.01))}đ`,
                 installmentNote: 'Trả góp 0% - 0đ phụ phí - 0đ trả trước',
                 rating: 5,
                 isFastDelivery: true,
@@ -184,7 +185,8 @@ export default function AdminLaptopShowcasePage() {
       price: product.price,
     });
     if (ok) {
-      setSaveMessage('✓ Đã đồng bộ thay đổi vào CSDL PostgreSQL!');
+      await revalidateShowcaseAction();
+      setSaveMessage('✓ Đã đồng bộ thay đổi vào CSDL PostgreSQL & xóa cache Showcase!');
     } else {
       setSaveMessage('⚠️ Đã cập nhật giao diện (sản phẩm local)');
     }
@@ -196,7 +198,8 @@ export default function AdminLaptopShowcasePage() {
       setProducts((prev) => prev.filter((item) => item.id !== id));
       setSaveMessage('⏳ Đang xóa sản phẩm trong PostgreSQL...');
       await showcaseService.deleteProductFromSql(id);
-      setSaveMessage('✓ Đã xóa sản phẩm khỏi CSDL PostgreSQL!');
+      await revalidateShowcaseAction();
+      setSaveMessage('✓ Đã xóa sản phẩm khỏi CSDL PostgreSQL & xóa cache Showcase!');
       setTimeout(() => setSaveMessage(null), 2000);
     }
   };
@@ -215,7 +218,8 @@ export default function AdminLaptopShowcasePage() {
           image: p.image,
         });
       }
-      setSaveMessage('✓ Đã lưu thành công toàn bộ vào CSDL PostgreSQL!');
+      await revalidateShowcaseAction();
+      setSaveMessage('✓ Đã lưu thành công toàn bộ vào CSDL PostgreSQL & xóa cache Showcase!');
     } catch (e) {
       setSaveMessage('⚠️ Có lỗi khi lưu dữ liệu.');
     } finally {

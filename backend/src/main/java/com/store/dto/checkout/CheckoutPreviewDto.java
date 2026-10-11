@@ -31,7 +31,7 @@ public class CheckoutPreviewDto {
         private String fullName;
         private String email;
         private String phone;
-        private String membershipTier; // e.g. "S-Student", "S-NULL"
+        private String membershipTier; // e.g. "T-Student", "T-NULL"
         private Integer loyaltyPoints;
     }
 

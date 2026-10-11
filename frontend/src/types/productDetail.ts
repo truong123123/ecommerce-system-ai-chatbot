@@ -177,7 +177,8 @@ export interface FullProductDetail {
   warranties: WarrantyPlan[];
   membership: {
     studentDiscount: number;
-    smemberDiscount: number;
+    tmemberDiscount: number;
+    smemberDiscount?: number;
   };
   membershipDiscounts: MembershipDiscount[];
   reviews: ProductReviewItem[];

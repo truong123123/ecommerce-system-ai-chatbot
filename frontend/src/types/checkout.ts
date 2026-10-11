@@ -3,7 +3,7 @@ export interface CustomerInfo {
   fullName: string;
   email: string;
   phone: string;
-  membershipTier?: 'S-NULL' | 'S-Student' | 'S-VIP' | string;
+  membershipTier?: 'S-NULL' | 'T-Student' | 'S-Student' | 'S-VIP' | string;
   loyaltyPoints?: number;
 }
 

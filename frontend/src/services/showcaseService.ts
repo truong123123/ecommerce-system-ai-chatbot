@@ -1,6 +1,5 @@
 import { CategoryShowcaseData, ShowcaseBannerItem, ShowcaseProduct } from '../types/categoryShowcase';
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1';
+import { API_BASE_URL } from '@/lib/env';
 
 export const showcaseService = {
   // Lấy dữ liệu thuần túy từ Database PostgreSQL (qua Spring Boot REST API)
@@ -95,7 +94,7 @@ export const showcaseService = {
               nameLower.includes('ipad') ||
               nameLower.includes('tab');
 
-            const smemberAmt = Math.round((minPrice * 0.01) / 1000) * 1000;
+            const tmemberAmt = Math.round((minPrice * 0.01) / 1000) * 1000;
             const studentAmt = Math.round((minPrice * 0.03) / 1000) * 1000;
 
             return {
@@ -113,8 +112,9 @@ export const showcaseService = {
                 : nameLower.includes('ultra')
                 ? 'special_deal'
                 : 'new_arrival') as any,
-              smemberDiscount: smemberAmt > 0 ? `Smember giảm đến ${new Intl.NumberFormat('vi-VN').format(smemberAmt)}đ` : undefined,
-              studentDiscount: studentAmt > 0 ? `S-Student giảm thêm ${new Intl.NumberFormat('vi-VN').format(studentAmt)}đ` : undefined,
+              tmemberDiscount: tmemberAmt > 0 ? `Tmember giảm đến ${new Intl.NumberFormat('vi-VN').format(tmemberAmt)}đ` : undefined,
+              smemberDiscount: tmemberAmt > 0 ? `Tmember giảm đến ${new Intl.NumberFormat('vi-VN').format(tmemberAmt)}đ` : undefined,
+              studentDiscount: studentAmt > 0 ? `T-Student giảm thêm ${new Intl.NumberFormat('vi-VN').format(studentAmt)}đ` : undefined,
               installmentNote: 'Trả góp 0% lãi suất',
               rating: 5,
               isFastDelivery: true,

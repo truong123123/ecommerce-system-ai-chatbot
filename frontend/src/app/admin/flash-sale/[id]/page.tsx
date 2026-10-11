@@ -44,7 +44,7 @@ import {
   Search,
   RefreshCw,
 } from 'lucide-react';
-import { FlashSaleCountdown } from '../../../../components/home/FlashSaleCountdown';
+import { FlashSaleCountdown } from '../../../../components/flash-sale';
 
 function formatVNRange(start?: string, end?: string) {
   if (!start || !end) return 'Chưa có khung giờ';
@@ -1948,8 +1948,8 @@ export default function AdminFlashSaleDetailPage() {
                       </span>
                       {simulatedTimeMs <= new Date(campaign.slots[campaign.slots.length - 1].end).getTime() && (
                         <FlashSaleCountdown
-                          status={simulatedTimeMs < new Date(campaign.slots[0].start).getTime() ? 'upcoming' : 'live'}
-                          targetTime={
+                          status={simulatedTimeMs < new Date(campaign.slots[0].start).getTime() ? 'UPCOMING' : 'ACTIVE'}
+                          targetIso={
                             simulatedTimeMs < new Date(campaign.slots[0].start).getTime()
                               ? campaign.slots[0].start
                               : campaign.slots.find((s) => simulatedTimeMs >= new Date(s.start).getTime() && simulatedTimeMs <= new Date(s.end).getTime())?.end || campaign.slots[0].end

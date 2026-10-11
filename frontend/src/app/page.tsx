@@ -8,7 +8,17 @@ import { WatchAudioShowcase } from '../components/home/WatchAudioShowcase';
 import { Experience5T } from '../components/navigation/Experience5T';
 import { AiChatbox } from '../components/chat/AiChatbox';
 
-export default function HomePage() {
+interface HomePageProps {
+  searchParams?: {
+    tab?: string;
+    brand?: string;
+    need?: string;
+    laptopTab?: string;
+    laptopBrand?: string;
+  };
+}
+
+export default function HomePage({ searchParams }: HomePageProps) {
   return (
     <main style={{ minHeight: '100vh', background: '#f4f6f8', paddingBottom: '16px' }}>
       {/* 1. Dynamic Hero Banner Slider (kết nối API Backend) */}
@@ -24,10 +34,10 @@ export default function HomePage() {
       <AccessoryShowcase />
 
       {/* 5. Khung chuyên mục Laptop / Màn hình / PC (CellphoneS Style) */}
-      <LaptopShowcase />
+      <LaptopShowcase searchParams={searchParams} />
 
       {/* 6. Khung chuyên mục Đồng hồ / Âm thanh (CellphoneS Style) */}
-      <WatchAudioShowcase />
+      <WatchAudioShowcase searchParams={searchParams} />
 
       {/* 7. Khung Trải nghiệm mua sắm 5T */}
       <Experience5T />

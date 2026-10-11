@@ -99,7 +99,7 @@ public class CheckoutServiceImpl implements CheckoutService {
         if (customer != null) {
             String tier = "S-NULL";
             if (customer.getLoyaltyPoints() != null && customer.getLoyaltyPoints() > 500) {
-                tier = "S-Student";
+                tier = "T-Student";
             }
 
             customerInfo = CheckoutPreviewDto.CustomerInfo.builder()

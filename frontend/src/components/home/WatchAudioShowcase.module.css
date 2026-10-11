@@ -491,3 +491,170 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+/* =======================================================
+   PRODUCTION ENHANCEMENTS: ACCESSIBILITY, SKELETON, ERROR & EMPTY STATES
+   (Added classes strictly at the bottom without modifying existing classes)
+======================================================= */
+
+/* Card semantic link wrapper */
+.cardMainLink {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  flex: 1;
+}
+
+/* Smooth transition wrapper */
+.gridWrapper {
+  width: 100%;
+  transition: opacity 0.2s ease;
+}
+
+.pendingTransition {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Accessibility: Focus visible rings (WCAG AA compliance) */
+.tabBtn:focus-visible,
+.brandChip:focus-visible,
+.featurePill:focus-visible,
+.favBtn:focus-visible,
+.cardMainLink:focus-visible,
+.posterCard:focus-visible,
+.retryBtn:focus-visible,
+.resetBtn:focus-visible {
+  outline: 2px solid #d70018 !important;
+  outline-offset: 2px;
+}
+
+/* Skeleton Loading (Zero Layout Shift / CLS) */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeletonShimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e6e6e6 37%, #f0f0f0 63%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 6px;
+}
+
+.skeletonCard {
+  pointer-events: none;
+  border-color: #f3f4f6;
+  min-height: 330px;
+}
+
+.skeletonTab {
+  width: 90px;
+  height: 28px;
+  border-radius: 4px;
+}
+
+.skeletonChip {
+  width: 64px;
+  height: 26px;
+  border-radius: 14px;
+}
+
+.skeletonBadge {
+  height: 16px;
+  width: 60px;
+  border-radius: 4px;
+}
+
+.skeletonTextLine {
+  height: 13px;
+  margin-bottom: 6px;
+}
+
+.skeletonPrice {
+  height: 18px;
+  width: 50%;
+  margin-bottom: 12px;
+}
+
+/* Error State */
+.errorBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 20px;
+  background: #fff5f5;
+  border: 1px solid #fed7d7;
+  border-radius: 12px;
+  text-align: center;
+  gap: 12px;
+}
+
+.errorText {
+  color: #c53030;
+  font-size: 14px;
+  font-weight: 500;
+  max-width: 400px;
+  margin: 0;
+}
+
+.retryBtn {
+  background: #d70018;
+  color: #ffffff;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.retryBtn:hover {
+  background: #b90015;
+}
+
+/* Empty State */
+.emptyBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 20px;
+  background: #f9fafb;
+  border: 1px dashed #d1d5db;
+  border-radius: 12px;
+  text-align: center;
+  gap: 12px;
+}
+
+.emptyText {
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.resetBtn {
+  background: #ffffff;
+  color: #374151;
+  border: 1px solid #d1d5db;
+  padding: 7px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.resetBtn:hover {
+  background: #f3f4f6;
+  border-color: #9ca3af;
+}
+

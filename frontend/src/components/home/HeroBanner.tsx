@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { Banner } from '../../types/banner';
 import styles from './HeroBanner.module.css';
+import { API_BASE_URL } from '@/lib/env';
 
 const DEFAULT_BANNERS: Banner[] = [
   {
@@ -57,8 +58,7 @@ export const HeroBanner: React.FC = () => {
   useEffect(() => {
     const fetchBanners = async () => {
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1';
-        const res = await fetch(`${apiUrl}/banners`, { cache: 'no-store' });
+        const res = await fetch(`${API_BASE_URL}/banners`, { cache: 'no-store' });
         if (res.ok) {
           const data = await res.json();
           if (Array.isArray(data) && data.length > 0) {

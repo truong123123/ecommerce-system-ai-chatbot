@@ -330,7 +330,7 @@ export default function CheckoutClient() {
     // Validate Receive Type Specifics
     if (receiveType === 'STORE_PICKUP') {
       if (!selectedStoreId) {
-        setErrorMsg('Vui lòng chọn cửa hàng CellphoneS bạn muốn đến nhận máy.');
+        setErrorMsg('Vui lòng chọn cửa hàng TruongNgStore bạn muốn đến nhận máy.');
         return;
       }
     } else {
@@ -454,7 +454,7 @@ export default function CheckoutClient() {
       <div className={styles.checkoutPage}>
         <div className={styles.container} style={{ textAlign: 'center', padding: '120px 20px' }}>
           <Loader2 size={40} className="animate-spin" color="#d70018" style={{ margin: '0 auto 16px' }} />
-          <p style={{ color: '#4b5563', fontWeight: 600 }}>Đang chuẩn bị thông tin thanh toán CellphoneS...</p>
+          <p style={{ color: '#4b5563', fontWeight: 600 }}>Đang chuẩn bị thông tin thanh toán TruongNgStore...</p>
         </div>
       </div>
     );
@@ -568,7 +568,7 @@ export default function CheckoutClient() {
                     <div className={styles.customerHeader}>
                       <span className={styles.customerName}>Anh/Chị {customerName}</span>
                       <span className={`${styles.badgeSmember} ${styles.badgeNull}`}>S-NULL</span>
-                      <span className={`${styles.badgeSmember} ${styles.badgeStudent}`}>S-Student</span>
+                      <span className={`${styles.badgeSmember} ${styles.badgeStudent}`}>T-Student</span>
                     </div>
                     <div className={styles.customerPhone}>Số điện thoại: {customerPhone}</div>
                     <div className={styles.customerEmailNote}>
@@ -653,7 +653,7 @@ export default function CheckoutClient() {
                 <div>
                   <div className={styles.storeNotice}>
                     <ShieldCheck size={16} />
-                    <span>CellphoneS sẽ giữ sản phẩm và ưu đãi trong vòng 24 giờ kể từ thời điểm đặt hàng.</span>
+                    <span>TruongNgStore sẽ giữ sản phẩm và ưu đãi trong vòng 24 giờ kể từ thời điểm đặt hàng.</span>
                   </div>
 
                   <div className={styles.filterRow}>
@@ -1076,7 +1076,7 @@ export default function CheckoutClient() {
             <div className={styles.card}>
               <div className={styles.cardHeader}>
                 <h3 className={styles.cardTitle} style={{ fontSize: '14px' }}>
-                  Điều khoản sử dụng của CellphoneS
+                  Điều khoản sử dụng của TruongNgStore
                 </h3>
               </div>
               <ul className={styles.termsList}>
@@ -1093,7 +1093,7 @@ export default function CheckoutClient() {
                   <QrCode size={52} color="#1f2937" />
                 </div>
                 <div className={styles.appText}>
-                  <div className={styles.appTitle}>Tải ứng dụng Smember</div>
+                  <div className={styles.appTitle}>Tải ứng dụng Tmember</div>
                   <div className={styles.appDesc}>
                     Quét mã để tải ứng dụng, tích lũy điểm thưởng chi tiêu và nhận nhiều ưu đãi độc quyền.
                   </div>
@@ -1109,7 +1109,7 @@ export default function CheckoutClient() {
         <div className={styles.modalOverlay} onClick={() => setIsCouponModalOpen(false)}>
           <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
             <div className={styles.modalHeader}>
-              <h3 className={styles.modalTitle}>Chọn mã giảm giá CellphoneS</h3>
+              <h3 className={styles.modalTitle}>Chọn mã giảm giá TruongNgStore</h3>
               <button
                 type="button"
                 className={styles.modalCloseBtn}

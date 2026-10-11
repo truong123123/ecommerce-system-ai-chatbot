@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
+import { API_BASE_URL } from '@/lib/env';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
-    const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1';
-    const res = await fetch(`${backendUrl}/flash-sales/active`, {
+    const res = await fetch(`${API_BASE_URL}/flash-sales/active`, {
       cache: 'no-store',
       headers: {
         'Cache-Control': 'no-cache',

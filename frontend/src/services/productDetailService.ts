@@ -14,8 +14,7 @@ import {
   ProductConfigOption,
   ProductReviewItem
 } from '../types/productDetail';
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1';
+import { API_BASE_URL } from '@/lib/env';
 
 // Mapping friendly Vietnamese labels for technical specification keys
 const SPEC_KEY_LABELS: Record<string, string> = {
@@ -285,10 +284,11 @@ function mapBackendToFullDetail(data: any): FullProductDetail {
   }));
 
   const studentTier = membershipDiscounts.find((m) => m.code.toLowerCase().includes('student'));
-  const smemberTier = membershipDiscounts.find((m) => m.code.toLowerCase().includes('smember'));
+  const tmemberTier = membershipDiscounts.find((m) => m.code.toLowerCase().includes('tmember') || m.code.toLowerCase().includes('smember'));
   const membership = {
     studentDiscount: studentTier ? studentTier.discountAmount : 0,
-    smemberDiscount: smemberTier ? smemberTier.discountAmount : 0
+    tmemberDiscount: tmemberTier ? tmemberTier.discountAmount : 0,
+    smemberDiscount: tmemberTier ? tmemberTier.discountAmount : 0
   };
 
   // 14. Promotions directly from promotions table

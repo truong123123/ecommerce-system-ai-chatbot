@@ -40,7 +40,8 @@ const INITIAL_PRODUCTS: ShowcaseProduct[] = [
     price: 41990000,
     oldPrice: 45990000,
     discountPercent: 9,
-    smemberDiscount: 'Smember giảm đến 420.000đ',
+    tmemberDiscount: 'Tmember giảm đến 420.000đ',
+    smemberDiscount: 'Tmember giảm đến 420.000đ',
     installmentNote: 'Trả góp 0% - 0đ phụ phí - 0đ trả trước - kỳ hạn đến 12 tháng',
     hasZeroInstallment: true,
     isFastDelivery: true,
@@ -57,7 +58,8 @@ const INITIAL_PRODUCTS: ShowcaseProduct[] = [
     status: 'coming_soon',
     statusCustomText: 'Sắp về hàng',
     price: 64990000,
-    smemberDiscount: 'Smember giảm đến 650.000đ',
+    tmemberDiscount: 'Tmember giảm đến 650.000đ',
+    smemberDiscount: 'Tmember giảm đến 650.000đ',
     installmentNote: 'Trả góp 0% - 0đ phụ phí - 0đ trả trước - kỳ hạn đến 12 tháng',
     hasZeroInstallment: true,
     isFastDelivery: false,
@@ -76,7 +78,8 @@ const INITIAL_PRODUCTS: ShowcaseProduct[] = [
     price: 38490000,
     oldPrice: 41490000,
     discountPercent: 7,
-    smemberDiscount: 'Smember giảm đến 385.000đ',
+    tmemberDiscount: 'Tmember giảm đến 385.000đ',
+    smemberDiscount: 'Tmember giảm đến 385.000đ',
     installmentNote: 'Trả góp 0% - 0đ phụ phí - 0đ trả trước - kỳ hạn đến 12 tháng',
     hasZeroInstallment: true,
     isFastDelivery: true,
@@ -94,7 +97,8 @@ const INITIAL_PRODUCTS: ShowcaseProduct[] = [
     price: 31990000,
     oldPrice: 34990000,
     discountPercent: 9,
-    smemberDiscount: 'Smember giảm đến 320.000đ',
+    tmemberDiscount: 'Tmember giảm đến 320.000đ',
+    smemberDiscount: 'Tmember giảm đến 320.000đ',
     installmentNote: 'Trả góp 0% - 0đ phụ phí - 0đ trả trước - kỳ hạn đến 12 tháng',
     hasZeroInstallment: true,
     isFastDelivery: true,
@@ -112,8 +116,9 @@ const INITIAL_PRODUCTS: ShowcaseProduct[] = [
     price: 14540000,
     oldPrice: 15990000,
     discountPercent: 9,
-    smemberDiscount: 'Smember giảm đến 145.000đ',
-    studentDiscount: 'S-Student giảm thêm 300.000đ',
+    tmemberDiscount: 'Tmember giảm đến 145.000đ',
+    smemberDiscount: 'Tmember giảm đến 145.000đ',
+    studentDiscount: 'T-Student giảm thêm 300.000đ',
     installmentNote: 'Trả góp 0% - 0đ phụ phí - 0đ trả trước - kỳ hạn đến 12 tháng',
     hasZeroInstallment: true,
     isFastDelivery: false,
@@ -132,8 +137,9 @@ const INITIAL_PRODUCTS: ShowcaseProduct[] = [
     price: 24290000,
     oldPrice: 29990000,
     discountPercent: 19,
-    smemberDiscount: 'Smember giảm đến 243.000đ',
-    studentDiscount: 'S-Student giảm thêm 500.000đ',
+    tmemberDiscount: 'Tmember giảm đến 243.000đ',
+    smemberDiscount: 'Tmember giảm đến 243.000đ',
+    studentDiscount: 'T-Student giảm thêm 500.000đ',
     installmentNote: 'Trả góp 0% - 0đ phụ phí - 0đ trả trước - kỳ hạn đến 12 tháng',
     hasZeroInstallment: true,
     isFastDelivery: false,
@@ -151,7 +157,8 @@ const INITIAL_PRODUCTS: ShowcaseProduct[] = [
     price: 22990000,
     oldPrice: 31990000,
     discountPercent: 28,
-    smemberDiscount: 'Smember giảm đến 230.000đ',
+    tmemberDiscount: 'Tmember giảm đến 230.000đ',
+    smemberDiscount: 'Tmember giảm đến 230.000đ',
     installmentNote: 'Trả góp 0% - 0đ phụ phí - 0đ trả trước - kỳ hạn đến 12 tháng',
     hasZeroInstallment: true,
     isFastDelivery: true,
@@ -169,8 +176,9 @@ const INITIAL_PRODUCTS: ShowcaseProduct[] = [
     price: 13990000,
     oldPrice: 16990000,
     discountPercent: 18,
-    smemberDiscount: 'Smember giảm đến 140.000đ',
-    studentDiscount: 'S-Student giảm thêm 300.000đ',
+    tmemberDiscount: 'Tmember giảm đến 140.000đ',
+    smemberDiscount: 'Tmember giảm đến 140.000đ',
+    studentDiscount: 'T-Student giảm thêm 300.000đ',
     installmentNote: 'Trả góp 0% - 0đ phụ phí - 0đ trả trước - kỳ hạn đến 12 tháng',
     hasZeroInstallment: true,
     isFastDelivery: true,
@@ -415,14 +423,14 @@ export const CategoryShowcase: React.FC = () => {
                       )}
                     </div>
 
-                    {/* Smember Discount Box */}
-                    {product.smemberDiscount && (
+                    {/* Tmember Discount Box */}
+                    {(product.tmemberDiscount || product.smemberDiscount) && (
                       <div className={styles.smemberBox}>
-                        {product.smemberDiscount}
+                        {product.tmemberDiscount || product.smemberDiscount}
                       </div>
                     )}
 
-                    {/* S-Student Box */}
+                    {/* T-Student Box */}
                     {product.studentDiscount && (
                       <div className={styles.studentBox}>
                         {product.studentDiscount}

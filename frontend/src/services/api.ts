@@ -1,6 +1,5 @@
 import axios from 'axios';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1';
+import { API_BASE_URL } from '@/lib/env';
 
 export interface ApiErrorResponse {
   status?: number;
@@ -14,7 +13,7 @@ export function getAuthToken(): string | null {
 }
 
 export const apiClient = axios.create({
-  baseURL: API_URL,
+  baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },

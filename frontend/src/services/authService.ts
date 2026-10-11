@@ -6,9 +6,9 @@ export interface UserSession {
   token: string;
 }
 
+import { API_BASE_URL } from '@/lib/env';
 const USER_SESSION_KEY = 'store_auth_user';
 const TOKEN_KEY = 'auth_token';
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1';
 
 export const authService = {
   // Lấy thông tin user hiện tại

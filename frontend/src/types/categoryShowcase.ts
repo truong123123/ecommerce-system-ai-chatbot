@@ -33,6 +33,7 @@ export interface ShowcaseProduct {
   hasZeroInstallment?: boolean;
   status: ProductStatusType;
   statusCustomText?: string;
+  tmemberDiscount?: string;
   smemberDiscount?: string;
   studentDiscount?: string;
   installmentNote?: string;

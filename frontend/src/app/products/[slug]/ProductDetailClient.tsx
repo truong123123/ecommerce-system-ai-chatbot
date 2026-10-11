@@ -228,7 +228,7 @@ export const ProductDetailClient: React.FC<ProductDetailClientProps> = ({ initia
               discountPercent={product.discountPercent}
               monthlyInstallment={monthlyInstallment}
               studentDiscount={product.membership.studentDiscount}
-              smemberDiscount={product.membership.smemberDiscount}
+              tmemberDiscount={product.membership.tmemberDiscount ?? product.membership.smemberDiscount}
             />
 
             {/* Variant / Color & Config selectors */}

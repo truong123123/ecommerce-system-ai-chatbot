@@ -510,3 +510,37 @@
   50% { opacity: 1; }
   100% { opacity: 0.6; }
 }
+
+/* ================= Error State Wrapper ================= */
+.errorWrapper {
+  margin: 32px 0;
+  width: 100%;
+}
+
+.filterPending {
+  opacity: 0.7;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.pageBtnDisabled {
+  color: #d1d5db !important;
+  border-color: #f3f4f6 !important;
+  cursor: not-allowed !important;
+  pointer-events: none;
+  background: #f9fafb !important;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+

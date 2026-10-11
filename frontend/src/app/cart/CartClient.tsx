@@ -130,7 +130,7 @@ export default function CartClient() {
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span style={{ fontSize: '16px' }}>💡</span>
               <span>
-                Bạn đang thao tác dưới tư cách <strong>Khách</strong>. Đăng nhập để đồng bộ giỏ hàng và nhận ưu đãi độc quyền thành viên Smember!
+                Bạn đang thao tác dưới tư cách <strong>Khách</strong>. Đăng nhập để đồng bộ giỏ hàng và nhận ưu đãi độc quyền thành viên Tmember!
               </span>
             </div>
             <Link
@@ -233,7 +233,7 @@ export default function CartClient() {
                       <div className={styles.giftBanner}>
                         <span className={styles.giftTag}>QUÀ TẶNG GIỚI HẠN</span>
                         <span className={styles.giftTitle}>
-                          🎁 Tặng Bàn chải điện phiên bản CellphoneS | Số lượng: 1
+                          🎁 Tặng Bàn chải điện phiên bản TruongNgStore | Số lượng: 1
                         </span>
                       </div>
                     )}
@@ -269,7 +269,7 @@ export default function CartClient() {
                               Đã giảm {formatPrice(item.discountAmount)}
                             </span>
                           )}
-                          <span className={styles.studentBadge}>S-Student</span>
+                          <span className={styles.studentBadge}>T-Student</span>
                         </div>
 
                         {/* Nếu hết hàng */}
@@ -533,7 +533,7 @@ export default function CartClient() {
 
                   {selectedCount > 0 && (
                     <div className={styles.summaryRow}>
-                      <span>Giảm giá S-Student</span>
+                      <span>Giảm giá T-Student</span>
                       <span className={styles.discountValue}>- 500.000đ</span>
                     </div>
                   )}
@@ -572,16 +572,16 @@ export default function CartClient() {
                   </span>
                 </button>
 
-                {/* QR Code Khuyến mãi ứng dụng CellphoneS */}
+                {/* QR Code Khuyến mãi ứng dụng TruongNgStore */}
                 <div className={styles.qrCard}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://cellphones.com.vn"
-                    alt="CellphoneS App QR"
+                    src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://truongngstore.vn"
+                    alt="TruongNgStore App QR"
                     className={styles.qrImage}
                   />
                   <div className={styles.qrText}>
-                    Đăng nhập qua ứng dụng CellphoneS để tận hưởng thêm nhiều ưu đãi độc quyền.
+                    Đăng nhập qua ứng dụng TruongNgStore để tận hưởng thêm nhiều ưu đãi độc quyền.
                   </div>
                 </div>
               </div>

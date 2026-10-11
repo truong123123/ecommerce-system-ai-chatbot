@@ -1,0 +1,132 @@
+/* =======================================================
+   SHARED COMMON COMPONENT STYLES
+   Error states, skeletons, and shimmer animations.
+======================================================= */
+
+/* 1. Shimmer keyframe animation */
+@keyframes commonShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e6e6e6 37%, #f0f0f0 63%);
+  background-size: 200% 100%;
+  animation: commonShimmer 1.5s infinite;
+  border-radius: 6px;
+}
+
+/* 2. ProductCard Skeleton */
+.cardSkeleton {
+  background: #ffffff;
+  border: 1px solid #f0f0f0;
+  border-radius: 12px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-height: 330px;
+  pointer-events: none;
+}
+
+.badgeSkeleton {
+  height: 18px;
+  width: 60px;
+  margin-bottom: 8px;
+}
+
+.imageSkeleton {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  margin-bottom: 8px;
+  border-radius: 8px;
+}
+
+.titleSkeletonLine {
+  height: 14px;
+  width: 90%;
+  margin-bottom: 6px;
+}
+
+.titleSkeletonSubline {
+  height: 14px;
+  width: 65%;
+  margin-bottom: 12px;
+}
+
+.priceSkeleton {
+  height: 18px;
+  width: 50%;
+  margin-bottom: 12px;
+}
+
+.footerSkeleton {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #f3f4f6;
+  padding-top: 8px;
+}
+
+.pillSkeleton {
+  height: 14px;
+  width: 45px;
+}
+
+/* 3. ErrorState Box */
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  background: #fff5f5;
+  border: 1px solid #fed7d7;
+  border-radius: 14px;
+  text-align: center;
+  gap: 12px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.errorIcon {
+  color: #d70018;
+}
+
+.errorMessage {
+  color: #c53030;
+  font-size: 14px;
+  font-weight: 500;
+  max-width: 440px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.retryButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #d70018;
+  color: #ffffff;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.retryButton:hover {
+  background: #b90015;
+}
+
+.retryButton:focus-visible {
+  outline: 2px solid #d70018;
+  outline-offset: 2px;
+}
