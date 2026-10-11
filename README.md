@@ -214,69 +214,60 @@ npm run dev
 
 ## Database Setup & Migrations
 
-> [!NOTE]
-> Các bản migration `V1` và `V2` không nằm dưới dạng file riêng lẻ trong repo do cấu trúc schema nền tảng ban đầu đã được đóng gói trực tiếp vào cơ sở dữ liệu gốc. Flyway được thiết lập `baseline-version: 6` để nhận diện toàn bộ các bảng từ V1 đến V6.
+> [!IMPORTANT]
+> **Cơ sở dữ liệu phát triển (`store_dev`)**:
+> Tuyệt đối KHÔNG chạy backend mới trên cơ sở dữ liệu cũ `LNT_Doantotnghiep` (vốn có lịch sử Flyway cũ V3-V9). Môi trường phát triển chuẩn sử dụng database sạch `store_dev`.
+> Khi backend khởi động, Flyway sẽ tự động thực thi:
+> - `V1__baseline_schema.sql`: Khởi tạo toàn bộ bảng, quan hệ, kiểu ENUM và schema chuẩn.
+> - `V2__hash_legacy_passwords.sql`: Băm bảo mật mật khẩu legacy plaintext sang BCrypt và khóa tài khoản guest.
 
-### 1. Khởi tạo Database mới (PostgreSQL 15 - 18)
+### 1. Khởi tạo Database mới (`store_dev`)
 Tạo cơ sở dữ liệu trên PostgreSQL server:
 ```bash
 # Sử dụng psql:
-psql -U postgres -c "CREATE DATABASE \"LNT_Doantotnghiep\";"
+psql -U postgres -c "CREATE DATABASE store_dev;"
 ```
 
-### 2. Dựng Schema nền tảng (**Chọn một trong hai cách**):
+### 2. Chạy Backend để Flyway tự động tạo Schema
+Khi khởi chạy backend với profile `dev` hoặc cấu hình trỏ tới `store_dev`, Flyway sẽ tự động tạo bảng:
+```bash
+cd backend
+./mvnw spring-boot:run
+```
 
-- **Cách 1: Khôi phục từ file Dump nhị phân (Custom format)**
-  *Lưu ý: Định dạng Dump nhị phân bắt buộc phải sử dụng `pg_restore`, không dùng được qua `psql`.*
+### 3. Nạp dữ liệu cấu hình ban đầu (`db/seed/reference_data.sql`)
+Sau khi Flyway đã tạo xong schema, chạy script nạp dữ liệu danh mục, thương hiệu và cấu hình ban đầu:
+- **Trên Windows (PowerShell)**:
+  ```powershell
+  .\scripts\seed-dev.ps1
+  ```
+- **Trên Linux / macOS (Bash)**:
   ```bash
-  pg_restore -U postgres -d LNT_Doantotnghiep -v backup/database_init.dump
+  ./scripts/seed-dev.sh
+  ```
+- **Hoặc nạp trực tiếp bằng psql**:
+  ```bash
+  psql -U postgres -d store_dev -f db/seed/reference_data.sql
   ```
 
-- **Cách 2: Khôi phục từ file Schema SQL**
-  ```bash
-  psql -U postgres -d LNT_Doantotnghiep -f backup/database_schema_init.sql
-  ```
+### 4. Kiểm thử tích hợp với Testcontainers
+Các test tích hợp cơ sở dữ liệu (`FlywayAndLegacyPasswordMigrationTest` và `ReviewConcurrencyIntegrationTest`):
+- Sử dụng **Testcontainers** với image `postgres:16-alpine` độc lập và cấu hình `@Testcontainers(disabledWithoutDocker = true)`.
+- **Khi Docker Desktop / Docker daemon đang chạy**: Testcontainers sẽ tự động khởi tạo container PostgreSQL cô lập, kiểm thử migration Flyway và đồng thời kiểm tra tính tương tranh, sau đó giải phóng container.
+- **Khi Docker daemon không chạy**: Test suite sẽ tự động bỏ qua (skip) các test này mà không làm gián đoạn hoặc thất bại quá trình build (`./mvnw test`).
 
-### 3. Cấu hình biến môi trường (`.env`)
+### 5. Cấu hình biến môi trường (`.env`)
 Sao chép `.env.example` thành `.env` và cung cấp thông tin kết nối thực tế:
 ```bash
 cp .env.example .env
 ```
-Thiết lập mật khẩu trong môi trường của bạn:
+Cấu hình mẫu cho môi trường phát triển:
 ```properties
-SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/LNT_Doantotnghiep
+SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/store_dev
 SPRING_DATASOURCE_USERNAME=postgres
 SPRING_DATASOURCE_PASSWORD=your_db_password
 SPRING_JPA_SHOW_SQL=false
 ```
-
-### 4. Cơ chế Flyway & Hibernate Validation
-Trong `application.yml`, cấu hình kích hoạt kiểm tra tính toàn vẹn:
-```yaml
-spring:
-  datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/LNT_Doantotnghiep}
-    username: ${SPRING_DATASOURCE_USERNAME:postgres}
-    password: ${SPRING_DATASOURCE_PASSWORD}
-  jpa:
-    hibernate:
-      ddl-auto: validate   # Xác thực schema khớp 100% với JPA Entities
-    show-sql: ${SPRING_JPA_SHOW_SQL:false}
-  flyway:
-    enabled: true
-    locations: classpath:db/migration
-    baseline-on-migrate: true
-    baseline-version: 6    # Coi cấu trúc khởi tạo qua V6 là baseline
-    baseline-description: "Base schema through V6"
-```
-
-### 5. Danh sách các bản Migration (`backend/src/main/resources/db/migration/`)
-- `V3__checkout_complete.sql`: Cập nhật giỏ hàng, thông tin thanh toán, voucher và địa chỉ giao hàng.
-- `V4__flash_sale_cellphones_upgrade.sql`: Nâng cấp hệ thống khung giờ flash sale và quota.
-- `V5__admin_flash_sale_pro.sql`: Bổ sung tính năng quản trị flash sale.
-- `V6__modules_11_to_17_enhancements.sql`: Bổ sung danh sách yêu thích (Wishlist) và các trường mở rộng.
-- `V7__upgrade_product_reviews.sql`: Nâng cấp Product Review gắn với `order_item_id`, kiểm tra đơn hoàn thành (`completed`), chuẩn hóa trạng thái `ReviewStatus` (UPPERCASE) và chống spam review.
-*(Các script rollback độc lập được lưu trữ an toàn tại `backend/src/main/resources/db/rollback/`).*
 
 ---
 
