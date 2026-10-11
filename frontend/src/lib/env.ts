@@ -8,10 +8,15 @@ export function validateApiBaseUrl(env: {
   NODE_ENV?: string;
   NEXT_PUBLIC_API_URL?: string;
   API_BASE_URL?: string;
+  BACKEND_INTERNAL_URL?: string;
   ALLOW_LOCAL_API?: string;
 } = process.env): string {
   const nodeEnv = env.NODE_ENV || 'development';
-  const envUrl = env.NEXT_PUBLIC_API_URL || env.API_BASE_URL;
+  const isServer = typeof window === 'undefined';
+  const internalUrl = env.BACKEND_INTERNAL_URL || (env === process.env ? process.env.BACKEND_INTERNAL_URL : undefined);
+  const envUrl = (isServer && internalUrl)
+    ? internalUrl
+    : (env.NEXT_PUBLIC_API_URL || env.API_BASE_URL);
 
   if (nodeEnv === 'production') {
     if (!envUrl) {

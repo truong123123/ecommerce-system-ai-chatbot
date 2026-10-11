@@ -78,9 +78,6 @@ async function WatchAudioShowcaseData({ searchParams }: WatchAudioShowcaseProps)
       <div style={{ maxWidth: 1240, margin: '32px auto', padding: '0 16px' }}>
         <ErrorState
           message="Không thể kết nối máy chủ để tải sản phẩm. Vui lòng thử lại sau."
-          onRetry={() => {
-            if (typeof window !== 'undefined') window.location.reload();
-          }}
         />
       </div>
     );

@@ -37,7 +37,7 @@ import {
 
 export default function CheckoutClient() {
   const router = useRouter();
-  const { cartData, selectedVariantIds, clearCart } = useCartStore();
+  const { cartData, selectedVariantIds, clearCart, fetchCart } = useCartStore();
 
   // Loading & Error States
   const [isLoadingPreview, setIsLoadingPreview] = useState(true);
@@ -114,9 +114,16 @@ export default function CheckoutClient() {
       setErrorMsg(null);
 
       try {
+        let currentCart = cartData;
+        if (!currentCart) {
+          await fetchCart();
+          currentCart = useCartStore.getState().cartData;
+        }
+
+        const currentSelected = useCartStore.getState().selectedVariantIds;
         // Resolve item IDs from Cart
-        const itemsToCheckout = (cartData?.items || []).filter(
-          (item) => (selectedVariantIds.length === 0 || selectedVariantIds.includes(item.variantId)) && item.inStock
+        const itemsToCheckout = (currentCart?.items || []).filter(
+          (item) => (currentSelected.length === 0 || currentSelected.includes(item.variantId)) && item.inStock
         );
 
         if (itemsToCheckout.length === 0) {

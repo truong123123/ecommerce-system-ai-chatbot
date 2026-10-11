@@ -5,7 +5,7 @@ import styles from '../WatchAudioShowcase.module.css';
 
 interface ErrorStateProps {
   message?: string;
-  onRetry: () => void;
+  onRetry?: () => void;
 }
 
 export const ErrorState: React.FC<ErrorStateProps> = ({
@@ -30,9 +30,11 @@ export const ErrorState: React.FC<ErrorStateProps> = ({
         <line x1="12" y1="16" x2="12.01" y2="16" />
       </svg>
       <p className={styles.errorText}>{message}</p>
-      <button type="button" className={styles.retryBtn} onClick={onRetry}>
-        Thử lại
-      </button>
+      {onRetry && (
+        <button type="button" className={styles.retryBtn} onClick={onRetry}>
+          Thử lại
+        </button>
+      )}
     </div>
   );
 };
