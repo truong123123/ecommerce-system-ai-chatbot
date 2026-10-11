@@ -82,8 +82,12 @@ public class CustomerAccountServiceImpl implements CustomerAccountService {
     public void changePassword(String email, ChangePasswordRequest request) {
         Customer customer = getCustomerByEmail(email);
 
-        boolean matches = passwordEncoder.matches(request.getCurrentPassword(), customer.getPasswordHash())
-                || request.getCurrentPassword().equals(customer.getPasswordHash());
+        String storedHash = customer.getPasswordHash();
+        if (storedHash == null || storedHash.isBlank() || storedHash.startsWith("!") || "GUEST_NO_PASSWORD".equals(storedHash)) {
+            throw new IllegalArgumentException("Mật khẩu hiện tại không chính xác.");
+        }
+
+        boolean matches = passwordEncoder.matches(request.getCurrentPassword(), storedHash);
 
         if (!matches) {
             throw new IllegalArgumentException("Mật khẩu hiện tại không chính xác.");

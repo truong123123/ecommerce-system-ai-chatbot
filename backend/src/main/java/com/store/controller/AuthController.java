@@ -44,9 +44,13 @@ public class AuthController {
                         .body(Map.of("message", "Tài khoản nhân viên đã bị khóa"));
             }
 
-            // Kiểm tra mật khẩu (hỗ trợ cả mật khẩu BCrypt mã hóa chuẩn và mật khẩu dev ban đầu nếu có)
-            boolean isPasswordMatch = passwordEncoder.matches(rawPassword, staff.getPasswordHash())
-                    || rawPassword.equals(staff.getPasswordHash());
+            String staffHash = staff.getPasswordHash();
+            if (staffHash == null || staffHash.isBlank() || staffHash.startsWith("!")) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(Map.of("message", "Email hoặc mật khẩu không chính xác"));
+            }
+
+            boolean isPasswordMatch = passwordEncoder.matches(rawPassword, staffHash);
 
             if (isPasswordMatch) {
                 // Cập nhật thời điểm đăng nhập gần nhất
@@ -82,8 +86,13 @@ public class AuthController {
                         .body(Map.of("message", "Tài khoản khách hàng đã bị tạm khóa"));
             }
 
-            boolean isPasswordMatch = passwordEncoder.matches(rawPassword, customer.getPasswordHash())
-                    || rawPassword.equals(customer.getPasswordHash());
+            String customerHash = customer.getPasswordHash();
+            if (customerHash == null || customerHash.isBlank() || customerHash.startsWith("!") || "GUEST_NO_PASSWORD".equals(customerHash)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(Map.of("message", "Email hoặc mật khẩu không chính xác"));
+            }
+
+            boolean isPasswordMatch = passwordEncoder.matches(rawPassword, customerHash);
 
             if (isPasswordMatch) {
                 String token = jwtTokenProvider.generateToken(customer.getEmail(), "customer", customer.getFullName());
