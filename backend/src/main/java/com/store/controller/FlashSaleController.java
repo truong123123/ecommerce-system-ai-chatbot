@@ -123,8 +123,13 @@ public class FlashSaleController {
      * POST /api/v1/flash-sale/checkout hoặc /api/v1/flash-sales/checkout
      */
     @PostMapping("/checkout")
-    public ResponseEntity<com.store.dto.flashsale.FlashSaleCheckoutResponse> checkout(
+    public ResponseEntity<?> checkout(
             @RequestBody @jakarta.validation.Valid com.store.dto.flashsale.FlashSaleCheckoutRequest request) {
+        Long customerId = resolveCurrentCustomerId();
+        if (customerId == null) {
+            return ResponseEntity.status(org.springframework.http.HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("message", "Vui lòng đăng nhập để thanh toán đơn hàng Flash Sale."));
+        }
         com.store.dto.flashsale.FlashSaleCheckoutResponse response = flashSaleService.checkoutSlotProduct(request);
         if ("SUCCESS".equals(response.getCode())) {
             return ResponseEntity.ok(response);

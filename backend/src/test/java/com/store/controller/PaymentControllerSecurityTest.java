@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
@@ -171,6 +172,7 @@ class PaymentControllerSecurityTest {
     }
 
     @Test
+    @WithMockUser(username = "customer@store.com", roles = {"CUSTOMER"})
     @DisplayName("BƯỚC 6: Client truyền số tiền giả mạo (tampered amount) bị bỏ qua, hệ thống lấy amount thật từ DB")
     void createVNPayPayment_clientTamperedAmount_usesServerSideAmountFromDb() throws Exception {
         String orderCode = "ORD-REAL-123";
@@ -203,6 +205,7 @@ class PaymentControllerSecurityTest {
     }
 
     @Test
+    @WithMockUser(username = "customer@store.com", roles = {"CUSTOMER"})
     @DisplayName("BƯỚC 6: Tạo thanh toán cho đơn hàng không tồn tại trong DB trả về 404 Not Found")
     void createVNPayPayment_unknownOrder_returns404() throws Exception {
         when(orderRepository.findByOrderCode("ORD-NON-EXISTENT")).thenReturn(Optional.empty());

@@ -43,6 +43,10 @@ public class CheckoutController {
             @RequestParam(value = "quantities", required = false) String quantitiesStr
     ) {
         Customer customer = resolveCurrentCustomer();
+        if (customer == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("message", "Vui lòng đăng nhập để xem trước thông tin đặt hàng."));
+        }
 
         try {
             List<Long> variantIds = Arrays.stream(variantIdsStr.split(","))
@@ -85,25 +89,9 @@ public class CheckoutController {
             HttpServletRequest httpServletRequest
     ) {
         Customer customer = resolveCurrentCustomer();
-        if (customer == null && request.getCustomerEmail() != null && !request.getCustomerEmail().trim().isEmpty()) {
-            final String email = request.getCustomerEmail().trim().toLowerCase();
-            customer = customerRepository.findByEmailIgnoreCase(email)
-                    .orElseGet(() -> {
-                        Customer guest = Customer.builder()
-                                .fullName(request.getCustomerName() != null ? request.getCustomerName().trim() : "Khách hàng")
-                                .email(email)
-                                .phone(request.getCustomerPhone() != null ? request.getCustomerPhone().trim() : null)
-                                .passwordHash("GUEST_NO_PASSWORD")
-                                .isActive(true)
-                                .loyaltyPoints(0)
-                                .build();
-                        return customerRepository.save(guest);
-                    });
-        }
-
         if (customer == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("message", "Vui lòng đăng nhập hoặc nhập thông tin email, số điện thoại để tiến hành đặt hàng."));
+                    .body(Map.of("message", "Vui lòng đăng nhập để tiến hành đặt hàng."));
         }
 
         String clientIp = httpServletRequest.getRemoteAddr();
