@@ -41,6 +41,7 @@ class VnPayIpnIdempotencyIntegrationTest {
             registry.add("spring.datasource.url", postgres::getJdbcUrl);
             registry.add("spring.datasource.username", postgres::getUsername);
             registry.add("spring.datasource.password", postgres::getPassword);
+            registry.add("spring.flyway.enabled", () -> "true");
         }
     }
 
@@ -110,13 +111,14 @@ class VnPayIpnIdempotencyIntegrationTest {
                 .category(category)
                 .name("Test Phone Idempotency")
                 .slug("test-phone-idemp-" + timestamp)
+                .specs("{}")
                 .isActive(true)
                 .build());
 
         ProductVariant variant = productVariantRepository.save(ProductVariant.builder()
                 .product(product)
                 .sku("SKU_IDEMP_" + timestamp)
-                .attributes(Map.of("color", "Black"))
+                .attributes("{\"color\":\"Black\"}")
                 .costPrice(new BigDecimal("80000.00"))
                 .salePrice(new BigDecimal("100000.00"))
                 .isActive(true)

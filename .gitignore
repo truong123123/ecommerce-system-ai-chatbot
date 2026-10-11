@@ -43,6 +43,9 @@ skills-lock.json
 # Local backups & dumps
 *.dump
 *.bak
+*.sql.bak
+*backup*.sql
+backups/
 backup/
 scratch/
 

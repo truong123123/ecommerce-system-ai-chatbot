@@ -11,12 +11,14 @@ if [[ "${SPRING_PROFILES_ACTIVE:-}" =~ (prod|production) ]] || [[ "${APP_ENV:-}"
 fi
 
 DB_HOST="${DB_HOST:-localhost}"
-DB_PORT="${DB_PORT:-5432}"
-DB_NAME="${DB_NAME:-store_dev}"
-DB_USER="${DB_USER:-postgres}"
+DB_PORT="${DB_PORT:-${POSTGRES_PORT:-5432}}"
+DB_NAME="${DB_NAME:-${POSTGRES_DB:-store_dev}}"
+DB_USER="${DB_USER:-${POSTGRES_USER:-postgres}}"
 
 if [ -n "${DB_PASSWORD:-}" ]; then
   export PGPASSWORD="${DB_PASSWORD}"
+elif [ -n "${POSTGRES_PASSWORD:-}" ]; then
+  export PGPASSWORD="${POSTGRES_PASSWORD}"
 fi
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

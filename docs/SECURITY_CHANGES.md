@@ -107,6 +107,10 @@ Khi triển khai đăng nhập xã hội (Google / Zalo / Facebook) trong giai �
 >   - Hiện tại ở màn hình giỏ hàng / thanh toán (`frontend/src/app/cart/CartClient.tsx`), mã QR đang được gọi qua dịch vụ bên thứ ba `https://api.qrserver.com/v1/create-qr-code/`.
 >   - Rủi ro: Phụ thuộc vào tính khả dụng của bên thứ ba, tiềm ẩn rủi ro rò rỉ dữ liệu tham số URL giao dịch hoặc bị gián đoạn khi mạng quốc tế có sự cố.
 >   - Giải pháp: Chuyển sang sinh mã QR hoàn toàn cục bộ (sử dụng thư viện `qrcode` / `qrcode.react` phía frontend hoặc thư viện ZXing phía backend Java) trong giai đoạn tối ưu cổng thanh toán; không xử lý trong phạm vi tuần này.
+> - **Cân nhắc nâng cấp Flyway cho PostgreSQL 17:**
+>   - Hiện tại Flyway bản `9.22.3` (đi kèm Spring Boot 3.2 parent) cảnh báo PostgreSQL 17.11 mới hơn phiên bản Flyway được kiểm thử chính thức (mặc dù các migration V1 và V2 chạy hoàn toàn ổn định). Cần lập kế hoạch nâng Flyway lên bản 10.x+ tương thích hoàn toàn khi nâng cấp minor Spring Boot.
+> - **Chính sách CSP & HSTS khi có HTTPS:**
+>   - Bổ sung header `Content-Security-Policy` (CSP) chặt chẽ và `Strict-Transport-Security` (HSTS: max-age=31536000; includeSubDomains; preload) khi triển khai chứng chỉ SSL/TLS (HTTPS) trên môi trường production.
 
 ---
 

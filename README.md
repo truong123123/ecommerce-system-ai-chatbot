@@ -177,6 +177,14 @@ Ensure the following tools are installed on your environment before starting:
 > [!IMPORTANT]
 > **Lưu ý về biến môi trường Frontend (Next.js)**:
 > Các biến `NEXT_PUBLIC_API_URL` và `BACKEND_INTERNAL_URL` được Next.js đóng đinh (bake) vào mã nguồn client bundle tại **thời điểm build** thông qua `build.args` trong `docker-compose.yml` và `ARG/ENV` trong `frontend/Dockerfile`. Khi thay đổi URL trỏ tới backend, cần build lại image (`docker compose build frontend` hoặc `docker compose up --build -d`).
+>
+> **Xung đột cổng PostgreSQL host (`POSTGRES_PORT`)**:
+> Nếu máy tính đã có PostgreSQL cục bộ đang lắng nghe trên cổng `5432`, Docker compose cho phép cấu hình `POSTGRES_PORT=5433` trong file `.env` (mặc định ánh xạ `127.0.0.1:5433:5432`). Các container trong mạng nội bộ Docker (`store_network`) vẫn kết nối tới PostgreSQL container qua cổng 5432 chuẩn mà không bị xung đột.
+>
+> **Tương thích Testcontainers với Docker Engine 29+**:
+> Docker Engine 29.4.0+ áp đặt chính sách yêu cầu API version tối thiểu là `1.40`. Để kiểm thử Testcontainers chạy mượt mà (`Skipped: 0`):
+> 1. Toàn bộ dependency Testcontainers trong `backend/pom.xml` đã được nâng cấp đồng bộ lên phiên bản **`1.20.2`** (`testcontainers`, `junit-jupiter`, `postgresql`).
+> 2. Nếu môi trường Docker client trên máy trạm trả về lỗi `Status 400 Bad Request (API version is too old)`, cần bổ sung cấu hình `api.version=1.44` vào file `~/.docker-java.properties` (hoặc đặt biến môi trường hệ thống `DOCKER_API_VERSION=1.44`).
 
 ---
 

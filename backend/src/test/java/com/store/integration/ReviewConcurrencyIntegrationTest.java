@@ -46,6 +46,7 @@ class ReviewConcurrencyIntegrationTest {
             registry.add("spring.datasource.url", postgres::getJdbcUrl);
             registry.add("spring.datasource.username", postgres::getUsername);
             registry.add("spring.datasource.password", postgres::getPassword);
+            registry.add("spring.flyway.enabled", () -> "true");
         }
     }
 
@@ -57,6 +58,9 @@ class ReviewConcurrencyIntegrationTest {
 
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Autowired
     private ProductRepository productRepository;
@@ -86,14 +90,35 @@ class ReviewConcurrencyIntegrationTest {
                 .isActive(true)
                 .build());
 
-        // Tìm một product có sẵn
-        List<Product> products = productRepository.findAll();
-        assertFalse(products.isEmpty(), "Cần có ít nhất 1 sản phẩm trong DB để test");
-        testProduct = products.get(0);
+        Category testCategory = categoryRepository.findAll().stream().findFirst().orElseGet(() ->
+                categoryRepository.save(Category.builder()
+                        .name("Category Concurrency")
+                        .slug("cat-concurrency-" + System.currentTimeMillis())
+                        .sortOrder(1)
+                        .isActive(true)
+                        .build())
+        );
 
-        List<ProductVariant> variants = productVariantRepository.findByProductProductId(testProduct.getProductId());
-        assertFalse(variants.isEmpty(), "Cần có ít nhất 1 variant trong DB để test");
-        ProductVariant variant = variants.get(0);
+        testProduct = productRepository.findAll().stream().findFirst().orElseGet(() ->
+                productRepository.save(Product.builder()
+                        .category(testCategory)
+                        .name("Product Concurrency")
+                        .slug("prod-concurrency-" + System.currentTimeMillis())
+                        .specs("{}")
+                        .isActive(true)
+                        .build())
+        );
+
+        ProductVariant variant = productVariantRepository.findByProductProductId(testProduct.getProductId()).stream().findFirst().orElseGet(() ->
+                productVariantRepository.save(ProductVariant.builder()
+                        .product(testProduct)
+                        .sku("SKU-CONCURRENCY-" + System.currentTimeMillis())
+                        .attributes("{\"color\":\"Default\"}")
+                        .costPrice(new java.math.BigDecimal("80000"))
+                        .salePrice(new java.math.BigDecimal("100000"))
+                        .isActive(true)
+                        .build())
+        );
 
         // Tạo đơn hàng completed hợp lệ
         testOrder = orderRepository.save(Order.builder()

@@ -6,14 +6,28 @@ if (($activeProfile -match "prod|production") -or ($appEnv -match "prod|producti
     exit 1
 }
 
-$dbHost = if ($env:DB_HOST) { $env:DB_HOST } else { "localhost" }
-$dbPort = if ($env:DB_PORT) { $env:DB_PORT } else { "5432" }
-$dbName = if ($env:DB_NAME) { $env:DB_NAME } else { "store_dev" }
-$dbUser = if ($env:DB_USER) { $env:DB_USER } else { "postgres" }
-$dbPass = if ($env:DB_PASSWORD) { $env:DB_PASSWORD } elseif ($env:PGPASSWORD) { $env:PGPASSWORD } else { $null }
-
-$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$scriptDir = if ($PSScriptRoot) { $PSScriptRoot } elseif ($MyInvocation.MyCommand.Path) { Split-Path -Parent $MyInvocation.MyCommand.Path } else { Join-Path (Get-Location).Path "scripts" }
 $rootDir = Split-Path -Parent $scriptDir
+
+$envFile = Join-Path $rootDir ".env"
+if (Test-Path $envFile) {
+    foreach ($line in (Get-Content $envFile)) {
+        $trimmed = $line.Trim()
+        if ($trimmed -and -not $trimmed.StartsWith("#") -and $trimmed.Contains("=")) {
+            $parts = $trimmed.Split("=", 2)
+            $k = $parts[0].Trim()
+            $v = $parts[1].Trim()
+            [System.Environment]::SetEnvironmentVariable($k, $v, "Process")
+            Set-Item "env:$k" $v -ErrorAction SilentlyContinue
+        }
+    }
+}
+
+$dbHost = if ($env:DB_HOST) { $env:DB_HOST } else { "localhost" }
+$dbPort = if ($env:DB_PORT) { $env:DB_PORT } elseif ($env:POSTGRES_PORT) { $env:POSTGRES_PORT } else { "5433" }
+$dbName = if ($env:DB_NAME) { $env:DB_NAME } elseif ($env:POSTGRES_DB) { $env:POSTGRES_DB } else { "store_dev" }
+$dbUser = if ($env:DB_USER) { $env:DB_USER } elseif ($env:POSTGRES_USER) { $env:POSTGRES_USER } else { "postgres" }
+$dbPass = if ($env:DB_PASSWORD) { $env:DB_PASSWORD } elseif ($env:POSTGRES_PASSWORD) { $env:POSTGRES_PASSWORD } elseif ($env:PGPASSWORD) { $env:PGPASSWORD } else { $null }
 
 $psqlPath = "psql"
 if (!(Get-Command "psql" -ErrorAction SilentlyContinue)) {

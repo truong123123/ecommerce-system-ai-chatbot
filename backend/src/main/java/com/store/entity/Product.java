@@ -52,7 +52,8 @@ public class Product {
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "specs", columnDefinition = "jsonb")
-    private Object specs;
+    @Builder.Default
+    private Object specs = "{}";
 
     @Column(name = "is_active", nullable = false)
     @Builder.Default

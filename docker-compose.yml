@@ -8,7 +8,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:?POSTGRES_USER must be set}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set}
     ports:
-      - "127.0.0.1:5432:5432"
+      - "127.0.0.1:${POSTGRES_PORT:-5433}:5432"
     volumes:
       - store_postgres_data:/var/lib/postgresql/data
     networks:
@@ -69,6 +69,8 @@ services:
       SPRING_DATA_REDIS_PORT: 6379
       SPRING_DATA_REDIS_PASSWORD: ${REDIS_PASSWORD}
       MANAGEMENT_HEALTH_REDIS_ENABLED: "true"
+      MANAGEMENT_HEALTH_SHOW_DETAILS: ${MANAGEMENT_HEALTH_SHOW_DETAILS:-always}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-dev}
       JWT_SECRET: ${JWT_SECRET:?JWT_SECRET must be set}
     networks:
       - store_network
@@ -86,12 +88,14 @@ services:
       args:
         NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8080/api/v1}
         BACKEND_INTERNAL_URL: ${BACKEND_INTERNAL_URL:-http://backend:8080/api/v1}
+        ALLOW_LOCAL_API: ${ALLOW_LOCAL_API:-true}
     container_name: store_frontend
     ports:
       - "127.0.0.1:3000:3000"
     environment:
       NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8080/api/v1}
       BACKEND_INTERNAL_URL: ${BACKEND_INTERNAL_URL:-http://backend:8080/api/v1}
+      ALLOW_LOCAL_API: ${ALLOW_LOCAL_API:-true}
     networks:
       - store_network
     depends_on:

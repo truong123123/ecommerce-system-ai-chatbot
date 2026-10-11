@@ -32,7 +32,8 @@ public class ProductVariant {
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "attributes", columnDefinition = "jsonb", nullable = false)
-    private Object attributes;
+    @Builder.Default
+    private Object attributes = "{}";
 
     @Column(name = "cost_price", nullable = false, precision = 14, scale = 2)
     private BigDecimal costPrice;
