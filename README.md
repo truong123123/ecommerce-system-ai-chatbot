@@ -74,7 +74,7 @@ The system follows a multi-tier decoupled architecture:
 - **API Documentation**: SpringDoc OpenAPI / Swagger UI
 
 ### Infrastructure & Database
-- **Primary Database**: PostgreSQL 15
+- **Primary Database**: PostgreSQL 17 (postgres:17-alpine)
 - **In-Memory Cache**: Redis 7.0
 - **Containerization**: Docker & Docker Compose
 

@@ -36,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(AuthController.class)
-@Import({SecurityConfig.class, GlobalExceptionHandler.class, LoginRateLimiter.class})
+@Import({SecurityConfig.class, GlobalExceptionHandler.class, LoginRateLimiter.class, com.store.util.ClientIpUtil.class, com.store.service.AccountValidationService.class})
 class AuthPasswordSecurityTest {
 
     @Autowired
@@ -321,22 +321,11 @@ class AuthPasswordSecurityTest {
     }
 
     @Test
-    @DisplayName("BƯỚC 8.5: Chặn tạo tài khoản trùng email giữa staff và customers (409 Conflict)")
-    void register_emailAlreadyUsedByStaff_returns409Conflict() throws Exception {
-        String staffEmail = "manager@store.com";
-        Staff staff = Staff.builder()
-                .staffId(1)
-                .email(staffEmail)
-                .fullName("Quản lý kho")
-                .role(StaffRole.admin)
-                .build();
-
-        when(staffRepository.findByEmailIgnoreCase(staffEmail)).thenReturn(Optional.of(staff));
-        when(customerRepository.findByEmailIgnoreCase(staffEmail)).thenReturn(Optional.empty());
-
+    @DisplayName("BƯỚC 8.6: POST /auth/register bị tắt mặc định và trả 404 Not Found")
+    void register_whenDisabledByDefault_returns404NotFound() throws Exception {
         RegisterRequest regReq = RegisterRequest.builder()
-                .email(staffEmail)
-                .password("NewPassword@123")
+                .email("new_user@store.com")
+                .password("StrongPass@123")
                 .fullName("Người dùng mới")
                 .phone("0912345678")
                 .build();
@@ -344,70 +333,82 @@ class AuthPasswordSecurityTest {
         mockMvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(regReq)))
-                .andExpect(status().isConflict())
-                .andExpect(jsonPath("$.message").value("Email đã được sử dụng trong hệ thống. Vui lòng chọn email khác."));
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value("Tính năng đăng ký tài khoản hiện không khả dụng."));
 
         verify(customerRepository, never()).save(any());
     }
 
     @Test
-    @DisplayName("BƯỚC 8.5: Chặn tạo tài khoản trùng email với customer đã có (409 Conflict)")
-    void register_emailAlreadyUsedByCustomer_returns409Conflict() throws Exception {
-        String existingEmail = "existing_customer@store.com";
-        Customer existingCustomer = Customer.builder()
-                .customerId(99L)
-                .email(existingEmail)
-                .fullName("Khách hàng cũ")
-                .build();
+    @DisplayName("BƯỚC 8.6: Kẻ tấn công gửi X-Forwarded-For giả liên tục không qua mặt được giới hạn đăng nhập (429)")
+    void login_spoofedXForwardedFor_cannotBypassRateLimit() throws Exception {
+        String testEmail = "spoof_victim@example.com";
+        when(staffRepository.findByEmailIgnoreCase(testEmail)).thenReturn(Optional.empty());
+        when(customerRepository.findByEmailIgnoreCase(testEmail)).thenReturn(Optional.empty());
 
-        when(staffRepository.findByEmailIgnoreCase(existingEmail)).thenReturn(Optional.empty());
-        when(customerRepository.findByEmailIgnoreCase(existingEmail)).thenReturn(Optional.of(existingCustomer));
+        LoginRequest req = new LoginRequest();
+        req.setEmail(testEmail);
+        req.setPassword("wrong_pass");
 
-        RegisterRequest regReq = RegisterRequest.builder()
-                .email(existingEmail)
-                .password("NewPassword@123")
-                .fullName("Khách mới")
-                .phone("0912345678")
-                .build();
+        // Gửi 5 lần sai từ cùng một remoteAddr (kết nối trực tiếp, không phải proxy tin cậy), giả mạo X-Forwarded-For xoay vòng
+        for (int i = 1; i <= 5; i++) {
+            mockMvc.perform(post("/auth/login")
+                            .with(request -> {
+                                request.setRemoteAddr("203.0.113.195"); // IP untrusted của kẻ tấn công
+                                return request;
+                            })
+                            .header("X-Forwarded-For", "198.51.100." + i) // Giả mạo IP xoay vòng
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsString(req)))
+                    .andExpect(status().isUnauthorized());
+        }
 
-        mockMvc.perform(post("/auth/register")
+        // Lần thứ 6 gửi tiếp với IP giả mạo khác -> Vẫn bị chặn 429 Too Many Requests vì hệ thống sử dụng remoteAddr thật
+        mockMvc.perform(post("/auth/login")
+                        .with(request -> {
+                            request.setRemoteAddr("203.0.113.195");
+                            return request;
+                        })
+                        .header("X-Forwarded-For", "8.8.8.8")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(regReq)))
-                .andExpect(status().isConflict())
-                .andExpect(jsonPath("$.message").value("Email đã được sử dụng trong hệ thống. Vui lòng chọn email khác."));
-
-        verify(customerRepository, never()).save(any());
+                        .content(objectMapper.writeValueAsString(req)))
+                .andExpect(status().isTooManyRequests())
+                .andExpect(jsonPath("$.status").value(429));
     }
 
     @Test
-    @DisplayName("BƯỚC 8.5: Đăng ký thành công với email duy nhất chưa tồn tại ở staff và customer (201 Created)")
-    void register_validNewEmail_returns201Created() throws Exception {
-        String newEmail = "brand_new_customer@store.com";
-        when(staffRepository.findByEmailIgnoreCase(newEmail)).thenReturn(Optional.empty());
-        when(customerRepository.findByEmailIgnoreCase(newEmail)).thenReturn(Optional.empty());
+    @DisplayName("BƯỚC 8.6: Giới hạn riêng theo email - 20 lần sai trong 10 phút bị chặn 429 ngay cả khi đổi IP khác nhau")
+    void login_emailRateLimit_exceedsTwentyAttempts_returns429TooManyRequests() throws Exception {
+        String targetEmail = "distributed_bruteforce_target@example.com";
+        when(staffRepository.findByEmailIgnoreCase(targetEmail)).thenReturn(Optional.empty());
+        when(customerRepository.findByEmailIgnoreCase(targetEmail)).thenReturn(Optional.empty());
 
-        when(customerRepository.save(any(Customer.class))).thenAnswer(invocation -> {
-            Customer c = invocation.getArgument(0);
-            c.setCustomerId(888L);
-            return c;
-        });
+        LoginRequest req = new LoginRequest();
+        req.setEmail(targetEmail);
+        req.setPassword("wrong_password");
 
-        RegisterRequest regReq = RegisterRequest.builder()
-                .email(newEmail)
-                .password("StrongPass@123")
-                .fullName("Khách Hàng Mới")
-                .phone("0987654321")
-                .build();
+        // Giả lập botnet phân tán: 20 lần sai từ 20 IP remoteAddr hoàn toàn khác nhau
+        for (int i = 1; i <= 20; i++) {
+            final int ipSuffix = i;
+            mockMvc.perform(post("/auth/login")
+                            .with(request -> {
+                                request.setRemoteAddr("100.64.0." + ipSuffix);
+                                return request;
+                            })
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsString(req)))
+                    .andExpect(status().isUnauthorized());
+        }
 
-        mockMvc.perform(post("/auth/register")
+        // Lần thứ 21 từ IP thứ 21 -> Bị chặn 429 theo giới hạn tài khoản email (20 lần / 10 phút)
+        mockMvc.perform(post("/auth/login")
+                        .with(request -> {
+                            request.setRemoteAddr("100.64.0.99");
+                            return request;
+                        })
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(regReq)))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").value(888))
-                .andExpect(jsonPath("$.email").value(newEmail))
-                .andExpect(jsonPath("$.name").value("Khách Hàng Mới"))
-                .andExpect(jsonPath("$.message").value("Đăng ký tài khoản thành công"));
-
-        verify(customerRepository, times(1)).save(any(Customer.class));
+                        .content(objectMapper.writeValueAsString(req)))
+                .andExpect(status().isTooManyRequests())
+                .andExpect(jsonPath("$.status").value(429));
     }
 }

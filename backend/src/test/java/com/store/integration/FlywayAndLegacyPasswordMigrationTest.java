@@ -28,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class FlywayAndLegacyPasswordMigrationTest {
 
     @Container
-    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16-alpine")
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:17-alpine")
             .withDatabaseName("store_dev")
             .withUsername("test")
             .withPassword("test");

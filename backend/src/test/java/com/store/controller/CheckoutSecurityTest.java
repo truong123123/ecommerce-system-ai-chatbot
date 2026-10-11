@@ -36,7 +36,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(CheckoutController.class)
+@WebMvcTest({CheckoutController.class, VoucherController.class})
 @Import({SecurityConfig.class, GlobalExceptionHandler.class})
 class CheckoutSecurityTest {
 
@@ -48,6 +48,12 @@ class CheckoutSecurityTest {
 
     @MockBean
     private CheckoutService checkoutService;
+
+    @MockBean
+    private com.store.repository.CouponRepository couponRepository;
+
+    @MockBean
+    private com.store.repository.VoucherUsageRepository voucherUsageRepository;
 
     @MockBean
     private CustomerRepository customerRepository;
@@ -169,11 +175,18 @@ class CheckoutSecurityTest {
     }
 
     @Test
-    @DisplayName("BƯỚC 7: Gọi endpoint public /checkout/calculate với dữ liệu sai định dạng nhận 400 Bad Request (không bị biến thành 401)")
-    void anonymous_callPublicEndpointWithInvalidData_returns400Not401() throws Exception {
-        mockMvc.perform(post("/checkout/calculate")
+    @DisplayName("BƯỚC 8.6: Gọi POST /vouchers/validate với JSON hỏng nhận 400 Bad Request (không bị biến thành 401)")
+    void anonymous_callVoucherValidateWithMalformedJson_returns400Not401() throws Exception {
+        mockMvc.perform(post("/vouchers/validate")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"items\":\"INVALID_FORMAT_NOT_AN_ARRAY\"}"))
+                        .content("{invalid_malformed_json_structure"))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DisplayName("BƯỚC 8.6: Gọi đường dẫn không tồn tại khi ẩn danh nhận 404 Not Found (không bị biến thành 401)")
+    void anonymous_callNonExistentPath_returns404Not401() throws Exception {
+        mockMvc.perform(get("/vouchers/this-subpath-does-not-exist-at-all"))
+                .andExpect(status().isNotFound());
     }
 }

@@ -35,10 +35,15 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final LoginRateLimiter loginRateLimiter;
+    private final ClientIpUtil clientIpUtil;
+    private final com.store.service.AccountValidationService accountValidationService;
+
+    @org.springframework.beans.factory.annotation.Value("${app.auth.registration-enabled:false}")
+    private boolean registrationEnabled;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request, HttpServletRequest httpRequest) {
-        String clientIp = ClientIpUtil.getClientIp(httpRequest);
+        String clientIp = clientIpUtil.extractClientIp(httpRequest);
         String email = request.getEmail().trim().toLowerCase();
         String rawPassword = request.getPassword();
 
@@ -159,13 +164,17 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request) {
+        if (!registrationEnabled) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("message", "Tính năng đăng ký tài khoản hiện không khả dụng."));
+        }
+
         String email = request.getEmail().trim().toLowerCase();
 
-        // Chặn trùng email giữa staff và customers
-        if (staffRepository.findByEmailIgnoreCase(email).isPresent()
-                || customerRepository.findByEmailIgnoreCase(email).isPresent()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(Map.of("message", "Email đã được sử dụng trong hệ thống. Vui lòng chọn email khác."));
+        // Chặn trùng email giữa staff và customers (trả 400 chung để tránh rò rỉ tài khoản)
+        if (accountValidationService.isEmailTaken(email)) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("message", "Thông tin đăng ký không hợp lệ."));
         }
 
         Customer customer = Customer.builder()

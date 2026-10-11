@@ -27,6 +27,9 @@ class DataInitializerDefaultProfileTest {
     @Mock
     private Environment environment;
 
+    @Mock
+    private com.store.service.AccountValidationService accountValidationService;
+
     @Test
     @DisplayName("BƯỚC 4: Profile mặc định (không phải dev, không có bootstrap env) KHÔNG tạo user")
     void defaultProfile_doesNotCreateUsers() {
@@ -36,7 +39,8 @@ class DataInitializerDefaultProfileTest {
                 staffRepository,
                 customerRepository,
                 passwordEncoder,
-                environment
+                environment,
+                accountValidationService
         );
 
         initializer.run();

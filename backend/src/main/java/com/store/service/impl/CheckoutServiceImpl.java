@@ -795,7 +795,7 @@ public class CheckoutServiceImpl implements CheckoutService {
             return false;
         }
 
-        if ("SUCCESS".equalsIgnoreCase(txn.getStatus())) {
+        if (PaymentTransaction.STATUS_SUCCESS.equalsIgnoreCase(txn.getStatus())) {
             log.info("Giao dịch {} đã được xác nhận thành công trước đó (Idempotent)", providerTxnRef);
             return true;
         }
@@ -808,7 +808,7 @@ public class CheckoutServiceImpl implements CheckoutService {
             log.warn("Đơn hàng #{} đã hết hạn (EXPIRED), IPN đến trễ! Đang thử re-reserve tồn kho...", order.getOrderId());
             boolean reReserved = attemptReReserve(order);
             if (!reReserved) {
-                txn.setStatus("REFUND_PENDING");
+                txn.setStatus(PaymentTransaction.STATUS_REFUND_PENDING);
                 txn.setCallbackPayload(callbackPayload);
                 paymentTransactionRepository.save(txn);
                 log.error("Re-reserve thất bại do hết hàng. Chuyển giao dịch sang REFUND_PENDING để kế toán hoàn tiền.");
@@ -817,7 +817,7 @@ public class CheckoutServiceImpl implements CheckoutService {
         }
 
         // Cập nhật PaymentTransaction sang SUCCESS
-        txn.setStatus("SUCCESS");
+        txn.setStatus(PaymentTransaction.STATUS_SUCCESS);
         txn.setProviderTransactionNo(gatewayTxnNo);
         txn.setCallbackPayload(callbackPayload);
         txn.setPaidAt(now);

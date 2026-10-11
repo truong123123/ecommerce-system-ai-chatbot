@@ -5,6 +5,7 @@ import com.store.entity.Staff;
 import com.store.entity.StaffRole;
 import com.store.repository.CustomerRepository;
 import com.store.repository.StaffRepository;
+import com.store.service.AccountValidationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -25,6 +27,7 @@ public class DataInitializer implements CommandLineRunner {
     private final CustomerRepository customerRepository;
     private final PasswordEncoder passwordEncoder;
     private final Environment environment;
+    private final AccountValidationService accountValidationService;
 
     @Override
     public void run(String... args) {
@@ -35,7 +38,12 @@ public class DataInitializer implements CommandLineRunner {
             // Chỉ chạy ở profile dev
             if (staffRepository.count() == 0) {
                 log.info("Profile dev: Khởi tạo tài khoản staff dev...");
-                String devAdminPass = System.getenv().getOrDefault("DEV_ADMIN_PASSWORD", "DevAdmin@Pass2026!");
+                String devAdminPass = System.getenv("DEV_ADMIN_PASSWORD");
+                if (devAdminPass == null || devAdminPass.isBlank()) {
+                    devAdminPass = "DevAdmin@" + UUID.randomUUID().toString().substring(0, 8) + "!2026";
+                    log.info("Profile dev: Đã sinh ngẫu nhiên mật khẩu khởi tạo cho admin: {}", devAdminPass);
+                }
+
                 Staff admin = Staff.builder()
                         .fullName("Nguyễn Văn Admin")
                         .email("admin@store.com")
@@ -48,7 +56,12 @@ public class DataInitializer implements CommandLineRunner {
                         .build();
                 staffRepository.save(admin);
 
-                String devSalesPass = System.getenv().getOrDefault("DEV_SALES_PASSWORD", "DevSales@Pass2026!");
+                String devSalesPass = System.getenv("DEV_SALES_PASSWORD");
+                if (devSalesPass == null || devSalesPass.isBlank()) {
+                    devSalesPass = "DevSales@" + UUID.randomUUID().toString().substring(0, 8) + "!2026";
+                    log.info("Profile dev: Đã sinh ngẫu nhiên mật khẩu khởi tạo cho sales: {}", devSalesPass);
+                }
+
                 Staff sales = Staff.builder()
                         .fullName("Trần Thị Sales")
                         .email("sales@store.com")
@@ -65,7 +78,12 @@ public class DataInitializer implements CommandLineRunner {
 
             if (customerRepository.count() == 0) {
                 log.info("Profile dev: Khởi tạo tài khoản khách hàng dev...");
-                String devCustPass = System.getenv().getOrDefault("DEV_CUSTOMER_PASSWORD", "DevCust@Pass2026!");
+                String devCustPass = System.getenv("DEV_CUSTOMER_PASSWORD");
+                if (devCustPass == null || devCustPass.isBlank()) {
+                    devCustPass = "DevCust@" + UUID.randomUUID().toString().substring(0, 8) + "!2026";
+                    log.info("Profile dev: Đã sinh ngẫu nhiên mật khẩu khởi tạo cho customer: {}", devCustPass);
+                }
+
                 Customer customer = Customer.builder()
                         .fullName("Nguyễn Khách Hàng")
                         .email("customer@store.com")
@@ -93,8 +111,8 @@ public class DataInitializer implements CommandLineRunner {
                 && bootstrapPassword != null && bootstrapPassword.length() >= 12
                 && staffRepository.count() == 0) {
             String cleanEmail = bootstrapEmail.trim().toLowerCase();
-            if (customerRepository.findByEmailIgnoreCase(cleanEmail).isPresent()) {
-                log.error("Không thể tạo bootstrap admin: email {} đã tồn tại trong bảng customers!", cleanEmail);
+            if (accountValidationService.isEmailTaken(cleanEmail)) {
+                log.error("Không thể tạo bootstrap admin: email {} đã tồn tại trong hệ thống!", cleanEmail);
                 return;
             }
             log.info("Khởi tạo tài khoản bootstrap admin từ biến môi trường...");
@@ -107,7 +125,7 @@ public class DataInitializer implements CommandLineRunner {
                     .hiredAt(LocalDate.now())
                     .build();
             staffRepository.save(bootstrapAdmin);
-            log.info("Đã tạo thành công tài khoản bootstrap admin cho email: {}", bootstrapEmail.trim().toLowerCase());
+            log.info("Đã tạo thành công tài khoản bootstrap admin cho email: {}", cleanEmail);
         }
     }
 }

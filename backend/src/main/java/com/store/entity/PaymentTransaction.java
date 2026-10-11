@@ -15,6 +15,11 @@ import java.time.OffsetDateTime;
 @Builder
 public class PaymentTransaction {
 
+    public static final String STATUS_INITIATED = "INITIATED";
+    public static final String STATUS_SUCCESS = "SUCCESS";
+    public static final String STATUS_FAILED = "FAILED";
+    public static final String STATUS_REFUND_PENDING = "REFUND_PENDING";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

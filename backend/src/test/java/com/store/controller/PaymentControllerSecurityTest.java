@@ -283,9 +283,9 @@ class PaymentControllerSecurityTest {
         mockMvc.perform(post("/payment/vnpay")
                         .contentType("application/json")
                         .content("{\"orderCode\":\"ORD-VICTIM-001\"}"))
-                .andExpect(status().isForbidden())
+                .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.success").value(false))
-                .andExpect(jsonPath("$.message").value("Bạn không có quyền thanh toán cho đơn hàng của người khác."));
+                .andExpect(jsonPath("$.message").value("Không tìm thấy đơn hàng với mã: ORD-VICTIM-001"));
     }
 
     @Test
@@ -399,5 +399,62 @@ class PaymentControllerSecurityTest {
         // Xác nhận amount dùng để sinh paymentUrl bằng đúng DB totalAmount (25,000,000)
         verify(vnPayService, times(1)).createPaymentUrl(anyString(), eq(25000000L), anyString());
         verify(vnPayService, never()).createPaymentUrl(anyString(), eq(1000L), anyString());
+    }
+
+    @Test
+    @DisplayName("BƯỚC 8.6: GET /payment/order-status/{orderCode} ẩn danh bị từ chối 401 Unauthorized")
+    void orderStatus_anonymous_returns401() throws Exception {
+        mockMvc.perform(get("/payment/order-status/ORD-123"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser(username = "customer_attacker@store.com", roles = {"CUSTOMER"})
+    @DisplayName("BƯỚC 8.6: GET /payment/order-status/{orderCode} đơn của người khác trả 404 Not Found")
+    void orderStatus_orderBelongsToOtherCustomer_returns404() throws Exception {
+        Customer attacker = Customer.builder().customerId(10L).email("customer_attacker@store.com").build();
+        Customer victim = Customer.builder().customerId(99L).email("victim@store.com").build();
+
+        Order victimOrder = Order.builder()
+                .orderId(123L)
+                .orderCode("ORD-VICTIM-999")
+                .customer(victim)
+                .status(OrderStatus.paid)
+                .totalAmount(new BigDecimal("5000000"))
+                .build();
+
+        when(customerRepository.findByEmailIgnoreCase("customer_attacker@store.com")).thenReturn(Optional.of(attacker));
+        when(orderRepository.findByOrderCode("ORD-VICTIM-999")).thenReturn(Optional.of(victimOrder));
+
+        mockMvc.perform(get("/payment/order-status/ORD-VICTIM-999"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value("Không tìm thấy đơn hàng"));
+    }
+
+    @Test
+    @WithMockUser(username = "customer@store.com", roles = {"CUSTOMER"})
+    @DisplayName("BƯỚC 8.6: GET /payment/order-status/{orderCode} chính chủ chỉ trả trạng thái tối thiểu (không số tiền, không thông tin khách)")
+    void orderStatus_ownOrder_returnsMinimalInfo() throws Exception {
+        Customer customer = Customer.builder().customerId(1L).email("customer@store.com").build();
+
+        Order order = Order.builder()
+                .orderId(200L)
+                .orderCode("ORD-OWN-200")
+                .customer(customer)
+                .status(OrderStatus.paid)
+                .totalAmount(new BigDecimal("1200000"))
+                .build();
+
+        when(customerRepository.findByEmailIgnoreCase("customer@store.com")).thenReturn(Optional.of(customer));
+        when(orderRepository.findByOrderCode("ORD-OWN-200")).thenReturn(Optional.of(order));
+
+        mockMvc.perform(get("/payment/order-status/ORD-OWN-200"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.orderCode").value("ORD-OWN-200"))
+                .andExpect(jsonPath("$.status").value("paid"))
+                // Khẳng định KHÔNG trả số tiền và thông tin khách
+                .andExpect(jsonPath("$.totalAmount").doesNotExist())
+                .andExpect(jsonPath("$.customer").doesNotExist())
+                .andExpect(jsonPath("$.customerEmail").doesNotExist());
     }
 }

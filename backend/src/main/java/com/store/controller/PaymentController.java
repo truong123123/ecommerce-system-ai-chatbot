@@ -64,11 +64,11 @@ public class PaymentController {
                     .body(Map.of("success", false, "message", "Không tìm thấy đơn hàng với mã: " + orderCode));
         }
 
-        // (2) Chỉ chấp nhận đơn thuộc về chính khách đang đăng nhập (chống IDOR)
+        // (2) Chỉ chấp nhận đơn thuộc về chính khách đang đăng nhập (chống IDOR - trả 404 để không lộ sự tồn tại của đơn)
         if (currentCustomer != null && order.getCustomer() != null
                 && !order.getCustomer().getCustomerId().equals(currentCustomer.getCustomerId())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                    .body(Map.of("success", false, "message", "Bạn không có quyền thanh toán cho đơn hàng của người khác."));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("success", false, "message", "Không tìm thấy đơn hàng với mã: " + orderCode));
         }
 
         // (3) Kiểm tra trạng thái: chỉ cho status pending_payment
@@ -197,7 +197,8 @@ public class PaymentController {
         }
 
         // Idempotency: Kiểm tra nếu giao dịch đã được xử lý (SUCCESS hoặc FAILED)
-        if ("SUCCESS".equalsIgnoreCase(txn.getStatus()) || "FAILED".equalsIgnoreCase(txn.getStatus())) {
+        if (PaymentTransaction.STATUS_SUCCESS.equalsIgnoreCase(txn.getStatus())
+                || PaymentTransaction.STATUS_FAILED.equalsIgnoreCase(txn.getStatus())) {
             log.info("Giao dịch VNPay IPN #{} đã xử lý trước đó với trạng thái: {}. Trả về RspCode 02 (Idempotent).", txnRef, txn.getStatus());
             return ResponseEntity.ok(Map.of("RspCode", "02", "Message", "Order already confirmed"));
         }
@@ -219,6 +220,7 @@ public class PaymentController {
 
     /**
      * Tra cứu trạng thái đơn hàng thật từ backend (dùng cho frontend /checkout/success)
+     * Yêu cầu đăng nhập; đơn không thuộc người gọi trả 404; chỉ trả trạng thái tối thiểu (không số tiền, không thông tin khách)
      */
     @GetMapping("/order-status/{orderCode}")
     public ResponseEntity<?> getOrderStatus(@PathVariable String orderCode) {
@@ -237,16 +239,14 @@ public class PaymentController {
         Customer currentCustomer = customerRepository.findByEmailIgnoreCase(auth.getName()).orElse(null);
         if (currentCustomer != null && order.getCustomer() != null
                 && !order.getCustomer().getCustomerId().equals(currentCustomer.getCustomerId())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                    .body(Map.of("message", "Không có quyền xem đơn hàng của người khác"));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("message", "Không tìm thấy đơn hàng"));
         }
 
-        Map<String, Object> res = new HashMap<>();
-        res.put("orderCode", order.getOrderCode());
-        res.put("status", order.getStatus().name());
-        res.put("totalAmount", order.getTotalAmount());
-        res.put("paymentMethod", order.getPaymentMethod());
-        return ResponseEntity.ok(res);
+        return ResponseEntity.ok(Map.of(
+                "orderCode", order.getOrderCode(),
+                "status", order.getStatus().name()
+        ));
     }
 
     /**
