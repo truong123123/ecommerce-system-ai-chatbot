@@ -42,17 +42,15 @@ public class PaymentController {
      */
     @GetMapping("/callback/vnpay")
     public ResponseEntity<Map<String, String>> handleVnPayIpn(@RequestParam Map<String, String> allParams) {
-        log.info("Nhận VNPAY IPN Callback: {}", allParams);
-
         String secureHash = allParams.get("vnp_SecureHash");
         boolean validSignature = vnPayService.verifySignature(allParams, secureHash);
         if (!validSignature) {
-            log.warn("VNPAY IPN chữ ký không hợp lệ!");
+            log.warn("VNPAY IPN chữ ký không hợp lệ! txnRef: {}", allParams.get("vnp_TxnRef"));
             return ResponseEntity.ok(Map.of("RspCode", "97", "Message", "Invalid Checksum"));
         }
 
         String txnRef = allParams.get("vnp_TxnRef");
-        if (txnRef == null || txnRef.isEmpty()) {
+        if (txnRef == null || txnRef.trim().isEmpty()) {
             return ResponseEntity.ok(Map.of("RspCode", "01", "Message", "Order not found"));
         }
 
@@ -65,43 +63,46 @@ public class PaymentController {
         // Kiểm tra số tiền: vnp_Amount = amount * 100
         String vnpAmountStr = allParams.get("vnp_Amount");
         if (vnpAmountStr != null) {
-            long vnpAmount = Long.parseLong(vnpAmountStr);
-            long expectedAmount = txn.getAmount().longValue() * 100;
-            if (vnpAmount != expectedAmount) {
-                log.warn("Số tiền không khớp: VNPAY = {}, Database = {}", vnpAmount, expectedAmount);
-                return ResponseEntity.ok(Map.of("RspCode", "04", "Message", "Invalid Amount"));
+            try {
+                long vnpAmount = Long.parseLong(vnpAmountStr);
+                long expectedAmount = txn.getAmount().longValue() * 100;
+                if (vnpAmount != expectedAmount) {
+                    log.warn("Số tiền không khớp: VNPAY = {}, Database = {}", vnpAmount, expectedAmount);
+                    return ResponseEntity.ok(Map.of("RspCode", "04", "Message", "Invalid Amount"));
+                }
+            } catch (NumberFormatException e) {
+                return ResponseEntity.ok(Map.of("RspCode", "04", "Message", "Invalid Amount Format"));
             }
         }
 
-        if ("SUCCESS".equalsIgnoreCase(txn.getStatus())) {
+        // Idempotency: Kiểm tra nếu đơn hàng đã được xử lý (SUCCESS hoặc FAILED)
+        if ("SUCCESS".equalsIgnoreCase(txn.getStatus()) || "FAILED".equalsIgnoreCase(txn.getStatus())) {
+            log.info("Giao dịch VNPay IPN #{} đã xử lý trước đó với trạng thái: {}. Trả về RspCode 02 (Idempotent).", txnRef, txn.getStatus());
             return ResponseEntity.ok(Map.of("RspCode", "02", "Message", "Order already confirmed"));
         }
 
         String responseCode = allParams.get("vnp_ResponseCode");
         String transactionNo = allParams.get("vnp_TransactionNo");
 
+        log.info("Xử lý VNPay IPN hợp lệ - txnRef: {}, transactionNo: {}, responseCode: {}, vnpAmount: {}",
+                txnRef, transactionNo, responseCode, vnpAmountStr);
+
         if ("00".equals(responseCode)) {
-            checkoutService.handlePaymentSuccess(txnRef, transactionNo, allParams.toString());
+            checkoutService.handlePaymentSuccess(txnRef, transactionNo, "VNPAY_SUCCESS");
             return ResponseEntity.ok(Map.of("RspCode", "00", "Message", "Confirm Success"));
         } else {
-            checkoutService.handlePaymentFailure(txnRef, allParams.toString());
+            checkoutService.handlePaymentFailure(txnRef, "VNPAY_FAILED_" + responseCode);
             return ResponseEntity.ok(Map.of("RspCode", "00", "Message", "Confirm Success"));
         }
     }
 
     /**
-     * General Provider Webhook via POST
+     * Reject all POST requests to payment callbacks (VNPay IPN requires GET only)
      */
-    @PostMapping("/callback/{provider}")
-    public ResponseEntity<Map<String, Object>> handleGenericCallback(
-            @PathVariable String provider,
-            @RequestBody Map<String, Object> body
-    ) {
-        log.info("Nhận callback từ cổng {}: {}", provider, body);
-        String txnRef = (String) body.get("orderId");
-        if (txnRef != null) {
-            checkoutService.handlePaymentSuccess(txnRef, (String) body.get("transId"), body.toString());
-        }
-        return ResponseEntity.ok(Map.of("success", true, "message", "Callback processed"));
+    @PostMapping(value = {"/callback", "/callback/**"})
+    public ResponseEntity<?> rejectPostCallback() {
+        log.warn("Từ chối callback qua HTTP POST - Cổng thanh toán chỉ hỗ trợ GET IPN.");
+        return ResponseEntity.status(org.springframework.http.HttpStatus.FORBIDDEN)
+                .body(Map.of("RspCode", "99", "Message", "POST callback is forbidden. Only GET IPN callbacks are supported."));
     }
 }

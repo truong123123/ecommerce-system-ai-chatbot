@@ -13,10 +13,10 @@ import java.util.*;
 @Service
 public class VNPayService {
 
-    @Value("${vnpay.tmnCode:DEMOCODE}")
+    @Value("${vnpay.tmnCode:}")
     private String vnpTmnCode;
 
-    @Value("${vnpay.hashSecret:DEMOHASHSECRET}")
+    @Value("${vnpay.hashSecret:}")
     private String vnpHashSecret;
 
     @Value("${vnpay.url:https://sandbox.vnpayment.vn/paymentv2/vpcpay.html}")
@@ -63,7 +63,7 @@ public class VNPayService {
     }
 
     public boolean verifySignature(Map<String, String> fields, String secureHash) {
-        if (secureHash == null || secureHash.isEmpty()) {
+        if (secureHash == null || secureHash.trim().isEmpty() || vnpHashSecret == null || vnpHashSecret.trim().isEmpty()) {
             return false;
         }
 
@@ -87,7 +87,7 @@ public class VNPayService {
         }
 
         String calculatedHash = hmacSHA512(vnpHashSecret, hashData.toString());
-        return calculatedHash.equalsIgnoreCase(secureHash) || "DEMOHASHSECRET".equals(vnpHashSecret);
+        return calculatedHash.equalsIgnoreCase(secureHash.trim());
     }
 
     public String hmacSHA512(String key, String data) {
