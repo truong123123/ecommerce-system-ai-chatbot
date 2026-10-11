@@ -107,3 +107,33 @@ Khi triển khai đăng nhập xã hội (Google / Zalo / Facebook) trong giai �
 >   - Hiện tại ở màn hình giỏ hàng / thanh toán (`frontend/src/app/cart/CartClient.tsx`), mã QR đang được gọi qua dịch vụ bên thứ ba `https://api.qrserver.com/v1/create-qr-code/`.
 >   - Rủi ro: Phụ thuộc vào tính khả dụng của bên thứ ba, tiềm ẩn rủi ro rò rỉ dữ liệu tham số URL giao dịch hoặc bị gián đoạn khi mạng quốc tế có sự cố.
 >   - Giải pháp: Chuyển sang sinh mã QR hoàn toàn cục bộ (sử dụng thư viện `qrcode` / `qrcode.react` phía frontend hoặc thư viện ZXing phía backend Java) trong giai đoạn tối ưu cổng thanh toán; không xử lý trong phạm vi tuần này.
+
+---
+
+## 4. Chi tiết triển khai ĐỢT 8.6 & BƯỚC 9a (Backend Session & CSRF)
+
+1. **/cart/**:
+   - Toàn bộ `/cart/**` yêu cầu xác thực (`authenticated()`).
+   - Giỏ hàng của khách vãng lai (ẩn danh) lưu hoàn toàn tại `localStorage` phía frontend ([cartStore.ts](file:///d:/DoAnTotNgiep/frontend/src/store/cartStore.ts#L125-L130)).
+2. **GET /payment/order-status/{orderCode}**:
+   - Yêu cầu đăng nhập; đơn hàng của khách hàng khác trả về `404 Not Found` (chống lộ thông tin tồn tại qua IDOR).
+   - Payload trả về tối thiểu: `{"orderCode": "...", "status": "..."}`, không trả số tiền hay thông tin cá nhân.
+3. **POST /auth/register**:
+   - Tắt tính năng đăng ký bằng cờ `app.auth.registration-enabled: false` (mặc định trả 404).
+   - Triển khai [AccountValidationService](file:///d:/DoAnTotNgiep/backend/src/main/java/com/store/service/AccountValidationService.java) kiểm tra trùng lặp email chéo giữa `staff` và `customers`.
+4. **Idempotency xử lý IPN VNPay**:
+   - Dùng chung hằng số `PaymentTransaction.STATUS_SUCCESS = "SUCCESS"`, `STATUS_FAILED = "FAILED"`.
+   - Cả [PaymentController.handleVnPayIpn](file:///d:/DoAnTotNgiep/backend/src/main/java/com/store/controller/PaymentController.java#L192) và [CheckoutServiceImpl.handlePaymentSuccess](file:///d:/DoAnTotNgiep/backend/src/main/java/com/store/service/impl/CheckoutServiceImpl.java#L790) được bọc trong `@Transactional`.
+5. **ClientIpUtil & Login Rate Limiting kép**:
+   - [ClientIpUtil](file:///d:/DoAnTotNgiep/backend/src/main/java/com/store/util/ClientIpUtil.java) chỉ tin cậy `X-Forwarded-For` từ proxy tin cậy (`127.0.0.1`, `::1`), mặc định fallback về `remoteAddr`.
+   - Giới hạn đăng nhập kép: 5 lần sai/1 phút theo cặp (IP + email) VÀ 20 lần sai/10 phút theo tài khoản email.
+6. **Thống nhất PostgreSQL 17**:
+   - Dòng 12 trong [V1__baseline_schema.sql](file:///d:/DoAnTotNgiep/backend/src/main/resources/db/migration/V1__baseline_schema.sql#L12) là `SET transaction_timeout = 0;` (chỉ có từ PG17).
+   - Thống nhất toàn bộ môi trường về `postgres:17-alpine` trong docker-compose, Testcontainers và README.
+7. **Bảo mật phiên đăng nhập Backend (BƯỚC 9a)**:
+   - [AuthCookieService](file:///d:/DoAnTotNgiep/backend/src/main/java/com/store/service/AuthCookieService.java): phát hành cookie `access_token` với cờ `HttpOnly=true`, `SameSite=Lax`, `Path=/`, `Max-Age=7200` (theo cấu hình `jwt.expiration`).
+   - [AuthSessionService](file:///d:/DoAnTotNgiep/backend/src/main/java/com/store/service/AuthSessionService.java): điểm duy nhất tạo phiên cho `Customer` và `Staff`. Đăng nhập không trả token trong JSON body.
+   - [JwtAuthenticationFilter](file:///d:/DoAnTotNgiep/backend/src/main/java/com/store/security/JwtAuthenticationFilter.java): ưu tiên đọc cookie `access_token` trước, fallback về header `Authorization: Bearer <token>`, parse JWT đúng 1 lần/request.
+   - `POST /auth/logout` xoá cookie; `GET /auth/me` đọc thông tin từ `SecurityContextHolder`.
+   - Kích hoạt phòng thủ CSRF Double-Submit với `CookieCsrfTokenRepository.withHttpOnlyFalse()` cho các request ghi, miễn trừ `/auth/login` và IPN VNPay.
+
