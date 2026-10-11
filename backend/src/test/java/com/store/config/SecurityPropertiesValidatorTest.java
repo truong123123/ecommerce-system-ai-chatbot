@@ -38,6 +38,32 @@ class SecurityPropertiesValidatorTest {
     }
 
     @Test
+    @DisplayName("Khởi động THẤT BẠI khi JWT_SECRET dùng secret mặc định đã bị lộ (404E6352...)")
+    void shouldFailStartupWhenJwtSecretIsCompromisedDefault() {
+        contextRunner
+                .withPropertyValues("jwt.secret=404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970")
+                .run(context -> {
+                    assertThat(context).hasFailed();
+                    Throwable rootCause = org.springframework.core.NestedExceptionUtils.getMostSpecificCause(context.getStartupFailure());
+                    assertThat(rootCause).isInstanceOf(IllegalStateException.class)
+                            .hasMessageContaining("secret mặc định đã bị lộ");
+                });
+    }
+
+    @Test
+    @DisplayName("Khởi động THẤT BẠI khi JWT_SECRET chứa chuỗi giữ chỗ CHANGE_ME hoặc changeme")
+    void shouldFailStartupWhenJwtSecretContainsChangeMe() {
+        contextRunner
+                .withPropertyValues("jwt.secret=secure_prefix_CHANGE_ME_suffix_longer_than_32_bytes")
+                .run(context -> {
+                    assertThat(context).hasFailed();
+                    Throwable rootCause = org.springframework.core.NestedExceptionUtils.getMostSpecificCause(context.getStartupFailure());
+                    assertThat(rootCause).isInstanceOf(IllegalStateException.class)
+                            .hasMessageContaining("chuỗi giữ chỗ mẫu không an toàn");
+                });
+    }
+
+    @Test
     @DisplayName("Khởi động THÀNH CÔNG khi JWT_SECRET hợp lệ (>= 32 byte)")
     void shouldSucceedStartupWhenJwtSecretIsValid() {
         contextRunner
@@ -62,6 +88,24 @@ class SecurityPropertiesValidatorTest {
                     Throwable rootCause = org.springframework.core.NestedExceptionUtils.getMostSpecificCause(context.getStartupFailure());
                     assertThat(rootCause).isInstanceOf(IllegalStateException.class)
                             .hasMessageContaining("VNPAY_HASH_SECRET không được dùng giá trị mẫu không an toàn DEMOHASHSECRET");
+                });
+    }
+
+    @Test
+    @DisplayName("Khởi động THẤT BẠI trên profile prod khi VNPay dùng tmnCode demo (DEMOCODE)")
+    void shouldFailStartupInProdProfileWhenVnpayTmnCodeIsDemo() {
+        contextRunner
+                .withPropertyValues(
+                        "spring.profiles.active=prod",
+                        "jwt.secret=this-is-a-very-secure-jwt-secret-key-that-exceeds-32-bytes",
+                        "vnpay.tmnCode=DEMOCODE",
+                        "vnpay.hashSecret=PRODUCTION_SECURE_HASH_SECRET_KEY_123456"
+                )
+                .run(context -> {
+                    assertThat(context).hasFailed();
+                    Throwable rootCause = org.springframework.core.NestedExceptionUtils.getMostSpecificCause(context.getStartupFailure());
+                    assertThat(rootCause).isInstanceOf(IllegalStateException.class)
+                            .hasMessageContaining("Trên profile prod, vnpay.tmnCode không được để trống hoặc dùng giá trị demo");
                 });
     }
 }

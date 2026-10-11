@@ -119,7 +119,7 @@ function LoginForm() {
               type="button"
               onClick={() => {
                 setEmail('customer@store.com');
-                setPassword('123456');
+                setPassword('');
               }}
               style={{
                 padding: '9px 12px',
@@ -136,13 +136,12 @@ function LoginForm() {
               }}
             >
               <span>👤 Khách hàng mẫu: <strong>customer@store.com</strong></span>
-              <span style={{ fontSize: '11px', opacity: 0.8 }}>(123456)</span>
             </button>
             <button
               type="button"
               onClick={() => {
                 setEmail('admin@store.com');
-                setPassword('admin123');
+                setPassword('');
               }}
               style={{
                 padding: '9px 12px',
@@ -159,7 +158,6 @@ function LoginForm() {
               }}
             >
               <span>🛡️ Quản trị viên: <strong>admin@store.com</strong></span>
-              <span style={{ fontSize: '11px', opacity: 0.8 }}>(admin123)</span>
             </button>
           </div>
         </form>

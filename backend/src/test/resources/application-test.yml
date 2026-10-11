@@ -16,11 +16,10 @@ app:
     rate-limit: 100
 
 jwt:
-  secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+  secret: c098d5f3a2b1c4e7890123456789abcdef0123456789abcdef0123456789abcdef
   expiration: 86400000
 
 vnpay:
   tmnCode: TESTTMNCODE
   hashSecret: TEST_HASH_SECRET_KEY_FOR_TESTS_ONLY
   url: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
-
