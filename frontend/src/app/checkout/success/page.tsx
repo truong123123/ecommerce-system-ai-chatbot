@@ -1,30 +1,59 @@
 'use client';
 
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { CheckCircle2, ShoppingBag, ArrowRight, Clock } from 'lucide-react';
+import { CheckCircle2, ShoppingBag, ArrowRight, Clock, AlertCircle, Loader2 } from 'lucide-react';
+import { apiClient } from '@/services/api';
+
+interface BackendOrderStatus {
+  orderCode: string;
+  status: string;
+  totalAmount: number;
+  paymentMethod: string;
+}
 
 function SuccessContent() {
   const searchParams = useSearchParams();
-  const orderCode = searchParams.get('orderCode') || searchParams.get('vnp_TxnRef') || 'ORD-' + Math.floor(100000 + Math.random() * 900000);
-  const method = searchParams.get('method') || (searchParams.get('vnp_ResponseCode') ? 'VNPAY' : 'STORE');
-  const amountParam = searchParams.get('amount') || searchParams.get('vnp_Amount');
+  const rawOrderCode = searchParams.get('orderCode') || searchParams.get('vnp_TxnRef') || '';
   const storeHours = searchParams.get('storeHours') || '24';
-  const vnpResponseCode = searchParams.get('vnp_ResponseCode');
 
-  const isVnpaySuccess = !vnpResponseCode || vnpResponseCode === '00';
+  const [orderInfo, setOrderInfo] = useState<BackendOrderStatus | null>(null);
+  const [loading, setLoading] = useState<boolean>(!!rawOrderCode);
+  const [fetchError, setFetchError] = useState<string | null>(null);
 
-  const formatPrice = (val: string | null) => {
-    if (!val) return '0đ';
-    const num = parseInt(val, 10);
-    // If from VNPAY vnp_Amount, it's multiplied by 100
-    const finalNum = vnpResponseCode ? Math.round(num / 100) : num;
-    return finalNum.toLocaleString('vi-VN') + 'đ';
+  // BƯỚC 5: Đọc trạng thái thật từ backend, không tự đánh dấu đã thanh toán dựa vào tham số URL
+  useEffect(() => {
+    if (!rawOrderCode) return;
+    let isMounted = true;
+    apiClient.get<BackendOrderStatus>(`/payment/order-status/${encodeURIComponent(rawOrderCode)}`)
+      .then(res => {
+        if (isMounted) {
+          setOrderInfo(res.data);
+          setLoading(false);
+        }
+      })
+      .catch(() => {
+        if (isMounted) {
+          setFetchError('Chưa thể đối soát tức thời từ máy chủ. Hệ thống đang tiếp tục xử lý.');
+          setLoading(false);
+        }
+      });
+    return () => { isMounted = false; };
+  }, [rawOrderCode]);
+
+  const isPaid = orderInfo?.status === 'paid' || orderInfo?.status === 'completed';
+  const isPending = !orderInfo || orderInfo.status === 'pending_payment' || orderInfo.status === 'pending';
+  const method = orderInfo?.paymentMethod || searchParams.get('method') || 'VNPAY';
+  const finalOrderCode = orderInfo?.orderCode || rawOrderCode || 'Đang cập nhật';
+
+  const formatPrice = (amount?: number) => {
+    if (amount === undefined || amount === null) return 'Đang cập nhật';
+    return Number(amount).toLocaleString('vi-VN') + 'đ';
   };
 
   const getMethodTitle = (m: string) => {
-    switch (m) {
+    switch (m.toUpperCase()) {
       case 'STORE':
         return 'Thanh toán khi nhận máy tại cửa hàng';
       case 'BANK_QR':
@@ -57,28 +86,49 @@ function SuccessContent() {
             width: '72px',
             height: '72px',
             borderRadius: '50%',
-            background: isVnpaySuccess ? '#ecfdf5' : '#fef2f2',
+            background: isPaid ? '#ecfdf5' : '#fffbeb',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             margin: '0 auto 20px',
           }}
         >
-          {isVnpaySuccess ? (
+          {loading ? (
+            <Loader2 size={40} color="#3b82f6" className="animate-spin" />
+          ) : isPaid ? (
             <CheckCircle2 size={44} color="#059669" />
           ) : (
-            <CheckCircle2 size={44} color="#dc2626" />
+            <Clock size={44} color="#d97706" />
           )}
         </div>
 
         <h1 style={{ fontSize: '24px', fontWeight: 800, color: '#111827', marginBottom: '8px' }}>
-          {isVnpaySuccess ? 'Đặt hàng thành công!' : 'Thanh toán chưa hoàn tất!'}
+          {loading ? 'Đang đối soát thanh toán...' : isPaid ? 'Đặt hàng & Thanh toán thành công!' : 'Đơn hàng đang chờ xác nhận thanh toán'}
         </h1>
 
         <p style={{ color: '#4b5563', fontSize: '14.5px', marginBottom: '24px', lineHeight: 1.5 }}>
-          Cảm ơn quý khách đã mua sắm tại <strong>truongngstore</strong>.<br />
-          Đơn hàng của bạn đã được ghi nhận và đang được hệ thống điều phối xử lý.
+          {isPaid
+            ? 'Cảm ơn quý khách đã mua sắm tại truongngstore. Đơn hàng của bạn đã được thanh toán thành công và chuyển sang bộ phận điều phối.'
+            : 'Hệ thống đang tiến hành đối soát giao dịch từ cổng thanh toán. Trạng thái đơn hàng sẽ được cập nhật tự động.'}
         </p>
+
+        {fetchError && (
+          <div style={{
+            background: '#fef2f2',
+            border: '1px solid #fee2e2',
+            borderRadius: '8px',
+            padding: '10px 14px',
+            color: '#b91c1c',
+            fontSize: '13px',
+            marginBottom: '20px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px'
+          }}>
+            <AlertCircle size={16} />
+            <span>{fetchError}</span>
+          </div>
+        )}
 
         {/* Order Details Card */}
         <div
@@ -113,7 +163,7 @@ function SuccessContent() {
                 borderRadius: '6px',
               }}
             >
-              {orderCode}
+              {finalOrderCode}
             </span>
           </div>
 
@@ -133,37 +183,39 @@ function SuccessContent() {
             </span>
           </div>
 
-          {amountParam && (
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                paddingBottom: '12px',
-                borderBottom: '1px dashed #d1d5db',
-                marginBottom: '12px',
-              }}
-            >
-              <span style={{ fontSize: '13.5px', color: '#6b7280' }}>Tổng số tiền:</span>
-              <span style={{ fontSize: '18px', fontWeight: 800, color: '#d70018' }}>
-                {formatPrice(amountParam)}
-              </span>
-            </div>
-          )}
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              paddingBottom: '12px',
+              borderBottom: '1px dashed #d1d5db',
+              marginBottom: '12px',
+            }}
+          >
+            <span style={{ fontSize: '13.5px', color: '#6b7280' }}>Tổng số tiền:</span>
+            <span style={{ fontSize: '18px', fontWeight: 800, color: '#d70018' }}>
+              {formatPrice(orderInfo?.totalAmount)}
+            </span>
+          </div>
 
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontSize: '13.5px', color: '#6b7280' }}>Trạng thái đơn:</span>
+            <span style={{ fontSize: '13.5px', color: '#6b7280' }}>Trạng thái xác thực từ Server:</span>
             <span
               style={{
                 fontSize: '13px',
                 fontWeight: 700,
-                color: method === 'STORE' ? '#0284c7' : '#059669',
-                background: method === 'STORE' ? '#e0f2fe' : '#ecfdf5',
+                color: isPaid ? '#059669' : '#d97706',
+                background: isPaid ? '#ecfdf5' : '#fef3c7',
                 padding: '2px 8px',
                 borderRadius: '4px',
               }}
             >
-              {method === 'STORE' ? 'Đã xác nhận (Giữ hàng 24h)' : 'Đã thanh toán (Chờ giao hàng)'}
+              {isPaid
+                ? 'Đã thanh toán (Chờ giao hàng)'
+                : isPending
+                  ? 'Đang chờ cổng thanh toán xác nhận'
+                  : orderInfo?.status}
             </span>
           </div>
         </div>

@@ -7,7 +7,9 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -22,6 +24,13 @@ public class VNPayService {
     @Value("${vnpay.url:https://sandbox.vnpayment.vn/paymentv2/vpcpay.html}")
     private String vnpUrl;
 
+    @Value("${vnpay.return-url:${vnpay.returnUrl:http://localhost:3000/checkout/success}}")
+    private String vnpReturnUrl;
+
+    public String getVnpTmnCode() {
+        return vnpTmnCode != null ? vnpTmnCode.trim() : "";
+    }
+
     public String createPaymentUrl(String providerTxnRef, long amountVND, String ipAddress) {
         Map<String, String> vnpParams = new HashMap<>();
         vnpParams.put("vnp_Version", "2.1.0");
@@ -33,11 +42,13 @@ public class VNPayService {
         vnpParams.put("vnp_OrderInfo", "Thanh toan don hang " + providerTxnRef);
         vnpParams.put("vnp_OrderType", "other");
         vnpParams.put("vnp_Locale", "vn");
-        vnpParams.put("vnp_ReturnUrl", "http://localhost:3000/checkout/success?txnRef=" + providerTxnRef);
-        vnpParams.put("vnp_IpAddr", ipAddress != null ? ipAddress : "127.0.0.1");
+        vnpParams.put("vnp_ReturnUrl", vnpReturnUrl + "?orderCode=" + providerTxnRef + "&txnRef=" + providerTxnRef);
+        vnpParams.put("vnp_IpAddr", ipAddress != null && !ipAddress.isBlank() ? ipAddress : "127.0.0.1");
 
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-        vnpParams.put("vnp_CreateDate", formatter.format(new Date()));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss").withZone(ZoneId.of("Asia/Ho_Chi_Minh"));
+        ZonedDateTime now = ZonedDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh"));
+        vnpParams.put("vnp_CreateDate", now.format(formatter));
+        vnpParams.put("vnp_ExpireDate", now.plusMinutes(15).format(formatter));
 
         List<String> fieldNames = new ArrayList<>(vnpParams.keySet());
         Collections.sort(fieldNames);

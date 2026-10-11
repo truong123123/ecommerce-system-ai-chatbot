@@ -66,8 +66,9 @@ public class SecurityConfig {
                         "/vouchers/**", "/reviews/**").permitAll()
                 .requestMatchers(org.springframework.http.HttpMethod.POST,
                         "/vouchers/validate", "/checkout/calculate").permitAll()
-                // CHỈ GET /payment/callback/vnpay công khai, mọi /payment/** khác yêu cầu đăng nhập
+                // CHỈ GET /payment/callback/vnpay công khai; POST bị controller chặn với 403 Forbidden
                 .requestMatchers(org.springframework.http.HttpMethod.GET, "/payment/callback/vnpay").permitAll()
+                .requestMatchers(org.springframework.http.HttpMethod.POST, "/payment/callback", "/payment/callback/**").permitAll()
 
                 // 2. Review write endpoints (Phải đứng trước quy tắc tổng quát /products/**)
                 .requestMatchers(org.springframework.http.HttpMethod.POST, "/products/*/reviews", "/products/*/reviews/**", "/reviews/**").authenticated()
