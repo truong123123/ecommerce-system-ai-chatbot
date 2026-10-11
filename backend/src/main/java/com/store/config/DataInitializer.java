@@ -92,10 +92,15 @@ public class DataInitializer implements CommandLineRunner {
         if (bootstrapEmail != null && !bootstrapEmail.trim().isEmpty()
                 && bootstrapPassword != null && bootstrapPassword.length() >= 12
                 && staffRepository.count() == 0) {
+            String cleanEmail = bootstrapEmail.trim().toLowerCase();
+            if (customerRepository.findByEmailIgnoreCase(cleanEmail).isPresent()) {
+                log.error("Không thể tạo bootstrap admin: email {} đã tồn tại trong bảng customers!", cleanEmail);
+                return;
+            }
             log.info("Khởi tạo tài khoản bootstrap admin từ biến môi trường...");
             Staff bootstrapAdmin = Staff.builder()
                     .fullName("Bootstrap Administrator")
-                    .email(bootstrapEmail.trim().toLowerCase())
+                    .email(cleanEmail)
                     .role(StaffRole.admin)
                     .passwordHash(passwordEncoder.encode(bootstrapPassword))
                     .isActive(true)
