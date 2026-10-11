@@ -9,7 +9,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/banners")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class BannerController {
 
     private final BannerRepository bannerRepository;

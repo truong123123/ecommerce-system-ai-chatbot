@@ -11,7 +11,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/locations")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*", maxAge = 3600)
 public class LocationController {
 
     private final LocationService locationService;

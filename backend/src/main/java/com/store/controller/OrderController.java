@@ -22,7 +22,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/orders")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*", maxAge = 3600)
 @Slf4j
 public class OrderController {
 

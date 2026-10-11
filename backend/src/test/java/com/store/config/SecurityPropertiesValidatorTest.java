@@ -98,6 +98,8 @@ class SecurityPropertiesValidatorTest {
                 .withPropertyValues(
                         "spring.profiles.active=prod",
                         "jwt.secret=this-is-a-very-secure-jwt-secret-key-that-exceeds-32-bytes",
+                        "app.cookie.secure=true",
+                        "app.cors.allowed-origins=https://mystore.vn",
                         "vnpay.tmnCode=DEMOCODE",
                         "vnpay.hashSecret=PRODUCTION_SECURE_HASH_SECRET_KEY_123456"
                 )
@@ -106,6 +108,84 @@ class SecurityPropertiesValidatorTest {
                     Throwable rootCause = org.springframework.core.NestedExceptionUtils.getMostSpecificCause(context.getStartupFailure());
                     assertThat(rootCause).isInstanceOf(IllegalStateException.class)
                             .hasMessageContaining("Trên profile prod, vnpay.tmnCode không được để trống hoặc dùng giá trị demo");
+                });
+    }
+
+    @Test
+    @DisplayName("Khởi động THẤT BẠI trên profile prod khi app.cookie.secure = false")
+    void shouldFailStartupInProdProfileWhenCookieSecureIsFalse() {
+        contextRunner
+                .withPropertyValues(
+                        "spring.profiles.active=prod",
+                        "jwt.secret=this-is-a-very-secure-jwt-secret-key-that-exceeds-32-bytes",
+                        "app.cookie.secure=false",
+                        "app.cors.allowed-origins=https://mystore.vn",
+                        "vnpay.tmnCode=REALTMNCODE",
+                        "vnpay.hashSecret=PRODUCTION_SECURE_HASH_SECRET_KEY_123456"
+                )
+                .run(context -> {
+                    assertThat(context).hasFailed();
+                    Throwable rootCause = org.springframework.core.NestedExceptionUtils.getMostSpecificCause(context.getStartupFailure());
+                    assertThat(rootCause).isInstanceOf(IllegalStateException.class)
+                            .hasMessageContaining("app.cookie.secure bắt buộc phải là true");
+                });
+    }
+
+    @Test
+    @DisplayName("Khởi động THẤT BẠI trên profile prod khi app.cors.allowed-origins chứa ký tự đại diện (*)")
+    void shouldFailStartupInProdProfileWhenCorsOriginsContainsWildcard() {
+        contextRunner
+                .withPropertyValues(
+                        "spring.profiles.active=prod",
+                        "jwt.secret=this-is-a-very-secure-jwt-secret-key-that-exceeds-32-bytes",
+                        "app.cookie.secure=true",
+                        "app.cors.allowed-origins=*",
+                        "vnpay.tmnCode=REALTMNCODE",
+                        "vnpay.hashSecret=PRODUCTION_SECURE_HASH_SECRET_KEY_123456"
+                )
+                .run(context -> {
+                    assertThat(context).hasFailed();
+                    Throwable rootCause = org.springframework.core.NestedExceptionUtils.getMostSpecificCause(context.getStartupFailure());
+                    assertThat(rootCause).isInstanceOf(IllegalStateException.class)
+                            .hasMessageContaining("app.cors.allowed-origins không được chứa ký tự đại diện '*'");
+                });
+    }
+
+    @Test
+    @DisplayName("Khởi động THẤT BẠI trên profile prod khi app.cors.allowed-origins chứa localhost")
+    void shouldFailStartupInProdProfileWhenCorsOriginsContainsLocalhost() {
+        contextRunner
+                .withPropertyValues(
+                        "spring.profiles.active=prod",
+                        "jwt.secret=this-is-a-very-secure-jwt-secret-key-that-exceeds-32-bytes",
+                        "app.cookie.secure=true",
+                        "app.cors.allowed-origins=http://localhost:3000",
+                        "vnpay.tmnCode=REALTMNCODE",
+                        "vnpay.hashSecret=PRODUCTION_SECURE_HASH_SECRET_KEY_123456"
+                )
+                .run(context -> {
+                    assertThat(context).hasFailed();
+                    Throwable rootCause = org.springframework.core.NestedExceptionUtils.getMostSpecificCause(context.getStartupFailure());
+                    assertThat(rootCause).isInstanceOf(IllegalStateException.class)
+                            .hasMessageContaining("app.cors.allowed-origins không được chứa localhost hoặc 127.0.0.1");
+                });
+    }
+
+    @Test
+    @DisplayName("Khởi động THÀNH CÔNG trên profile prod khi toàn bộ cấu hình bảo mật hợp lệ")
+    void shouldSucceedStartupInProdProfileWhenAllConfigsValid() {
+        contextRunner
+                .withPropertyValues(
+                        "spring.profiles.active=prod",
+                        "jwt.secret=this-is-a-very-secure-jwt-secret-key-that-exceeds-32-bytes",
+                        "app.cookie.secure=true",
+                        "app.cors.allowed-origins=https://mystore.vn,https://admin.mystore.vn",
+                        "vnpay.tmnCode=REALTMNCODE",
+                        "vnpay.hashSecret=PRODUCTION_SECURE_HASH_SECRET_KEY_123456"
+                )
+                .run(context -> {
+                    assertThat(context).hasNotFailed();
+                    assertThat(context).hasSingleBean(SecurityPropertiesValidator.class);
                 });
     }
 }

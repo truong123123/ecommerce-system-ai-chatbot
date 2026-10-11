@@ -12,7 +12,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/dashboard")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*", maxAge = 3600)
 public class DashboardController {
 
     private final JdbcTemplate jdbcTemplate;

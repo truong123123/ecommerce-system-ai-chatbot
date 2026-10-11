@@ -12,7 +12,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/brands")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*", maxAge = 3600)
 public class BrandController {
 
     private final BrandService brandService;

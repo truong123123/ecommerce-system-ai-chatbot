@@ -13,7 +13,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/admin/reviews")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class AdminReviewController {
 
     private final ReviewService reviewService;

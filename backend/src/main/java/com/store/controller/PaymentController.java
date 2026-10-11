@@ -27,7 +27,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/payment")
-@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 @Slf4j
 public class PaymentController {
@@ -37,6 +36,7 @@ public class PaymentController {
     private final PaymentTransactionRepository paymentTransactionRepository;
     private final OrderRepository orderRepository;
     private final CustomerRepository customerRepository;
+    private final com.store.util.ClientIpUtil clientIpUtil;
 
     /**
      * BƯỚC 6: Khởi tạo thanh toán VNPay
@@ -110,7 +110,7 @@ public class PaymentController {
             paymentTransactionRepository.save(newTxn);
         }
 
-        String clientIp = extractClientIp(request);
+        String clientIp = clientIpUtil.extractClientIp(request);
         String paymentUrl = vnPayService.createPaymentUrl(txnRef, serverSideAmount, clientIp);
 
         Map<String, Object> response = new HashMap<>();
@@ -120,23 +120,6 @@ public class PaymentController {
         response.put("txnRef", txnRef);
         response.put("amount", serverSideAmount);
         return ResponseEntity.ok(response);
-    }
-
-    private String extractClientIp(HttpServletRequest request) {
-        String clientIp = request.getHeader("X-Forwarded-For");
-        if (clientIp == null || clientIp.isBlank() || "unknown".equalsIgnoreCase(clientIp)) {
-            clientIp = request.getHeader("X-Real-IP");
-        }
-        if (clientIp == null || clientIp.isBlank() || "unknown".equalsIgnoreCase(clientIp)) {
-            clientIp = request.getRemoteAddr();
-        }
-        if (clientIp != null && clientIp.contains(",")) {
-            clientIp = clientIp.split(",")[0].trim();
-        }
-        if (clientIp == null || clientIp.isBlank()) {
-            clientIp = "127.0.0.1";
-        }
-        return clientIp;
     }
 
     /**
@@ -247,15 +230,5 @@ public class PaymentController {
                 "orderCode", order.getOrderCode(),
                 "status", order.getStatus().name()
         ));
-    }
-
-    /**
-     * Từ chối toàn bộ request POST tới callback
-     */
-    @PostMapping(value = {"/callback", "/callback/**"})
-    public ResponseEntity<?> rejectPostCallback() {
-        log.warn("Từ chối callback qua HTTP POST - Cổng thanh toán chỉ hỗ trợ GET IPN.");
-        return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                .body(Map.of("RspCode", "99", "Message", "POST callback is forbidden. Only GET IPN callbacks are supported."));
     }
 }

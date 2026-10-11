@@ -20,7 +20,6 @@ import java.util.*;
 @RestController
 @RequestMapping("/vouchers")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*", maxAge = 3600)
 public class VoucherController {
 
     private final CouponRepository couponRepository;

@@ -16,7 +16,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/wishlist")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*", maxAge = 3600)
 @Slf4j
 public class WishlistController {
 

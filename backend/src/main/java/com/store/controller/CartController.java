@@ -20,7 +20,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/cart")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*", maxAge = 3600)
 @Slf4j
 public class CartController {
 

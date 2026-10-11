@@ -13,7 +13,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/categories")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*", maxAge = 3600)
 public class CategoryController {
 
     private final CategoryService categoryService;

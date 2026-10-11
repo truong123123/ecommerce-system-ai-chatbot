@@ -25,6 +25,12 @@ public class SecurityPropertiesValidator {
     @Value("${vnpay.tmnCode:}")
     private String vnpayTmnCode;
 
+    @Value("${app.cookie.secure:false}")
+    private boolean cookieSecure;
+
+    @Value("${app.cors.allowed-origins:http://localhost:3000,http://127.0.0.1:3000}")
+    private String corsAllowedOrigins;
+
     @Autowired
     private Environment environment;
 
@@ -77,6 +83,23 @@ public class SecurityPropertiesValidator {
                 .anyMatch(p -> p.equalsIgnoreCase("prod") || p.equalsIgnoreCase("production"));
 
         if (isProd) {
+            if (!cookieSecure) {
+                throw new IllegalStateException("CẤU HÌNH SẢN XUẤT KHÔNG HỢP LỆ: Trên profile prod, app.cookie.secure bắt buộc phải là true để đảm bảo cookie phiên được truyền qua kết nối an toàn (HTTPS).");
+            }
+
+            if (corsAllowedOrigins == null || corsAllowedOrigins.trim().isEmpty()) {
+                throw new IllegalStateException("CẤU HÌNH SẢN XUẤT KHÔNG HỢP LỆ: Trên profile prod, app.cors.allowed-origins không được để trống.");
+            }
+
+            if (corsAllowedOrigins.contains("*")) {
+                throw new IllegalStateException("CẤU HÌNH SẢN XUẤT KHÔNG HỢP LỆ: Trên profile prod, app.cors.allowed-origins không được chứa ký tự đại diện '*' khi sử dụng cookie xác thực.");
+            }
+
+            String lowerCors = corsAllowedOrigins.toLowerCase();
+            if (lowerCors.contains("localhost") || lowerCors.contains("127.0.0.1")) {
+                throw new IllegalStateException("CẤU HÌNH SẢN XUẤT KHÔNG HỢP LỆ: Trên profile prod, app.cors.allowed-origins không được chứa localhost hoặc 127.0.0.1.");
+            }
+
             if (vnpayTmnCode == null || vnpayTmnCode.trim().isEmpty()
                     || "DEMOCODE".equalsIgnoreCase(vnpayTmnCode.trim())
                     || vnpayTmnCode.toLowerCase().contains("change_me")

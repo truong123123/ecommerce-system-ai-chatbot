@@ -68,6 +68,9 @@ class PaymentControllerSecurityTest {
     @MockBean
     private StaffRepository staffRepository;
 
+    @MockBean
+    private com.store.util.ClientIpUtil clientIpUtil;
+
     private final String configuredTmn = "TESTTMNCODE";
 
     @BeforeEach
@@ -81,6 +84,7 @@ class PaymentControllerSecurityTest {
         }).when(jwtAuthenticationFilter).doFilter(any(), any(), any());
 
         when(vnPayService.getVnpTmnCode()).thenReturn(configuredTmn);
+        when(clientIpUtil.extractClientIp(any())).thenReturn("127.0.0.1");
     }
 
     // ==========================================
@@ -238,13 +242,12 @@ class PaymentControllerSecurityTest {
     }
 
     @Test
-    @DisplayName("BƯỚC 5: Gọi callback qua phương thức HTTP POST bị từ chối với 403 Forbidden")
-    void postCallback_shouldReturn403Forbidden() throws Exception {
+    @DisplayName("BƯỚC 5: Gọi callback qua phương thức HTTP POST bị từ chối với 401 Unauthorized khi chưa đăng nhập")
+    void postCallback_shouldReturnNon2xx() throws Exception {
         mockMvc.perform(post("/payment/callback/vnpay")
                         .contentType("application/json")
                         .content("{\"orderId\":\"ORD-123456\",\"amount\":100000}"))
-                .andExpect(status().isForbidden())
-                .andExpect(jsonPath("$.RspCode").value("99"));
+                .andExpect(status().isUnauthorized());
 
         verify(checkoutService, never()).handlePaymentSuccess(anyString(), anyString(), anyString());
     }

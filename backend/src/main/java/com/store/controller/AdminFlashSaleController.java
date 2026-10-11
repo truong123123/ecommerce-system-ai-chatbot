@@ -18,7 +18,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/admin/flash-sales")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class AdminFlashSaleController {
 
     private final FlashSaleService flashSaleService;

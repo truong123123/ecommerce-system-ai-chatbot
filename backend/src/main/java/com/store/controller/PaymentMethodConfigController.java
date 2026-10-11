@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/payment-methods")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*", maxAge = 3600)
 public class PaymentMethodConfigController {
 
     private final PaymentMethodConfigRepository paymentMethodConfigRepository;

@@ -21,6 +21,9 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtFilter;
     private final org.springframework.core.env.Environment environment;
 
+    @org.springframework.beans.factory.annotation.Value("${app.cors.allowed-origins:http://localhost:3000,http://127.0.0.1:3000}")
+    private String allowedOrigins;
+
     public SecurityConfig(JwtAuthenticationFilter jwtFilter, org.springframework.core.env.Environment environment) {
         this.jwtFilter = jwtFilter;
         this.environment = environment;
@@ -34,13 +37,16 @@ public class SecurityConfig {
         CsrfTokenRequestAttributeHandler csrfRequestHandler = new CsrfTokenRequestAttributeHandler();
         csrfRequestHandler.setCsrfRequestAttributeName(null);
 
+        CookieCsrfTokenRepository csrfTokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
+        csrfTokenRepository.setCookiePath("/");
+
         http
             .csrf(csrf -> csrf
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .csrfTokenRepository(csrfTokenRepository)
                 .csrfTokenRequestHandler(csrfRequestHandler)
-                .ignoringRequestMatchers("/auth/login", "/payment/callback/**", "/payment/callback/vnpay")
+                .ignoringRequestMatchers("/auth/login", "/payment/callback/vnpay")
             )
-            .cors(cors -> {})
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .exceptionHandling(exceptions -> exceptions
                 .authenticationEntryPoint((request, response, authException) -> {
@@ -76,9 +82,8 @@ public class SecurityConfig {
                         "/vouchers/**", "/reviews/**").permitAll()
                 .requestMatchers(org.springframework.http.HttpMethod.POST,
                         "/vouchers/validate", "/checkout/calculate").permitAll()
-                // CHỈ GET /payment/callback/vnpay công khai; POST bị controller chặn với 403 Forbidden
+                // CHỈ GET /payment/callback/vnpay công khai cho VNPAY IPN
                 .requestMatchers(org.springframework.http.HttpMethod.GET, "/payment/callback/vnpay").permitAll()
-                .requestMatchers(org.springframework.http.HttpMethod.POST, "/payment/callback", "/payment/callback/**").permitAll()
 
                 // 2. Review write endpoints (Phải đứng trước quy tắc tổng quát /products/**)
                 .requestMatchers(org.springframework.http.HttpMethod.POST, "/products/*/reviews", "/products/*/reviews/**", "/reviews/**").authenticated()
@@ -103,13 +108,49 @@ public class SecurityConfig {
                 // 6. Mặc định: Yêu cầu xác thực (deny-by-default)
                 .anyRequest().authenticated();
             })
-            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+            .addFilterAfter(new CsrfCookieFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 
     @Bean
+    public org.springframework.web.cors.CorsConfigurationSource corsConfigurationSource() {
+        org.springframework.web.cors.CorsConfiguration configuration = new org.springframework.web.cors.CorsConfiguration();
+        java.util.List<String> origins = java.util.Arrays.stream(allowedOrigins.split(","))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .collect(java.util.stream.Collectors.toList());
+        configuration.setAllowedOrigins(origins);
+        configuration.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+        configuration.setAllowedHeaders(java.util.List.of("*"));
+        configuration.setExposedHeaders(java.util.List.of("Set-Cookie", "X-XSRF-TOKEN"));
+        configuration.setAllowCredentials(true);
+        configuration.setMaxAge(3600L);
+
+        org.springframework.web.cors.UrlBasedCorsConfigurationSource source = new org.springframework.web.cors.UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
+    @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    private static class CsrfCookieFilter extends org.springframework.web.filter.OncePerRequestFilter {
+        @Override
+        protected void doFilterInternal(jakarta.servlet.http.HttpServletRequest request,
+                                        jakarta.servlet.http.HttpServletResponse response,
+                                        jakarta.servlet.FilterChain filterChain)
+                throws jakarta.servlet.ServletException, java.io.IOException {
+            org.springframework.security.web.csrf.CsrfToken csrfToken =
+                    (org.springframework.security.web.csrf.CsrfToken) request.getAttribute(org.springframework.security.web.csrf.CsrfToken.class.getName());
+            if (csrfToken != null) {
+                // Ép giải nén deferred CSRF token để Spring Security ghi cookie XSRF-TOKEN
+                csrfToken.getToken();
+            }
+            filterChain.doFilter(request, response);
+        }
     }
 }

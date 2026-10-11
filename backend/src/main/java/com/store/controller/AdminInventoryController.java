@@ -18,7 +18,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/admin/inventory")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class AdminInventoryController {
 
     private final InventoryService inventoryService;

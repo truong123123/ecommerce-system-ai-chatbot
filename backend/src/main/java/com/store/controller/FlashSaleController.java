@@ -16,7 +16,6 @@ import java.util.Map;
 @RestController
 @RequestMapping({"/flash-sales", "/flash-sale"})
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class FlashSaleController {
 
     private final FlashSaleService flashSaleService;
