@@ -57,16 +57,6 @@ set ERROR_CODE=0
 @setlocal
 
 @REM ==== START VALIDATION ====
-if "%JAVA_HOME%" == "" (
-  for /f "delims=" %%I in ('where java.exe 2^>nul') do (
-    if exist "%%~dpI..\bin\java.exe" (
-      for %%D in ("%%~dpI..") do (
-        set "JAVA_HOME=%%~fD"
-        goto OkJHome
-      )
-    )
-  )
-)
 if not "%JAVA_HOME%" == "" goto OkJHome
 
 echo. >&2

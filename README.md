@@ -171,7 +171,12 @@ Ensure the following tools are installed on your environment before starting:
 4. Access the application:
    - **Frontend Application**: `http://localhost:3000`
    - **Backend REST API**: `http://localhost:8080/api/v1`
+   - **Actuator Health Check**: `http://localhost:8080/api/v1/actuator/health`
    - **Swagger API Specs**: `http://localhost:8080/swagger-ui.html`
+
+> [!IMPORTANT]
+> **Lưu ý về biến môi trường Frontend (Next.js)**:
+> Các biến `NEXT_PUBLIC_API_URL` và `BACKEND_INTERNAL_URL` được Next.js đóng đinh (bake) vào mã nguồn client bundle tại **thời điểm build** thông qua `build.args` trong `docker-compose.yml` và `ARG/ENV` trong `frontend/Dockerfile`. Khi thay đổi URL trỏ tới backend, cần build lại image (`docker compose build frontend` hoặc `docker compose up --build -d`).
 
 ---
 

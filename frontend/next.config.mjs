@@ -17,7 +17,7 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'example.com',
+        hostname: 'api.qrserver.com',
       },
     ],
   },
