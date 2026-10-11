@@ -48,7 +48,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public CartDto getCart(Customer customer, List<Long> selectedVariantIds, String couponCode) {
         Cart cart = getOrCreateCart(customer);
         List<CartItem> cartItems = cartItemRepository.findByIdCartId(cart.getCartId());
