@@ -31,6 +31,7 @@ import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -110,6 +111,7 @@ class CheckoutSecurityTest {
                 .build();
 
         mockMvc.perform(post("/checkout")
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(req)))
                 .andExpect(status().isUnauthorized())
@@ -140,6 +142,7 @@ class CheckoutSecurityTest {
                 .thenReturn(calculateDto);
 
         mockMvc.perform(post("/checkout/calculate")
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(req)))
                 .andExpect(status().isOk())
@@ -178,6 +181,7 @@ class CheckoutSecurityTest {
     @DisplayName("BƯỚC 8.6: Gọi POST /vouchers/validate với JSON hỏng nhận 400 Bad Request (không bị biến thành 401)")
     void anonymous_callVoucherValidateWithMalformedJson_returns400Not401() throws Exception {
         mockMvc.perform(post("/vouchers/validate")
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{invalid_malformed_json_structure"))
                 .andExpect(status().isBadRequest());

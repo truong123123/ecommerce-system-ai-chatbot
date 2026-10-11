@@ -1,20 +1,25 @@
 package com.store.controller;
 
-import com.store.dto.AuthResponse;
 import com.store.dto.LoginRequest;
 import com.store.dto.RegisterRequest;
 import com.store.entity.Customer;
 import com.store.entity.Staff;
 import com.store.repository.CustomerRepository;
 import com.store.repository.StaffRepository;
-import com.store.security.JwtTokenProvider;
 import com.store.security.LoginRateLimiter;
+import com.store.service.AccountValidationService;
+import com.store.service.AuthCookieService;
+import com.store.service.AuthSessionService;
 import com.store.util.ClientIpUtil;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,16 +38,21 @@ public class AuthController {
     private final StaffRepository staffRepository;
     private final CustomerRepository customerRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtTokenProvider jwtTokenProvider;
     private final LoginRateLimiter loginRateLimiter;
     private final ClientIpUtil clientIpUtil;
-    private final com.store.service.AccountValidationService accountValidationService;
+    private final AccountValidationService accountValidationService;
+    private final AuthSessionService authSessionService;
+    private final AuthCookieService authCookieService;
 
-    @org.springframework.beans.factory.annotation.Value("${app.auth.registration-enabled:false}")
+    @Value("${app.auth.registration-enabled:false}")
     private boolean registrationEnabled;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request, HttpServletRequest httpRequest) {
+    public ResponseEntity<?> login(
+            @Valid @RequestBody LoginRequest request,
+            HttpServletRequest httpRequest,
+            HttpServletResponse httpResponse
+    ) {
         String clientIp = clientIpUtil.extractClientIp(httpRequest);
         String email = request.getEmail().trim().toLowerCase();
         String rawPassword = request.getPassword();
@@ -85,22 +95,7 @@ public class AuthController {
                 staff.setLastLoginAt(OffsetDateTime.now());
                 staffRepository.save(staff);
 
-                String roleName = staff.getRole() != null ? staff.getRole().name() : "admin";
-                String token = jwtTokenProvider.generateToken(staff.getEmail(), roleName, staff.getFullName());
-
-                AuthResponse response = AuthResponse.builder()
-                        .token(token)
-                        .tokenType("Bearer")
-                        .user(AuthResponse.UserInfo.builder()
-                                .id(String.valueOf(staff.getStaffId()))
-                                .name(staff.getFullName())
-                                .email(staff.getEmail())
-                                .role(roleName)
-                                .userType("staff")
-                                .build())
-                        .build();
-
-                return ResponseEntity.ok(response);
+                return ResponseEntity.ok(authSessionService.createStaffSession(staff, httpResponse));
             } else {
                 loginRateLimiter.recordFailedAttempt(clientIp, email);
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -133,21 +128,7 @@ public class AuthController {
             if (isPasswordMatch) {
                 loginRateLimiter.resetAttempts(clientIp, email);
 
-                String token = jwtTokenProvider.generateToken(customer.getEmail(), "customer", customer.getFullName());
-
-                AuthResponse response = AuthResponse.builder()
-                        .token(token)
-                        .tokenType("Bearer")
-                        .user(AuthResponse.UserInfo.builder()
-                                .id(String.valueOf(customer.getCustomerId()))
-                                .name(customer.getFullName())
-                                .email(customer.getEmail())
-                                .role("customer")
-                                .userType("customer")
-                                .build())
-                        .build();
-
-                return ResponseEntity.ok(response);
+                return ResponseEntity.ok(authSessionService.createSession(customer, httpResponse));
             } else {
                 loginRateLimiter.recordFailedAttempt(clientIp, email);
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -160,6 +141,12 @@ public class AuthController {
         loginRateLimiter.recordFailedAttempt(clientIp, email);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(Map.of("message", "Email hoặc mật khẩu không chính xác"));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletResponse response) {
+        authCookieService.clearAccessTokenCookie(response);
+        return ResponseEntity.ok(Map.of("message", "Đăng xuất thành công"));
     }
 
     @PostMapping("/register")
@@ -196,19 +183,14 @@ public class AuthController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<?> getCurrentUser(@RequestHeader(value = "Authorization", required = false) String authHeader) {
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+    public ResponseEntity<?> getCurrentUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || !auth.isAuthenticated() || "anonymousUser".equalsIgnoreCase(auth.getName())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("message", "Chưa cung cấp token xác thực"));
+                    .body(Map.of("message", "Chưa cung cấp token xác thực hoặc phiên đã hết hạn"));
         }
 
-        String token = authHeader.substring(7);
-        if (!jwtTokenProvider.validateToken(token)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("message", "Token không hợp lệ hoặc đã hết hạn"));
-        }
-
-        String email = jwtTokenProvider.getEmailFromJWT(token);
+        String email = auth.getName();
 
         Optional<Staff> staffOpt = staffRepository.findByEmailIgnoreCase(email);
         if (staffOpt.isPresent()) {

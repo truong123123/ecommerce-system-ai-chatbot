@@ -31,6 +31,7 @@ import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -256,6 +257,7 @@ class PaymentControllerSecurityTest {
     @DisplayName("BƯỚC 6 - (1): Khách ẩn danh tạo thanh toán VNPay bị từ chối với 401 Unauthorized")
     void createVNPayPayment_unauthenticated_returns401() throws Exception {
         mockMvc.perform(post("/payment/vnpay")
+                        .with(csrf())
                         .contentType("application/json")
                         .content("{\"orderCode\":\"ORD-GUEST-001\"}"))
                 .andExpect(status().isUnauthorized());
@@ -281,6 +283,7 @@ class PaymentControllerSecurityTest {
         when(orderRepository.findByOrderCode("ORD-VICTIM-001")).thenReturn(Optional.of(victimOrder));
 
         mockMvc.perform(post("/payment/vnpay")
+                        .with(csrf())
                         .contentType("application/json")
                         .content("{\"orderCode\":\"ORD-VICTIM-001\"}"))
                 .andExpect(status().isNotFound())
@@ -306,6 +309,7 @@ class PaymentControllerSecurityTest {
         when(orderRepository.findByOrderCode("ORD-COMPLETED-001")).thenReturn(Optional.of(order));
 
         mockMvc.perform(post("/payment/vnpay")
+                        .with(csrf())
                         .contentType("application/json")
                         .content("{\"orderCode\":\"ORD-COMPLETED-001\"}"))
                 .andExpect(status().isBadRequest())
@@ -331,6 +335,7 @@ class PaymentControllerSecurityTest {
         when(orderRepository.findByOrderCode("ORD-COD-001")).thenReturn(Optional.of(order));
 
         mockMvc.perform(post("/payment/vnpay")
+                        .with(csrf())
                         .contentType("application/json")
                         .content("{\"orderCode\":\"ORD-COD-001\"}"))
                 .andExpect(status().isBadRequest())
@@ -357,6 +362,7 @@ class PaymentControllerSecurityTest {
         when(orderRepository.findByOrderCode("ORD-EXPIRED-001")).thenReturn(Optional.of(order));
 
         mockMvc.perform(post("/payment/vnpay")
+                        .with(csrf())
                         .contentType("application/json")
                         .content("{\"orderCode\":\"ORD-EXPIRED-001\"}"))
                 .andExpect(status().isBadRequest())
@@ -389,6 +395,7 @@ class PaymentControllerSecurityTest {
 
         // Client cố ý giả mạo body amount = 1000 VND
         mockMvc.perform(post("/payment/vnpay")
+                        .with(csrf())
                         .contentType("application/json")
                         .content("{\"orderCode\":\"ORD-VALID-VNP-001\",\"amount\":1000}"))
                 .andExpect(status().isOk())

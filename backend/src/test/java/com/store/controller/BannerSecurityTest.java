@@ -24,6 +24,7 @@ import java.util.Collections;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -82,6 +83,7 @@ class BannerSecurityTest {
         banner.setImageUrl("https://example.com/banner.jpg");
 
         mockMvc.perform(post("/banners")
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(banner)))
                 .andExpect(status().isUnauthorized())
@@ -97,6 +99,7 @@ class BannerSecurityTest {
         banner.setImageUrl("https://example.com/banner.jpg");
 
         mockMvc.perform(post("/banners")
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(banner)))
                 .andExpect(status().isForbidden())
@@ -114,6 +117,7 @@ class BannerSecurityTest {
         when(bannerRepository.save(any(Banner.class))).thenReturn(banner);
 
         mockMvc.perform(post("/banners")
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(banner)))
                 .andExpect(status().isOk());

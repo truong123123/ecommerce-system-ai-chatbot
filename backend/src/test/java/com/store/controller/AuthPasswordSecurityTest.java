@@ -32,11 +32,23 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.hamcrest.Matchers.containsString;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.cookie;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(AuthController.class)
-@Import({SecurityConfig.class, GlobalExceptionHandler.class, LoginRateLimiter.class, com.store.util.ClientIpUtil.class, com.store.service.AccountValidationService.class})
+@Import({
+        SecurityConfig.class,
+        GlobalExceptionHandler.class,
+        LoginRateLimiter.class,
+        com.store.util.ClientIpUtil.class,
+        com.store.service.AccountValidationService.class,
+        com.store.service.AuthSessionService.class,
+        com.store.service.AuthCookieService.class
+})
 class AuthPasswordSecurityTest {
 
     @Autowired
@@ -181,7 +193,9 @@ class AuthPasswordSecurityTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(loginReq)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.token").value("mock.jwt.token"))
+                .andExpect(jsonPath("$.token").doesNotExist())
+                .andExpect(cookie().exists("access_token"))
+                .andExpect(cookie().httpOnly("access_token", true))
                 .andExpect(jsonPath("$.user.email").value("valid@example.com"));
 
         verify(jwtTokenProvider, times(1)).generateToken("valid@example.com", "customer", "Valid User");
@@ -331,6 +345,7 @@ class AuthPasswordSecurityTest {
                 .build();
 
         mockMvc.perform(post("/auth/register")
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(regReq)))
                 .andExpect(status().isNotFound())

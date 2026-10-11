@@ -59,6 +59,22 @@ public class JwtTokenProvider {
         return claims.get("role", String.class);
     }
 
+    public long getExpirationInSeconds() {
+        return jwtExpirationInMs / 1000;
+    }
+
+    public Claims parseAndValidateToken(String authToken) {
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(getSigningKey())
+                    .build()
+                    .parseClaimsJws(authToken)
+                    .getBody();
+        } catch (JwtException | IllegalArgumentException ex) {
+            return null;
+        }
+    }
+
     public boolean validateToken(String authToken) {
         try {
             Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(authToken);
