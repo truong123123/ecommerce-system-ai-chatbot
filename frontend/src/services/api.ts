@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_BASE_URL } from '@/lib/env';
+import { API_BASE_URL } from '../lib/env';
 
 export interface ApiErrorResponse {
   status?: number;

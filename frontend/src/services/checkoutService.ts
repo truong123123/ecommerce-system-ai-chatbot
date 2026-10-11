@@ -13,6 +13,14 @@ import {
   CouponItem,
 } from '@/types/checkout';
 
+export function redirectToLogin(fromPath: string = '/checkout'): string {
+  const target = `/login?from=${encodeURIComponent(fromPath)}`;
+  if (typeof window !== 'undefined') {
+    window.location.href = target;
+  }
+  return target;
+}
+
 export const checkoutService = {
   // 1. Lấy thông tin preview checkout
   async getPreview(variantIds: number[], quantities?: number[]): Promise<CheckoutPreviewData> {
@@ -21,24 +29,38 @@ export const checkoutService = {
     if (quantities && quantities.length > 0) {
       params.set('quantities', quantities.join(','));
     }
-    const response = await apiClient.get<CheckoutPreviewData>(`/checkout/preview?${params.toString()}`);
-    return response.data;
+    try {
+      const response = await apiClient.get<CheckoutPreviewData>(`/checkout/preview?${params.toString()}`);
+      return response.data;
+    } catch (error: any) {
+      if (error?.response?.status === 401) {
+        redirectToLogin('/checkout');
+      }
+      throw error;
+    }
   },
 
-  // 2. Tính toán lại giá khi đổi hình thức giao hàng, voucher
+  // 2. Tính toán lại giá khi đổi hình thức giao hàng, voucher (Public)
   async calculate(request: CheckoutCalculateRequest): Promise<CheckoutCalculateResponse> {
     const response = await apiClient.post<CheckoutCalculateResponse>('/checkout/calculate', request);
     return response.data;
   },
 
-  // 3. Đặt hàng
+  // 3. Đặt hàng (Bắt buộc Authenticated, 401 redirect sang login)
   async submitCheckout(request: CheckoutSubmitRequest, idempotencyKey?: string): Promise<CheckoutSubmitResponse> {
     const headers: Record<string, string> = {};
     if (idempotencyKey) {
       headers['Idempotency-Key'] = idempotencyKey;
     }
-    const response = await apiClient.post<CheckoutSubmitResponse>('/checkout', request, { headers });
-    return response.data;
+    try {
+      const response = await apiClient.post<CheckoutSubmitResponse>('/checkout', request, { headers });
+      return response.data;
+    } catch (error: any) {
+      if (error?.response?.status === 401) {
+        redirectToLogin('/checkout');
+      }
+      throw error;
+    }
   },
 
   // 4. Lấy danh sách tỉnh/thành

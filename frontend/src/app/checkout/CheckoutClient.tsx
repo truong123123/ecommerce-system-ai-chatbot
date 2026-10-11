@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import styles from './Checkout.module.css';
 import { useCartStore } from '../../store/cartStore';
 import { authService } from '../../services/authService';
-import { checkoutService } from '../../services/checkoutService';
+import { checkoutService, redirectToLogin } from '../../services/checkoutService';
 import {
   CheckoutPreviewData,
   LocationProvince,
@@ -180,6 +180,10 @@ export default function CheckoutClient() {
           setCouponCode(cartData.appliedCoupon.code);
         }
       } catch (err: any) {
+        if (err?.response?.status === 401) {
+          redirectToLogin('/checkout');
+          return;
+        }
         console.error('Error loading checkout preview:', err);
         setErrorMsg(err.response?.data?.message || err.message || 'Không thể tải dữ liệu thanh toán.');
       } finally {

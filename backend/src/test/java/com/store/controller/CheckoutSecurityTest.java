@@ -167,4 +167,13 @@ class CheckoutSecurityTest {
                         .param("variantIds", "1,2"))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    @DisplayName("BƯỚC 7: Gọi endpoint public /checkout/calculate với dữ liệu sai định dạng nhận 400 Bad Request (không bị biến thành 401)")
+    void anonymous_callPublicEndpointWithInvalidData_returns400Not401() throws Exception {
+        mockMvc.perform(post("/checkout/calculate")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"items\":\"INVALID_FORMAT_NOT_AN_ARRAY\"}"))
+                .andExpect(status().isBadRequest());
+    }
 }
