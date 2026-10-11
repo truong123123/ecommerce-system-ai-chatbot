@@ -10,9 +10,10 @@ dist/
 
 # Java Spring Boot build output
 target/
-.mvn/
 *.jar
 *.war
+!**/.mvn/wrapper/maven-wrapper.jar
+!**/.mvn/wrapper/maven-wrapper.properties
 
 # Environment & Secrets
 .env

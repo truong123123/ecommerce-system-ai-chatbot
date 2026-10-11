@@ -36,3 +36,13 @@ vnpay:
   tmnCode: DEMOCODE
   hashSecret: DEMOHASHSECRET
   url: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: ${MANAGEMENT_HEALTH_SHOW_DETAILS:never}
+

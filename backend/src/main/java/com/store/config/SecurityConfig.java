@@ -35,7 +35,7 @@ public class SecurityConfig {
                 })
             )
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                .requestMatchers("/auth/**", "/actuator/health", "/actuator/info", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                 .requestMatchers(org.springframework.http.HttpMethod.GET, "/categories/**", "/brands/**", "/products/**", "/dashboard/**", "/banners/**", "/flash-sales/**", "/flash-sale/**", "/chat/**", "/payment/**", "/locations/**", "/stores/**", "/payment-methods/**", "/vouchers/**", "/reviews/**").permitAll()
                 .requestMatchers(org.springframework.http.HttpMethod.POST, "/vouchers/validate", "/checkout/calculate", "/payment/**").permitAll()
                 .requestMatchers(org.springframework.http.HttpMethod.POST, "/products/*/reviews", "/products/*/reviews/**", "/reviews/**").authenticated()
