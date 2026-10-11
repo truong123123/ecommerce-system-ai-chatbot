@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-// Route Guard protecting private routes (/account, /checkout)
+// Route Guard protecting private routes (/account)
 export function middleware(request: NextRequest) {
-  const token = request.cookies.get('auth_token')?.value || request.headers.get('Authorization');
+  const token = request.cookies.get('access_token')?.value || request.cookies.get('auth_token')?.value;
   const { pathname } = request.nextUrl;
 
   const protectedRoutes = ['/account'];

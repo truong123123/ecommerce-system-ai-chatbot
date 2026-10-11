@@ -47,6 +47,16 @@ const nextConfig = {
       },
     ];
   },
+  async rewrites() {
+    const rawBackendUrl = process.env.BACKEND_INTERNAL_URL || 'http://backend:8080/api/v1';
+    const backendUrl = rawBackendUrl.replace(/\/+$/, '');
+    return [
+      {
+        source: '/api/v1/:path*',
+        destination: `${backendUrl}/:path*`,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

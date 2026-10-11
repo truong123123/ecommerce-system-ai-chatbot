@@ -26,7 +26,7 @@ export async function revalidateShowcaseAction(secretToken?: string): Promise<Re
   try {
     // Next.js 14.1.0 cookies() wrapped with Promise.resolve for Next 15+ async compatibility
     const cookieStore = await Promise.resolve(cookies());
-    const token = cookieStore.get('auth_token')?.value || cookieStore.get('token')?.value;
+    const token = cookieStore.get('access_token')?.value || cookieStore.get('auth_token')?.value || cookieStore.get('token')?.value;
 
     const envSecret = process.env.REVALIDATE_SECRET;
     const isSecretAuthorized = Boolean(
@@ -38,9 +38,11 @@ export async function revalidateShowcaseAction(secretToken?: string): Promise<Re
     // Verify authentication against backend Spring Boot endpoint GET /auth/me
     if (token) {
       try {
-        const verifyRes = await fetch(`${API_BASE_URL}/auth/me`, {
+        const backendUrl = process.env.BACKEND_INTERNAL_URL || API_BASE_URL;
+        const verifyRes = await fetch(`${backendUrl}/auth/me`, {
           method: 'GET',
           headers: {
+            Cookie: `access_token=${token}`,
             Authorization: `Bearer ${token}`,
           },
           cache: 'no-store',

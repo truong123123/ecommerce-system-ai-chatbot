@@ -53,7 +53,10 @@ describe('revalidateShowcaseAction authentication & authorization', () => {
     expect(global.fetch).toHaveBeenCalledWith(
       expect.stringContaining('/auth/me'),
       expect.objectContaining({
-        headers: { Authorization: 'Bearer valid-jwt-token' },
+        headers: expect.objectContaining({
+          Cookie: 'access_token=valid-jwt-token',
+          Authorization: 'Bearer valid-jwt-token',
+        }),
       })
     );
     expect(revalidateTag).toHaveBeenCalledWith('showcase');

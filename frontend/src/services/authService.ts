@@ -3,100 +3,106 @@ export interface UserSession {
   name: string;
   email: string;
   role: 'admin' | 'sales' | 'warehouse' | 'customer' | string;
-  token: string;
+  userType?: 'staff' | 'customer' | string;
+  token?: string | null;
 }
 
-import { API_BASE_URL } from '@/lib/env';
-const USER_SESSION_KEY = 'store_auth_user';
-const TOKEN_KEY = 'auth_token';
+import apiClient from './api';
+
+let inMemoryUser: UserSession | null = null;
+let fetchPromise: Promise<UserSession | null> | null = null;
 
 export const authService = {
-  // Lấy thông tin user hiện tại
+  // Lấy thông tin user hiện tại từ cache bộ nhớ
   getCurrentUser(): UserSession | null {
+    return inMemoryUser;
+  },
+
+  // Đồng bộ thông tin người dùng từ backend endpoint /auth/me
+  async fetchCurrentUser(): Promise<UserSession | null> {
     if (typeof window === 'undefined') return null;
-    const data = localStorage.getItem(USER_SESSION_KEY);
-    if (!data) return null;
-    try {
-      return JSON.parse(data);
-    } catch {
-      return null;
+
+    if (fetchPromise) {
+      return fetchPromise;
     }
+
+    fetchPromise = (async () => {
+      try {
+        const response = await apiClient.get('/auth/me');
+        if (response.status === 200 && response.data) {
+          inMemoryUser = {
+            id: response.data.id,
+            name: response.data.name,
+            email: response.data.email,
+            role: response.data.role,
+            userType: response.data.userType,
+          };
+          window.dispatchEvent(new Event('auth_changed'));
+          return inMemoryUser;
+        }
+        inMemoryUser = null;
+        window.dispatchEvent(new Event('auth_changed'));
+        return null;
+      } catch {
+        inMemoryUser = null;
+        window.dispatchEvent(new Event('auth_changed'));
+        return null;
+      } finally {
+        fetchPromise = null;
+      }
+    })();
+
+    return fetchPromise;
   },
 
-  // Lưu phiên đăng nhập
-  login(session: UserSession): void {
-    if (typeof window === 'undefined') return;
-    localStorage.setItem(USER_SESSION_KEY, JSON.stringify(session));
-    localStorage.setItem(TOKEN_KEY, session.token);
-    localStorage.setItem('token', session.token);
-
-    // Lưu cookie để middleware Next.js có thể đọc được
-    document.cookie = `auth_token=${session.token}; path=/; max-age=86400; SameSite=Lax`;
-    document.cookie = `user_role=${session.role}; path=/; max-age=86400; SameSite=Lax`;
-
-    try {
-      window.dispatchEvent(new Event('auth_changed'));
-    } catch {
-      // ignore
-    }
-  },
-
-  // Đăng nhập qua API Backend Spring Boot
+  // Đăng nhập qua API Backend Spring Boot (Set-Cookie HttpOnly access_token)
   async loginWithApi(email: string, password: string): Promise<UserSession> {
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await apiClient.post('/auth/login', { email, password });
+      const data = response.data;
 
-      const data = await response.json().catch(() => null);
-
-      if (!response.ok) {
-        const errorMsg = data?.message || 'Đăng nhập không thành công. Vui lòng kiểm tra lại.';
-        throw new Error(errorMsg);
+      if (data && data.user) {
+        inMemoryUser = {
+          id: data.user.id,
+          name: data.user.name,
+          email: data.user.email,
+          role: data.user.role,
+          userType: data.user.userType || (data.user.role === 'admin' ? 'staff' : 'customer'),
+        };
+      } else {
+        await this.fetchCurrentUser();
       }
 
-      const session: UserSession = {
-        id: data.user.id,
-        name: data.user.name,
-        email: data.user.email,
-        role: data.user.role,
-        token: data.token,
-      };
+      window.dispatchEvent(new Event('auth_changed'));
 
-      this.login(session);
-      return session;
+      if (!inMemoryUser) {
+        throw new Error('Đăng nhập thành công nhưng không lấy được thông tin người dùng.');
+      }
+      return inMemoryUser;
     } catch (error: any) {
-      if (error.name === 'TypeError' && error.message.includes('fetch')) {
-        throw new Error('Không thể kết nối đến máy chủ Backend (port 8080). Vui lòng thử lại sau.');
-      }
-      throw error;
+      const msg = error.response?.data?.message || error.message || 'Đăng nhập không thành công.';
+      throw new Error(msg);
     }
   },
 
-  // Đăng xuất
-  logout(): void {
-    if (typeof window === 'undefined') return;
-    localStorage.removeItem(USER_SESSION_KEY);
-    localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem('token');
-    document.cookie = 'auth_token=; path=/; max-age=0';
-    document.cookie = 'user_role=; path=/; max-age=0';
-
+  // Đăng xuất: gọi backend để xóa cookie access_token HttpOnly
+  async logout(): Promise<void> {
     try {
-      window.dispatchEvent(new Event('auth_changed'));
+      await apiClient.post('/auth/logout');
     } catch {
       // ignore
+    } finally {
+      inMemoryUser = null;
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new Event('auth_changed'));
+      }
     }
   },
 
   // Kiểm tra quyền Admin
   isAdmin(): boolean {
     const user = this.getCurrentUser();
-    return user?.role === 'admin';
+    return String(user?.role).toLowerCase() === 'admin';
   },
 };
 

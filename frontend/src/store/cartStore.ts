@@ -1,6 +1,12 @@
 import { create } from 'zustand';
 import { CartData, CartItem, CartSummary, CouponInfo } from '../types/cart';
 import { cartService } from '../services/cartService';
+import { authService } from '../services/authService';
+
+function isUserLoggedIn(): boolean {
+  if (typeof window === 'undefined') return false;
+  return authService.getCurrentUser() !== null;
+}
 
 const GUEST_CART_KEY = 'store_guest_cart_items';
 const GUEST_COUPON_KEY = 'store_guest_coupon';
@@ -122,9 +128,11 @@ export const useCartStore = create<CartState>((set, get) => ({
 
   fetchCart: async () => {
     set({ isLoading: true, error: null });
-    const hasToken =
-      typeof window !== 'undefined' &&
-      !!(localStorage.getItem('token') || localStorage.getItem('auth_token'));
+    let hasToken = isUserLoggedIn();
+    if (!hasToken && typeof window !== 'undefined') {
+      const user = await authService.fetchCurrentUser();
+      hasToken = user !== null;
+    }
 
     if (hasToken) {
       try {
@@ -226,9 +234,7 @@ export const useCartStore = create<CartState>((set, get) => ({
     itemMeta?: Partial<CartItem>
   ) => {
     set({ isLoading: true, error: null });
-    const hasToken =
-      typeof window !== 'undefined' &&
-      !!(localStorage.getItem('token') || localStorage.getItem('auth_token'));
+    const hasToken = isUserLoggedIn();
 
     if (hasToken) {
       try {
@@ -303,9 +309,7 @@ export const useCartStore = create<CartState>((set, get) => ({
 
   updateQuantity: async (variantId: number, quantity: number) => {
     set({ isLoading: true, error: null });
-    const hasToken =
-      typeof window !== 'undefined' &&
-      !!(localStorage.getItem('token') || localStorage.getItem('auth_token'));
+    const hasToken = isUserLoggedIn();
 
     if (hasToken) {
       try {
@@ -355,9 +359,7 @@ export const useCartStore = create<CartState>((set, get) => ({
 
   removeItem: async (variantId: number) => {
     set({ isLoading: true, error: null });
-    const hasToken =
-      typeof window !== 'undefined' &&
-      !!(localStorage.getItem('token') || localStorage.getItem('auth_token'));
+    const hasToken = isUserLoggedIn();
 
     if (hasToken) {
       try {
@@ -545,9 +547,7 @@ export const useCartStore = create<CartState>((set, get) => ({
   removeCoupon: async () => {
     set({ couponCode: '', isLoading: true });
     const { selectedVariantIds, cartData } = get();
-    const hasToken =
-      typeof window !== 'undefined' &&
-      !!(localStorage.getItem('token') || localStorage.getItem('auth_token'));
+    const hasToken = isUserLoggedIn();
 
     if (hasToken) {
       try {
@@ -573,9 +573,7 @@ export const useCartStore = create<CartState>((set, get) => ({
   },
 
   clearCart: async () => {
-    const hasToken =
-      typeof window !== 'undefined' &&
-      !!(localStorage.getItem('token') || localStorage.getItem('auth_token'));
+    const hasToken = isUserLoggedIn();
 
     if (hasToken) {
       try {
