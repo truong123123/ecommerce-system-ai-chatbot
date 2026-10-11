@@ -1,11 +1,16 @@
-# PowerShell Script nạp dữ liệu mẫu cho môi trường Development (Chỉ chạy ở DEV)
-$ErrorActionPreference = "Stop"
+# Kiểm tra môi trường: Chặn tuyệt đối trên PROD
+$activeProfile = $env:SPRING_PROFILES_ACTIVE
+$appEnv = $env:APP_ENV
+if (($activeProfile -match "prod|production") -or ($appEnv -match "prod|production")) {
+    Write-Error "[LỖI BẢO MẬT] Script seed-dev.ps1 chỉ được phép chạy trên môi trường Development. Đã phát hiện profile/env là PROD!"
+    exit 1
+}
 
 $dbHost = if ($env:DB_HOST) { $env:DB_HOST } else { "localhost" }
 $dbPort = if ($env:DB_PORT) { $env:DB_PORT } else { "5432" }
 $dbName = if ($env:DB_NAME) { $env:DB_NAME } else { "store_dev" }
 $dbUser = if ($env:DB_USER) { $env:DB_USER } else { "postgres" }
-$dbPass = if ($env:DB_PASSWORD) { $env:DB_PASSWORD } else { "879779" }
+$dbPass = if ($env:DB_PASSWORD) { $env:DB_PASSWORD } elseif ($env:PGPASSWORD) { $env:PGPASSWORD } else { $null }
 
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $rootDir = Split-Path -Parent $scriptDir
@@ -30,7 +35,9 @@ $seedFiles = @(
     (Join-Path $rootDir "database\seed\V3__membership_tiers.sql")
 )
 
-$env:PGPASSWORD = $dbPass
+if ($dbPass) {
+    $env:PGPASSWORD = $dbPass
+}
 foreach ($f in $seedFiles) {
     if (Test-Path $f) {
         $fileName = Split-Path -Leaf $f
