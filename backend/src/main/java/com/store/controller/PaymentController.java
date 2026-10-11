@@ -1,15 +1,22 @@
 package com.store.controller;
 
+import com.store.entity.Order;
+import com.store.entity.OrderStatus;
 import com.store.entity.PaymentTransaction;
 import com.store.payment.VNPayService;
+import com.store.repository.OrderRepository;
 import com.store.repository.PaymentTransactionRepository;
 import com.store.service.CheckoutService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -22,19 +29,79 @@ public class PaymentController {
     private final VNPayService vnPayService;
     private final CheckoutService checkoutService;
     private final PaymentTransactionRepository paymentTransactionRepository;
+    private final OrderRepository orderRepository;
 
     @PostMapping("/vnpay")
-    public ResponseEntity<Map<String, Object>> createVNPayPayment(@RequestBody Map<String, Object> req) {
-        String orderCode = (String) req.getOrDefault("orderCode", "SK-" + System.currentTimeMillis());
-        long amount = Number.class.cast(req.getOrDefault("amount", 29990000)).longValue();
+    public ResponseEntity<?> createVNPayPayment(@RequestBody Map<String, Object> req, HttpServletRequest request) {
+        String orderCode = (String) req.get("orderCode");
+        if (orderCode == null || orderCode.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body(Map.of("success", false, "message", "Mã đơn hàng (orderCode) không được để trống"));
+        }
 
-        String paymentUrl = vnPayService.createPaymentUrl(orderCode, amount, "127.0.0.1");
+        Order order = orderRepository.findByOrderCode(orderCode.trim()).orElse(null);
+        String txnRef;
+        long serverSideAmount;
+
+        if (order != null) {
+            if (order.getStatus() == OrderStatus.paid || order.getStatus() == OrderStatus.completed) {
+                return ResponseEntity.badRequest().body(Map.of("success", false, "message", "Đơn hàng đã được thanh toán trước đó"));
+            }
+            serverSideAmount = order.getTotalAmount().longValue();
+            List<PaymentTransaction> txns = paymentTransactionRepository.findByOrderOrderIdOrderByCreatedAtDesc(order.getOrderId());
+            if (!txns.isEmpty()) {
+                txnRef = txns.get(0).getProviderTxnRef();
+            } else {
+                txnRef = "VNP_" + order.getOrderCode() + "_" + System.currentTimeMillis();
+                PaymentTransaction newTxn = PaymentTransaction.builder()
+                        .order(order)
+                        .paymentMethod("VNPAY")
+                        .provider("VNPAY")
+                        .amount(order.getTotalAmount())
+                        .currency("VND")
+                        .status("INITIATED")
+                        .providerTxnRef(txnRef)
+                        .build();
+                paymentTransactionRepository.save(newTxn);
+            }
+        } else {
+            PaymentTransaction txn = paymentTransactionRepository.findByProviderTxnRef(orderCode.trim()).orElse(null);
+            if (txn != null) {
+                if ("SUCCESS".equalsIgnoreCase(txn.getStatus())) {
+                    return ResponseEntity.badRequest().body(Map.of("success", false, "message", "Giao dịch đã được thanh toán thành công trước đó"));
+                }
+                serverSideAmount = txn.getAmount().longValue();
+                txnRef = txn.getProviderTxnRef();
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(Map.of("success", false, "message", "Không tìm thấy đơn hàng hoặc giao dịch với mã: " + orderCode));
+            }
+        }
+
+        String clientIp = extractClientIp(request);
+        // Tuyệt đối không dùng amount do client gửi lên; chỉ dùng serverSideAmount từ DB
+        String paymentUrl = vnPayService.createPaymentUrl(txnRef, serverSideAmount, clientIp);
 
         Map<String, Object> response = new HashMap<>();
         response.put("success", true);
         response.put("paymentUrl", paymentUrl);
         response.put("orderCode", orderCode);
+        response.put("txnRef", txnRef);
+        response.put("amount", serverSideAmount);
         return ResponseEntity.ok(response);
+    }
+
+    private String extractClientIp(HttpServletRequest request) {
+        String clientIp = request.getHeader("X-Forwarded-For");
+        if (clientIp == null || clientIp.isBlank() || "unknown".equalsIgnoreCase(clientIp)) {
+            clientIp = request.getRemoteAddr();
+        }
+        if (clientIp != null && clientIp.contains(",")) {
+            clientIp = clientIp.split(",")[0].trim();
+        }
+        if (clientIp == null || clientIp.isBlank()) {
+            clientIp = "127.0.0.1";
+        }
+        return clientIp;
     }
 
     /**
@@ -62,17 +129,20 @@ public class PaymentController {
 
         // Kiểm tra số tiền: vnp_Amount = amount * 100
         String vnpAmountStr = allParams.get("vnp_Amount");
-        if (vnpAmountStr != null) {
-            try {
-                long vnpAmount = Long.parseLong(vnpAmountStr);
-                long expectedAmount = txn.getAmount().longValue() * 100;
-                if (vnpAmount != expectedAmount) {
-                    log.warn("Số tiền không khớp: VNPAY = {}, Database = {}", vnpAmount, expectedAmount);
-                    return ResponseEntity.ok(Map.of("RspCode", "04", "Message", "Invalid Amount"));
-                }
-            } catch (NumberFormatException e) {
-                return ResponseEntity.ok(Map.of("RspCode", "04", "Message", "Invalid Amount Format"));
+        if (vnpAmountStr == null || vnpAmountStr.trim().isEmpty()) {
+            log.warn("Thiếu tham số vnp_Amount trong callback!");
+            return ResponseEntity.ok(Map.of("RspCode", "04", "Message", "Invalid Amount"));
+        }
+        try {
+            long vnpAmount = Long.parseLong(vnpAmountStr);
+            long expectedAmount = txn.getAmount().longValue() * 100;
+            if (vnpAmount != expectedAmount) {
+                log.warn("Số tiền không khớp: VNPAY = {}, Database = {}", vnpAmount, expectedAmount);
+                return ResponseEntity.ok(Map.of("RspCode", "04", "Message", "Invalid Amount"));
             }
+        } catch (NumberFormatException e) {
+            log.warn("Định dạng vnp_Amount không hợp lệ: {}", vnpAmountStr);
+            return ResponseEntity.ok(Map.of("RspCode", "04", "Message", "Invalid Amount Format"));
         }
 
         // Idempotency: Kiểm tra nếu đơn hàng đã được xử lý (SUCCESS hoặc FAILED)
