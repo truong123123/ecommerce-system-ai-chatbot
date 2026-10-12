@@ -49,3 +49,7 @@ backups/
 backup/
 scratch/
 
+# Dev test artifacts
+scripts/dev-tests/node_modules/
+scripts/dev-tests/screenshots/
+
