@@ -277,6 +277,42 @@ SPRING_DATASOURCE_PASSWORD=your_db_password
 SPRING_JPA_SHOW_SQL=false
 ```
 
+### 6. Development & Database Utility Scripts
+
+Dự án cung cấp bộ công cụ script phục vụ kiểm thử và thao tác cơ sở dữ liệu thuận tiện trong quá trình phát triển:
+
+#### A. Scripts kiểm thử phát triển (`scripts/dev-tests/`)
+- **Kiểm tra số lượng bản ghi CSDL**:
+  ```powershell
+  powershell -ExecutionPolicy Bypass -File .\scripts\dev-tests\check_db_count.ps1
+  ```
+- **Kiểm thử tích hợp các Module API (Wishlist, Review, Comparison, Cart, v.v.)**:
+  ```powershell
+  powershell -ExecutionPolicy Bypass -File .\scripts\dev-tests\integration_test.ps1
+  ```
+- **Kiểm thử luồng nghiệp vụ đánh giá sản phẩm (Reviews)**:
+  ```powershell
+  powershell -ExecutionPolicy Bypass -File .\scripts\dev-tests\test_reviews.ps1
+  ```
+- **Kiểm thử giao diện tự động trên trình duyệt Chrome (Puppeteer)**:
+  ```bash
+  cd scripts/dev-tests
+  npm install
+  node test_browser_acceptance.js
+  ```
+
+*Biến môi trường hỗ trợ*: `API_BASE_URL` (mặc định `http://localhost:8080/api/v1`), `PGPASSWORD`, `TEST_CUST_EMAIL`, `TEST_ADMIN_EMAIL`. Chi tiết xem tại `scripts/dev-tests/README.md`.
+
+#### B. Công cụ cơ sở dữ liệu (`scripts/db-tools/`)
+- **Kiểm tra bảng, views và dữ liệu ưu đãi nhanh qua `db-tools.bat`**:
+  ```cmd
+  scripts\db-tools\db-tools.bat tables      # Liệt kê toàn bộ bảng
+  scripts\db-tools\db-tools.bat views       # Liệt kê toàn bộ views
+  scripts\db-tools\db-tools.bat promo       # Xem dữ liệu ưu đãi, trả góp, membership
+  scripts\db-tools\db-tools.bat describe    # Xem cấu trúc các bảng ưu đãi
+  ```
+*Biến môi trường hỗ trợ*: `PGDATABASE`, `PGUSER`, `PGPASSWORD`, `PSQL_PATH`. Chi tiết xem tại `scripts/db-tools/README.md`.
+
 ---
 
 ## Security Implementation
