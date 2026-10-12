@@ -44,7 +44,7 @@ function LoginForm() {
   };
 
   const handleSocialClick = (provider: string) => {
-    setError(`Đăng nhập qua ${provider} đang được kết nối. Vui lòng đăng nhập với admin@store.com hoặc customer@store.com.`);
+    setError(`Tính năng đăng nhập qua ${provider} đang được phát triển.`);
   };
 
   return (
@@ -112,60 +112,12 @@ function LoginForm() {
           <button type="submit" className={styles.signInBtn} disabled={isLoading}>
             {isLoading ? 'Signing in...' : 'Sign in'}
           </button>
-
-          {/* Tài khoản thử nghiệm nhanh */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '14px' }}>
-            <button
-              type="button"
-              onClick={() => {
-                setEmail('customer@store.com');
-                setPassword('');
-              }}
-              style={{
-                padding: '9px 12px',
-                fontSize: '12px',
-                borderRadius: '8px',
-                border: '1px dashed #3b82f6',
-                background: 'rgba(59, 130, 246, 0.08)',
-                color: '#60a5fa',
-                cursor: 'pointer',
-                textAlign: 'left',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}
-            >
-              <span>👤 Khách hàng mẫu: <strong>customer@store.com</strong></span>
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setEmail('admin@store.com');
-                setPassword('');
-              }}
-              style={{
-                padding: '9px 12px',
-                fontSize: '12px',
-                borderRadius: '8px',
-                border: '1px dashed #ef4444',
-                background: 'rgba(239, 68, 68, 0.08)',
-                color: '#f87171',
-                cursor: 'pointer',
-                textAlign: 'left',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}
-            >
-              <span>🛡️ Quản trị viên: <strong>admin@store.com</strong></span>
-            </button>
-          </div>
         </form>
 
         {/* Dòng chữ or continue with */}
         <div className={styles.divider}>or continue with</div>
 
-        {/* 3 Nút Mạng xã hội: Google, GitHub, Facebook */}
+        {/* 3 Nút Mạng xã hội: Google, Zalo, Facebook */}
         <div className={styles.socialRow}>
           {/* Google */}
           <button
@@ -194,15 +146,30 @@ function LoginForm() {
             </svg>
           </button>
 
-          {/* GitHub */}
+          {/* Zalo */}
           <button
             type="button"
             className={styles.socialBtn}
-            onClick={() => handleSocialClick('GitHub')}
-            title="Sign in with GitHub"
+            onClick={() => handleSocialClick('Zalo')}
+            title="Sign in with Zalo"
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="#24292e">
-              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path
+                fill="#0068FF"
+                d="M12 2C6.477 2 2 6.477 2 12c0 1.98.574 3.824 1.564 5.378L2.24 21.35a.65.65 0 0 0 .81.81l3.972-1.324A9.954 9.954 0 0 0 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"
+              />
+              <text
+                x="12"
+                y="14.6"
+                textAnchor="middle"
+                fill="#FFFFFF"
+                fontSize="7.2"
+                fontWeight="800"
+                fontFamily="system-ui, -apple-system, sans-serif"
+                letterSpacing="-0.2px"
+              >
+                Zalo
+              </text>
             </svg>
           </button>
 
