@@ -11,6 +11,8 @@ if "%PGDATABASE%"=="" set PGDATABASE=LNT_Doantotnghiep
 if "%PGUSER%"=="" set PGUSER=postgres
 if "%PGHOST%"=="" set PGHOST=localhost
 if "%PGPORT%"=="" set PGPORT=5432
+chcp 65001 >nul
+set PGCLIENTENCODING=UTF8
 
 :: 2. Tim kiem duong dan thuc thi psql.exe
 if not "%PSQL_PATH%"=="" (

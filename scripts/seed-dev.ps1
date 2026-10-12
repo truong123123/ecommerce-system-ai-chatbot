@@ -52,6 +52,9 @@ $seedFiles = @(
 if ($dbPass) {
     $env:PGPASSWORD = $dbPass
 }
+$env:PGCLIENTENCODING = "UTF8"
+$OutputEncoding = [System.Text.Encoding]::UTF8
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 foreach ($f in $seedFiles) {
     if (Test-Path $f) {
         $fileName = Split-Path -Leaf $f
