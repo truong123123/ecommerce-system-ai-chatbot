@@ -216,7 +216,8 @@ npm run dev
 | `GET` | `/api/v1/products/{id}` | Retrieve product details | Public |
 | `POST` | `/api/v1/orders` | Create new customer order | Authenticated |
 | `POST` | `/api/v1/payment/vnpay` | Generate VNPay payment URL | Authenticated |
-| `POST` | `/api/v1/chat` | Send prompt to AI Assistant | Public |
+| `POST` | `/api/v1/chat` | AI Assistant with LLM Tool-Calling (Catalog, Stock, Orders, Policies) | Public / Optional Auth |
+
 
 ---
 

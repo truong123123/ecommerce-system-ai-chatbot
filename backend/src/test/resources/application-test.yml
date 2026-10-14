@@ -25,3 +25,9 @@ vnpay:
   tmnCode: TESTTMNCODE
   hashSecret: TEST_HASH_SECRET_KEY_FOR_TESTS_ONLY
   url: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
+
+llm:
+  provider: gemini
+  api-key: test-api-key
+  model: gemini-1.5-flash
+
