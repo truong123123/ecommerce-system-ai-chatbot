@@ -6,7 +6,6 @@ import { AccessoryShowcase } from '../components/home/AccessoryShowcase';
 import { LaptopShowcase } from '../components/home/LaptopShowcase';
 import { WatchAudioShowcase } from '../components/home/WatchAudioShowcase';
 import { Experience5T } from '../components/navigation/Experience5T';
-import { AiChatbox } from '../components/chat/AiChatbox';
 
 interface HomePageProps {
   searchParams?: {
@@ -41,9 +40,6 @@ export default function HomePage({ searchParams }: HomePageProps) {
 
       {/* 7. Khung Trải nghiệm mua sắm 5T */}
       <Experience5T />
-
-      {/* AI Assistant Chat Widget */}
-      <AiChatbox />
     </main>
   );
 }

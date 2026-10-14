@@ -1,10 +1,16 @@
 'use client';
 
 import React from 'react';
+import dynamic from 'next/dynamic';
 import { usePathname } from 'next/navigation';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
 import { FloatingCompareBar } from '../compare/FloatingCompareBar';
+
+const AiChatbox = dynamic(
+  () => import('../chat/AiChatbox').then((mod) => mod.AiChatbox),
+  { ssr: false }
+);
 
 export const LayoutShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const pathname = usePathname();
@@ -16,6 +22,9 @@ export const LayoutShell: React.FC<{ children: React.ReactNode }> = ({ children 
     return <>{children}</>;
   }
 
+  // Ẩn chatbot ở trang thanh toán để không che các nút và thông tin thanh toán quan trọng
+  const hideChatbot = pathname.startsWith('/checkout');
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <Navbar />
@@ -24,6 +33,7 @@ export const LayoutShell: React.FC<{ children: React.ReactNode }> = ({ children 
       </div>
       <Footer />
       <FloatingCompareBar />
+      {!hideChatbot && <AiChatbox />}
     </div>
   );
 };
