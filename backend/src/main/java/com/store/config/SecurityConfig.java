@@ -81,7 +81,7 @@ public class SecurityConfig {
                         "/locations/**", "/stores/**", "/payment-methods/**",
                         "/vouchers/**", "/reviews/**").permitAll()
                 .requestMatchers(org.springframework.http.HttpMethod.POST,
-                        "/vouchers/validate", "/checkout/calculate").permitAll()
+                        "/vouchers/validate", "/checkout/calculate", "/chat").permitAll()
                 // CHỈ GET /payment/callback/vnpay công khai cho VNPAY IPN
                 .requestMatchers(org.springframework.http.HttpMethod.GET, "/payment/callback/vnpay").permitAll()
 
