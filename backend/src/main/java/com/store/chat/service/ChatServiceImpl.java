@@ -165,9 +165,12 @@ public class ChatServiceImpl implements ChatService {
             finalReply = "Xin lỗi, hiện tại trợ lý AI đang bận hoặc gặp sự cố kết nối. " +
                     "Bạn có thể tham khảo một số sản phẩm gợi ý bên dưới hoặc liên hệ hotline cửa hàng để được hỗ trợ tốt nhất.";
 
-            // Trong chế độ fallback, thử tìm kiếm sản phẩm theo từ khóa của người dùng
+            // Trong chế độ fallback, thử tìm kiếm sản phẩm theo từ khóa trích xuất được từ câu hỏi
             try {
-                searchProductsTool.execute(Map.of("keyword", request.getMessage()), context);
+                String searchKeyword = extractFallbackKeyword(request.getMessage());
+                if (searchKeyword != null && !searchKeyword.isBlank()) {
+                    searchProductsTool.execute(Map.of("keyword", searchKeyword), context);
+                }
             } catch (Exception ignored) {
             }
         }
@@ -226,5 +229,41 @@ public class ChatServiceImpl implements ChatService {
         } catch (Exception e) {
             log.warn("Không thể lưu tin nhắn assistant vào chat_messages: {}", e.getMessage());
         }
+    }
+
+    private String extractFallbackKeyword(String message) {
+        if (message == null || message.isBlank()) {
+            return null;
+        }
+
+        String lower = message.toLowerCase().trim();
+
+        // 1. Kiểm tra các nhóm từ khóa sản phẩm cốt lõi
+        String[] techKeywords = {
+                "iphone", "macbook", "ipad", "airpods", "apple watch", "watch",
+                "laptop", "samsung", "asus", "dell", "hp", "tai nghe", "chuột", "bàn phím"
+        };
+        for (String kw : techKeywords) {
+            if (lower.contains(kw)) {
+                return kw;
+            }
+        }
+
+        // 2. Loại bỏ các từ dừng tiếng Việt phổ biến trong câu hỏi mua hàng
+        String cleaned = lower
+                .replaceAll("(?i)\\b(có|không|shop|ơi|nào|dưới|trên|khoảng|triệu|tr|k|ạ|giá|báo|tư vấn|cho|mình|em|anh|chị|mua|cần|tìm|xem|muốn|hỏi|sản phẩm)\\b", " ")
+                .replaceAll("[^a-zA-Z0-9àáảãạâầấẩẫậăằắẳẵặèéẻẽẹêềếểễệđìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵ\\s]", " ")
+                .trim()
+                .replaceAll("\\s+", " ");
+
+        if (!cleaned.isEmpty()) {
+            String[] words = cleaned.split(" ");
+            if (words.length > 3) {
+                return String.join(" ", Arrays.copyOfRange(words, 0, 3));
+            }
+            return cleaned;
+        }
+
+        return message.length() > 20 ? message.substring(0, 20) : message;
     }
 }

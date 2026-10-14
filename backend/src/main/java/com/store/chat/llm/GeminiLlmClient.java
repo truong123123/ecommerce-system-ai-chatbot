@@ -23,6 +23,7 @@ public class GeminiLlmClient implements LlmClient {
     private final RestClient restClient;
     private final ObjectMapper objectMapper;
 
+    @org.springframework.beans.factory.annotation.Autowired
     public GeminiLlmClient(LlmProperties properties, RestClient.Builder restClientBuilder, ObjectMapper objectMapper) {
         this(properties, restClientBuilder, objectMapper, true);
     }
