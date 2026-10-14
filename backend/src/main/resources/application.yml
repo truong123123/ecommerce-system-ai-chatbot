@@ -58,3 +58,15 @@ management:
     redis:
       enabled: ${MANAGEMENT_HEALTH_REDIS_ENABLED:false}
 
+llm:
+  provider: ${LLM_PROVIDER:gemini}
+  api-key: ${LLM_API_KEY:}
+  model: ${LLM_MODEL:gemini-1.5-flash}
+  connect-timeout-seconds: ${LLM_CONNECT_TIMEOUT_SECONDS:3}
+  read-timeout-seconds: ${LLM_READ_TIMEOUT_SECONDS:20}
+  rate-limit:
+    per-minute: ${LLM_RATE_LIMIT_PER_MINUTE:10}
+    per-day: ${LLM_RATE_LIMIT_PER_DAY:100}
+    system-daily-limit: ${LLM_SYSTEM_DAILY_LIMIT:1000}
+
+
