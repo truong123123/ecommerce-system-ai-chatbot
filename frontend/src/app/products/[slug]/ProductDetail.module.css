@@ -30,6 +30,39 @@
   gap: 16px;
 }
 
+/* Product Overview / Description section */
+.descriptionSection {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.descriptionCard {
+  background: #f8fafc;
+  border: 1px solid #eef2f6;
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.descriptionText {
+  font-size: 14px;
+  line-height: 1.65;
+  color: #374151;
+  margin: 0;
+}
+
 /* Toast alert notification */
 .toastNotification {
   position: fixed;

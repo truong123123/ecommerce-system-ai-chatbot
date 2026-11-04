@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Sparkles } from 'lucide-react';
 import { FullProductDetail } from '../../../types/productDetail';
 import { productDetailService } from '../../../services/productDetailService';
 import { useCartStore } from '../../../store/cartStore';
@@ -185,9 +186,12 @@ export const ProductDetailClient: React.FC<ProductDetailClientProps> = ({ initia
           name={product.name}
           subtitle={product.subtitle}
           sku={product.sku}
+          brand={product.brand}
+          category={product.category}
           rating={product.rating}
           reviewsCount={product.reviewsCount}
           questionsCount={product.questionsCount}
+          inStock={true}
           onScrollToSpecs={scrollToSpecs}
           onScrollToReviews={scrollToReviews}
         />
@@ -202,6 +206,19 @@ export const ProductDetailClient: React.FC<ProductDetailClientProps> = ({ initia
               productName={product.name}
               badgeText="Chính hãng 100%"
             />
+
+            {/* Đặc điểm nổi bật & Giới thiệu sản phẩm */}
+            {product.description && (
+              <div className={styles.descriptionSection}>
+                <h3 className={styles.sectionTitle}>
+                  <Sparkles size={18} color="#0071e3" />
+                  <span>Đặc điểm nổi bật & Giới thiệu</span>
+                </h3>
+                <div className={styles.descriptionCard}>
+                  <p className={styles.descriptionText}>{product.description}</p>
+                </div>
+              </div>
+            )}
 
             {/* Cam kết sản phẩm */}
             <ProductCommitments commitments={product.commitments} />
