@@ -932,30 +932,45 @@ export const Navbar: React.FC = () => {
 
   return (
     <>
-      {/* 1. TOP UTILITY & BENEFIT BAR (CHUẨN CELLPHONES) */}
+      {/* 1. TOP UTILITY & BENEFIT BAR (CHUẨN CELLPHONES: XOAY CHỮ VÒNG TRÒN MARQUEE) */}
       <div className={styles.topAnnouncementBar}>
         <div className={styles.topBarContainer}>
-          {/* Left: Ticker/Highlights */}
-          <div className={styles.topBarLeft}>
-            <span className={styles.topBenefitItem}>
-              <Zap size={13} color="#fef08a" />
-              <span>Lên đời tiết kiệm</span>
-            </span>
-            <span className={styles.topDot}>•</span>
-            <span className={styles.topBenefitItem}>
-              <Award size={13} color="#93c5fd" />
-              <span>Sản phẩm <strong>Chính hãng - Xuất VAT đầy đủ</strong></span>
-            </span>
-            <span className={styles.topDot}>•</span>
-            <span className={styles.topBenefitItem}>
-              <Truck size={13} color="#86efac" />
-              <span><strong>Giao nhanh - Miễn phí</strong> cho đơn 300k</span>
-            </span>
-            <span className={styles.topDot}>•</span>
-            <span className={styles.topBenefitItem}>
-              <RotateCcw size={13} color="#fca5a5" />
-              <span><strong>Thu cũ giá ngon</strong> - Lên đời tiết kiệm</span>
-            </span>
+          {/* Left: Ticker/Marquee Track xoay chữ liên tục */}
+          <div className={styles.marqueeContainer}>
+            <div className={styles.marqueeTrack}>
+              {[1, 2].map((loopIdx) => (
+                <React.Fragment key={loopIdx}>
+                  <span className={styles.topBenefitItem}>
+                    <Zap size={13} color="#fef08a" />
+                    <span>Lên đời tiết kiệm</span>
+                  </span>
+                  <span className={styles.topDot}>•</span>
+                  <span className={styles.topBenefitItem}>
+                    <Award size={13} color="#93c5fd" />
+                    <span>Sản phẩm <strong>Chính hãng - Xuất VAT đầy đủ</strong></span>
+                  </span>
+                  <span className={styles.topDot}>•</span>
+                  <span className={styles.topBenefitItem}>
+                    <Truck size={13} color="#86efac" />
+                    <span><strong>Giao nhanh - Miễn phí</strong> cho đơn 300k</span>
+                  </span>
+                  <span className={styles.topDot}>•</span>
+                  <span className={styles.topBenefitItem}>
+                    <RotateCcw size={13} color="#fca5a5" />
+                    <span><strong>Thu cũ giá ngon</strong> - Lên đời tiết kiệm</span>
+                  </span>
+                  <span className={styles.topDot}>•</span>
+                  <span className={styles.topBenefitItem}>
+                    <span>🛡️ Bảo hành 12 tháng 1 đổi 1</span>
+                  </span>
+                  <span className={styles.topDot}>•</span>
+                  <span className={styles.topBenefitItem}>
+                    <span>💳 Trả góp 0% lãi suất qua thẻ tín dụng</span>
+                  </span>
+                  <span className={styles.topDot}>•</span>
+                </React.Fragment>
+              ))}
+            </div>
           </div>
 
           {/* Right: Quick Utility Links (Cửa hàng, Tra cứu, Hotline) */}
