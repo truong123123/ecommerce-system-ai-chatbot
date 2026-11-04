@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Search, ShoppingBag, Menu, X, ChevronRight, User, CircleUser, LayoutGrid, ChevronDown, MapPin, Check, LogOut, Trash2, Clock, Zap, Award, Truck, RotateCcw, Flame, AlertCircle } from 'lucide-react';
+import { Search, ShoppingBag, Menu, X, ChevronRight, User, CircleUser, LayoutGrid, ChevronDown, MapPin, Check, LogOut, Trash2, Clock, Zap, Award, Truck, RotateCcw, Flame, AlertCircle, Store, FileText, PhoneCall } from 'lucide-react';
 import styles from './Navbar.module.css';
 import { ADMIN_SEARCH_CONFIG } from '../../config/adminSearchConfig';
 import { categoryService } from '../../services/categoryService';
@@ -932,41 +932,49 @@ export const Navbar: React.FC = () => {
 
   return (
     <>
-      {/* 1. TOP MARQUEE ANNOUNCEMENT BAR (TỰ DI CHUYỂN, KHÔNG ẤN ĐƯỢC) */}
-      <div className={styles.topAnnouncementBar} aria-hidden="true">
-        <div className={styles.marqueeTrack}>
-          {[1, 2].map((loopIdx) => (
-            <React.Fragment key={loopIdx}>
-              <span className={styles.marqueeItem}>
-                <Zap size={12} color="#fef08a" />
-                <span>Lên đời tiết kiệm</span>
-              </span>
-              <span className={styles.marqueeDot}>•</span>
-              <span className={styles.marqueeItem}>
-                <Award size={12} color="#93c5fd" />
-                <span>Sản phẩm <strong>Chính hãng - Xuất VAT đầy đủ</strong></span>
-              </span>
-              <span className={styles.marqueeDot}>•</span>
-              <span className={styles.marqueeItem}>
-                <Truck size={12} color="#86efac" />
-                <span><strong>Giao nhanh - Miễn phí</strong> cho đơn 300k</span>
-              </span>
-              <span className={styles.marqueeDot}>•</span>
-              <span className={styles.marqueeItem}>
-                <RotateCcw size={12} color="#fca5a5" />
-                <span><strong>Thu cũ giá ngon</strong> - Trợ giá tốt nhất</span>
-              </span>
-              <span className={styles.marqueeDot}>•</span>
-              <span className={styles.marqueeItem}>
-                <span>🛡️ Bảo hành 12 tháng 1 đổi 1</span>
-              </span>
-              <span className={styles.marqueeDot}>•</span>
-              <span className={styles.marqueeItem}>
-                <span>💳 Trả góp 0% lãi suất qua thẻ tín dụng</span>
-              </span>
-              <span className={styles.marqueeDot}>•</span>
-            </React.Fragment>
-          ))}
+      {/* 1. TOP UTILITY & BENEFIT BAR (CHUẨN CELLPHONES) */}
+      <div className={styles.topAnnouncementBar}>
+        <div className={styles.topBarContainer}>
+          {/* Left: Ticker/Highlights */}
+          <div className={styles.topBarLeft}>
+            <span className={styles.topBenefitItem}>
+              <Zap size={13} color="#fef08a" />
+              <span>Lên đời tiết kiệm</span>
+            </span>
+            <span className={styles.topDot}>•</span>
+            <span className={styles.topBenefitItem}>
+              <Award size={13} color="#93c5fd" />
+              <span>Sản phẩm <strong>Chính hãng - Xuất VAT đầy đủ</strong></span>
+            </span>
+            <span className={styles.topDot}>•</span>
+            <span className={styles.topBenefitItem}>
+              <Truck size={13} color="#86efac" />
+              <span><strong>Giao nhanh - Miễn phí</strong> cho đơn 300k</span>
+            </span>
+            <span className={styles.topDot}>•</span>
+            <span className={styles.topBenefitItem}>
+              <RotateCcw size={13} color="#fca5a5" />
+              <span><strong>Thu cũ giá ngon</strong> - Lên đời tiết kiệm</span>
+            </span>
+          </div>
+
+          {/* Right: Quick Utility Links (Cửa hàng, Tra cứu, Hotline) */}
+          <div className={styles.topBarRight}>
+            <Link href="/stores" className={styles.topUtilityLink}>
+              <Store size={13} />
+              <span>Cửa hàng gần bạn</span>
+            </Link>
+            <span className={styles.topDivider}>|</span>
+            <Link href="/account/orders" className={styles.topUtilityLink}>
+              <FileText size={13} />
+              <span>Tra cứu đơn hàng</span>
+            </Link>
+            <span className={styles.topDivider}>|</span>
+            <a href="tel:18002097" className={styles.topUtilityLink}>
+              <PhoneCall size={13} />
+              <span>1800 2097</span>
+            </a>
+          </div>
         </div>
       </div>
 
@@ -978,7 +986,7 @@ export const Navbar: React.FC = () => {
         <div className={styles.navContainer}>
           {/* Logo & Category Button Group */}
           <div className={styles.navLeft}>
-            {/* TruongStore Logo */}
+            {/* TruongStore Logo (To, rõ nét, phong cách CellphoneS) */}
             <Link 
               href="/" 
               className={styles.cpsLogo}
@@ -991,13 +999,13 @@ export const Navbar: React.FC = () => {
               }}
               aria-label="TruongStore Trang chủ"
             >
-              <div className={styles.logoBadge}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={styles.logoSvg}>
-                  <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="#0071e3" />
-                  <path d="M2 17L12 22L22 17" stroke="#0071e3" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M2 12L12 17L22 12" stroke="#0071e3" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+              <div className={styles.brandLogo}>
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={styles.logoSvg}>
+                  <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="#ffffff" />
+                  <path d="M2 17L12 22L22 17" stroke="#ffffff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M2 12L12 17L22 12" stroke="#ffffff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
-                <span className={styles.logoText}>Truong</span>
+                <span className={styles.logoText}>truong</span>
                 <span className={styles.logoS}>Store</span>
               </div>
             </Link>
@@ -1016,9 +1024,9 @@ export const Navbar: React.FC = () => {
                   aria-expanded={isCategoryOpen}
                   onClick={() => setIsCategoryOpen((prev) => !prev)}
                 >
-                  <LayoutGrid size={15} strokeWidth={2.4} />
+                  <LayoutGrid size={17} strokeWidth={2.4} />
                   <span>Danh mục</span>
-                  <ChevronDown size={14} strokeWidth={2.4} className={`${styles.categoryChevron} ${isCategoryOpen ? styles.chevronRotated : ''}`} />
+                  <ChevronDown size={15} strokeWidth={2.4} className={`${styles.categoryChevron} ${isCategoryOpen ? styles.chevronRotated : ''}`} />
                 </button>
 
                 {/* Dropdown danh sách + Mega Submenu */}

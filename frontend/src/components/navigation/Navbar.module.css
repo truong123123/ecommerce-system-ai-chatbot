@@ -1,71 +1,102 @@
 /* CellphoneS Blue Navigation Theme & Top Marquee */
 
 /* =======================================================
-   1. TOP MARQUEE ANNOUNCEMENT BAR (TỰ DI CHUYỂN, KHÔNG ẤN ĐƯỢC)
+   1. TOP BAR: TIỆN ÍCH & LỢI ÍCH CHUẨN CELLPHONES (IMAGE 1)
 ======================================================= */
 .topAnnouncementBar {
-  background: linear-gradient(90deg, #004b99, #0060c2, #004b99);
+  background: linear-gradient(90deg, #003d80 0%, #004d99 50%, #003d80 100%);
   color: #ffffff;
-  font-size: 11.5px;
-  height: 28px;
-  overflow: hidden;
+  font-size: 12px;
+  height: 32px;
   position: relative;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-  pointer-events: none;
-  user-select: none;
-  cursor: default;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
   z-index: 10001;
 }
 
-.marqueeTrack {
+.topBarContainer {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 16px;
+  width: 100%;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.topBarLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
   white-space: nowrap;
-  gap: 32px;
-  will-change: transform;
-  animation: marqueeScroll 32s linear infinite;
 }
 
-@keyframes marqueeScroll {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-.marqueeItem {
+.topBenefitItem {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
+  color: #f1f5f9;
   font-weight: 500;
+  font-size: 12px;
   letter-spacing: -0.1px;
 }
 
-.marqueeItem strong {
+.topBenefitItem strong {
   font-weight: 700;
-  color: #fef08a; /* Vàng nhạt nổi bật */
+  color: #ffffff;
 }
 
-.marqueeDot {
-  opacity: 0.6;
+.topDot {
+  opacity: 0.5;
+  color: #ffffff;
   font-size: 10px;
 }
 
+.topBarRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.topUtilityLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #f1f5f9;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 12px;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.topUtilityLink:hover {
+  color: #fef08a;
+  text-decoration: none;
+  transform: translateY(-0.5px);
+}
+
+.topDivider {
+  opacity: 0.4;
+  color: #ffffff;
+  font-size: 11px;
+}
+
 /* =======================================================
-   2. MAIN NAVBAR HEADER (MÀU XANH DƯƠNG CELLPHONES)
+   2. MAIN NAVBAR HEADER (MÀU XANH DƯƠNG CELLPHONES - CHO TO LÊN)
 ======================================================= */
 .navHeader {
   position: sticky;
   top: 0;
   z-index: 9999;
   width: 100%;
-  background: linear-gradient(135deg, #0071e3 0%, #0056b3 100%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 4px 16px rgba(0, 86, 179, 0.25);
+  background: linear-gradient(135deg, #0056b3 0%, #0071e3 50%, #0284c7 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 4px 20px rgba(0, 86, 179, 0.28);
   font-family: var(--font-family);
   transform: translate3d(0, 0, 0);
   -webkit-backface-visibility: hidden;
@@ -73,20 +104,20 @@
 }
 
 .navHeaderActive {
-  background: linear-gradient(135deg, #0071e3 0%, #0056b3 100%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  background: linear-gradient(135deg, #0056b3 0%, #0071e3 50%, #0284c7 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .navContainer {
   max-width: 1240px;
   margin: 0 auto;
-  height: 56px;
+  height: 68px; /* Tăng kích thước từ 56px lên 68px theo đúng yêu cầu CHO TO LÊN */
   padding: 0 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  font-size: 13px;
+  gap: 14px;
+  font-size: 13.5px;
   letter-spacing: -0.01em;
   position: relative;
   z-index: 10002;
@@ -96,17 +127,17 @@
   display: flex;
   align-items: center;
   height: 100%;
-  gap: 12px;
+  gap: 14px;
 }
 
 .navButtonGroup {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   height: 100%;
 }
 
-/* TruongStore Logo Badge */
+/* TruongStore Logo (To, Thoáng, Chuẩn Phong Cách CellphoneS Trên Nền Xanh) */
 .cpsLogo {
   display: flex;
   align-items: center;
@@ -117,22 +148,14 @@
 }
 
 .cpsLogo:hover {
-  transform: translateY(-1px) scale(1.02);
+  transform: translateY(-1px) scale(1.03);
 }
 
-.logoBadge {
-  background: #ffffff;
-  color: #0071e3;
-  font-weight: 900;
-  font-size: 17px;
-  padding: 5px 12px;
-  border-radius: 8px;
-  letter-spacing: -0.3px;
+.brandLogo {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
-  line-height: 1;
+  gap: 7px;
+  user-select: none;
 }
 
 .logoSvg {
@@ -140,20 +163,26 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
 .logoText {
-  color: #0071e3;
+  color: #ffffff;
   font-weight: 900;
-  letter-spacing: -0.2px;
+  font-size: 23px;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.22);
 }
 
 .logoS {
-  color: #dc2626;
-  font-size: 17px;
+  color: #fef08a; /* Vàng hổ phách sáng CellphoneS tạo điểm nhấn nổi bật trên nền xanh */
   font-weight: 900;
+  font-size: 23px;
+  letter-spacing: -0.02em;
   line-height: 1;
-  margin-left: 1px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  margin-left: 2px;
 }
 
 /* =========================================
@@ -170,13 +199,14 @@
 .locationBtn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  background: rgba(255, 255, 255, 0.18);
-  border: 1px solid rgba(255, 255, 255, 0.22);
+  gap: 7px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   color: #ffffff;
-  padding: 7px 12px;
-  border-radius: 9px;
-  font-size: 12.5px;
+  padding: 0 14px;
+  height: 44px;
+  border-radius: 10px;
+  font-size: 13.5px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.18s ease;
@@ -498,13 +528,14 @@
 .categoryBtn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  background: rgba(255, 255, 255, 0.18);
-  border: 1px solid rgba(255, 255, 255, 0.22);
+  gap: 7px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   color: #ffffff;
-  padding: 7px 12px;
-  border-radius: 9px;
-  font-size: 12.5px;
+  padding: 0 14px;
+  height: 44px;
+  border-radius: 10px;
+  font-size: 13.5px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.18s ease;
@@ -864,31 +895,31 @@
 ======================================================= */
 .searchWrapper {
   flex: 1;
-  max-width: 440px;
+  max-width: 490px;
   position: relative;
-  margin: 0 8px;
+  margin: 0 10px;
 }
 
 .searchBox {
   display: flex;
   align-items: center;
-  background: #18181b; /* Màu than chì graphite theo đúng ảnh đính kèm */
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(0, 0, 0, 0.45); /* Màu than chì graphite theo đúng ảnh CellphoneS */
+  border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 10px;
-  padding: 0 12px;
-  height: 38px;
+  padding: 0 14px;
+  height: 44px; /* Tăng chiều cao lên 44px cho to thoáng */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
   transition: all 0.2s ease;
 }
 
 .searchBox:focus-within {
-  background: #09090b;
-  border-color: #60a5fa;
-  box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.35);
+  background: rgba(0, 0, 0, 0.65);
+  border-color: #93c5fd;
+  box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.4);
 }
 
 .searchIcon {
-  color: #94a3b8;
+  color: rgba(255, 255, 255, 0.8);
   margin-right: 8px;
   flex-shrink: 0;
 }
@@ -899,12 +930,12 @@
   border: none;
   background: transparent;
   outline: none;
-  font-size: 13px;
+  font-size: 13.5px;
   color: #ffffff;
 }
 
 .searchInput::placeholder {
-  color: #94a3b8;
+  color: rgba(255, 255, 255, 0.7);
   font-weight: 400;
 }
 
@@ -1123,12 +1154,13 @@
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  background: rgba(255, 255, 255, 0.18);
-  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   color: #ffffff;
-  padding: 7px 14px;
-  border-radius: 9px;
-  font-size: 13px;
+  padding: 0 15px;
+  height: 44px; /* Tăng chiều cao lên 44px */
+  border-radius: 10px;
+  font-size: 13.5px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.18s ease;
@@ -1142,7 +1174,7 @@
 }
 
 .bagLabelText {
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 600;
   color: #ffffff;
 }
@@ -1150,13 +1182,14 @@
 .loginNavBtn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  background: rgba(255, 255, 255, 0.18);
-  border: 1px solid rgba(255, 255, 255, 0.22);
+  gap: 7px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   color: #ffffff !important;
-  padding: 7px 14px;
-  border-radius: 9px;
-  font-size: 13px;
+  padding: 0 16px;
+  height: 44px; /* Tăng chiều cao lên 44px */
+  border-radius: 10px;
+  font-size: 13.5px;
   font-weight: 600;
   text-decoration: none;
   cursor: pointer;
@@ -1296,13 +1329,14 @@
 .userLoggedInBtn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  background: rgba(255, 255, 255, 0.18);
-  border: 1px solid rgba(255, 255, 255, 0.22);
+  gap: 7px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   color: #ffffff !important;
-  padding: 7px 14px;
-  border-radius: 9px;
-  font-size: 13px;
+  padding: 0 16px;
+  height: 44px; /* Tăng chiều cao lên 44px */
+  border-radius: 10px;
+  font-size: 13.5px;
   font-weight: 600;
   text-decoration: none;
   transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
