@@ -117,28 +117,7 @@ public class ProductComparisonController {
             // Parse specs JSON
             Map<String, String> rawSpecs = new HashMap<>();
             if (p.getSpecs() != null) {
-                try {
-                    String str;
-                    if (p.getSpecs() instanceof Map) {
-                        @SuppressWarnings("unchecked")
-                        Map<String, Object> map = (Map<String, Object>) p.getSpecs();
-                        map.forEach((k, v) -> rawSpecs.put(k, v != null ? v.toString() : "-"));
-                        str = null;
-                    } else {
-                        str = String.valueOf(p.getSpecs());
-                    }
-
-                    if (str != null && !str.trim().isEmpty() && !str.equals("{}")) {
-                        // Unescape if double-encoded
-                        if (str.startsWith("\"") && str.endsWith("\"")) {
-                            str = objectMapper.readValue(str, String.class);
-                        }
-                        Map<String, Object> map = objectMapper.readValue(str, new TypeReference<Map<String, Object>>() {});
-                        map.forEach((k, v) -> rawSpecs.put(k, v != null ? v.toString() : "-"));
-                    }
-                } catch (Exception e) {
-                    log.warn("Failed to parse specs for product {}: {}", p.getProductId(), e.getMessage());
-                }
+                p.getSpecs().forEach((k, v) -> rawSpecs.put(k, v != null ? v.toString() : "-"));
             }
 
             productSpecsMap.put(p.getProductId(), rawSpecs);

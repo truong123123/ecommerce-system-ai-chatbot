@@ -157,19 +157,8 @@ public class CompareProductsTool implements ChatTool {
             // Parse specs
             Map<String, String> rawSpecs = new HashMap<>();
             if (p.getSpecs() != null) {
-                try {
-                    Map<String, Object> map;
-                    if (p.getSpecs() instanceof Map) {
-                        map = (Map<String, Object>) p.getSpecs();
-                    } else if (p.getSpecs() instanceof String) {
-                        map = objectMapper.readValue((String) p.getSpecs(), new TypeReference<>() {});
-                    } else {
-                        map = objectMapper.convertValue(p.getSpecs(), new TypeReference<>() {});
-                    }
-                    for (Map.Entry<String, Object> entry : map.entrySet()) {
-                        rawSpecs.put(entry.getKey(), String.valueOf(entry.getValue()));
-                    }
-                } catch (Exception ignored) {
+                for (Map.Entry<String, Object> entry : p.getSpecs().entrySet()) {
+                    rawSpecs.put(entry.getKey(), String.valueOf(entry.getValue()));
                 }
             }
             specsByProduct.put(p.getProductId(), rawSpecs);

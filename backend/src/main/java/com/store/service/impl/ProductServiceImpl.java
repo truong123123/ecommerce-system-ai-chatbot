@@ -209,7 +209,7 @@ public class ProductServiceImpl implements ProductService {
                 .category(category)
                 .brand(brand)
                 .series(series)
-                .specs(request.getSpecs() != null ? request.getSpecs() : new HashMap<>())
+                .specs(request.getSpecs())
                 .isActive(true)
                 .isHot(request.getIsHot() != null ? request.getIsHot() : false)
                 .isNew(request.getIsNew() != null ? request.getIsNew() : false)
@@ -267,6 +267,9 @@ public class ProductServiceImpl implements ProductService {
         }
         if (request.getDescription() != null) {
             prod.setDescription(request.getDescription().trim());
+        }
+        if (request.getSpecs() != null) {
+            prod.setSpecs(request.getSpecs());
         }
         if (request.getIsActive() != null) {
             prod.setIsActive(request.getIsActive());

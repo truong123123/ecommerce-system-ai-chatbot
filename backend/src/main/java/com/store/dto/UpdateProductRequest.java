@@ -19,6 +19,7 @@ public class UpdateProductRequest {
     private BigDecimal price;
     private BigDecimal costPrice;
     private String image;
+    private Object specs;
     private Boolean isActive;
     private Boolean isHot;
     private Boolean isNew;
