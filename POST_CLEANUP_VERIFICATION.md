@@ -34,7 +34,7 @@
 | | Admin CRUD: Cấu hình hệ thống (Settings) | Gọi API GET, PUT | **PASS** |
 | | Admin CSKH: Support Desk Live Chat | Gọi API GET thread, POST reply | **PASS** |
 | | Admin CRUD: Danh mục (Categories) | Gọi API POST 201, PUT 200, DELETE 204 | **PASS** |
-| | Admin CRUD: Sản phẩm (Products) | Gọi API POST /api/v1/products | **FAIL** |
+| | Admin CRUD: Sản phẩm (Products) | Gọi API POST /api/v1/products | **PASS (Đã sửa lỗi)** |
 | | Thanh toán VNPay & Checksum | Đơn vị kiểm thử `VNPayServiceTest` | **PASS** |
 | | Quản lý tồn kho & Giữ chỗ (Reservation) | Kiểm tra `CheckoutService` & Model | **PASS** |
 | **4. Frontend** | Unit Tests (`npm run test` Vitest) | Chạy thực tế (13 files, 80/80 tests) | **PASS** |
