@@ -250,7 +250,7 @@ export function canAccessAdminRoute(role: string | null | undefined, pathname: s
     }
   }
 
-  return norm === 'admin' || norm === 'manager';
+  return norm === 'manager';
 }
 
 export function getFilteredNavigation(role: string | null | undefined): AdminNavGroup[] {

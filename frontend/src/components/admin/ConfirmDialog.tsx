@@ -10,9 +10,11 @@ export interface ConfirmDialogProps {
   confirmText?: string;
   cancelText?: string;
   variant?: 'danger' | 'warning' | 'primary';
+  confirmVariant?: 'danger' | 'warning' | 'primary';
   isLoading?: boolean;
   onConfirm: () => void | Promise<void>;
-  onClose: () => void;
+  onClose?: () => void;
+  onCancel?: () => void;
 }
 
 export default function ConfirmDialog({
@@ -21,15 +23,23 @@ export default function ConfirmDialog({
   message,
   confirmText = 'Xác nhận',
   cancelText = 'Hủy bỏ',
-  variant = 'danger',
+  variant,
+  confirmVariant,
   isLoading = false,
   onConfirm,
   onClose,
+  onCancel,
 }: ConfirmDialogProps) {
+  const activeVariant = variant || confirmVariant || 'danger';
+  const handleClose = React.useCallback(() => {
+    if (onClose) onClose();
+    else if (onCancel) onCancel();
+  }, [onClose, onCancel]);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && !isLoading && isOpen) {
-        onClose();
+        handleClose();
       }
     };
     if (isOpen) {
@@ -40,18 +50,18 @@ export default function ConfirmDialog({
       window.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = '';
     };
-  }, [isOpen, isLoading, onClose]);
+  }, [isOpen, isLoading, handleClose]);
 
   if (!isOpen) return null;
 
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget && !isLoading) {
-      onClose();
+      handleClose();
     }
   };
 
   const getIcon = () => {
-    switch (variant) {
+    switch (activeVariant) {
       case 'danger':
         return '⚠️';
       case 'warning':
@@ -62,7 +72,7 @@ export default function ConfirmDialog({
   };
 
   const getIconClass = () => {
-    switch (variant) {
+    switch (activeVariant) {
       case 'danger':
         return styles.iconDanger;
       case 'warning':
@@ -73,7 +83,7 @@ export default function ConfirmDialog({
   };
 
   const getBtnConfirmClass = () => {
-    switch (variant) {
+    switch (activeVariant) {
       case 'danger':
         return styles.btnDanger;
       case 'warning':
@@ -99,7 +109,7 @@ export default function ConfirmDialog({
           <button
             type="button"
             className={styles.btnCancel}
-            onClick={onClose}
+            onClick={handleClose}
             disabled={isLoading}
           >
             {cancelText}
