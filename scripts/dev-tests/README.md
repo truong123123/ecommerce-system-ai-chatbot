@@ -1,42 +1,45 @@
-# Development & Integration Test Scripts
+# Bộ Công Cụ Kiểm Thử Phát Triển & Nghiệm Thu Hệ Thống (Dev & Acceptance Test Suite)
 
-Thư mục chứa các script kiểm thử tự động, tích hợp API và nghiệm thu trình duyệt phục vụ môi trường phát triển (development).
+Thư mục lưu trữ tập trung toàn bộ các kịch bản kiểm thử độc lập (manual/automated test scripts), công cụ đếm CSDL và các báo cáo kiểm định kỹ thuật phục vụ quá trình phát triển, kiểm thử chức năng và bảo vệ đồ án tốt nghiệp.
 
-## Danh sách scripts
+---
 
-| Script | Mô tả | Cách chạy |
-| :--- | :--- | :--- |
-| `check_db_count.ps1` | Kiểm tra nhanh số lượng bản ghi các bảng chính trong PostgreSQL | `powershell -ExecutionPolicy Bypass -File .\check_db_count.ps1` |
-| `integration_test.ps1` | Kiểm thử tích hợp toàn bộ API (Wishlist, Reviews, Comparison, Cart, Inventory) | `powershell -ExecutionPolicy Bypass -File .\integration_test.ps1` |
-| `test_reviews.ps1` | Kiểm thử nghiệp vụ phân quyền và luồng đánh giá sản phẩm | `powershell -ExecutionPolicy Bypass -File .\test_reviews.ps1` |
-| `test_browser_acceptance.js` | Kiểm thử nghiệm thu giao diện trên trình duyệt Chrome (Puppeteer) | `npm test` hoặc `node test_browser_acceptance.js` |
+## 1. Danh Sách Script Kiểm Thử Chạy Thử (Test Scripts)
 
-## Các biến môi trường hỗ trợ
+Các script dưới đây kiểm thử trực tiếp lên hệ thống đang chạy (Backend cổng `8080`, Frontend cổng `3000`).
 
-Các script ưu tiên đọc biến môi trường nếu được thiết lập, nếu không sẽ sử dụng giá trị mặc định từ dữ liệu seed dev:
+| STT | Tên Script | Công Nghệ | Mô Tả Chức Năng | Lệnh Chạy Nhanh |
+| :--- | :--- | :--- | :--- | :--- |
+| 1 | `test_admin_full_crud.js` | Node.js | **Kiểm thử 15 phân hệ Admin & RBAC (55 tests)**: Route 16 trang Admin, CRUD Payments, Customers, Stores, Banners, Staff BCrypt, Settings, Support Chat, Orders và phân quyền 7 Role. | `node test_admin_full_crud.js`<br>hoặc `npm run test:admin` |
+| 2 | `test_post_cleanup_deep.js` | Node.js | **Kiểm định tích hợp sâu 26 kịch bản**: Auth Cookie HttpOnly, JWT, CSRF, IDOR Defense, CRUD Sản phẩm & Danh mục, 34 đơn vị hành chính, Checkout & VNPay IPN. | `node test_post_cleanup_deep.js`<br>hoặc `npm run test:deep` |
+| 3 | `test_product_specs_live.js` | Node.js | **Kiểm thử mapping JSON Specs sản phẩm**: Tạo SP với specs object/Map, specs rỗng, specs null, update specs, đọc lại dữ liệu. | `node test_product_specs_live.js`<br>hoặc `npm run test:specs` |
+| 4 | `test_full_system.js` | Node.js | **Kiểm thử toàn diện luồng hệ thống**: Storefront, Cart, Checkout, Auth, AI Chatbot Gemini. | `node test_full_system.js`<br>hoặc `npm run test:system` |
+| 5 | `test_voucher_csrf.js` | Node.js | **Kiểm tra CSRF & Voucher**: Kiểm tra tính năng validate mã giảm giá và bảo vệ token XSRF. | `node test_voucher_csrf.js`<br>hoặc `npm run test:csrf` |
+| 6 | `integration_test.ps1` | PowerShell | **Kiểm thử tích hợp API**: Wishlist, Reviews, Comparison, Cart, Inventory. | `powershell -ExecutionPolicy Bypass -File .\integration_test.ps1` |
+| 7 | `test_reviews.ps1` | PowerShell | **Kiểm thử nghiệp vụ đánh giá**: Luồng gửi review, duyệt review, phân quyền khách hàng / admin. | `powershell -ExecutionPolicy Bypass -File .\test_reviews.ps1` |
+| 8 | `check_db_count.ps1` | PowerShell | **Kiểm tra số lượng bản ghi DB**: Đếm số dòng nhanh của các bảng chính (`users`, `products`, `orders`,...). | `powershell -ExecutionPolicy Bypass -File .\check_db_count.ps1` |
+| 9 | `test_browser_acceptance.js` | Puppeteer | **Nghiệm thu giao diện tự động**: Mở trình duyệt Chrome, tương tác và chụp ảnh màn hình nghiệm thu. | `node test_browser_acceptance.js`<br>hoặc `npm run test:browser` |
 
-### 1. Cơ sở dữ liệu (cho `check_db_count.ps1`):
-- `PGHOST`: Host DB (mặc định: `localhost`)
-- `PGPORT`: Cổng DB (mặc định: `5432`)
-- `PGUSER`: Tên user DB (mặc định: `postgres`)
-- `PGDATABASE`: Tên cơ sở dữ liệu (mặc định: `LNT_Doantotnghiep`)
-- `PGPASSWORD`: Mật khẩu kết nối DB
-- `PSQL_PATH`: Đường dẫn file thực thi `psql.exe`
+---
 
-### 2. API Backend & Tài khoản Test (cho `integration_test.ps1`, `test_reviews.ps1`):
-- `API_BASE_URL`: Địa chỉ API Backend (mặc định: `http://localhost:8080/api/v1`)
-- `TEST_CUST_EMAIL`: Email tài khoản khách hàng test (mặc định: `customer@store.com`)
-- `TEST_CUST_PASS`: Mật khẩu tài khoản khách hàng test (mặc định: `123456`)
-- `TEST_ADMIN_EMAIL`: Email tài khoản admin test (mặc định: `admin@store.com`)
-- `TEST_ADMIN_PASS`: Mật khẩu tài khoản admin test (mặc định: `admin123`)
+## 2. Thư Mục Báo Cáo Kỹ Thuật & Kiểm Định (`reports/`)
 
-### 3. Trình duyệt (cho `test_browser_acceptance.js`):
-- `FRONTEND_URL`: Địa chỉ frontend (mặc định: `http://localhost:3000`)
-- `CHROME_PATH`: Đường dẫn tới trình duyệt Chrome (mặc định: `C:\Program Files\Google\Chrome\Application\chrome.exe`)
+Nơi lưu trữ toàn bộ hồ sơ kỹ thuật và bằng chứng kiểm thử đạt chuẩn:
 
-## Cài đặt thư viện cho Browser Acceptance Test:
-```bash
-npm install
-node test_browser_acceptance.js
-```
-*(Thư mục `node_modules` và `screenshots` tại đây đã được cấu hình trong `.gitignore`)*
+- [`reports/POST_CLEANUP_VERIFICATION.md`](file:///d:/DoAnTotNgiep/scripts/dev-tests/reports/POST_CLEANUP_VERIFICATION.md): Báo cáo kiểm định toàn diện sau dọn dẹp hệ thống (169/169 unit test Backend, 80/80 Vitest Frontend, 26 API deep tests, bảo mật RBAC, IDOR, CSRF).
+- [`reports/PRODUCT_SPECS_FIX_REPORT.md`](file:///d:/DoAnTotNgiep/scripts/dev-tests/reports/PRODUCT_SPECS_FIX_REPORT.md): Báo cáo xử lý triệt để lỗi `ClassCastException` và kiến trúc mapping JSON Hibernate của trường `Product.specs`.
+- [`reports/CLEANUP_AUDIT.md`](file:///d:/DoAnTotNgiep/scripts/dev-tests/reports/CLEANUP_AUDIT.md): Báo cáo phân tích audit toàn diện 13 danh mục file dư thừa, component cũ và kế hoạch tối ưu.
+- [`reports/CLEANUP_RESULT.md`](file:///d:/DoAnTotNgiep/scripts/dev-tests/reports/CLEANUP_RESULT.md): Nhật ký thực hiện dọn dẹp an toàn các file thừa.
+
+---
+
+## 3. Các Biến Môi Trường Tùy Chọn
+
+Các script tự động sử dụng cấu hình mặc định tương thích với `store_dev`. Bạn có thể ghi đè qua biến môi trường nếu cần:
+
+- **Backend API**: `API_BASE_URL` (Mặc định: `http://localhost:8080/api/v1`)
+- **Frontend URL**: `FRONTEND_URL` (Mặc định: `http://localhost:3000`)
+- **Database**: `PGHOST` (localhost), `PGPORT` (5432), `PGUSER` (postgres), `PGDATABASE` (store_dev), `PGPASSWORD`
+- **Tài khoản Test**:
+  - Khách hàng: `TEST_CUST_EMAIL=customer@store.com`, `TEST_CUST_PASS=123456`
+  - Quản trị viên: `TEST_ADMIN_EMAIL=admin@store.com`, `TEST_ADMIN_PASS=admin123`

@@ -1,12 +1,21 @@
 {
-  "name": "scratch",
+  "name": "dev-tests",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "StoreKit Development, Integration & Acceptance Test Suite",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test:admin": "node test_admin_full_crud.js",
+    "test:deep": "node test_post_cleanup_deep.js",
+    "test:specs": "node test_product_specs_live.js",
+    "test:system": "node test_full_system.js",
+    "test:csrf": "node test_voucher_csrf.js",
+    "test:browser": "node test_browser_acceptance.js"
   },
-  "keywords": [],
+  "keywords": [
+    "ecommerce",
+    "tests",
+    "integration",
+    "acceptance"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
