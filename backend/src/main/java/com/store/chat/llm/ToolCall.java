@@ -14,4 +14,6 @@ public class ToolCall {
     private String name;
     @Builder.Default
     private Map<String, Object> arguments = new HashMap<>();
+    private String thoughtSignature;
+    private String callId;
 }

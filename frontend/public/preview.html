@@ -1,0 +1,2450 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Xem trước 97 Sản phẩm Cloudinary - Store System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090a0f;
+      --card-bg: rgba(22, 24, 35, 0.7);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --accent: #3b82f6;
+      --accent-glow: rgba(59, 130, 246, 0.25);
+      --text: #f3f4f6;
+      --text-muted: #9ca3af;
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at 50% 0%, #151928 0%, var(--bg) 60%);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 32px 24px 80px;
+    }
+    .header {
+      max-width: 1300px;
+      margin: 0 auto 32px;
+      text-align: center;
+    }
+    .tag {
+      display: inline-block;
+      padding: 6px 14px;
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #ffffff 40%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 15px;
+      max-width: 650px;
+      margin: 0 auto 28px;
+    }
+    .controls {
+      max-width: 1300px;
+      margin: 0 auto 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .search-bar {
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 14px 20px;
+      border-radius: 999px;
+      border: 1px solid var(--card-border);
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      font-size: 15px;
+      backdrop-filter: blur(10px);
+      outline: none;
+      transition: all 0.2s;
+    }
+    .search-bar:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+    }
+    .filter-btn {
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-muted);
+      border: 1px solid var(--card-border);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+    }
+    .filter-btn.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+      box-shadow: 0 0 14px var(--accent-glow);
+    }
+    .grid {
+      max-width: 1300px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 22px;
+    }
+    .product-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      backdrop-filter: blur(12px);
+      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
+    }
+    .img-wrapper {
+      position: relative;
+      width: 100%;
+      height: 220px;
+      background: #0f111a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      overflow: hidden;
+    }
+    .img-wrapper img {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+      transition: transform 0.3s;
+    }
+    .product-card:hover .img-wrapper img {
+      transform: scale(1.05);
+    }
+    .badge {
+      position: absolute;
+      top: 12px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .badge-brand {
+      left: 12px;
+      background: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .badge-cat {
+      right: 12px;
+      background: rgba(59, 130, 246, 0.2);
+      color: #93c5fd;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+    .card-body {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+    .product-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 12px;
+      line-height: 1.35;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      min-height: 42px;
+    }
+    .pills-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 16px;
+      min-height: 52px;
+      align-content: flex-start;
+    }
+    .pill {
+      padding: 3px 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 6px;
+      font-size: 11.5px;
+      color: #cbd5e1;
+    }
+    .pill-chip {
+      background: rgba(168, 85, 247, 0.12);
+      color: #d8b4fe;
+      border-color: rgba(168, 85, 247, 0.25);
+    }
+    .pill-empty {
+      color: #64748b;
+      font-style: italic;
+    }
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 14px;
+      margin-top: auto;
+    }
+    .price-vnd {
+      font-size: 17px;
+      font-weight: 700;
+      color: #38bdf8;
+    }
+    .price-usd {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .view-btn {
+      padding: 6px 12px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      color: #e2e8f0;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .view-btn:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+    .credit-note {
+      font-size: 10.5px;
+      color: #64748b;
+      margin-top: 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <span class="tag">STORE SHOWCASE • LIVE CLOUDINARY PREVIEW</span>
+    <h1>Xem Trước 97 Sản Phẩm Mới</h1>
+    <p class="subtitle">Toàn bộ 97 sản phẩm đã được gắn link ảnh Cloudinary CDN thực tế, chuẩn hóa quy đổi giá VND và bóc tách cấu hình sẵn sàng nạp vào hệ thống.</p>
+  </div>
+
+  <div class="controls">
+    <input type="text" id="searchInput" class="search-bar" placeholder="🔍 Tìm kiếm sản phẩm theo tên, chip, thương hiệu..."/>
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all">Tất cả (97)</button> <button class="filter-btn" data-filter="asus">ASUS (7)</button> <button class="filter-btn" data-filter="acer">Acer (3)</button> <button class="filter-btn" data-filter="apple">Apple (14)</button> <button class="filter-btn" data-filter="google">Google (7)</button> <button class="filter-btn" data-filter="honor">Honor (7)</button> <button class="filter-btn" data-filter="huawei">Huawei (5)</button> <button class="filter-btn" data-filter="lg">LG (2)</button> <button class="filter-btn" data-filter="lenovo">Lenovo (2)</button> <button class="filter-btn" data-filter="microsoft">Microsoft (1)</button> <button class="filter-btn" data-filter="motorola">Motorola (3)</button> <button class="filter-btn" data-filter="nothing">Nothing (4)</button> <button class="filter-btn" data-filter="oppo">OPPO (5)</button> <button class="filter-btn" data-filter="oneplus">OnePlus (4)</button> <button class="filter-btn" data-filter="samsung">Samsung (18)</button> <button class="filter-btn" data-filter="sony">Sony (1)</button> <button class="filter-btn" data-filter="xiaomi">Xiaomi (12)</button> <button class="filter-btn" data-filter="vivo">vivo (2)</button>
+    </div>
+  </div>
+
+  <div class="grid" id="productGrid">
+    
+    <div class="product-card" data-brand="apple" data-category="phone" data-name="iphone 18 pro">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447787/products/iphone-18-pro.jpg" alt="iPhone 18 Pro" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Apple</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="iPhone 18 Pro">iPhone 18 Pro</h3>
+        <div class="pills-container">
+          <span class="pill pill-chip">⚡ A20 Pro</span><span class="pill">🧠 12GB</span><span class="pill">💾 256GB-2TB</span><span class="pill">📱 6.3 inch OLED</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">30.570.000 ₫</div>
+            <div class="price-usd">Tham chiếu: $1,199</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447787/products/iphone-18-pro.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Farragutful • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="apple" data-category="phone" data-name="iphone 18 pro max">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447789/products/iphone-18-pro-max.jpg" alt="iPhone 18 Pro Max" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Apple</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="iPhone 18 Pro Max">iPhone 18 Pro Max</h3>
+        <div class="pills-container">
+          <span class="pill pill-chip">⚡ A20 Pro</span><span class="pill">🧠 12GB</span><span class="pill">💾 256GB-2TB</span><span class="pill">📱 6.9 inch OLED</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">33.120.000 ₫</div>
+            <div class="price-usd">Tham chiếu: $1,299</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447789/products/iphone-18-pro-max.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: SimonWaldherr • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="samsung" data-category="phone" data-name="galaxy s26">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447793/products/galaxy-s26.jpg" alt="Galaxy S26" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Samsung</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Galaxy S26">Galaxy S26</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447793/products/galaxy-s26.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Kyu3a • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="samsung" data-category="phone" data-name="galaxy s26 ultra">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447795/products/galaxy-s26-ultra.jpg" alt="Galaxy S26 Ultra" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Samsung</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Galaxy S26 Ultra">Galaxy S26 Ultra</h3>
+        <div class="pills-container">
+          <span class="pill">🧠 up to 16GB</span><span class="pill">💾 up to 1TB</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">33.150.000 ₫</div>
+            <div class="price-usd">Tham chiếu: $1,299.99</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447795/products/galaxy-s26-ultra.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Kyu3a • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="samsung" data-category="phone" data-name="galaxy z fold8 ultra">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447797/products/galaxy-z-fold8-ultra.jpg" alt="Galaxy Z Fold8 Ultra" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Samsung</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Galaxy Z Fold8 Ultra">Galaxy Z Fold8 Ultra</h3>
+        <div class="pills-container">
+          <span class="pill pill-chip">⚡ Snapdragon 8 Elite Gen 5 for Galaxy</span><span class="pill">🧠 12GB/16GB</span><span class="pill">💾 256GB-1TB</span><span class="pill">📱 8.0 inch inner / 6.5 inch cover</span><span class="pill">🔋 5000 mAh</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">53.550.000 ₫</div>
+            <div class="price-usd">Tham chiếu: $2,099.99</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447797/products/galaxy-z-fold8-ultra.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: P1898 • CC BY 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="samsung" data-category="phone" data-name="galaxy z fold8">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447799/products/galaxy-z-fold8.jpg" alt="Galaxy Z Fold8" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Samsung</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Galaxy Z Fold8">Galaxy Z Fold8</h3>
+        <div class="pills-container">
+          <span class="pill">🧠 12GB</span><span class="pill">📱 7.6 inch inner</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">29.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447799/products/galaxy-z-fold8.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: P1898 • CC BY 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="samsung" data-category="phone" data-name="galaxy z flip8">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447800/products/galaxy-z-flip8.jpg" alt="Galaxy Z Flip8" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Samsung</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Galaxy Z Flip8">Galaxy Z Flip8</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447800/products/galaxy-z-flip8.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Kyu3a • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="google" data-category="phone" data-name="pixel 11">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447802/products/pixel-11.jpg" alt="Pixel 11" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Google</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Pixel 11">Pixel 11</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447802/products/pixel-11.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Donald Trung Quoc Don (Ch • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="google" data-category="phone" data-name="pixel 11 pro">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447804/products/pixel-11-pro.png" alt="Pixel 11 Pro" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Google</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Pixel 11 Pro">Pixel 11 Pro</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">28.020.000 ₫</div>
+            <div class="price-usd">Tham chiếu: $1,099</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447804/products/pixel-11-pro.png" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: ShoAndTech • CC BY 3.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="google" data-category="phone" data-name="pixel 11 pro xl">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447805/products/pixel-11-pro-xl.jpg" alt="Pixel 11 Pro XL" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Google</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Pixel 11 Pro XL">Pixel 11 Pro XL</h3>
+        <div class="pills-container">
+          <span class="pill">🧠 16GB</span><span class="pill">📱 6.82 inch</span><span class="pill">🔋 5500 mAh</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">31.850.000 ₫</div>
+            <div class="price-usd">Tham chiếu: $1,249</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447805/products/pixel-11-pro-xl.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: D.328 • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="xiaomi" data-category="phone" data-name="xiaomi 17">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447809/products/xiaomi-17.jpg" alt="Xiaomi 17" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Xiaomi</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Xiaomi 17">Xiaomi 17</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447809/products/xiaomi-17.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: 茅野ふたば • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="xiaomi" data-category="phone" data-name="xiaomi 17 ultra">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447811/products/xiaomi-17-ultra.jpg" alt="Xiaomi 17 Ultra" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Xiaomi</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Xiaomi 17 Ultra">Xiaomi 17 Ultra</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">29.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447811/products/xiaomi-17-ultra.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: 茅野ふたば • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="xiaomi" data-category="phone" data-name="xiaomi 17t pro">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447814/products/xiaomi-17t-pro.jpg" alt="Xiaomi 17T Pro" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Xiaomi</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Xiaomi 17T Pro">Xiaomi 17T Pro</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">23.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447814/products/xiaomi-17t-pro.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: 茅野ふたば • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="oppo" data-category="phone" data-name="oppo find x9 ultra">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447816/products/oppo-find-x9-ultra.jpg" alt="OPPO Find X9 Ultra" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">OPPO</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="OPPO Find X9 Ultra">OPPO Find X9 Ultra</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">29.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447816/products/oppo-find-x9-ultra.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: 茅野ふたば • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="honor" data-category="phone" data-name="honor magic9">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447818/products/honor-magic9.jpg" alt="Honor Magic9" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Honor</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Honor Magic9">Honor Magic9</h3>
+        <div class="pills-container">
+          <span class="pill pill-chip">⚡ Snapdragon 8 Elite Gen 5</span><span class="pill">🧠 16GB</span><span class="pill">💾 up to 1TB</span><span class="pill">📱 6.37 inch</span><span class="pill">🔋 8000 mAh</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447818/products/honor-magic9.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: 茅野ふたば • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="apple" data-category="laptop" data-name="macbook neo">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447820/products/macbook-neo.jpg" alt="MacBook Neo" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Apple</span>
+        <span class="badge badge-cat">Laptop</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="MacBook Neo">MacBook Neo</h3>
+        <div class="pills-container">
+          <span class="pill pill-chip">⚡ A18 Pro</span><span class="pill">🧠 8GB</span><span class="pill">💾 256GB/512GB</span><span class="pill">📱 13 inch Liquid Retina</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">17.820.000 ₫</div>
+            <div class="price-usd">Tham chiếu: $699</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447820/products/macbook-neo.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: GodeNehler • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="asus" data-category="laptop" data-name="asus zenbook s14">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447827/products/asus-zenbook-s14.jpg" alt="ASUS Zenbook S14" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">ASUS</span>
+        <span class="badge badge-cat">Laptop</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="ASUS Zenbook S14">ASUS Zenbook S14</h3>
+        <div class="pills-container">
+          <span class="pill">📱 3K OLED</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">24.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447827/products/asus-zenbook-s14.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: P1898 • CC BY 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="asus" data-category="laptop" data-name="asus rog zephyrus g14">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447831/products/asus-rog-zephyrus-g14.jpg" alt="ASUS ROG Zephyrus G14" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">ASUS</span>
+        <span class="badge badge-cat">Laptop</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="ASUS ROG Zephyrus G14">ASUS ROG Zephyrus G14</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">24.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447831/products/asus-rog-zephyrus-g14.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: P1898 • CC BY 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="apple" data-category="phone" data-name="iphone 17">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447836/products/iphone-17.jpg" alt="iPhone 17" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Apple</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="iPhone 17">iPhone 17</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447836/products/iphone-17.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Ahmad Ali Karim • CC0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="apple" data-category="phone" data-name="iphone air">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447838/products/iphone-air.jpg" alt="iPhone Air" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Apple</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="iPhone Air">iPhone Air</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447838/products/iphone-air.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Premeditated • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="apple" data-category="phone" data-name="iphone 17 pro">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447840/products/iphone-17-pro.jpg" alt="iPhone 17 Pro" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Apple</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="iPhone 17 Pro">iPhone 17 Pro</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">23.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447840/products/iphone-17-pro.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Ahmad Ali Karim • CC0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="apple" data-category="phone" data-name="iphone 17 pro max">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447842/products/iphone-17-pro-max.jpg" alt="iPhone 17 Pro Max" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Apple</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="iPhone 17 Pro Max">iPhone 17 Pro Max</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">29.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447842/products/iphone-17-pro-max.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Ahmad Ali Karim • CC0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="apple" data-category="phone" data-name="iphone 16">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447843/products/iphone-16.jpg" alt="iPhone 16" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Apple</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="iPhone 16">iPhone 16</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447843/products/iphone-16.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: メイド理世 • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="apple" data-category="phone" data-name="iphone 16 plus">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447845/products/iphone-16-plus.jpg" alt="iPhone 16 Plus" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Apple</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="iPhone 16 Plus">iPhone 16 Plus</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">23.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447845/products/iphone-16-plus.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: メイド理世 • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="apple" data-category="phone" data-name="iphone 16 pro">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447847/products/iphone-16-pro.jpg" alt="iPhone 16 Pro" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Apple</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="iPhone 16 Pro">iPhone 16 Pro</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">23.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447847/products/iphone-16-pro.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: メイド理世 • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="apple" data-category="phone" data-name="iphone 16 pro max">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447848/products/iphone-16-pro-max.jpg" alt="iPhone 16 Pro Max" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Apple</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="iPhone 16 Pro Max">iPhone 16 Pro Max</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">29.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447848/products/iphone-16-pro-max.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: メイド理世 • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="samsung" data-category="phone" data-name="galaxy s25 ultra">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447854/products/galaxy-s25-ultra.jpg" alt="Galaxy S25 Ultra" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Samsung</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Galaxy S25 Ultra">Galaxy S25 Ultra</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">29.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447854/products/galaxy-s25-ultra.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: HuangWending18072009 • CC0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="samsung" data-category="phone" data-name="galaxy s25 edge">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447855/products/galaxy-s25-edge.jpg" alt="Galaxy S25 Edge" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Samsung</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Galaxy S25 Edge">Galaxy S25 Edge</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447855/products/galaxy-s25-edge.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Miyako Fujimiya • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="samsung" data-category="phone" data-name="galaxy z flip7">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447860/products/galaxy-z-flip7.jpg" alt="Galaxy Z Flip7" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Samsung</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Galaxy Z Flip7">Galaxy Z Flip7</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447860/products/galaxy-z-flip7.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: X-SHLIED • CC BY 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="samsung" data-category="phone" data-name="galaxy z flip7 fe">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447861/products/galaxy-z-flip7-fe.jpg" alt="Galaxy Z Flip7 FE" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Samsung</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Galaxy Z Flip7 FE">Galaxy Z Flip7 FE</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447861/products/galaxy-z-flip7-fe.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Ssu • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="samsung" data-category="phone" data-name="galaxy z trifold">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447863/products/galaxy-z-trifold.jpg" alt="Galaxy Z TriFold" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Samsung</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Galaxy Z TriFold">Galaxy Z TriFold</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">29.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447863/products/galaxy-z-trifold.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: ΚΑ ΚΙΤ • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="samsung" data-category="phone" data-name="galaxy a57">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447865/products/galaxy-a57.jpg" alt="Galaxy A57" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Samsung</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Galaxy A57">Galaxy A57</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447865/products/galaxy-a57.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Maksdroider • CC BY 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="samsung" data-category="phone" data-name="galaxy a37">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447867/products/galaxy-a37.jpg" alt="Galaxy A37" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Samsung</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Galaxy A37">Galaxy A37</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447867/products/galaxy-a37.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: เวียร์ • CC BY 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="samsung" data-category="phone" data-name="galaxy a27">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447868/products/galaxy-a27.jpg" alt="Galaxy A27" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Samsung</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Galaxy A27">Galaxy A27</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447868/products/galaxy-a27.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: JGBlue1509 • CC BY 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="samsung" data-category="phone" data-name="galaxy a17">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447870/products/galaxy-a17.jpg" alt="Galaxy A17" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Samsung</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Galaxy A17">Galaxy A17</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447870/products/galaxy-a17.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Captainmorlypogi1959 • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="samsung" data-category="phone" data-name="galaxy a36">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447872/products/galaxy-a36.jpg" alt="Galaxy A36" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Samsung</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Galaxy A36">Galaxy A36</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447872/products/galaxy-a36.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Captainmorlypogi1959 • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="samsung" data-category="phone" data-name="galaxy a56">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447874/products/galaxy-a56.jpg" alt="Galaxy A56" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Samsung</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Galaxy A56">Galaxy A56</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447874/products/galaxy-a56.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Captainmorlypogi1959 • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="samsung" data-category="phone" data-name="galaxy a26">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447876/products/galaxy-a26.jpg" alt="Galaxy A26" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Samsung</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Galaxy A26">Galaxy A26</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447876/products/galaxy-a26.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: เวียร์ • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="samsung" data-category="phone" data-name="galaxy a16">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447877/products/galaxy-a16.jpg" alt="Galaxy A16" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Samsung</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Galaxy A16">Galaxy A16</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447877/products/galaxy-a16.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Maksdroider • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="google" data-category="phone" data-name="pixel 10">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447882/products/pixel-10.jpg" alt="Pixel 10" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Google</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Pixel 10">Pixel 10</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447882/products/pixel-10.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Fabe56 • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="google" data-category="phone" data-name="pixel 10 pro">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447885/products/pixel-10-pro.jpg" alt="Pixel 10 Pro" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Google</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Pixel 10 Pro">Pixel 10 Pro</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">23.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447885/products/pixel-10-pro.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Fabe56 • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="google" data-category="phone" data-name="pixel 10 pro xl">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447889/products/pixel-10-pro-xl.jpg" alt="Pixel 10 Pro XL" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Google</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Pixel 10 Pro XL">Pixel 10 Pro XL</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">23.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447889/products/pixel-10-pro-xl.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: sultan_moon  • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="google" data-category="phone" data-name="pixel 9a">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447893/products/pixel-9a.jpg" alt="Pixel 9a" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Google</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Pixel 9a">Pixel 9a</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447893/products/pixel-9a.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Maksdroider • CC BY 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="xiaomi" data-category="phone" data-name="xiaomi 17 pro">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447896/products/xiaomi-17-pro.jpg" alt="Xiaomi 17 Pro" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Xiaomi</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Xiaomi 17 Pro">Xiaomi 17 Pro</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">23.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447896/products/xiaomi-17-pro.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: 茅野ふたば • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="xiaomi" data-category="phone" data-name="xiaomi 17 pro max">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447899/products/xiaomi-17-pro-max.jpg" alt="Xiaomi 17 Pro Max" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Xiaomi</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Xiaomi 17 Pro Max">Xiaomi 17 Pro Max</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">29.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447899/products/xiaomi-17-pro-max.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: 茅野ふたば • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="xiaomi" data-category="phone" data-name="xiaomi 17t">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447901/products/xiaomi-17t.jpg" alt="Xiaomi 17T" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Xiaomi</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Xiaomi 17T">Xiaomi 17T</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447901/products/xiaomi-17t.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: 茅野ふたば • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="xiaomi" data-category="phone" data-name="xiaomi 15">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447904/products/xiaomi-15.jpg" alt="Xiaomi 15" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Xiaomi</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Xiaomi 15">Xiaomi 15</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447904/products/xiaomi-15.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Retired electrician • CC0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="xiaomi" data-category="phone" data-name="xiaomi 15 ultra">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447906/products/xiaomi-15-ultra.jpg" alt="Xiaomi 15 Ultra" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Xiaomi</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Xiaomi 15 Ultra">Xiaomi 15 Ultra</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">29.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447906/products/xiaomi-15-ultra.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Andreas Fuchs/Weber Shand • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="xiaomi" data-category="phone" data-name="xiaomi 15t">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447908/products/xiaomi-15t.jpg" alt="Xiaomi 15T" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Xiaomi</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Xiaomi 15T">Xiaomi 15T</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447908/products/xiaomi-15t.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Maksdroider • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="xiaomi" data-category="phone" data-name="xiaomi 15t pro">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447911/products/xiaomi-15t-pro.jpg" alt="Xiaomi 15T Pro" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Xiaomi</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Xiaomi 15T Pro">Xiaomi 15T Pro</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">23.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447911/products/xiaomi-15t-pro.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Maksdroider • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="xiaomi" data-category="phone" data-name="xiaomi redmi note 15">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447913/products/xiaomi-redmi-note-15.jpg" alt="Xiaomi Redmi Note 15" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Xiaomi</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Xiaomi Redmi Note 15">Xiaomi Redmi Note 15</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447913/products/xiaomi-redmi-note-15.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Maksdroider • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="xiaomi" data-category="phone" data-name="xiaomi redmi note 14 pro+">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447918/products/xiaomi-redmi-note-14-pro.jpg" alt="Xiaomi Redmi Note 14 Pro+" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Xiaomi</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Xiaomi Redmi Note 14 Pro+">Xiaomi Redmi Note 14 Pro+</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">23.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447918/products/xiaomi-redmi-note-14-pro.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Kcx36 • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="oppo" data-category="phone" data-name="oppo find x9">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447924/products/oppo-find-x9.jpg" alt="OPPO Find X9" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">OPPO</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="OPPO Find X9">OPPO Find X9</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447924/products/oppo-find-x9.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Agartyan  • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="oppo" data-category="phone" data-name="oppo find x9 pro">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447928/products/oppo-find-x9-pro.jpg" alt="OPPO Find X9 Pro" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">OPPO</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="OPPO Find X9 Pro">OPPO Find X9 Pro</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">23.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447928/products/oppo-find-x9-pro.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Agartyan  • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="oppo" data-category="phone" data-name="oppo find n5">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447931/products/oppo-find-n5.png" alt="OPPO Find N5" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">OPPO</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="OPPO Find N5">OPPO Find N5</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447931/products/oppo-find-n5.png" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: X-SHLIED • CC BY 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="oppo" data-category="phone" data-name="oppo reno15 pro">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447936/products/oppo-reno15-pro.jpg" alt="OPPO Reno15 Pro" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">OPPO</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="OPPO Reno15 Pro">OPPO Reno15 Pro</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">23.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447936/products/oppo-reno15-pro.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Leongyy02 • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="vivo" data-category="phone" data-name="vivo x300">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447943/products/vivo-x300.jpg" alt="vivo X300" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">vivo</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="vivo X300">vivo X300</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447943/products/vivo-x300.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: X-SHLIED • CC BY 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="vivo" data-category="phone" data-name="vivo x300 pro">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447945/products/vivo-x300-pro.jpg" alt="vivo X300 Pro" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">vivo</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="vivo X300 Pro">vivo X300 Pro</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">23.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447945/products/vivo-x300-pro.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: X-SHLIED • CC BY 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="oneplus" data-category="phone" data-name="oneplus 15">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447957/products/oneplus-15.jpg" alt="OnePlus 15" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">OnePlus</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="OnePlus 15">OnePlus 15</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">23.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447957/products/oneplus-15.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Maksdroider • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="oneplus" data-category="phone" data-name="oneplus 13">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447960/products/oneplus-13.jpg" alt="OnePlus 13" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">OnePlus</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="OnePlus 13">OnePlus 13</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">23.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447960/products/oneplus-13.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Maksdroider • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="oneplus" data-category="phone" data-name="oneplus 13r">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447963/products/oneplus-13r.jpg" alt="OnePlus 13R" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">OnePlus</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="OnePlus 13R">OnePlus 13R</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">23.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447963/products/oneplus-13r.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Maksdroider • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="oneplus" data-category="phone" data-name="oneplus nord 5">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447966/products/oneplus-nord-5.jpg" alt="OnePlus Nord 5" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">OnePlus</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="OnePlus Nord 5">OnePlus Nord 5</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">23.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447966/products/oneplus-nord-5.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Maksdroider • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="honor" data-category="phone" data-name="honor magic8 pro">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447970/products/honor-magic8-pro.jpg" alt="Honor Magic8 Pro" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Honor</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Honor Magic8 Pro">Honor Magic8 Pro</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">23.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447970/products/honor-magic8-pro.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: X-SHLIED • CC BY 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="honor" data-category="phone" data-name="honor magic8">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447976/products/honor-magic8.jpg" alt="Honor Magic8" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Honor</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Honor Magic8">Honor Magic8</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447976/products/honor-magic8.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: X-SHLIED • CC BY 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="honor" data-category="phone" data-name="honor magic v6">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447978/products/honor-magic-v6.jpg" alt="Honor Magic V6" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Honor</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Honor Magic V6">Honor Magic V6</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447978/products/honor-magic-v6.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: 茅野ふたば • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="honor" data-category="phone" data-name="honor magic v5">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447982/products/honor-magic-v5.jpg" alt="Honor Magic V5" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Honor</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Honor Magic V5">Honor Magic V5</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447982/products/honor-magic-v5.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Leongyy02 • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="honor" data-category="phone" data-name="honor 400">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447984/products/honor-400.jpg" alt="Honor 400" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Honor</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Honor 400">Honor 400</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447984/products/honor-400.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: 茅野ふたば • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="honor" data-category="phone" data-name="honor 400 pro">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447987/products/honor-400-pro.jpg" alt="Honor 400 Pro" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Honor</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Honor 400 Pro">Honor 400 Pro</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">23.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447987/products/honor-400-pro.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: 茅野ふたば • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="nothing" data-category="phone" data-name="nothing phone (3)">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447992/products/nothing-phone-3.png" alt="Nothing Phone (3)" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Nothing</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Nothing Phone (3)">Nothing Phone (3)</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447992/products/nothing-phone-3.png" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: 可恩Ke En • CC BY 3.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="nothing" data-category="phone" data-name="nothing phone (3a)">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447994/products/nothing-phone-3a.jpg" alt="Nothing Phone (3a)" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Nothing</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Nothing Phone (3a)">Nothing Phone (3a)</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447994/products/nothing-phone-3a.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Steven Sun • Public domain</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="nothing" data-category="phone" data-name="nothing phone (3a) pro">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447997/products/nothing-phone-3a-pro.jpg" alt="Nothing Phone (3a) Pro" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Nothing</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Nothing Phone (3a) Pro">Nothing Phone (3a) Pro</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">23.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447997/products/nothing-phone-3a-pro.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Steven Sun • Public domain</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="nothing" data-category="phone" data-name="nothing cmf phone 2 pro">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448001/products/nothing-cmf-phone-2-pro.jpg" alt="Nothing CMF Phone 2 Pro" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Nothing</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Nothing CMF Phone 2 Pro">Nothing CMF Phone 2 Pro</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">23.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448001/products/nothing-cmf-phone-2-pro.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Suntooooth • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="motorola" data-category="phone" data-name="motorola razr fold">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448010/products/motorola-razr-fold.jpg" alt="Motorola Razr Fold" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Motorola</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Motorola Razr Fold">Motorola Razr Fold</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">29.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448010/products/motorola-razr-fold.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: X-SHLIED • CC BY 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="motorola" data-category="phone" data-name="motorola edge 60 pro">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448013/products/motorola-edge-60-pro.jpg" alt="Motorola Edge 60 Pro" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Motorola</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Motorola Edge 60 Pro">Motorola Edge 60 Pro</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">23.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448013/products/motorola-edge-60-pro.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Meniirtjakarintan • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="motorola" data-category="phone" data-name="motorola edge 70">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448017/products/motorola-edge-70.jpg" alt="Motorola Edge 70" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Motorola</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Motorola Edge 70">Motorola Edge 70</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448017/products/motorola-edge-70.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Maksdroider • CC BY 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="sony" data-category="phone" data-name="sony xperia 1 vii">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448021/products/sony-xperia-1-vii.jpg" alt="Sony Xperia 1 VII" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Sony</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Sony Xperia 1 VII">Sony Xperia 1 VII</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448021/products/sony-xperia-1-vii.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: © M 93 • CC BY-SA 3.0 de</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="huawei" data-category="phone" data-name="huawei pura 80 pro">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448030/products/huawei-pura-80-pro.jpg" alt="Huawei Pura 80 Pro" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Huawei</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Huawei Pura 80 Pro">Huawei Pura 80 Pro</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">23.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448030/products/huawei-pura-80-pro.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: 毕明明 • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="huawei" data-category="phone" data-name="huawei pura 80 ultra">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448032/products/huawei-pura-80-ultra.jpg" alt="Huawei Pura 80 Ultra" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Huawei</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Huawei Pura 80 Ultra">Huawei Pura 80 Ultra</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">29.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448032/products/huawei-pura-80-ultra.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Maksdroider • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="huawei" data-category="phone" data-name="huawei mate 70 pro">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448035/products/huawei-mate-70-pro.jpg" alt="Huawei Mate 70 Pro" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Huawei</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Huawei Mate 70 Pro">Huawei Mate 70 Pro</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">23.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448035/products/huawei-mate-70-pro.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: 毕明明 • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="huawei" data-category="phone" data-name="huawei mate x6">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448039/products/huawei-mate-x6.png" alt="Huawei Mate X6" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Huawei</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Huawei Mate X6">Huawei Mate X6</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448039/products/huawei-mate-x6.png" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: X-SHLIED • CC BY 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="huawei" data-category="phone" data-name="huawei pura x">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448044/products/huawei-pura-x.jpg" alt="Huawei Pura X" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Huawei</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Huawei Pura X">Huawei Pura X</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">16.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448044/products/huawei-pura-x.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: 毕明明 • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="asus" data-category="phone" data-name="asus zenfone 12 ultra">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448049/products/asus-zenfone-12-ultra.png" alt="ASUS Zenfone 12 Ultra" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">ASUS</span>
+        <span class="badge badge-cat">Điện thoại</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="ASUS Zenfone 12 Ultra">ASUS Zenfone 12 Ultra</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">29.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448049/products/asus-zenfone-12-ultra.png" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Yccnt • CC0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="apple" data-category="laptop" data-name="macbook air 13-inch m4">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448053/products/macbook-air-13-inch-m4.jpg" alt="MacBook Air 13-inch M4" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Apple</span>
+        <span class="badge badge-cat">Laptop</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="MacBook Air 13-inch M4">MacBook Air 13-inch M4</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">24.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448053/products/macbook-air-13-inch-m4.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: AzureSaturn • CC0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="apple" data-category="laptop" data-name="macbook air 15-inch m4">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448056/products/macbook-air-15-inch-m4.jpg" alt="MacBook Air 15-inch M4" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Apple</span>
+        <span class="badge badge-cat">Laptop</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="MacBook Air 15-inch M4">MacBook Air 15-inch M4</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">24.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448056/products/macbook-air-15-inch-m4.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: AzureSaturn • CC0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="apple" data-category="laptop" data-name="macbook pro 14-inch m5">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448058/products/macbook-pro-14-inch-m5.jpg" alt="MacBook Pro 14-inch M5" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Apple</span>
+        <span class="badge badge-cat">Laptop</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="MacBook Pro 14-inch M5">MacBook Pro 14-inch M5</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">23.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448058/products/macbook-pro-14-inch-m5.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: AzureSaturn • CC0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="lenovo" data-category="laptop" data-name="lenovo yoga slim 7x">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448109/products/lenovo-yoga-slim-7x.jpg" alt="Lenovo Yoga Slim 7x" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Lenovo</span>
+        <span class="badge badge-cat">Laptop</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Lenovo Yoga Slim 7x">Lenovo Yoga Slim 7x</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">24.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448109/products/lenovo-yoga-slim-7x.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Fumikas Sagisavas • CC0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="lenovo" data-category="laptop" data-name="lenovo thinkpad e14">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448124/products/lenovo-thinkpad-e14.jpg" alt="Lenovo ThinkPad E14" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Lenovo</span>
+        <span class="badge badge-cat">Laptop</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Lenovo ThinkPad E14">Lenovo ThinkPad E14</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">24.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448124/products/lenovo-thinkpad-e14.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Rakoon • CC0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="asus" data-category="laptop" data-name="asus vivobook s16">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448130/products/asus-vivobook-s16.jpg" alt="ASUS Vivobook S16" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">ASUS</span>
+        <span class="badge badge-cat">Laptop</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="ASUS Vivobook S16">ASUS Vivobook S16</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">24.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448130/products/asus-vivobook-s16.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Tech Savvy User • CC0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="asus" data-category="laptop" data-name="asus rog strix g16">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448135/products/asus-rog-strix-g16.jpg" alt="ASUS ROG Strix G16" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">ASUS</span>
+        <span class="badge badge-cat">Laptop</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="ASUS ROG Strix G16">ASUS ROG Strix G16</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">24.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448135/products/asus-rog-strix-g16.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: P1898 • CC BY 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="asus" data-category="laptop" data-name="asus rog strix scar 16">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448138/products/asus-rog-strix-scar-16.png" alt="ASUS ROG Strix Scar 16" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">ASUS</span>
+        <span class="badge badge-cat">Laptop</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="ASUS ROG Strix Scar 16">ASUS ROG Strix Scar 16</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">24.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448138/products/asus-rog-strix-scar-16.png" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: 极客湾Geekerwan • CC BY 3.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="asus" data-category="laptop" data-name="asus rog ally x">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448142/products/asus-rog-ally-x.jpg" alt="ASUS ROG Ally X" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">ASUS</span>
+        <span class="badge badge-cat">Laptop</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="ASUS ROG Ally X">ASUS ROG Ally X</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">24.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448142/products/asus-rog-ally-x.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: P1898 • CC BY 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="acer" data-category="laptop" data-name="acer aspire 5">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448156/products/acer-aspire-5.jpg" alt="Acer Aspire 5" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Acer</span>
+        <span class="badge badge-cat">Laptop</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Acer Aspire 5">Acer Aspire 5</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">24.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448156/products/acer-aspire-5.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: CSR2Forever • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="acer" data-category="laptop" data-name="acer predator helios 16">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448161/products/acer-predator-helios-16.jpg" alt="Acer Predator Helios 16" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Acer</span>
+        <span class="badge badge-cat">Laptop</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Acer Predator Helios 16">Acer Predator Helios 16</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">24.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448161/products/acer-predator-helios-16.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Solomon203 • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="acer" data-category="laptop" data-name="acer predator helios neo 16">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448164/products/acer-predator-helios-neo-16.jpg" alt="Acer Predator Helios Neo 16" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Acer</span>
+        <span class="badge badge-cat">Laptop</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Acer Predator Helios Neo 16">Acer Predator Helios Neo 16</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">24.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448164/products/acer-predator-helios-neo-16.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Solomon203 • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="microsoft" data-category="laptop" data-name="microsoft surface laptop studio 2">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448189/products/microsoft-surface-laptop-studio-2.jpg" alt="Microsoft Surface Laptop Studio 2" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">Microsoft</span>
+        <span class="badge badge-cat">Laptop</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="Microsoft Surface Laptop Studio 2">Microsoft Surface Laptop Studio 2</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">24.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448189/products/microsoft-surface-laptop-studio-2.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: KKPCW • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="lg" data-category="laptop" data-name="lg gram pro 16">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448196/products/lg-gram-pro-16.jpg" alt="LG Gram Pro 16" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">LG</span>
+        <span class="badge badge-cat">Laptop</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="LG Gram Pro 16">LG Gram Pro 16</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">23.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448196/products/lg-gram-pro-16.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Dinkun Chen • CC BY-SA 4.0</div>
+      </div>
+    </div>
+     
+    <div class="product-card" data-brand="lg" data-category="laptop" data-name="lg gram 14">
+      <div class="img-wrapper">
+        <img src="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448198/products/lg-gram-14.jpg" alt="LG Gram 14" loading="lazy" onerror="this.src='https://placehold.co/400x300?text=No+Image'"/>
+        <span class="badge badge-brand">LG</span>
+        <span class="badge badge-cat">Laptop</span>
+      </div>
+      <div class="card-body">
+        <h3 class="product-title" title="LG Gram 14">LG Gram 14</h3>
+        <div class="pills-container">
+          <span class="pill pill-empty">Cấu hình tiêu chuẩn</span>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="price-vnd">24.990.000 ₫ (Dự kiến)</div>
+            <div class="price-usd">Tham chiếu: N/A</div>
+          </div>
+          <a href="https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448198/products/lg-gram-14.jpg" target="_blank" class="view-btn" title="Xem ảnh gốc Cloudinary">Ảnh gốc ↗</a>
+        </div>
+        <div class="credit-note">Nguồn: Phiarc • CC BY-SA 4.0</div>
+      </div>
+    </div>
+    
+  </div>
+
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.product-card');
+
+    let currentFilter = 'all';
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.dataset.filter;
+        applyFilters();
+      });
+    });
+
+    searchInput.addEventListener('input', applyFilters);
+
+    function applyFilters() {
+      const query = searchInput.value.toLowerCase().trim();
+      cards.forEach(card => {
+        const brand = card.dataset.brand;
+        const name = card.dataset.name;
+        const text = card.textContent.toLowerCase();
+
+        const matchBrand = (currentFilter === 'all') || (brand === currentFilter);
+        const matchSearch = (!query) || text.includes(query);
+
+        if (matchBrand && matchSearch) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

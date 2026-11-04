@@ -21,172 +21,12 @@ const BRANDS = [
   'Samsung',
   'Xiaomi',
   'OPPO',
-  'TECNO',
+  'Google',
   'HONOR',
-  'Nubia',
+  'vivo',
+  'OnePlus',
   'Sony',
-  'Nokia',
-  'Infinix',
-];
-
-const INITIAL_PRODUCTS: ShowcaseProduct[] = [
-  {
-    id: 'p1',
-    name: 'iPhone 18 Pro Max 256GB',
-    slug: 'iphone-16-pro-max',
-    image: '/images/products/phones/phone_burgundy_18pro.jpg',
-    status: 'new_arrival',
-    statusCustomText: 'Hàng mới về',
-    price: 41990000,
-    oldPrice: 45990000,
-    discountPercent: 9,
-    tmemberDiscount: 'Tmember giảm đến 420.000đ',
-    smemberDiscount: 'Tmember giảm đến 420.000đ',
-    installmentNote: 'Trả góp 0% - 0đ phụ phí - 0đ trả trước - kỳ hạn đến 12 tháng',
-    hasZeroInstallment: true,
-    isFastDelivery: true,
-    rating: 5,
-    category: 'phone',
-    brand: 'Apple',
-    tags: ['5g', 'camera', 'ai'],
-  },
-  {
-    id: 'p2',
-    name: 'iPhone Duo 256GB',
-    slug: 'iphone-duo-256gb',
-    image: '/images/products/phones/phone_duo_open.jpg',
-    status: 'coming_soon',
-    statusCustomText: 'Sắp về hàng',
-    price: 64990000,
-    tmemberDiscount: 'Tmember giảm đến 650.000đ',
-    smemberDiscount: 'Tmember giảm đến 650.000đ',
-    installmentNote: 'Trả góp 0% - 0đ phụ phí - 0đ trả trước - kỳ hạn đến 12 tháng',
-    hasZeroInstallment: true,
-    isFastDelivery: false,
-    rating: 5,
-    category: 'phone',
-    brand: 'Apple',
-    tags: ['fold', '5g', 'ai'],
-  },
-  {
-    id: 'p3',
-    name: 'iPhone 18 Pro 256GB',
-    slug: 'iphone-16-128gb',
-    image: '/images/products/phones/phone_burgundy_18pro.jpg',
-    status: 'new_arrival',
-    statusCustomText: 'Hàng mới về',
-    price: 38490000,
-    oldPrice: 41490000,
-    discountPercent: 7,
-    tmemberDiscount: 'Tmember giảm đến 385.000đ',
-    smemberDiscount: 'Tmember giảm đến 385.000đ',
-    installmentNote: 'Trả góp 0% - 0đ phụ phí - 0đ trả trước - kỳ hạn đến 12 tháng',
-    hasZeroInstallment: true,
-    isFastDelivery: true,
-    rating: 5,
-    category: 'phone',
-    brand: 'Apple',
-    tags: ['camera', '5g', 'ai'],
-  },
-  {
-    id: 'p4',
-    name: 'iPhone 17 Pro 256GB | Chính hãng',
-    slug: 'iphone-15-pro-max',
-    image: '/images/products/phones/phone_copper_17pro.jpg',
-    status: 'none',
-    price: 31990000,
-    oldPrice: 34990000,
-    discountPercent: 9,
-    tmemberDiscount: 'Tmember giảm đến 320.000đ',
-    smemberDiscount: 'Tmember giảm đến 320.000đ',
-    installmentNote: 'Trả góp 0% - 0đ phụ phí - 0đ trả trước - kỳ hạn đến 12 tháng',
-    hasZeroInstallment: true,
-    isFastDelivery: true,
-    rating: 5,
-    category: 'phone',
-    brand: 'Apple',
-    tags: ['camera', '5g'],
-  },
-  {
-    id: 'p5',
-    name: 'OPPO Reno16 F 5G 8GB 256GB',
-    slug: 'oppo-reno16-f-5g',
-    image: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400',
-    status: 'none',
-    price: 14540000,
-    oldPrice: 15990000,
-    discountPercent: 9,
-    tmemberDiscount: 'Tmember giảm đến 145.000đ',
-    smemberDiscount: 'Tmember giảm đến 145.000đ',
-    studentDiscount: 'T-Student giảm thêm 300.000đ',
-    installmentNote: 'Trả góp 0% - 0đ phụ phí - 0đ trả trước - kỳ hạn đến 12 tháng',
-    hasZeroInstallment: true,
-    isFastDelivery: false,
-    rating: 5,
-    category: 'phone',
-    brand: 'OPPO',
-    tags: ['5g', 'camera'],
-  },
-  {
-    id: 'p6',
-    name: 'Xiaomi POCO F9 Ultra 5G 12GB 256GB',
-    slug: 'xiaomi-14-ultra-512gb',
-    image: '/images/products/phones/phone_poco_x8.jpg',
-    status: 'new_arrival',
-    statusCustomText: 'Hàng mới về',
-    price: 24290000,
-    oldPrice: 29990000,
-    discountPercent: 19,
-    tmemberDiscount: 'Tmember giảm đến 243.000đ',
-    smemberDiscount: 'Tmember giảm đến 243.000đ',
-    studentDiscount: 'T-Student giảm thêm 500.000đ',
-    installmentNote: 'Trả góp 0% - 0đ phụ phí - 0đ trả trước - kỳ hạn đến 12 tháng',
-    hasZeroInstallment: true,
-    isFastDelivery: false,
-    rating: 5,
-    category: 'phone',
-    brand: 'Xiaomi',
-    tags: ['gaming', 'battery', '5g'],
-  },
-  {
-    id: 'p7',
-    name: 'iPhone Air 256GB | Chính hãng',
-    slug: 'iphone-16-pro-max',
-    image: '/images/products/phones/phone_iphone_air.jpg',
-    status: 'none',
-    price: 22990000,
-    oldPrice: 31990000,
-    discountPercent: 28,
-    tmemberDiscount: 'Tmember giảm đến 230.000đ',
-    smemberDiscount: 'Tmember giảm đến 230.000đ',
-    installmentNote: 'Trả góp 0% - 0đ phụ phí - 0đ trả trước - kỳ hạn đến 12 tháng',
-    hasZeroInstallment: true,
-    isFastDelivery: true,
-    rating: 4.9,
-    category: 'phone',
-    brand: 'Apple',
-    tags: ['ai', '5g'],
-  },
-  {
-    id: 'p8',
-    name: 'POCO X8 Pro Max 12GB 256GB',
-    slug: 'samsung-galaxy-s25-ultra',
-    image: '/images/products/phones/phone_poco_x8.jpg',
-    status: 'none',
-    price: 13990000,
-    oldPrice: 16990000,
-    discountPercent: 18,
-    tmemberDiscount: 'Tmember giảm đến 140.000đ',
-    smemberDiscount: 'Tmember giảm đến 140.000đ',
-    studentDiscount: 'T-Student giảm thêm 300.000đ',
-    installmentNote: 'Trả góp 0% - 0đ phụ phí - 0đ trả trước - kỳ hạn đến 12 tháng',
-    hasZeroInstallment: true,
-    isFastDelivery: true,
-    rating: 4.9,
-    category: 'phone',
-    brand: 'Xiaomi',
-    tags: ['gaming', 'battery'],
-  },
+  'Nothing',
 ];
 
 const INITIAL_SHOWCASE: CategoryShowcaseData = {
@@ -202,7 +42,327 @@ const INITIAL_SHOWCASE: CategoryShowcaseData = {
     { id: 'f5', label: 'Điện thoại gập', imageUrl: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400', tag: 'fold' },
     { id: 'f6', label: 'Điện thoại AI', imageUrl: 'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?w=400', tag: 'ai' },
   ],
-  products: INITIAL_PRODUCTS,
+  products: [
+    {
+      id: '1',
+      name: 'iPhone 17 Pro 256GB',
+      slug: 'iphone-17-pro-256gb',
+      brand: 'Apple',
+      category: 'phone',
+      image: 'https://res.cloudinary.com/c7w3ycu9/image/upload/w_800,h_800,c_pad,b_white,q_auto,f_auto/v1793711824/products/iphone-17-pro-256-gb.webp',
+      price: 33240000,
+      oldPrice: 34990000,
+      discountPercent: 5,
+      hasZeroInstallment: true,
+      status: 'new_arrival',
+      tmemberDiscount: 'Tmember giảm đến 332.000đ',
+      smemberDiscount: 'Tmember giảm đến 332.000đ',
+      studentDiscount: 'T-Student giảm thêm 997.000đ',
+      installmentNote: 'Trả góp 0% lãi suất',
+      rating: 5,
+      isFastDelivery: true,
+      tags: ['5g', 'ai', 'camera', 'gaming'],
+    },
+    {
+      id: '2',
+      name: 'iPhone 17 256GB',
+      slug: 'iphone-17-256gb',
+      brand: 'Apple',
+      category: 'phone',
+      image: 'https://res.cloudinary.com/c7w3ycu9/image/upload/w_800,h_800,c_pad,b_white,q_auto,f_auto/v1793711829/products/iphone_17_256gb-3_2.webp',
+      price: 23990000,
+      oldPrice: 24990000,
+      discountPercent: 4,
+      hasZeroInstallment: true,
+      status: 'new_arrival',
+      tmemberDiscount: 'Tmember giảm đến 240.000đ',
+      smemberDiscount: 'Tmember giảm đến 240.000đ',
+      studentDiscount: 'T-Student giảm thêm 720.000đ',
+      installmentNote: 'Trả góp 0% lãi suất',
+      rating: 5,
+      isFastDelivery: true,
+      tags: ['5g', 'ai', 'camera'],
+    },
+    {
+      id: '3',
+      name: 'iPhone Air',
+      slug: 'iphone-air',
+      brand: 'Apple',
+      category: 'phone',
+      image: 'https://res.cloudinary.com/c7w3ycu9/image/upload/w_800,h_800,c_pad,b_white,q_auto,f_auto/v1793711830/products/iphone_air-3_2.webp',
+      price: 30071000,
+      oldPrice: 31990000,
+      discountPercent: 6,
+      hasZeroInstallment: true,
+      status: 'new_arrival',
+      tmemberDiscount: 'Tmember giảm đến 301.000đ',
+      smemberDiscount: 'Tmember giảm đến 301.000đ',
+      studentDiscount: 'T-Student giảm thêm 902.000đ',
+      installmentNote: 'Trả góp 0% lãi suất',
+      rating: 5,
+      isFastDelivery: true,
+      tags: ['5g', 'ai', 'camera'],
+    },
+    {
+      id: '4',
+      name: 'iPhone 18 Pro',
+      slug: 'iphone-18-pro',
+      brand: 'Apple',
+      category: 'phone',
+      image: 'https://res.cloudinary.com/c7w3ycu9/image/upload/w_800,h_800,c_pad,b_white,q_auto,f_auto/v1793711825/products/iphone-18-pro-01.webp',
+      price: 36990000,
+      oldPrice: 36990000,
+      discountPercent: 0,
+      hasZeroInstallment: true,
+      status: 'new_arrival',
+      tmemberDiscount: 'Tmember giảm đến 370.000đ',
+      smemberDiscount: 'Tmember giảm đến 370.000đ',
+      studentDiscount: 'T-Student giảm thêm 1.110.000đ',
+      installmentNote: 'Trả góp 0% lãi suất',
+      rating: 5,
+      isFastDelivery: true,
+      tags: ['5g', 'ai', 'camera', 'gaming'],
+    },
+    {
+      id: '5',
+      name: 'iPhone 18 Pro Max',
+      slug: 'iphone-18-pro-max',
+      brand: 'Apple',
+      category: 'phone',
+      image: 'https://res.cloudinary.com/c7w3ycu9/image/upload/w_800,h_800,c_pad,b_white,q_auto,f_auto/v1793711826/products/iphone-18-pro-max-01.webp',
+      price: 42990000,
+      oldPrice: 42990000,
+      discountPercent: 0,
+      hasZeroInstallment: true,
+      status: 'special_deal',
+      tmemberDiscount: 'Tmember giảm đến 430.000đ',
+      smemberDiscount: 'Tmember giảm đến 430.000đ',
+      studentDiscount: 'T-Student giảm thêm 1.290.000đ',
+      installmentNote: 'Trả góp 0% lãi suất',
+      rating: 5,
+      isFastDelivery: true,
+      tags: ['5g', 'ai', 'camera', 'gaming', 'battery'],
+    },
+    {
+      id: '6',
+      name: 'Samsung Galaxy S26 Ultra',
+      slug: 'samsung-galaxy-s26-ultra',
+      brand: 'Samsung',
+      category: 'phone',
+      image: 'https://res.cloudinary.com/c7w3ycu9/image/upload/w_800,h_800,c_pad,b_white,q_auto,f_auto/v1793711878/products/samsung-galaxy-s26-ultra-1.webp',
+      price: 31271000,
+      oldPrice: 33990000,
+      discountPercent: 8,
+      hasZeroInstallment: true,
+      status: 'special_deal',
+      tmemberDiscount: 'Tmember giảm đến 313.000đ',
+      smemberDiscount: 'Tmember giảm đến 313.000đ',
+      studentDiscount: 'T-Student giảm thêm 938.000đ',
+      installmentNote: 'Trả góp 0% lãi suất',
+      rating: 5,
+      isFastDelivery: true,
+      tags: ['5g', 'ai', 'camera', 'gaming', 'battery'],
+    },
+    {
+      id: '7',
+      name: 'Samsung Galaxy A37',
+      slug: 'samsung-galaxy-a37',
+      brand: 'Samsung',
+      category: 'phone',
+      image: 'https://res.cloudinary.com/c7w3ycu9/image/upload/w_800,h_800,c_pad,b_white,q_auto,f_auto/v1793711811/products/dien-thoai-samsung-galaxy-a37-2_2.webp',
+      price: 8991000,
+      oldPrice: 9990000,
+      discountPercent: 10,
+      hasZeroInstallment: true,
+      status: 'new_arrival',
+      tmemberDiscount: 'Tmember giảm đến 90.000đ',
+      smemberDiscount: 'Tmember giảm đến 90.000đ',
+      studentDiscount: 'T-Student giảm thêm 270.000đ',
+      installmentNote: 'Trả góp 0% lãi suất',
+      rating: 5,
+      isFastDelivery: true,
+      tags: ['5g', 'ai', 'camera'],
+    },
+    {
+      id: '8',
+      name: 'Samsung Galaxy Z Fold 8 Lavender',
+      slug: 'samsung-galaxy-z-fold-8-lavender',
+      brand: 'Samsung',
+      category: 'phone',
+      image: 'https://res.cloudinary.com/c7w3ycu9/image/upload/w_800,h_800,c_pad,b_white,q_auto,f_auto/v1793711879/products/samsung-galaxy-z-fold-8-lavender-01.webp',
+      price: 44640000,
+      oldPrice: 46990000,
+      discountPercent: 5,
+      hasZeroInstallment: true,
+      status: 'special_deal',
+      tmemberDiscount: 'Tmember giảm đến 446.000đ',
+      smemberDiscount: 'Tmember giảm đến 446.000đ',
+      studentDiscount: 'T-Student giảm thêm 1.339.000đ',
+      installmentNote: 'Trả góp 0% lãi suất',
+      rating: 5,
+      isFastDelivery: true,
+      tags: ['5g', 'ai', 'camera', 'fold'],
+    },
+    {
+      id: '9',
+      name: 'OPPO Find X10 Pro Max',
+      slug: 'oppo-find-x10-pro-max',
+      brand: 'OPPO',
+      category: 'phone',
+      image: 'https://res.cloudinary.com/c7w3ycu9/image/upload/w_800,h_800,c_pad,b_white,q_auto,f_auto/v1793711865/products/oppo-find-x10-pro-max-white-01_1.webp',
+      price: 27891000,
+      oldPrice: 29990000,
+      discountPercent: 7,
+      hasZeroInstallment: true,
+      status: 'special_deal',
+      tmemberDiscount: 'Tmember giảm đến 279.000đ',
+      smemberDiscount: 'Tmember giảm đến 279.000đ',
+      studentDiscount: 'T-Student giảm thêm 837.000đ',
+      installmentNote: 'Trả góp 0% lãi suất',
+      rating: 5,
+      isFastDelivery: true,
+      tags: ['5g', 'ai', 'camera', 'gaming', 'battery'],
+    },
+    {
+      id: '10',
+      name: 'Xiaomi 15 Ultra',
+      slug: 'xiaomi-15-ultra',
+      brand: 'Xiaomi',
+      category: 'phone',
+      image: 'https://res.cloudinary.com/c7w3ycu9/image/upload/w_800,h_800,c_pad,b_white,q_auto,f_auto/v1793711893/products/xiaomi_15_ultra-4_2.webp',
+      price: 31990000,
+      oldPrice: 34990000,
+      discountPercent: 9,
+      hasZeroInstallment: true,
+      status: 'special_deal',
+      tmemberDiscount: 'Tmember giảm đến 320.000đ',
+      smemberDiscount: 'Tmember giảm đến 320.000đ',
+      studentDiscount: 'T-Student giảm thêm 960.000đ',
+      installmentNote: 'Trả góp 0% lãi suất',
+      rating: 5,
+      isFastDelivery: true,
+      tags: ['5g', 'ai', 'camera', 'gaming', 'battery'],
+    },
+  ],
+};
+
+const formatVND = (value: number) => {
+  return new Intl.NumberFormat('vi-VN').format(value) + 'đ';
+};
+
+const ShowcaseCard: React.FC<{
+  product: ShowcaseProduct;
+  isFav: boolean;
+  onToggleFav: (e: React.MouseEvent) => void;
+}> = ({ product, isFav, onToggleFav }) => {
+  const [hasError, setHasError] = useState(false);
+  const displayImage = hasError || !product.image ? '/images/placeholder-product.svg' : product.image;
+  const statusCfg = STATUS_CONFIG[product.status];
+
+  return (
+    <Link
+      href={`/products/${product.slug || product.id}`}
+      className={styles.productCard}
+    >
+      {/* Badges Giảm % / Trả góp 0% */}
+      <div className={styles.badgeRow}>
+        {product.discountPercent ? (
+          <span className={styles.discountBadge}>
+            Giảm {product.discountPercent}%
+          </span>
+        ) : (
+          <span />
+        )}
+        {product.hasZeroInstallment && (
+          <span className={styles.installmentBadge}>Trả góp 0%</span>
+        )}
+      </div>
+
+      {/* Product Image */}
+      <div className={styles.imageContainer}>
+        <Image
+          src={displayImage}
+          alt={product.name}
+          fill
+          unoptimized={Boolean(displayImage && displayImage.startsWith('http'))}
+          className={styles.productImage}
+          sizes="(max-width: 768px) 50vw, 25vw"
+          onError={() => setHasError(true)}
+        />
+      </div>
+
+      {/* Info */}
+      <div className={styles.productInfo}>
+        <h3 className={styles.productName} title={product.name}>{product.name}</h3>
+
+        {/* Status tag */}
+        <div className={styles.statusTagContainer}>
+          {statusCfg && (
+            <span className={`${styles.statusTag} ${statusCfg.className}`}>
+              {product.statusCustomText || statusCfg.text}
+            </span>
+          )}
+        </div>
+
+        {/* Price */}
+        <div className={styles.priceRow}>
+          <span className={styles.currentPrice}>
+            {formatVND(product.price)}
+          </span>
+          {product.oldPrice && (
+            <span className={styles.oldPrice}>
+              {formatVND(product.oldPrice)}
+            </span>
+          )}
+        </div>
+
+        {/* Tmember Discount Box */}
+        {(product.tmemberDiscount || product.smemberDiscount) && (
+          <div className={styles.smemberBox}>
+            {product.tmemberDiscount || product.smemberDiscount}
+          </div>
+        )}
+
+        {/* T-Student Box */}
+        {product.studentDiscount && (
+          <div className={styles.studentBox}>
+            {product.studentDiscount}
+          </div>
+        )}
+
+        {/* Installment note */}
+        {product.installmentNote && (
+          <div className={styles.installmentNote}>
+            {product.installmentNote}
+          </div>
+        )}
+      </div>
+
+      {/* Card Footer: Fast Delivery 2h, Star rating, Favorite heart */}
+      <div className={styles.cardFooter}>
+        <div className={styles.footerLeft}>
+          {product.isFastDelivery && (
+            <span className={styles.fastDeliveryBadge} title="Giao nhanh 2 giờ">
+              ⚡ 2 Giờ
+            </span>
+          )}
+          {product.rating && (
+            <span className={styles.ratingDisplay} title={`${product.rating} sao`}>
+              ★ {product.rating}
+            </span>
+          )}
+        </div>
+
+        <button
+          className={`${styles.heartBtn} ${isFav ? styles.favorited : ''}`}
+          onClick={onToggleFav}
+          title={isFav ? 'Bỏ thích' : 'Yêu thích'}
+        >
+          {isFav ? '❤️' : '♡'}
+        </button>
+      </div>
+    </Link>
+  );
 };
 
 export const CategoryShowcase: React.FC = () => {
@@ -210,6 +370,7 @@ export const CategoryShowcase: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<'phone' | 'tablet'>('phone');
   const [selectedFeature, setSelectedFeature] = useState<string | null>(null);
   const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
+  const [visibleCount, setVisibleCount] = useState<number>(8);
   const [favorites, setFavorites] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
@@ -224,7 +385,6 @@ export const CategoryShowcase: React.FC = () => {
 
     loadFromDatabase();
 
-    // Lắng nghe cập nhật khi Admin thay đổi dữ liệu trong SQL
     window.addEventListener('category-showcase-updated', loadFromDatabase);
     return () => {
       window.removeEventListener('category-showcase-updated', loadFromDatabase);
@@ -241,9 +401,7 @@ export const CategoryShowcase: React.FC = () => {
     return true;
   });
 
-  const formatVND = (value: number) => {
-    return new Intl.NumberFormat('vi-VN').format(value) + 'đ';
-  };
+  const displayedProducts = filteredProducts.slice(0, visibleCount);
 
   const toggleFavorite = (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -267,6 +425,7 @@ export const CategoryShowcase: React.FC = () => {
                   src={b.imageUrl}
                   alt={b.title}
                   fill
+                  unoptimized={Boolean(b.imageUrl && b.imageUrl.startsWith('http'))}
                   className={styles.posterImage}
                   sizes="270px"
                   priority
@@ -287,6 +446,7 @@ export const CategoryShowcase: React.FC = () => {
               onClick={() => {
                 setActiveCategory('phone');
                 setSelectedFeature(null);
+                setVisibleCount(8);
               }}
             >
               ĐIỆN THOẠI
@@ -300,6 +460,7 @@ export const CategoryShowcase: React.FC = () => {
               onClick={() => {
                 setActiveCategory('tablet');
                 setSelectedFeature(null);
+                setVisibleCount(8);
               }}
             >
               MÁY TÍNH BẢNG
@@ -316,11 +477,12 @@ export const CategoryShowcase: React.FC = () => {
                   className={`${styles.featureFilterItem} ${
                     selectedFeature === filter.tag ? styles.active : ''
                   }`}
-                  onClick={() =>
+                  onClick={() => {
                     setSelectedFeature(
                       selectedFeature === filter.tag ? null : filter.tag
-                    )
-                  }
+                    );
+                    setVisibleCount(8);
+                  }}
                 >
                   <span>{filter.label}</span>
                 </button>
@@ -328,7 +490,10 @@ export const CategoryShowcase: React.FC = () => {
               <button
                 className={styles.scrollMoreBtn}
                 title="Xem tất cả tính năng"
-                onClick={() => setSelectedFeature(null)}
+                onClick={() => {
+                  setSelectedFeature(null);
+                  setVisibleCount(8);
+                }}
               >
                 &gt;
               </button>
@@ -343,139 +508,55 @@ export const CategoryShowcase: React.FC = () => {
                 className={`${styles.brandPill} ${
                   selectedBrand === brand ? styles.active : ''
                 }`}
-                onClick={() =>
-                  setSelectedBrand(selectedBrand === brand ? null : brand)
-                }
+                onClick={() => {
+                  setSelectedBrand(selectedBrand === brand ? null : brand);
+                  setVisibleCount(8);
+                }}
               >
                 {brand}
               </button>
             ))}
-            <button
+            <Link
+              href={activeCategory === 'tablet' ? '/products?category=tablet' : '/products?category=phone'}
               className={styles.viewAllLink}
-              onClick={() => {
-                setSelectedBrand(null);
-                setSelectedFeature(null);
-              }}
             >
-              Xem tất cả &gt;
-            </button>
+              Xem tất cả ({filteredProducts.length}) &gt;
+            </Link>
           </div>
 
-          {/* Product Cards Grid (4 Cột x N Hàng) */}
-          <div className={styles.productGrid}>
-            {filteredProducts.map((product) => {
-              const statusCfg = STATUS_CONFIG[product.status];
-              const isFav = favorites[product.id];
-
-              return (
-                <Link
+          {/* Product Cards Grid (4 Cột x 2 hàng mặc định) */}
+          {displayedProducts.length === 0 ? (
+            <div className={styles.emptyState}>
+              <p className={styles.emptyTitle}>
+                {activeCategory === 'tablet'
+                  ? 'Danh mục Máy tính bảng đang được cập nhật sản phẩm mới.'
+                  : 'Chưa có sản phẩm nào phù hợp với bộ lọc hiện tại.'}
+              </p>
+              <button
+                type="button"
+                className={styles.emptyBtn}
+                onClick={() => {
+                  setActiveCategory('phone');
+                  setSelectedBrand(null);
+                  setSelectedFeature(null);
+                  setVisibleCount(8);
+                }}
+              >
+                Xem tất cả điện thoại
+              </button>
+            </div>
+          ) : (
+            <div className={styles.productGrid}>
+              {displayedProducts.map((product) => (
+                <ShowcaseCard
                   key={product.id}
-                  href={`/products/${product.slug || product.id}`}
-                  className={styles.productCard}
-                >
-                  {/* Badges Giảm % / Trả góp 0% */}
-                  <div className={styles.badgeRow}>
-                    {product.discountPercent ? (
-                      <span className={styles.discountBadge}>
-                        Giảm {product.discountPercent}%
-                      </span>
-                    ) : (
-                      <span />
-                    )}
-                    {product.hasZeroInstallment && (
-                      <span className={styles.installmentBadge}>Trả góp 0%</span>
-                    )}
-                  </div>
-
-                  {/* Product Image */}
-                  <div className={styles.imageContainer}>
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      fill
-                      className={styles.productImage}
-                      sizes="(max-width: 768px) 50vw, 25vw"
-                    />
-                  </div>
-
-                  {/* Info */}
-                  <div className={styles.productInfo}>
-                    <h3 className={styles.productName}>{product.name}</h3>
-
-                    {/* Status tag */}
-                    <div className={styles.statusTagContainer}>
-                      {statusCfg && (
-                        <span className={`${styles.statusTag} ${statusCfg.className}`}>
-                          {product.statusCustomText || statusCfg.text}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Price */}
-                    <div className={styles.priceRow}>
-                      <span className={styles.currentPrice}>
-                        {formatVND(product.price)}
-                      </span>
-                      {product.oldPrice && (
-                        <span className={styles.oldPrice}>
-                          {formatVND(product.oldPrice)}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Tmember Discount Box */}
-                    {(product.tmemberDiscount || product.smemberDiscount) && (
-                      <div className={styles.smemberBox}>
-                        {product.tmemberDiscount || product.smemberDiscount}
-                      </div>
-                    )}
-
-                    {/* T-Student Box */}
-                    {product.studentDiscount && (
-                      <div className={styles.studentBox}>
-                        {product.studentDiscount}
-                      </div>
-                    )}
-
-                    {/* Installment note */}
-                    {product.installmentNote && (
-                      <div className={styles.installmentNote}>
-                        {product.installmentNote}
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Card Footer: Fast Delivery 2h, Star rating, Favorite heart */}
-                  <div className={styles.cardFooter}>
-                    <div className={styles.footerLeft}>
-                      {product.isFastDelivery && (
-                        <span className={styles.fastDeliveryBadge} title="Giao nhanh 2 giờ">
-                          ⚡ 2 Giờ
-                        </span>
-                      )}
-                      {product.rating && (
-                        <span className={styles.ratingDisplay} title={`${product.rating} sao`}>
-                          ★ {product.rating}
-                        </span>
-                      )}
-                    </div>
-
-                    <button
-                      className={`${styles.heartBtn} ${isFav ? styles.favorited : ''}`}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        toggleFavorite(product.id, e);
-                      }}
-                      title={isFav ? 'Bỏ thích' : 'Yêu thích'}
-                    >
-                      {isFav ? '❤️' : '♡'}
-                    </button>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
+                  product={product}
+                  isFav={Boolean(favorites[product.id])}
+                  onToggleFav={(e) => toggleFavorite(product.id, e)}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </section>

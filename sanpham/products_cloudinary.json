@@ -1,0 +1,3167 @@
+[
+  {
+    "id": "iphone-18-pro",
+    "brand": "Apple",
+    "name": "iPhone 18 Pro",
+    "category": "phone",
+    "announced": "2026-09-09",
+    "specs": {
+      "chip": "A20 Pro",
+      "ram": "12GB",
+      "storage": "256GB-2TB",
+      "screen": "6.3 inch OLED"
+    },
+    "price_usd_from": 1199,
+    "note": null,
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447787/products/iphone-18-pro.jpg",
+    "image_credit": {
+      "author": "Farragutful",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:IPhone_18_Pro_-_black_01.jpg"
+    }
+  },
+  {
+    "id": "iphone-18-pro-max",
+    "brand": "Apple",
+    "name": "iPhone 18 Pro Max",
+    "category": "phone",
+    "announced": "2026-09-09",
+    "specs": {
+      "chip": "A20 Pro",
+      "ram": "12GB",
+      "storage": "256GB-2TB",
+      "screen": "6.9 inch OLED"
+    },
+    "price_usd_from": 1299,
+    "note": null,
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447789/products/iphone-18-pro-max.jpg",
+    "image_credit": {
+      "author": "SimonWaldherr",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Apple_iPhone_13_Pro_and_13_Pro_Max.jpg"
+    }
+  },
+  {
+    "id": "iphone-duo",
+    "brand": "Apple",
+    "name": "iPhone Duo (foldable)",
+    "category": "phone",
+    "announced": "2026-09-09",
+    "specs": {
+      "chip": "A20 Pro",
+      "ram": "12GB",
+      "storage": "256GB-2TB",
+      "screen": "7.6 inch inner / 5.4 inch outer"
+    },
+    "price_usd_from": 1999,
+    "note": "Pre-order 16/10, on sale 23/10/2026",
+    "image_source": null
+  },
+  {
+    "id": "iphone-17e",
+    "brand": "Apple",
+    "name": "iPhone 17e",
+    "category": "phone",
+    "announced": "2026-spring",
+    "specs": {
+      "chip": "A19"
+    },
+    "price_usd_from": null,
+    "note": "Cần kiểm tra giá/specs",
+    "image_source": null
+  },
+  {
+    "id": "galaxy-s26",
+    "brand": "Samsung",
+    "name": "Galaxy S26",
+    "category": "phone",
+    "announced": "2026-02-25",
+    "specs": {},
+    "price_usd_from": null,
+    "note": "On sale 11/03/2026",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447793/products/galaxy-s26.jpg",
+    "image_credit": {
+      "author": "Kyu3a",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Galaxy_S26.jpg"
+    }
+  },
+  {
+    "id": "galaxy-s26-plus",
+    "brand": "Samsung",
+    "name": "Galaxy S26+",
+    "category": "phone",
+    "announced": "2026-02-25",
+    "specs": {},
+    "price_usd_from": null,
+    "note": null,
+    "image_source": null
+  },
+  {
+    "id": "galaxy-s26-ultra",
+    "brand": "Samsung",
+    "name": "Galaxy S26 Ultra",
+    "category": "phone",
+    "announced": "2026-02-25",
+    "specs": {
+      "ram": "up to 16GB",
+      "storage": "up to 1TB"
+    },
+    "price_usd_from": 1299.99,
+    "note": "Giá niêm yết, có nguồn báo đã tăng",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447795/products/galaxy-s26-ultra.jpg",
+    "image_credit": {
+      "author": "Kyu3a",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Galaxy_S26_Ultra_-_1.jpg"
+    }
+  },
+  {
+    "id": "galaxy-z-fold8-ultra",
+    "brand": "Samsung",
+    "name": "Galaxy Z Fold8 Ultra",
+    "category": "phone",
+    "announced": "2026-07-22",
+    "specs": {
+      "chip": "Snapdragon 8 Elite Gen 5 for Galaxy",
+      "ram": "12GB/16GB",
+      "storage": "256GB-1TB",
+      "screen": "8.0 inch inner / 6.5 inch cover",
+      "battery": "5000 mAh",
+      "os": "Android 17"
+    },
+    "price_usd_from": 2099.99,
+    "note": "Bán từ 07/08/2026; giá thực tế các nguồn lệch nhau",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447797/products/galaxy-z-fold8-ultra.jpg",
+    "image_credit": {
+      "author": "P1898",
+      "license": "CC BY 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Back_side_Samsung_Galaxy_Z_Fold8_Ultra_5G_2026-08-09_Samsung_Galaxy_Watch_Ultra_4.jpg"
+    }
+  },
+  {
+    "id": "galaxy-z-fold8",
+    "brand": "Samsung",
+    "name": "Galaxy Z Fold8",
+    "category": "phone",
+    "announced": "2026-07-22",
+    "specs": {
+      "screen": "7.6 inch inner",
+      "ram": "12GB",
+      "os": "Android 17"
+    },
+    "price_usd_from": null,
+    "note": null,
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447799/products/galaxy-z-fold8.jpg",
+    "image_credit": {
+      "author": "P1898",
+      "license": "CC BY 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Back_side_Samsung_Galaxy_Z_Fold8_Ultra_5G_2026-08-09_Samsung_Galaxy_Watch_Ultra_5.jpg"
+    }
+  },
+  {
+    "id": "galaxy-z-flip8",
+    "brand": "Samsung",
+    "name": "Galaxy Z Flip8",
+    "category": "phone",
+    "announced": "2026-07-22",
+    "specs": {},
+    "price_usd_from": null,
+    "note": null,
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447800/products/galaxy-z-flip8.jpg",
+    "image_credit": {
+      "author": "Kyu3a",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Galaxy_Z_Flip8_-_1.jpg"
+    }
+  },
+  {
+    "id": "pixel-11",
+    "brand": "Google",
+    "name": "Pixel 11",
+    "category": "phone",
+    "announced": "2026-08-12",
+    "specs": {
+      "os": "Android 17"
+    },
+    "price_usd_from": null,
+    "note": "On sale 20/08/2026",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447802/products/pixel-11.jpg",
+    "image_credit": {
+      "author": "Donald Trung Quoc Don (Chữ Hán: 徵國單) - Wikimedia Commons - © CC BY-SA 4.0 International.(Want to use this image?)Original publication 📤: --Donald Trung 『徵國單』 (No Fake News 💬) (WikiProject Numismatics 💴) (Articles 📚) 10:11, 7 December 2021 (UTC)",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Google_Pixel_4A,_Hillegersberg,_Rotterdam_(2021)_11.jpg"
+    }
+  },
+  {
+    "id": "pixel-11-pro",
+    "brand": "Google",
+    "name": "Pixel 11 Pro",
+    "category": "phone",
+    "announced": "2026-08-12",
+    "specs": {
+      "os": "Android 17"
+    },
+    "price_usd_from": 1099,
+    "note": null,
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447804/products/pixel-11-pro.png",
+    "image_credit": {
+      "author": "ShoAndTech",
+      "license": "CC BY 3.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Pixel_9_%26_Pixel_9_Pro_Hands-On_Impressions_(ShoAndTech)_(2160p_24fps_VP9_LQ-160kbit_Opus)-00.00.11.600.png"
+    }
+  },
+  {
+    "id": "pixel-11-pro-xl",
+    "brand": "Google",
+    "name": "Pixel 11 Pro XL",
+    "category": "phone",
+    "announced": "2026-08-12",
+    "specs": {
+      "ram": "16GB",
+      "screen": "6.82 inch",
+      "battery": "5500 mAh",
+      "os": "Android 17"
+    },
+    "price_usd_from": 1249,
+    "note": null,
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447805/products/pixel-11-pro-xl.jpg",
+    "image_credit": {
+      "author": "D.328",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Google_Pixel_9_Pro_XL_(back).jpg"
+    }
+  },
+  {
+    "id": "pixel-11-pro-fold",
+    "brand": "Google",
+    "name": "Pixel 11 Pro Fold",
+    "category": "phone",
+    "announced": "2026-08-12",
+    "specs": {},
+    "price_usd_from": null,
+    "note": null,
+    "image_source": null
+  },
+  {
+    "id": "pixel-10a",
+    "brand": "Google",
+    "name": "Pixel 10a",
+    "category": "phone",
+    "announced": "2026-02-18",
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Released 05/03/2026",
+    "image_source": null
+  },
+  {
+    "id": "xiaomi-17",
+    "brand": "Xiaomi",
+    "name": "Xiaomi 17",
+    "category": "phone",
+    "announced": "2026-02-28",
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Global debut tại MWC 2026",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447809/products/xiaomi-17.jpg",
+    "image_credit": {
+      "author": "茅野ふたば",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Xiaomi_17.jpg"
+    }
+  },
+  {
+    "id": "xiaomi-17-ultra",
+    "brand": "Xiaomi",
+    "name": "Xiaomi 17 Ultra",
+    "category": "phone",
+    "announced": "2026-02-28",
+    "specs": {},
+    "price_usd_from": null,
+    "note": null,
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447811/products/xiaomi-17-ultra.jpg",
+    "image_credit": {
+      "author": "茅野ふたば",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Xiaomi_17_Ultra.jpg"
+    }
+  },
+  {
+    "id": "xiaomi-17t-pro",
+    "brand": "Xiaomi",
+    "name": "Xiaomi 17T Pro",
+    "category": "phone",
+    "announced": "2026",
+    "specs": {},
+    "price_usd_from": null,
+    "note": null,
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447814/products/xiaomi-17t-pro.jpg",
+    "image_credit": {
+      "author": "茅野ふたば",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Xiaomi_17T_Pro.jpg"
+    }
+  },
+  {
+    "id": "oppo-find-n6",
+    "brand": "OPPO",
+    "name": "OPPO Find N6",
+    "category": "phone",
+    "announced": "2026",
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Foldable",
+    "image_source": null
+  },
+  {
+    "id": "oppo-find-x9-ultra",
+    "brand": "OPPO",
+    "name": "OPPO Find X9 Ultra",
+    "category": "phone",
+    "announced": "2026",
+    "specs": {},
+    "price_usd_from": null,
+    "note": null,
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447816/products/oppo-find-x9-ultra.jpg",
+    "image_credit": {
+      "author": "茅野ふたば",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:OPPO_Find_X9_Ultra.jpg"
+    }
+  },
+  {
+    "id": "honor-magic9",
+    "brand": "Honor",
+    "name": "Honor Magic9",
+    "category": "phone",
+    "announced": "2026-10-08",
+    "specs": {
+      "chip": "Snapdragon 8 Elite Gen 5",
+      "ram": "16GB",
+      "storage": "up to 1TB",
+      "screen": "6.37 inch",
+      "battery": "8000 mAh"
+    },
+    "price_usd_from": null,
+    "note": null,
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447818/products/honor-magic9.jpg",
+    "image_credit": {
+      "author": "茅野ふたば",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Honor_Magic9.jpg"
+    }
+  },
+  {
+    "id": "sony-xperia-1-viii",
+    "brand": "Sony",
+    "name": "Xperia 1 VIII",
+    "category": "phone",
+    "announced": "2026",
+    "specs": {},
+    "price_usd_from": null,
+    "note": null,
+    "image_source": null
+  },
+  {
+    "id": "macbook-neo",
+    "brand": "Apple",
+    "name": "MacBook Neo",
+    "category": "laptop",
+    "announced": "2026-03-04",
+    "specs": {
+      "chip": "A18 Pro",
+      "ram": "8GB",
+      "storage": "256GB/512GB",
+      "screen": "13 inch Liquid Retina"
+    },
+    "price_usd_from": 699,
+    "note": "Giá ra mắt $599, các nguồn gần đây ghi $699",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447820/products/macbook-neo.jpg",
+    "image_credit": {
+      "author": "GodeNehler",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:MacBook_Neo-5588.jpg"
+    }
+  },
+  {
+    "id": "macbook-air-13-m5",
+    "brand": "Apple",
+    "name": "MacBook Air 13-inch (M5)",
+    "category": "laptop",
+    "announced": "2026-03",
+    "specs": {
+      "chip": "Apple M5",
+      "screen": "13.6 inch"
+    },
+    "price_usd_from": 1299,
+    "note": "Ra mắt $1,099, giá hiện tại các nguồn ghi $1,299",
+    "image_source": null
+  },
+  {
+    "id": "macbook-air-15-m5",
+    "brand": "Apple",
+    "name": "MacBook Air 15-inch (M5)",
+    "category": "laptop",
+    "announced": "2026-03",
+    "specs": {
+      "chip": "Apple M5",
+      "screen": "15.3 inch"
+    },
+    "price_usd_from": 1499,
+    "note": null,
+    "image_source": null
+  },
+  {
+    "id": "macbook-pro-14-m5",
+    "brand": "Apple",
+    "name": "MacBook Pro 14-inch (M5 / M5 Pro / M5 Max)",
+    "category": "laptop",
+    "announced": "2026",
+    "specs": {
+      "chip": "M5 / M5 Pro / M5 Max",
+      "screen": "14.2 inch",
+      "ports": "3x Thunderbolt 5, HDMI, SDXC"
+    },
+    "price_usd_from": 1999,
+    "note": null,
+    "image_source": null
+  },
+  {
+    "id": "macbook-pro-16-m5",
+    "brand": "Apple",
+    "name": "MacBook Pro 16-inch (M5 Pro / M5 Max)",
+    "category": "laptop",
+    "announced": "2026",
+    "specs": {
+      "chip": "M5 Pro / M5 Max",
+      "screen": "16.2 inch"
+    },
+    "price_usd_from": 2999,
+    "note": null,
+    "image_source": null
+  },
+  {
+    "id": "dell-xps-14-2026",
+    "brand": "Dell",
+    "name": "Dell XPS 14 (2026)",
+    "category": "laptop",
+    "announced": "2026",
+    "specs": {
+      "cpu": "Intel Core Ultra Series 3",
+      "battery": "70Wh",
+      "screen": "14 inch"
+    },
+    "price_usd_from": 1849.99,
+    "note": null,
+    "image_source": null
+  },
+  {
+    "id": "dell-xps-13-2026",
+    "brand": "Dell",
+    "name": "Dell XPS 13 (2026) DX13260",
+    "category": "laptop",
+    "announced": "2026",
+    "specs": {
+      "screen": "13 inch touch 120Hz",
+      "os": "Windows 11"
+    },
+    "price_usd_from": null,
+    "note": "Bản 8GB RAM cơ bản khá yếu",
+    "image_source": null
+  },
+  {
+    "id": "asus-zenbook-14-oled",
+    "brand": "ASUS",
+    "name": "ASUS Zenbook 14 OLED (UM3405GA)",
+    "category": "laptop",
+    "announced": "2026-04",
+    "specs": {
+      "cpu": "Ryzen AI 9 465",
+      "screen": "14 inch OLED touch"
+    },
+    "price_usd_from": null,
+    "note": null,
+    "image_source": null
+  },
+  {
+    "id": "asus-zenbook-s14",
+    "brand": "ASUS",
+    "name": "ASUS Zenbook S14",
+    "category": "laptop",
+    "announced": "2026",
+    "specs": {
+      "screen": "3K OLED",
+      "weight": "~2.7 lb"
+    },
+    "price_usd_from": null,
+    "note": null,
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447827/products/asus-zenbook-s14.jpg",
+    "image_credit": {
+      "author": "P1898",
+      "license": "CC BY 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:ASUS_Zenbook_S14_2026-08-15_Copilot%2B_AI_01.jpg"
+    }
+  },
+  {
+    "id": "asus-zenbook-a16",
+    "brand": "ASUS",
+    "name": "ASUS Zenbook A16",
+    "category": "laptop",
+    "announced": "2026",
+    "specs": {
+      "cpu": "Snapdragon X2 Elite Extreme"
+    },
+    "price_usd_from": null,
+    "note": null,
+    "image_source": null
+  },
+  {
+    "id": "asus-zenbook-duo-2026",
+    "brand": "ASUS",
+    "name": "ASUS Zenbook Duo (2026)",
+    "category": "laptop",
+    "announced": "2026",
+    "specs": {
+      "form": "dual screen"
+    },
+    "price_usd_from": null,
+    "note": null,
+    "image_source": null
+  },
+  {
+    "id": "asus-rog-zephyrus-g14",
+    "brand": "ASUS",
+    "name": "ASUS ROG Zephyrus G14",
+    "category": "laptop",
+    "announced": "2026",
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Gaming",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447831/products/asus-rog-zephyrus-g14.jpg",
+    "image_credit": {
+      "author": "P1898",
+      "license": "CC BY 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:ASUS_ROG_Zephyrus_2026-08-15_G14.jpg"
+    }
+  },
+  {
+    "id": "asus-rog-flow-z13",
+    "brand": "ASUS",
+    "name": "ASUS ROG Flow Z13",
+    "category": "laptop",
+    "announced": "2026",
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Gaming 2-in-1",
+    "image_source": null
+  },
+  {
+    "id": "lenovo-thinkpad-x1-carbon-gen14",
+    "brand": "Lenovo",
+    "name": "ThinkPad X1 Carbon Gen 14 Aura Edition",
+    "category": "laptop",
+    "announced": "2026",
+    "specs": {
+      "weight": "996g",
+      "screen": "2.8K OLED"
+    },
+    "price_usd_from": 1999,
+    "note": null,
+    "image_source": null
+  },
+  {
+    "id": "lenovo-yoga-9i-2in1-gen11",
+    "brand": "Lenovo",
+    "name": "Yoga 9i 2-in-1 Aura Edition (Gen 11)",
+    "category": "laptop",
+    "announced": "2026",
+    "specs": {},
+    "price_usd_from": null,
+    "note": null,
+    "image_source": null
+  },
+  {
+    "id": "lg-gram-pro-17",
+    "brand": "LG",
+    "name": "LG Gram Pro 17",
+    "category": "laptop",
+    "announced": "2026-01",
+    "specs": {
+      "screen": "17 inch"
+    },
+    "price_usd_from": null,
+    "note": "Công bố tại CES 2026",
+    "image_source": null
+  },
+  {
+    "id": "iphone-17",
+    "brand": "Apple",
+    "name": "iPhone 17",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447836/products/iphone-17.jpg",
+    "image_credit": {
+      "author": "Ahmad Ali Karim",
+      "license": "CC0",
+      "page": "https://commons.wikimedia.org/wiki/File:Black_iPhone_17.jpg"
+    }
+  },
+  {
+    "id": "iphone-air",
+    "brand": "Apple",
+    "name": "iPhone Air",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447838/products/iphone-air.jpg",
+    "image_credit": {
+      "author": "Premeditated",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:IPhone_17,_Air,_17_Pro,_and_Pro_max.jpg"
+    }
+  },
+  {
+    "id": "iphone-17-pro",
+    "brand": "Apple",
+    "name": "iPhone 17 Pro",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447840/products/iphone-17-pro.jpg",
+    "image_credit": {
+      "author": "Ahmad Ali Karim",
+      "license": "CC0",
+      "page": "https://commons.wikimedia.org/wiki/File:Cosmic_Orange_iPhone_17_Pro_Max.jpg"
+    }
+  },
+  {
+    "id": "iphone-17-pro-max",
+    "brand": "Apple",
+    "name": "iPhone 17 Pro Max",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447842/products/iphone-17-pro-max.jpg",
+    "image_credit": {
+      "author": "Ahmad Ali Karim",
+      "license": "CC0",
+      "page": "https://commons.wikimedia.org/wiki/File:Cosmic_Orange_iPhone_17_Pro_Max.jpg"
+    }
+  },
+  {
+    "id": "iphone-16",
+    "brand": "Apple",
+    "name": "iPhone 16",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447843/products/iphone-16.jpg",
+    "image_credit": {
+      "author": "メイド理世",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:About_iPhone_16_Ultramarine.jpg"
+    }
+  },
+  {
+    "id": "iphone-16-plus",
+    "brand": "Apple",
+    "name": "iPhone 16 Plus",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447845/products/iphone-16-plus.jpg",
+    "image_credit": {
+      "author": "メイド理世",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:About_iPhone_16_Plus_Teal.jpg"
+    }
+  },
+  {
+    "id": "iphone-16-pro",
+    "brand": "Apple",
+    "name": "iPhone 16 Pro",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447847/products/iphone-16-pro.jpg",
+    "image_credit": {
+      "author": "メイド理世",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:About_iPhone_16_Pro_White_Titanium.jpg"
+    }
+  },
+  {
+    "id": "iphone-16-pro-max",
+    "brand": "Apple",
+    "name": "iPhone 16 Pro Max",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447848/products/iphone-16-pro-max.jpg",
+    "image_credit": {
+      "author": "メイド理世",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:About_iPhone_16_Pro_Max_Natural_Titanium.jpg"
+    }
+  },
+  {
+    "id": "iphone-16e",
+    "brand": "Apple",
+    "name": "iPhone 16e",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "galaxy-s26-fe",
+    "brand": "Samsung",
+    "name": "Galaxy S26 FE",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "galaxy-s25",
+    "brand": "Samsung",
+    "name": "Galaxy S25",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "galaxy-s25-ultra",
+    "brand": "Samsung",
+    "name": "Galaxy S25 Ultra",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447854/products/galaxy-s25-ultra.jpg",
+    "image_credit": {
+      "author": "HuangWending18072009",
+      "license": "CC0",
+      "page": "https://commons.wikimedia.org/wiki/File:Rear_view_of_the_Samsung_Galaxy_S25_Ultra_smartphone.jpg"
+    }
+  },
+  {
+    "id": "galaxy-s25-edge",
+    "brand": "Samsung",
+    "name": "Galaxy S25 Edge",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447855/products/galaxy-s25-edge.jpg",
+    "image_credit": {
+      "author": "Miyako Fujimiya",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Samsung_Galaxy_S25_Edge.jpg"
+    }
+  },
+  {
+    "id": "galaxy-s25-fe",
+    "brand": "Samsung",
+    "name": "Galaxy S25 FE",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "galaxy-z-fold7",
+    "brand": "Samsung",
+    "name": "Galaxy Z Fold7",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "galaxy-z-flip7",
+    "brand": "Samsung",
+    "name": "Galaxy Z Flip7",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447860/products/galaxy-z-flip7.jpg",
+    "image_credit": {
+      "author": "X-SHLIED",
+      "license": "CC BY 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Samsung_Galaxy_Z_Flip7_FE_Its_Look_When_Closed.jpg"
+    }
+  },
+  {
+    "id": "galaxy-z-flip7-fe",
+    "brand": "Samsung",
+    "name": "Galaxy Z Flip7 FE",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447861/products/galaxy-z-flip7-fe.jpg",
+    "image_credit": {
+      "author": "Ssu",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Samsung_Galaxy_Flip7_FE.jpg"
+    }
+  },
+  {
+    "id": "galaxy-z-trifold",
+    "brand": "Samsung",
+    "name": "Galaxy Z TriFold",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447863/products/galaxy-z-trifold.jpg",
+    "image_credit": {
+      "author": "ΚΑ ΚΙΤ",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Galaxy_Z_TriFold.jpg"
+    }
+  },
+  {
+    "id": "galaxy-a57",
+    "brand": "Samsung",
+    "name": "Galaxy A57",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447865/products/galaxy-a57.jpg",
+    "image_credit": {
+      "author": "Maksdroider",
+      "license": "CC BY 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Galaxy_A57_back.jpg"
+    }
+  },
+  {
+    "id": "galaxy-a37",
+    "brand": "Samsung",
+    "name": "Galaxy A37",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447867/products/galaxy-a37.jpg",
+    "image_credit": {
+      "author": "เวียร์",
+      "license": "CC BY 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Galaxy_A37_5G_Charcoal.jpg"
+    }
+  },
+  {
+    "id": "galaxy-a27",
+    "brand": "Samsung",
+    "name": "Galaxy A27",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447868/products/galaxy-a27.jpg",
+    "image_credit": {
+      "author": "JGBlue1509",
+      "license": "CC BY 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Samsung_Galaxy_A27_5G_front_panel.jpg"
+    }
+  },
+  {
+    "id": "galaxy-a17",
+    "brand": "Samsung",
+    "name": "Galaxy A17",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447870/products/galaxy-a17.jpg",
+    "image_credit": {
+      "author": "Captainmorlypogi1959",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Samsung_Galaxy_A17_5G_2026.jpg"
+    }
+  },
+  {
+    "id": "galaxy-a36",
+    "brand": "Samsung",
+    "name": "Galaxy A36",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447872/products/galaxy-a36.jpg",
+    "image_credit": {
+      "author": "Captainmorlypogi1959",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Samsung_Galaxy_A36_5G_2025.jpg"
+    }
+  },
+  {
+    "id": "galaxy-a56",
+    "brand": "Samsung",
+    "name": "Galaxy A56",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447874/products/galaxy-a56.jpg",
+    "image_credit": {
+      "author": "Captainmorlypogi1959",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Samsung_Galaxy_A56_5G_2025.jpg"
+    }
+  },
+  {
+    "id": "galaxy-a26",
+    "brand": "Samsung",
+    "name": "Galaxy A26",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447876/products/galaxy-a26.jpg",
+    "image_credit": {
+      "author": "เวียร์",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Galaxy_A26_5G_(Back).jpg"
+    }
+  },
+  {
+    "id": "galaxy-a16",
+    "brand": "Samsung",
+    "name": "Galaxy A16",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447877/products/galaxy-a16.jpg",
+    "image_credit": {
+      "author": "Maksdroider",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Galaxy_A16_front.jpg"
+    }
+  },
+  {
+    "id": "galaxy-a08",
+    "brand": "Samsung",
+    "name": "Galaxy A08",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "pixel-10",
+    "brand": "Google",
+    "name": "Pixel 10",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447882/products/pixel-10.jpg",
+    "image_credit": {
+      "author": "Fabe56",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Arri%C3%A8re_du_Google_Pixel_10_Pro_pierre_de_lune_de_256_Go.jpg"
+    }
+  },
+  {
+    "id": "pixel-10-pro",
+    "brand": "Google",
+    "name": "Pixel 10 Pro",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447885/products/pixel-10-pro.jpg",
+    "image_credit": {
+      "author": "Fabe56",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Arri%C3%A8re_(sous_emballage)_du_Google_Pixel_10_Pro_pierre_de_lune_de_256_Go.jpg"
+    }
+  },
+  {
+    "id": "pixel-10-pro-xl",
+    "brand": "Google",
+    "name": "Pixel 10 Pro XL",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447889/products/pixel-10-pro-xl.jpg",
+    "image_credit": {
+      "author": "sultan_moon ",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Mapillary_(sultan_moon)_2026-01-16_11H59M10S000_(1096982309152267_at_aedX5h9AJSkMGNPZVgWt0C)_taken_with_Google_Pixel_9_Pro_XL.jpg"
+    }
+  },
+  {
+    "id": "pixel-10-pro-fold",
+    "brand": "Google",
+    "name": "Pixel 10 Pro Fold",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "pixel-9a",
+    "brand": "Google",
+    "name": "Pixel 9a",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447893/products/pixel-9a.jpg",
+    "image_credit": {
+      "author": "Maksdroider",
+      "license": "CC BY 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Pixel_9a_back.jpg"
+    }
+  },
+  {
+    "id": "xiaomi-17-pro",
+    "brand": "Xiaomi",
+    "name": "Xiaomi 17 Pro",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447896/products/xiaomi-17-pro.jpg",
+    "image_credit": {
+      "author": "茅野ふたば",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Xiaomi_17_Pro_Max.jpg"
+    }
+  },
+  {
+    "id": "xiaomi-17-pro-max",
+    "brand": "Xiaomi",
+    "name": "Xiaomi 17 Pro Max",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447899/products/xiaomi-17-pro-max.jpg",
+    "image_credit": {
+      "author": "茅野ふたば",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Xiaomi_17_Pro_Max.jpg"
+    }
+  },
+  {
+    "id": "xiaomi-17t",
+    "brand": "Xiaomi",
+    "name": "Xiaomi 17T",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447901/products/xiaomi-17t.jpg",
+    "image_credit": {
+      "author": "茅野ふたば",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Xiaomi_17T.jpg"
+    }
+  },
+  {
+    "id": "xiaomi-15",
+    "brand": "Xiaomi",
+    "name": "Xiaomi 15",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447904/products/xiaomi-15.jpg",
+    "image_credit": {
+      "author": "Retired electrician",
+      "license": "CC0",
+      "page": "https://commons.wikimedia.org/wiki/File:Moscow,_Xiaomi_SU7_max,_Aug_2025_15.jpg"
+    }
+  },
+  {
+    "id": "xiaomi-15-ultra",
+    "brand": "Xiaomi",
+    "name": "Xiaomi 15 Ultra",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447906/products/xiaomi-15-ultra.jpg",
+    "image_credit": {
+      "author": "Andreas Fuchs/Weber Shandwick",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Xiaomi_15_Ultra.jpg"
+    }
+  },
+  {
+    "id": "xiaomi-15t",
+    "brand": "Xiaomi",
+    "name": "Xiaomi 15T",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447908/products/xiaomi-15t.jpg",
+    "image_credit": {
+      "author": "Maksdroider",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Xiaomi_15T_Pro_Box.jpg"
+    }
+  },
+  {
+    "id": "xiaomi-15t-pro",
+    "brand": "Xiaomi",
+    "name": "Xiaomi 15T Pro",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447911/products/xiaomi-15t-pro.jpg",
+    "image_credit": {
+      "author": "Maksdroider",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Xiaomi_15T_Pro_Box.jpg"
+    }
+  },
+  {
+    "id": "xiaomi-redmi-note-15",
+    "brand": "Xiaomi",
+    "name": "Xiaomi Redmi Note 15",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447913/products/xiaomi-redmi-note-15.jpg",
+    "image_credit": {
+      "author": "Maksdroider",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:REDMI_Note_15_5G_status_bar.jpg"
+    }
+  },
+  {
+    "id": "xiaomi-redmi-note-15-pro",
+    "brand": "Xiaomi",
+    "name": "Xiaomi Redmi Note 15 Pro",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "xiaomi-redmi-note-14-pro",
+    "brand": "Xiaomi",
+    "name": "Xiaomi Redmi Note 14 Pro+",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447918/products/xiaomi-redmi-note-14-pro.jpg",
+    "image_credit": {
+      "author": "Kcx36",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Redmi_Note_14_Pro%2B%E6%AD%A3%E9%9D%A2_-_2024-09-27.jpg"
+    }
+  },
+  {
+    "id": "xiaomi-poco-x8-pro",
+    "brand": "Xiaomi",
+    "name": "Xiaomi POCO X8 Pro",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "xiaomi-poco-m8-pro",
+    "brand": "Xiaomi",
+    "name": "Xiaomi POCO M8 Pro",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "oppo-find-x9",
+    "brand": "OPPO",
+    "name": "OPPO Find X9",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447924/products/oppo-find-x9.jpg",
+    "image_credit": {
+      "author": "Agartyan ",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Mapillary_(Agartyan)_2026-09-18_06H37M35S000_(29149032058047586_at_rnkY31sVSdbNM9hFX5pzm2)_taken_with_OPPO_OPPO_Find_X9_Pro.jpg"
+    }
+  },
+  {
+    "id": "oppo-find-x9-pro",
+    "brand": "OPPO",
+    "name": "OPPO Find X9 Pro",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447928/products/oppo-find-x9-pro.jpg",
+    "image_credit": {
+      "author": "Agartyan ",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Mapillary_(Agartyan)_2026-09-18_06H37M18S000_(2618479758612300_at_rnkY31sVSdbNM9hFX5pzm2)_taken_with_OPPO_OPPO_Find_X9_Pro.jpg"
+    }
+  },
+  {
+    "id": "oppo-find-n5",
+    "brand": "OPPO",
+    "name": "OPPO Find N5",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447931/products/oppo-find-n5.png",
+    "image_credit": {
+      "author": "X-SHLIED",
+      "license": "CC BY 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:OPPO_Find_N5_Foldable_Phone_Front_View.png"
+    }
+  },
+  {
+    "id": "oppo-reno15",
+    "brand": "OPPO",
+    "name": "OPPO Reno15",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "oppo-reno15-pro",
+    "brand": "OPPO",
+    "name": "OPPO Reno15 Pro",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447936/products/oppo-reno15-pro.jpg",
+    "image_credit": {
+      "author": "Leongyy02",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Oppo_Reno15_Pro_Max_Aura_Gold.jpg"
+    }
+  },
+  {
+    "id": "oppo-reno14",
+    "brand": "OPPO",
+    "name": "OPPO Reno14",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "oppo-reno14-pro",
+    "brand": "OPPO",
+    "name": "OPPO Reno14 Pro",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "oppo-a6c",
+    "brand": "OPPO",
+    "name": "OPPO A6c",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "vivo-x300",
+    "brand": "vivo",
+    "name": "vivo X300",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447943/products/vivo-x300.jpg",
+    "image_credit": {
+      "author": "X-SHLIED",
+      "license": "CC BY 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:The_back_of_the_colorful_vivo_X300.jpg"
+    }
+  },
+  {
+    "id": "vivo-x300-pro",
+    "brand": "vivo",
+    "name": "vivo X300 Pro",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447945/products/vivo-x300-pro.jpg",
+    "image_credit": {
+      "author": "X-SHLIED",
+      "license": "CC BY 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:The_back_of_the_vivo_X300_Pro.jpg"
+    }
+  },
+  {
+    "id": "vivo-x300-ultra",
+    "brand": "vivo",
+    "name": "vivo X300 Ultra",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "vivo-x200-ultra",
+    "brand": "vivo",
+    "name": "vivo X200 Ultra",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "vivo-x-fold5",
+    "brand": "vivo",
+    "name": "vivo X Fold5",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "vivo-v60",
+    "brand": "vivo",
+    "name": "vivo V60",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "vivo-v50",
+    "brand": "vivo",
+    "name": "vivo V50",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "oneplus-15",
+    "brand": "OnePlus",
+    "name": "OnePlus 15",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447957/products/oneplus-15.jpg",
+    "image_credit": {
+      "author": "Maksdroider",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:OnePlus_15_back.jpg"
+    }
+  },
+  {
+    "id": "oneplus-13",
+    "brand": "OnePlus",
+    "name": "OnePlus 13",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447960/products/oneplus-13.jpg",
+    "image_credit": {
+      "author": "Maksdroider",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:OnePlus_13_back.jpg"
+    }
+  },
+  {
+    "id": "oneplus-13r",
+    "brand": "OnePlus",
+    "name": "OnePlus 13R",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447963/products/oneplus-13r.jpg",
+    "image_credit": {
+      "author": "Maksdroider",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:OnePlus_13R_back.jpg"
+    }
+  },
+  {
+    "id": "oneplus-nord-5",
+    "brand": "OnePlus",
+    "name": "OnePlus Nord 5",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447966/products/oneplus-nord-5.jpg",
+    "image_credit": {
+      "author": "Maksdroider",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:OnePlus_Nord_5_back.jpg"
+    }
+  },
+  {
+    "id": "oneplus-nord-ce5",
+    "brand": "OnePlus",
+    "name": "OnePlus Nord CE5",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "honor-magic8-pro",
+    "brand": "Honor",
+    "name": "Honor Magic8 Pro",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447970/products/honor-magic8-pro.jpg",
+    "image_credit": {
+      "author": "X-SHLIED",
+      "license": "CC BY 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:The_Honor_Magic8_Pro%27s_display.jpg"
+    }
+  },
+  {
+    "id": "honor-magic8",
+    "brand": "Honor",
+    "name": "Honor Magic8",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447976/products/honor-magic8.jpg",
+    "image_credit": {
+      "author": "X-SHLIED",
+      "license": "CC BY 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Honor_Magic8_in_Black.jpg"
+    }
+  },
+  {
+    "id": "honor-magic-v6",
+    "brand": "Honor",
+    "name": "Honor Magic V6",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447978/products/honor-magic-v6.jpg",
+    "image_credit": {
+      "author": "茅野ふたば",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Honor_Magic_V6.jpg"
+    }
+  },
+  {
+    "id": "honor-magic-v5",
+    "brand": "Honor",
+    "name": "Honor Magic V5",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447982/products/honor-magic-v5.jpg",
+    "image_credit": {
+      "author": "Leongyy02",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Honor_Magic_V5.jpg"
+    }
+  },
+  {
+    "id": "honor-400",
+    "brand": "Honor",
+    "name": "Honor 400",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447984/products/honor-400.jpg",
+    "image_credit": {
+      "author": "茅野ふたば",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Honor_400.jpg"
+    }
+  },
+  {
+    "id": "honor-400-pro",
+    "brand": "Honor",
+    "name": "Honor 400 Pro",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447987/products/honor-400-pro.jpg",
+    "image_credit": {
+      "author": "茅野ふたば",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Honor_400_Pro.jpg"
+    }
+  },
+  {
+    "id": "honor-600-lite",
+    "brand": "Honor",
+    "name": "Honor 600 Lite",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "nothing-phone-3",
+    "brand": "Nothing",
+    "name": "Nothing Phone (3)",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447992/products/nothing-phone-3.png",
+    "image_credit": {
+      "author": "可恩Ke En",
+      "license": "CC BY 3.0",
+      "page": "https://commons.wikimedia.org/wiki/File:%E5%8D%8A%E5%A4%9C%E9%A6%96%E5%8F%91%EF%BC%81%E7%AC%AC%E4%B8%80%E6%89%8B%E6%8B%BF%E5%88%B0%E4%BA%86Nothing_Phone_(3)_%EF%BC%81%E7%81%AF%E6%9D%A1%E6%B2%A1%E4%BA%86%E3%80%81%E8%83%8C%E5%90%8E%E5%A4%9A%E4%B8%80%E4%B8%AAscreen%EF%BC%81-00.00.11.457.png"
+    }
+  },
+  {
+    "id": "nothing-phone-3a",
+    "brand": "Nothing",
+    "name": "Nothing Phone (3a)",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447994/products/nothing-phone-3a.jpg",
+    "image_credit": {
+      "author": "Steven Sun",
+      "license": "Public domain",
+      "page": "https://commons.wikimedia.org/wiki/File:Nothing_Phone_(3a)_Pro_20250628.jpg"
+    }
+  },
+  {
+    "id": "nothing-phone-3a-pro",
+    "brand": "Nothing",
+    "name": "Nothing Phone (3a) Pro",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793447997/products/nothing-phone-3a-pro.jpg",
+    "image_credit": {
+      "author": "Steven Sun",
+      "license": "Public domain",
+      "page": "https://commons.wikimedia.org/wiki/File:Nothing_Phone_(3a)_Pro_20250628.jpg"
+    }
+  },
+  {
+    "id": "nothing-phone-4a",
+    "brand": "Nothing",
+    "name": "Nothing Phone (4a)",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "nothing-cmf-phone-2-pro",
+    "brand": "Nothing",
+    "name": "Nothing CMF Phone 2 Pro",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448001/products/nothing-cmf-phone-2-pro.jpg",
+    "image_credit": {
+      "author": "Suntooooth",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:CMF_Phone_2_Pro_(white)_2025-05-08.jpg"
+    }
+  },
+  {
+    "id": "motorola-razr-ultra-2025",
+    "brand": "Motorola",
+    "name": "Motorola Razr Ultra 2025",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "motorola-razr-2025",
+    "brand": "Motorola",
+    "name": "Motorola Razr 2025",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "motorola-razr-fold",
+    "brand": "Motorola",
+    "name": "Motorola Razr Fold",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448010/products/motorola-razr-fold.jpg",
+    "image_credit": {
+      "author": "X-SHLIED",
+      "license": "CC BY 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Motorola_razr_fold.jpg"
+    }
+  },
+  {
+    "id": "motorola-edge-60-pro",
+    "brand": "Motorola",
+    "name": "Motorola Edge 60 Pro",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448013/products/motorola-edge-60-pro.jpg",
+    "image_credit": {
+      "author": "Meniirtjakarintan",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Motorola_Edge_60_Pro.jpg"
+    }
+  },
+  {
+    "id": "motorola-edge-70",
+    "brand": "Motorola",
+    "name": "Motorola Edge 70",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448017/products/motorola-edge-70.jpg",
+    "image_credit": {
+      "author": "Maksdroider",
+      "license": "CC BY 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Motorola_Edge_70_back.jpg"
+    }
+  },
+  {
+    "id": "sony-xperia-1-vii",
+    "brand": "Sony",
+    "name": "Sony Xperia 1 VII",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448021/products/sony-xperia-1-vii.jpg",
+    "image_credit": {
+      "author": "© M 93",
+      "license": "CC BY-SA 3.0 de",
+      "page": "https://commons.wikimedia.org/wiki/File:Ford_Mustang_Cabriolet_(VII)_%E2%80%93_i_18112022.jpg"
+    }
+  },
+  {
+    "id": "sony-xperia-10-viii",
+    "brand": "Sony",
+    "name": "Sony Xperia 10 VIII",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "sony-xperia-10-vii",
+    "brand": "Sony",
+    "name": "Sony Xperia 10 VII",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "huawei-pura-80-pro",
+    "brand": "Huawei",
+    "name": "Huawei Pura 80 Pro",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448030/products/huawei-pura-80-pro.jpg",
+    "image_credit": {
+      "author": "毕明明",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:HUAWEI_Pura80_Pro%2B_001.jpg"
+    }
+  },
+  {
+    "id": "huawei-pura-80-ultra",
+    "brand": "Huawei",
+    "name": "Huawei Pura 80 Ultra",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448032/products/huawei-pura-80-ultra.jpg",
+    "image_credit": {
+      "author": "Maksdroider",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Huawei_Pura80_Ultra_back.jpg"
+    }
+  },
+  {
+    "id": "huawei-mate-70-pro",
+    "brand": "Huawei",
+    "name": "Huawei Mate 70 Pro",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448035/products/huawei-mate-70-pro.jpg",
+    "image_credit": {
+      "author": "毕明明",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:HUAWEI_Mate_70_Pro%2B_001.jpg"
+    }
+  },
+  {
+    "id": "huawei-mate-x6",
+    "brand": "Huawei",
+    "name": "Huawei Mate X6",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448039/products/huawei-mate-x6.png",
+    "image_credit": {
+      "author": "X-SHLIED",
+      "license": "CC BY 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:HUAWEI_Mate_X6_Foldable_Phone_Front_View.png"
+    }
+  },
+  {
+    "id": "huawei-pura-x",
+    "brand": "Huawei",
+    "name": "Huawei Pura X",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448044/products/huawei-pura-x.jpg",
+    "image_credit": {
+      "author": "毕明明",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:HUAWEI_Pura_X_Max_002.jpg"
+    }
+  },
+  {
+    "id": "asus-rog-phone-9-pro",
+    "brand": "ASUS",
+    "name": "ASUS ROG Phone 9 Pro",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "asus-zenfone-12-ultra",
+    "brand": "ASUS",
+    "name": "ASUS Zenfone 12 Ultra",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448049/products/asus-zenfone-12-ultra.png",
+    "image_credit": {
+      "author": "Yccnt",
+      "license": "CC0",
+      "page": "https://commons.wikimedia.org/wiki/File:Zenfone_12_Ultra.png"
+    }
+  },
+  {
+    "id": "redmagic-11-pro",
+    "brand": "RedMagic",
+    "name": "RedMagic 11 Pro",
+    "category": "phone",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "macbook-air-13-inch-m4",
+    "brand": "Apple",
+    "name": "MacBook Air 13-inch M4",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448053/products/macbook-air-13-inch-m4.jpg",
+    "image_credit": {
+      "author": "AzureSaturn",
+      "license": "CC0",
+      "page": "https://commons.wikimedia.org/wiki/File:MacBook_Air_(13-inch,_M4,_Silver).jpg"
+    }
+  },
+  {
+    "id": "macbook-air-15-inch-m4",
+    "brand": "Apple",
+    "name": "MacBook Air 15-inch M4",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448056/products/macbook-air-15-inch-m4.jpg",
+    "image_credit": {
+      "author": "AzureSaturn",
+      "license": "CC0",
+      "page": "https://commons.wikimedia.org/wiki/File:MacBook_Air_(15-inch,_M4,_Silver).jpg"
+    }
+  },
+  {
+    "id": "macbook-pro-14-inch-m5",
+    "brand": "Apple",
+    "name": "MacBook Pro 14-inch M5",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448058/products/macbook-pro-14-inch-m5.jpg",
+    "image_credit": {
+      "author": "AzureSaturn",
+      "license": "CC0",
+      "page": "https://commons.wikimedia.org/wiki/File:MacBook_Pro_(14-inch,_M5,_Space_Black).jpg"
+    }
+  },
+  {
+    "id": "macbook-pro-14-inch-m5-pro",
+    "brand": "Apple",
+    "name": "MacBook Pro 14-inch M5 Pro",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "macbook-pro-14-inch-m5-max",
+    "brand": "Apple",
+    "name": "MacBook Pro 14-inch M5 Max",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "macbook-pro-16-inch-m5-pro",
+    "brand": "Apple",
+    "name": "MacBook Pro 16-inch M5 Pro",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "macbook-pro-16-inch-m5-max",
+    "brand": "Apple",
+    "name": "MacBook Pro 16-inch M5 Max",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "macbook-pro-14-inch-m4-pro",
+    "brand": "Apple",
+    "name": "MacBook Pro 14-inch M4 Pro",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "macbook-pro-16-inch-m4-max",
+    "brand": "Apple",
+    "name": "MacBook Pro 16-inch M4 Max",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "dell-xps-16",
+    "brand": "Dell",
+    "name": "Dell XPS 16",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "dell-pro-14-premium",
+    "brand": "Dell",
+    "name": "Dell Pro 14 Premium",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "dell-pro-max-16",
+    "brand": "Dell",
+    "name": "Dell Pro Max 16",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "dell-alienware-16-area-51",
+    "brand": "Dell",
+    "name": "Dell Alienware 16 Area-51",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "dell-alienware-16x-aurora",
+    "brand": "Dell",
+    "name": "Dell Alienware 16X Aurora",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "dell-alienware-m16-r2",
+    "brand": "Dell",
+    "name": "Dell Alienware m16 R2",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "dell-inspiron-14-plus",
+    "brand": "Dell",
+    "name": "Dell Inspiron 14 Plus",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "dell-latitude-7455",
+    "brand": "Dell",
+    "name": "Dell Latitude 7455",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "hp-spectre-x360-14",
+    "brand": "HP",
+    "name": "HP Spectre x360 14",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "hp-omnibook-ultra-14",
+    "brand": "HP",
+    "name": "HP OmniBook Ultra 14",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "hp-omnibook-x-flip-14",
+    "brand": "HP",
+    "name": "HP OmniBook X Flip 14",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "hp-omnibook-5-14",
+    "brand": "HP",
+    "name": "HP OmniBook 5 14",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "hp-elitebook-x-g1a-14",
+    "brand": "HP",
+    "name": "HP EliteBook X G1a 14",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "hp-elitebook-ultra-g1i-14",
+    "brand": "HP",
+    "name": "HP EliteBook Ultra G1i 14",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "hp-omen-max-16",
+    "brand": "HP",
+    "name": "HP OMEN Max 16",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "hp-omen-16",
+    "brand": "HP",
+    "name": "HP OMEN 16",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "hp-victus-15",
+    "brand": "HP",
+    "name": "HP Victus 15",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "hp-envy-x360-14",
+    "brand": "HP",
+    "name": "HP Envy x360 14",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "hp-pavilion-aero-13",
+    "brand": "HP",
+    "name": "HP Pavilion Aero 13",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "hp-dragonfly-g4",
+    "brand": "HP",
+    "name": "HP Dragonfly G4",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "lenovo-thinkpad-x1-carbon-gen-14",
+    "brand": "Lenovo",
+    "name": "Lenovo ThinkPad X1 Carbon Gen 14",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "lenovo-thinkpad-x1-carbon-gen-13",
+    "brand": "Lenovo",
+    "name": "Lenovo ThinkPad X1 Carbon Gen 13",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "lenovo-thinkpad-x1-2-in-1-gen-10",
+    "brand": "Lenovo",
+    "name": "Lenovo ThinkPad X1 2-in-1 Gen 10",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "lenovo-thinkpad-x1-fold",
+    "brand": "Lenovo",
+    "name": "Lenovo ThinkPad X1 Fold",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "lenovo-thinkpad-t14s-gen-6",
+    "brand": "Lenovo",
+    "name": "Lenovo ThinkPad T14s Gen 6",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "lenovo-thinkpad-t14-gen-6",
+    "brand": "Lenovo",
+    "name": "Lenovo ThinkPad T14 Gen 6",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "lenovo-thinkpad-p1-gen-8",
+    "brand": "Lenovo",
+    "name": "Lenovo ThinkPad P1 Gen 8",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "lenovo-yoga-9i-2-in-1-aura-edition-gen-11",
+    "brand": "Lenovo",
+    "name": "Lenovo Yoga 9i 2-in-1 Aura Edition Gen 11",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "lenovo-yoga-slim-7x",
+    "brand": "Lenovo",
+    "name": "Lenovo Yoga Slim 7x",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448109/products/lenovo-yoga-slim-7x.jpg",
+    "image_credit": {
+      "author": "Fumikas Sagisavas",
+      "license": "CC0",
+      "page": "https://commons.wikimedia.org/wiki/File:Yoga_Slim_7x.jpg"
+    }
+  },
+  {
+    "id": "lenovo-yoga-pro-9i",
+    "brand": "Lenovo",
+    "name": "Lenovo Yoga Pro 9i",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "lenovo-ideapad-slim-5",
+    "brand": "Lenovo",
+    "name": "Lenovo IdeaPad Slim 5",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "lenovo-ideapad-slim-3",
+    "brand": "Lenovo",
+    "name": "Lenovo IdeaPad Slim 3",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "lenovo-legion-pro-7i",
+    "brand": "Lenovo",
+    "name": "Lenovo Legion Pro 7i",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "lenovo-legion-5i",
+    "brand": "Lenovo",
+    "name": "Lenovo Legion 5i",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "lenovo-legion-go",
+    "brand": "Lenovo",
+    "name": "Lenovo Legion Go",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "lenovo-legion-go-2",
+    "brand": "Lenovo",
+    "name": "Lenovo Legion Go 2",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "lenovo-loq-15",
+    "brand": "Lenovo",
+    "name": "Lenovo LOQ 15",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "lenovo-thinkbook-14",
+    "brand": "Lenovo",
+    "name": "Lenovo ThinkBook 14",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "lenovo-thinkbook-plus-gen-7-auto-twist",
+    "brand": "Lenovo",
+    "name": "Lenovo ThinkBook Plus Gen 7 Auto Twist",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "lenovo-thinkpad-e14",
+    "brand": "Lenovo",
+    "name": "Lenovo ThinkPad E14",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448124/products/lenovo-thinkpad-e14.jpg",
+    "image_credit": {
+      "author": "Rakoon",
+      "license": "CC0",
+      "page": "https://commons.wikimedia.org/wiki/File:Lenovo_ThinkPad_E14_G7_14_WUXGA.jpg"
+    }
+  },
+  {
+    "id": "asus-zenbook-s16",
+    "brand": "ASUS",
+    "name": "ASUS Zenbook S16",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "asus-zenbook-a14",
+    "brand": "ASUS",
+    "name": "ASUS Zenbook A14",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "asus-vivobook-s14",
+    "brand": "ASUS",
+    "name": "ASUS Vivobook S14",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "asus-vivobook-s16",
+    "brand": "ASUS",
+    "name": "ASUS Vivobook S16",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448130/products/asus-vivobook-s16.jpg",
+    "image_credit": {
+      "author": "Tech Savvy User",
+      "license": "CC0",
+      "page": "https://commons.wikimedia.org/wiki/File:Vivobook_S16.jpg"
+    }
+  },
+  {
+    "id": "asus-vivobook-14",
+    "brand": "ASUS",
+    "name": "ASUS Vivobook 14",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "asus-rog-zephyrus-g16",
+    "brand": "ASUS",
+    "name": "ASUS ROG Zephyrus G16",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "asus-rog-strix-g16",
+    "brand": "ASUS",
+    "name": "ASUS ROG Strix G16",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448135/products/asus-rog-strix-g16.jpg",
+    "image_credit": {
+      "author": "P1898",
+      "license": "CC BY 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:ROG_Strix_G16_2026-08-08_ASUS_01.jpg"
+    }
+  },
+  {
+    "id": "asus-rog-strix-scar-16",
+    "brand": "ASUS",
+    "name": "ASUS ROG Strix Scar 16",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448138/products/asus-rog-strix-scar-16.png",
+    "image_credit": {
+      "author": "极客湾Geekerwan",
+      "license": "CC BY 3.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Der_ASUS_ROG_Strix_Scar-Laptop_im_Hands-on_(%E6%9E%81%E5%AE%A2%E6%B9%BEGeekerwan)_16.png"
+    }
+  },
+  {
+    "id": "asus-rog-strix-scar-18",
+    "brand": "ASUS",
+    "name": "ASUS ROG Strix Scar 18",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "asus-rog-ally-x",
+    "brand": "ASUS",
+    "name": "ASUS ROG Ally X",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448142/products/asus-rog-ally-x.jpg",
+    "image_credit": {
+      "author": "P1898",
+      "license": "CC BY 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:ASUS_2026-08-08_ROG_Xbox_Ally_X_01.jpg"
+    }
+  },
+  {
+    "id": "asus-tuf-gaming-a15",
+    "brand": "ASUS",
+    "name": "ASUS TUF Gaming A15",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "asus-tuf-gaming-f16",
+    "brand": "ASUS",
+    "name": "ASUS TUF Gaming F16",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "asus-proart-p16",
+    "brand": "ASUS",
+    "name": "ASUS ProArt P16",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "asus-proart-px13",
+    "brand": "ASUS",
+    "name": "ASUS ProArt PX13",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "asus-chromebook-cx15",
+    "brand": "ASUS",
+    "name": "ASUS Chromebook CX15",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "acer-swift-go-14",
+    "brand": "Acer",
+    "name": "Acer Swift Go 14",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "acer-swift-14-ai",
+    "brand": "Acer",
+    "name": "Acer Swift 14 AI",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "acer-swift-edge-16",
+    "brand": "Acer",
+    "name": "Acer Swift Edge 16",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "acer-aspire-go-15",
+    "brand": "Acer",
+    "name": "Acer Aspire Go 15",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "acer-aspire-5",
+    "brand": "Acer",
+    "name": "Acer Aspire 5",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448156/products/acer-aspire-5.jpg",
+    "image_credit": {
+      "author": "CSR2Forever",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Acer_Aspire_4752_Laptop_-_03.jpg"
+    }
+  },
+  {
+    "id": "acer-predator-helios-16",
+    "brand": "Acer",
+    "name": "Acer Predator Helios 16",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448161/products/acer-predator-helios-16.jpg",
+    "image_credit": {
+      "author": "Solomon203",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:PinpinPonpon_holding_Predator_Helios_Neo_16S_AI_at_Acer_Predator_stage_20260927_133103.jpg"
+    }
+  },
+  {
+    "id": "acer-predator-helios-neo-16",
+    "brand": "Acer",
+    "name": "Acer Predator Helios Neo 16",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448164/products/acer-predator-helios-neo-16.jpg",
+    "image_credit": {
+      "author": "Solomon203",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:PinpinPonpon_holding_Predator_Helios_Neo_16S_AI_at_Acer_Predator_stage_20260927_133103.jpg"
+    }
+  },
+  {
+    "id": "acer-predator-helios-18",
+    "brand": "Acer",
+    "name": "Acer Predator Helios 18",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "acer-nitro-v-16",
+    "brand": "Acer",
+    "name": "Acer Nitro V 16",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "acer-nitro-16",
+    "brand": "Acer",
+    "name": "Acer Nitro 16",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "msi-prestige-14-ai",
+    "brand": "MSI",
+    "name": "MSI Prestige 14 AI+",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "msi-prestige-13-ai-evo",
+    "brand": "MSI",
+    "name": "MSI Prestige 13 AI+ Evo",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "msi-modern-14",
+    "brand": "MSI",
+    "name": "MSI Modern 14",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "msi-stealth-16-ai",
+    "brand": "MSI",
+    "name": "MSI Stealth 16 AI+",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "msi-raider-18-hx",
+    "brand": "MSI",
+    "name": "MSI Raider 18 HX",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "msi-titan-18-hx",
+    "brand": "MSI",
+    "name": "MSI Titan 18 HX",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "msi-katana-15",
+    "brand": "MSI",
+    "name": "MSI Katana 15",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "msi-cyborg-15",
+    "brand": "MSI",
+    "name": "MSI Cyborg 15",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "msi-thin-15",
+    "brand": "MSI",
+    "name": "MSI Thin 15",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "msi-claw-8-ai",
+    "brand": "MSI",
+    "name": "MSI Claw 8 AI+",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "microsoft-surface-laptop-7-13-8-inch",
+    "brand": "Microsoft",
+    "name": "Microsoft Surface Laptop 7 13.8-inch",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "microsoft-surface-laptop-7-15-inch",
+    "brand": "Microsoft",
+    "name": "Microsoft Surface Laptop 7 15-inch",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "microsoft-surface-pro-11",
+    "brand": "Microsoft",
+    "name": "Microsoft Surface Pro 11",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "microsoft-surface-laptop-studio-2",
+    "brand": "Microsoft",
+    "name": "Microsoft Surface Laptop Studio 2",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448189/products/microsoft-surface-laptop-studio-2.jpg",
+    "image_credit": {
+      "author": "KKPCW",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:Surface_Laptop_Studio_-_2.jpg"
+    }
+  },
+  {
+    "id": "razer-blade-16",
+    "brand": "Razer",
+    "name": "Razer Blade 16",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "razer-blade-14",
+    "brand": "Razer",
+    "name": "Razer Blade 14",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "razer-blade-18",
+    "brand": "Razer",
+    "name": "Razer Blade 18",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "lg-gram-pro-16",
+    "brand": "LG",
+    "name": "LG Gram Pro 16",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448196/products/lg-gram-pro-16.jpg",
+    "image_credit": {
+      "author": "Dinkun Chen",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:LG_gram_Pro_16_(2024)_16Z90SPG.jpg"
+    }
+  },
+  {
+    "id": "lg-gram-14",
+    "brand": "LG",
+    "name": "LG Gram 14",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null,
+    "image_url": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793448198/products/lg-gram-14.jpg",
+    "image_credit": {
+      "author": "Phiarc",
+      "license": "CC BY-SA 4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:LG_gram_14Z90Q_bottom.jpg"
+    }
+  },
+  {
+    "id": "lg-gram-pro-2-in-1",
+    "brand": "LG",
+    "name": "LG Gram Pro 2-in-1",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "galaxy-book5-pro",
+    "brand": "Samsung",
+    "name": "Galaxy Book5 Pro",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "galaxy-book5-pro-360",
+    "brand": "Samsung",
+    "name": "Galaxy Book5 Pro 360",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  },
+  {
+    "id": "galaxy-book5-360",
+    "brand": "Samsung",
+    "name": "Galaxy Book5 360",
+    "category": "laptop",
+    "announced": null,
+    "specs": {},
+    "price_usd_from": null,
+    "note": "Chỉ có tên model, cần điền specs/giá",
+    "image_source": null
+  }
+]

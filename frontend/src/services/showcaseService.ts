@@ -1,5 +1,6 @@
 import { CategoryShowcaseData, ShowcaseBannerItem, ShowcaseProduct } from '../types/categoryShowcase';
 import { API_BASE_URL } from '@/lib/env';
+import { getCloudinaryTransformedUrl } from '../utils/image';
 
 export const showcaseService = {
   // Lấy dữ liệu thuần túy từ Database PostgreSQL (qua Spring Boot REST API)
@@ -11,37 +12,30 @@ export const showcaseService = {
         fetch(`${API_BASE_URL}/banners`, { cache: 'no-store' }),
       ]);
 
-      let banners: ShowcaseBannerItem[] = [];
+      let banners: ShowcaseBannerItem[] = [
+        { id: '1', title: 'iPhone 16 Series', imageUrl: '/images/banners/poster_iphone_duo.jpg', targetLink: '/products' },
+        { id: '2', title: 'Redmi Note 13 Pro 5G', imageUrl: '/images/banners/poster_redmi_note17.jpg', targetLink: '/products' },
+      ];
       if (bannerRes.ok) {
         const rawBanners = await bannerRes.json();
         if (Array.isArray(rawBanners)) {
-          // Chỉ lấy đúng 2 Banner dọc thuộc chuyên mục Điện thoại & Tablet
           const phoneBanners = rawBanners.filter((b: any) => {
             const title = (b.title || '').toLowerCase();
             const link = (b.primaryBtnLink || '').toLowerCase();
             const img = (b.imageUrl || '').toLowerCase();
             return (
-              !title.includes('laptop') &&
-              !title.includes('macbook') &&
-              !title.includes('mac mini') &&
-              !title.includes('watch') &&
-              !title.includes('âm thanh') &&
-              !title.includes('tai nghe') &&
-              !title.includes('loa') &&
-              !link.includes('laptop') &&
-              !link.includes('mac') &&
-              !link.includes('watch') &&
-              !link.includes('audio') &&
-              !img.includes('watch') &&
-              !img.includes('laptop')
+              (title.includes('iphone') || title.includes('redmi') || title.includes('galaxy') || title.includes('phone') || title.includes('thoại')) ||
+              (img.includes('poster_iphone') || img.includes('poster_redmi'))
             );
           });
-          banners = (phoneBanners.length > 0 ? phoneBanners : rawBanners.slice(0, 2)).map((b: any) => ({
-            id: String(b.id),
-            title: b.title || '',
-            imageUrl: b.imageUrl || '',
-            targetLink: b.primaryBtnLink || '/',
-          }));
+          if (phoneBanners.length >= 2) {
+            banners = phoneBanners.slice(0, 2).map((b: any) => ({
+              id: String(b.id),
+              title: b.title || '',
+              imageUrl: b.imageUrl || '',
+              targetLink: b.primaryBtnLink || b.targetLink || '/products',
+            }));
+          }
         }
       }
 
@@ -50,39 +44,39 @@ export const showcaseService = {
         const rawProducts = await prodRes.json();
         if (Array.isArray(rawProducts)) {
           // LỌC CHẶT CHẼ: Chỉ lấy sản phẩm Điện Thoại & Máy Tính Bảng từ PostgreSQL
+          const phoneCategoryIds = [1, 6, 18, 3, 19];
           const phoneProducts = rawProducts.filter((p: any) => {
-            const name = (p.name || '').toLowerCase();
+            const catId = Number(p.categoryId);
             const slug = (p.categorySlug || '').toLowerCase();
+            const name = (p.name || '').toLowerCase();
 
-            // Loại bỏ hoàn toàn Laptop, PC, Màn hình, Tai nghe, Đồng hồ
-            const isNonPhone =
-              slug === 'laptop' ||
-              slug === 'pc' ||
-              slug === 'macbook' ||
-              slug === 'man-hinh' ||
-              slug === 'phu-kien-may-tinh' ||
-              slug === 'dong-ho' ||
-              slug === 'am-thanh' ||
-              slug === 'apple-watch' ||
-              name.includes('laptop') ||
-              name.includes('macbook') ||
-              name.includes('mac mini') ||
+            // Loại trừ hoàn toàn laptop, PC, âm thanh, phụ kiện
+            if (
+              slug.includes('laptop') ||
+              slug.includes('pc') ||
+              slug.includes('macbook') ||
+              slug.includes('am-thanh') ||
+              name.includes('zephyrus') ||
+              name.includes('zenbook') ||
               name.includes('vivobook') ||
-              name.includes('omnibook') ||
-              name.includes('cyborg') ||
-              name.includes('ideapad') ||
-              name.includes('tuf') ||
-              name.includes('watch') ||
-              name.includes('đồng hồ') ||
-              name.includes('airpods') ||
-              name.includes('tai nghe') ||
-              name.includes('loa') ||
-              name.includes('marshall') ||
-              name.includes('sony') ||
-              name.includes('amazfit') ||
-              name.includes('myalo');
+              name.includes('gram') ||
+              name.includes('surface') ||
+              name.includes('predator') ||
+              name.includes('aspire') ||
+              name.includes('thinkpad') ||
+              name.includes('yoga')
+            ) {
+              return false;
+            }
 
-            return !isNonPhone;
+            return (
+              phoneCategoryIds.includes(catId) ||
+              slug === 'iphone' ||
+              slug === 'samsung-galaxy' ||
+              slug === 'dien-thoai' ||
+              slug === 'ipad' ||
+              slug === 'may-tinh-bang'
+            );
           });
 
           products = phoneProducts.map((p: any) => {
@@ -97,19 +91,42 @@ export const showcaseService = {
             const tmemberAmt = Math.round((minPrice * 0.01) / 1000) * 1000;
             const studentAmt = Math.round((minPrice * 0.03) / 1000) * 1000;
 
+            const tags: string[] = ['5g', 'ai', 'camera'];
+            if (nameLower.includes('fold') || nameLower.includes('flip')) {
+              tags.push('fold');
+            }
+            if (
+              nameLower.includes('ultra') ||
+              nameLower.includes('pro') ||
+              nameLower.includes('poco') ||
+              nameLower.includes('magic') ||
+              nameLower.includes('gt') ||
+              nameLower.includes('rog') ||
+              nameLower.includes('redmagic')
+            ) {
+              tags.push('gaming');
+            }
+            if (
+              nameLower.includes('max') ||
+              nameLower.includes('plus') ||
+              nameLower.includes('ultra') ||
+              nameLower.includes('fold')
+            ) {
+              tags.push('battery');
+            }
+
             return {
               id: String(p.id),
               name: p.name,
+              slug: p.slug || String(p.id),
               brand: p.brandName || 'Apple',
               category: isTablet ? ('tablet' as const) : ('phone' as const),
-              image: p.primaryImage || '/images/products/phones/phone_burgundy_18pro.jpg',
+              image: getCloudinaryTransformedUrl(p.primaryImage || (p.images && p.images[0])),
               price: minPrice,
-              oldPrice: minPrice > 0 ? Math.round(minPrice * 1.1) : 0,
-              discountPercent: 10,
+              oldPrice: Number(p.specs?.originalPrice) || (minPrice > 0 ? Math.round(minPrice * 1.1) : 0),
+              discountPercent: Number(p.specs?.discountPercentage) || 10,
               hasZeroInstallment: true,
-              status: (nameLower.includes('16') || nameLower.includes('s25')
-                ? 'hot_sale'
-                : nameLower.includes('ultra')
+              status: (nameLower.includes('ultra') || nameLower.includes('fold')
                 ? 'special_deal'
                 : 'new_arrival') as any,
               tmemberDiscount: tmemberAmt > 0 ? `Tmember giảm đến ${new Intl.NumberFormat('vi-VN').format(tmemberAmt)}đ` : undefined,
@@ -118,7 +135,7 @@ export const showcaseService = {
               installmentNote: 'Trả góp 0% lãi suất',
               rating: 5,
               isFastDelivery: true,
-              tags: ['5g', 'ai'],
+              tags,
             };
           });
         }
@@ -126,11 +143,12 @@ export const showcaseService = {
 
       // Feature filters tự động trích xuất từ dữ liệu sản phẩm thực tế trong SQL
       const featureFilters = [
-        { id: 'feat-1', label: 'Điện thoại chơi game', imageUrl: products[0]?.image || '/images/products/phones/phone_burgundy_18pro.jpg', tag: 'gaming' },
-        { id: 'feat-2', label: 'Điện thoại pin trâu', imageUrl: products[1]?.image || '/images/products/phones/phone_poco_x8.jpg', tag: 'battery' },
-        { id: 'feat-3', label: 'Điện thoại 5G', imageUrl: products[2]?.image || '/images/products/phones/phone_burgundy_18pro.jpg', tag: '5g' },
-        { id: 'feat-4', label: 'Điện thoại chụp ảnh đẹp', imageUrl: products[3]?.image || '/images/products/phones/phone_poco_x8.jpg', tag: 'camera' },
-        { id: 'feat-5', label: 'Điện thoại AI', imageUrl: products[4]?.image || '/images/products/phones/phone_burgundy_18pro.jpg', tag: 'ai' },
+        { id: 'feat-1', label: 'Điện thoại chơi game', imageUrl: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400', tag: 'gaming' },
+        { id: 'feat-2', label: 'Điện thoại pin trâu', imageUrl: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=400', tag: 'battery' },
+        { id: 'feat-3', label: 'Điện thoại 5G', imageUrl: 'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?w=400', tag: '5g' },
+        { id: 'feat-4', label: 'Điện thoại chụp ảnh đẹp', imageUrl: 'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=400', tag: 'camera' },
+        { id: 'feat-5', label: 'Điện thoại gập', imageUrl: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400', tag: 'fold' },
+        { id: 'feat-6', label: 'Điện thoại AI', imageUrl: 'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?w=400', tag: 'ai' },
       ];
 
       return {

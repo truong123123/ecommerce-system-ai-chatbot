@@ -15,6 +15,8 @@ import java.util.Optional;
 public interface PaymentTransactionRepository extends JpaRepository<PaymentTransaction, Long> {
     Optional<PaymentTransaction> findByProviderTxnRef(String providerTxnRef);
 
+    List<PaymentTransaction> findAllByOrderByCreatedAtDesc();
+
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT pt FROM PaymentTransaction pt WHERE pt.providerTxnRef = :providerTxnRef")
     Optional<PaymentTransaction> findByProviderTxnRefForUpdate(@Param("providerTxnRef") String providerTxnRef);

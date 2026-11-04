@@ -1,0 +1,1075 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "title": "iPhone 17 Pro 256GB",
+      "category": "smartphones",
+      "brand": "Apple",
+      "price": 34990000,
+      "discountPercentage": 5,
+      "finalPrice": 33240000.0,
+      "rating": 4.7,
+      "stock": 23,
+      "thumbnail": "iphone-17-pro-256-gb.webp",
+      "images": [
+        "iphone-17-pro-256-gb.webp"
+      ],
+      "groupSlug": "dien-thoai-tablet",
+      "group": "Điện thoại, Tablet",
+      "categoryName": "Điện thoại"
+    },
+    {
+      "id": 2,
+      "title": "iPhone 17 256GB",
+      "category": "smartphones",
+      "brand": "Apple",
+      "price": 24990000,
+      "discountPercentage": 4,
+      "finalPrice": 23990000.0,
+      "rating": 4.4,
+      "stock": 36,
+      "thumbnail": "iphone_17_256gb-3_2.webp",
+      "images": [
+        "iphone_17_256gb-3_2.webp"
+      ],
+      "groupSlug": "dien-thoai-tablet",
+      "group": "Điện thoại, Tablet",
+      "categoryName": "Điện thoại"
+    },
+    {
+      "id": 3,
+      "title": "iPhone Air",
+      "category": "smartphones",
+      "brand": "Apple",
+      "price": 31990000,
+      "discountPercentage": 6,
+      "finalPrice": 30071000.0,
+      "rating": 4.1,
+      "stock": 49,
+      "thumbnail": "iphone_air-3_2.webp",
+      "images": [
+        "iphone_air-3_2.webp"
+      ],
+      "groupSlug": "dien-thoai-tablet",
+      "group": "Điện thoại, Tablet",
+      "categoryName": "Điện thoại"
+    },
+    {
+      "id": 4,
+      "title": "iPhone 18 Pro",
+      "category": "smartphones",
+      "brand": "Apple",
+      "price": 36990000,
+      "discountPercentage": 0,
+      "finalPrice": 36990000.0,
+      "rating": 4.8,
+      "stock": 62,
+      "thumbnail": "iphone-18-pro-01.webp",
+      "images": [
+        "iphone-18-pro-01.webp"
+      ],
+      "groupSlug": "dien-thoai-tablet",
+      "group": "Điện thoại, Tablet",
+      "categoryName": "Điện thoại"
+    },
+    {
+      "id": 5,
+      "title": "iPhone 18 Pro Max",
+      "category": "smartphones",
+      "brand": "Apple",
+      "price": 42990000,
+      "discountPercentage": 0,
+      "finalPrice": 42990000.0,
+      "rating": 4.5,
+      "stock": 75,
+      "thumbnail": "iphone-18-pro-max-01.webp",
+      "images": [
+        "iphone-18-pro-max-01.webp"
+      ],
+      "groupSlug": "dien-thoai-tablet",
+      "group": "Điện thoại, Tablet",
+      "categoryName": "Điện thoại"
+    },
+    {
+      "id": 6,
+      "title": "Samsung Galaxy S26 Ultra",
+      "category": "smartphones",
+      "brand": "Samsung",
+      "price": 33990000,
+      "discountPercentage": 8,
+      "finalPrice": 31271000.0,
+      "rating": 4.2,
+      "stock": 88,
+      "thumbnail": "samsung-galaxy-s26-ultra-1.webp",
+      "images": [
+        "samsung-galaxy-s26-ultra-1.webp"
+      ],
+      "groupSlug": "dien-thoai-tablet",
+      "group": "Điện thoại, Tablet",
+      "categoryName": "Điện thoại"
+    },
+    {
+      "id": 7,
+      "title": "Samsung Galaxy A37",
+      "category": "smartphones",
+      "brand": "Samsung",
+      "price": 9990000,
+      "discountPercentage": 10,
+      "finalPrice": 8991000.0,
+      "rating": 4.9,
+      "stock": 11,
+      "thumbnail": "dien-thoai-samsung-galaxy-a37-2_2.webp",
+      "images": [
+        "dien-thoai-samsung-galaxy-a37-2_2.webp"
+      ],
+      "groupSlug": "dien-thoai-tablet",
+      "group": "Điện thoại, Tablet",
+      "categoryName": "Điện thoại"
+    },
+    {
+      "id": 8,
+      "title": "Samsung Galaxy Z Fold 8 Lavender",
+      "category": "smartphones",
+      "brand": "Samsung",
+      "price": 46990000,
+      "discountPercentage": 5,
+      "finalPrice": 44640000.0,
+      "rating": 4.6,
+      "stock": 24,
+      "thumbnail": "samsung-galaxy-z-fold-8-lavender-01.webp",
+      "images": [
+        "samsung-galaxy-z-fold-8-lavender-01.webp"
+      ],
+      "groupSlug": "dien-thoai-tablet",
+      "group": "Điện thoại, Tablet",
+      "categoryName": "Điện thoại"
+    },
+    {
+      "id": 9,
+      "title": "Samsung Galaxy Z Fold 8 Violet",
+      "category": "smartphones",
+      "brand": "Samsung",
+      "price": 46990000,
+      "discountPercentage": 5,
+      "finalPrice": 44640000.0,
+      "rating": 4.3,
+      "stock": 37,
+      "thumbnail": "samsung-galaxy-z-fold-8-violet-01.webp",
+      "images": [
+        "samsung-galaxy-z-fold-8-violet-01.webp"
+      ],
+      "groupSlug": "dien-thoai-tablet",
+      "group": "Điện thoại, Tablet",
+      "categoryName": "Điện thoại"
+    },
+    {
+      "id": 10,
+      "title": "OPPO Find X10 Pro Max",
+      "category": "smartphones",
+      "brand": "OPPO",
+      "price": 29990000,
+      "discountPercentage": 7,
+      "finalPrice": 27891000.0,
+      "rating": 4.0,
+      "stock": 50,
+      "thumbnail": "oppo-find-x10-pro-max-white-01_1.webp",
+      "images": [
+        "oppo-find-x10-pro-max-white-01_1.webp"
+      ],
+      "groupSlug": "dien-thoai-tablet",
+      "group": "Điện thoại, Tablet",
+      "categoryName": "Điện thoại"
+    },
+    {
+      "id": 11,
+      "title": "MacBook Air 13 inch M-series",
+      "category": "laptops",
+      "brand": "Apple",
+      "price": 27990000,
+      "discountPercentage": 6,
+      "finalPrice": 26311000.0,
+      "rating": 4.7,
+      "stock": 63,
+      "thumbnail": "macbook_13_66.webp",
+      "images": [
+        "macbook_13_66.webp"
+      ],
+      "groupSlug": "laptop",
+      "group": "Laptop",
+      "categoryName": "Laptop"
+    },
+    {
+      "id": 12,
+      "title": "MacBook Pro 13 inch",
+      "category": "laptops",
+      "brand": "Apple",
+      "price": 32990000,
+      "discountPercentage": 5,
+      "finalPrice": 31340000.0,
+      "rating": 4.4,
+      "stock": 76,
+      "thumbnail": "macbook_13_67.webp",
+      "images": [
+        "macbook_13_67.webp"
+      ],
+      "groupSlug": "laptop",
+      "group": "Laptop",
+      "categoryName": "Laptop"
+    },
+    {
+      "id": 13,
+      "title": "MacBook Pro",
+      "category": "laptops",
+      "brand": "Apple",
+      "price": 39990000,
+      "discountPercentage": 3,
+      "finalPrice": 38790000.0,
+      "rating": 4.1,
+      "stock": 89,
+      "thumbnail": "macbook_3__25.png",
+      "images": [
+        "macbook_3__25.png"
+      ],
+      "groupSlug": "laptop",
+      "group": "Laptop",
+      "categoryName": "Laptop"
+    },
+    {
+      "id": 14,
+      "title": "Smart Tivi LG UHD 4K 55 inch 55UA8055PSA",
+      "category": "tvs",
+      "brand": "LG",
+      "price": 11990000,
+      "discountPercentage": 15,
+      "finalPrice": 10192000.0,
+      "rating": 4.8,
+      "stock": 12,
+      "thumbnail": "smart-tivi-lg-uhd-4k-55-inch-55ua8055psa.webp",
+      "images": [
+        "smart-tivi-lg-uhd-4k-55-inch-55ua8055psa.webp"
+      ],
+      "groupSlug": "tivi-dien-may",
+      "group": "Tivi, Điện máy",
+      "categoryName": "Tivi"
+    },
+    {
+      "id": 15,
+      "title": "Smart Tivi Samsung QLED 4K 55 inch 55Q6FA",
+      "category": "tvs",
+      "brand": "Samsung",
+      "price": 15990000,
+      "discountPercentage": 12,
+      "finalPrice": 14071000.0,
+      "rating": 4.5,
+      "stock": 25,
+      "thumbnail": "smart-tivi-samsung-qled-55q6fa-4k-55-inch.webp",
+      "images": [
+        "smart-tivi-samsung-qled-55q6fa-4k-55-inch.webp"
+      ],
+      "groupSlug": "tivi-dien-may",
+      "group": "Tivi, Điện máy",
+      "categoryName": "Tivi"
+    },
+    {
+      "id": 16,
+      "title": "Google Tivi Xiaomi S Mini LED 4K 55 inch 2026",
+      "category": "tvs",
+      "brand": "Xiaomi",
+      "price": 13990000,
+      "discountPercentage": 10,
+      "finalPrice": 12591000.0,
+      "rating": 4.2,
+      "stock": 38,
+      "thumbnail": "google-tivi-xiaomi-s-mini-led-4k-55-inch-2026.webp",
+      "images": [
+        "google-tivi-xiaomi-s-mini-led-4k-55-inch-2026.webp"
+      ],
+      "groupSlug": "tivi-dien-may",
+      "group": "Tivi, Điện máy",
+      "categoryName": "Tivi"
+    },
+    {
+      "id": 17,
+      "title": "Màn hình thông minh LG StanbyME 2 27 inch",
+      "category": "tvs",
+      "brand": "LG",
+      "price": 24990000,
+      "discountPercentage": 8,
+      "finalPrice": 22991000.0,
+      "rating": 4.9,
+      "stock": 51,
+      "thumbnail": "man-hinh-thong-minh-lg-standbyme-2-27-inch-27lx6tdga-2025_8_.webp",
+      "images": [
+        "man-hinh-thong-minh-lg-standbyme-2-27-inch-27lx6tdga-2025_8_.webp"
+      ],
+      "groupSlug": "tivi-dien-may",
+      "group": "Tivi, Điện máy",
+      "categoryName": "Tivi"
+    },
+    {
+      "id": 18,
+      "title": "Màn hình Dell U2424H 24 inch",
+      "category": "monitors",
+      "brand": "Dell",
+      "price": 6490000,
+      "discountPercentage": 10,
+      "finalPrice": 5841000.0,
+      "rating": 4.6,
+      "stock": 64,
+      "thumbnail": "man-hinh-dell-u2424h-24-inch-10.webp",
+      "images": [
+        "man-hinh-dell-u2424h-24-inch-10.webp"
+      ],
+      "groupSlug": "pc-man-hinh-may-in",
+      "group": "PC, Màn hình, Máy in",
+      "categoryName": "Màn hình"
+    },
+    {
+      "id": 19,
+      "title": "iPad A16 11 inch",
+      "category": "tablets",
+      "brand": "Apple",
+      "price": 9990000,
+      "discountPercentage": 5,
+      "finalPrice": 9490000.0,
+      "rating": 4.3,
+      "stock": 77,
+      "thumbnail": "ipad-a16-11-inch_10_.webp",
+      "images": [
+        "ipad-a16-11-inch_10_.webp"
+      ],
+      "groupSlug": "dien-thoai-tablet",
+      "group": "Điện thoại, Tablet",
+      "categoryName": "Máy tính bảng"
+    },
+    {
+      "id": 20,
+      "title": "Samsung Galaxy Tab S11",
+      "category": "tablets",
+      "brand": "Samsung",
+      "price": 21990000,
+      "discountPercentage": 6,
+      "finalPrice": 20671000.0,
+      "rating": 4.0,
+      "stock": 90,
+      "thumbnail": "may-tinh-bang-samsung-galaxy-tab-s11_7.webp",
+      "images": [
+        "may-tinh-bang-samsung-galaxy-tab-s11_7.webp"
+      ],
+      "groupSlug": "dien-thoai-tablet",
+      "group": "Điện thoại, Tablet",
+      "categoryName": "Máy tính bảng"
+    },
+    {
+      "id": 21,
+      "title": "Samsung Galaxy Tab S10 FE",
+      "category": "tablets",
+      "brand": "Samsung",
+      "price": 13990000,
+      "discountPercentage": 8,
+      "finalPrice": 12871000.0,
+      "rating": 4.7,
+      "stock": 13,
+      "thumbnail": "may-tinh-bang-samsung-galaxy-tab-s10-fe.1_1_1.webp",
+      "images": [
+        "may-tinh-bang-samsung-galaxy-tab-s10-fe.1_1_1.webp"
+      ],
+      "groupSlug": "dien-thoai-tablet",
+      "group": "Điện thoại, Tablet",
+      "categoryName": "Máy tính bảng"
+    },
+    {
+      "id": 22,
+      "title": "Samsung Galaxy Tab A11+ WiFi",
+      "category": "tablets",
+      "brand": "Samsung",
+      "price": 6990000,
+      "discountPercentage": 10,
+      "finalPrice": 6291000.0,
+      "rating": 4.4,
+      "stock": 26,
+      "thumbnail": "may-tinh-bang-samsung-galaxy-tab-a11-plus-wifi_2.webp",
+      "images": [
+        "may-tinh-bang-samsung-galaxy-tab-a11-plus-wifi_2.webp"
+      ],
+      "groupSlug": "dien-thoai-tablet",
+      "group": "Điện thoại, Tablet",
+      "categoryName": "Máy tính bảng"
+    },
+    {
+      "id": 23,
+      "title": "Honor Pad X8b",
+      "category": "tablets",
+      "brand": "Honor",
+      "price": 4490000,
+      "discountPercentage": 12,
+      "finalPrice": 3951000.0,
+      "rating": 4.1,
+      "stock": 39,
+      "thumbnail": "may-tinh-bang-honor-pad-x8b.webp",
+      "images": [
+        "may-tinh-bang-honor-pad-x8b.webp"
+      ],
+      "groupSlug": "dien-thoai-tablet",
+      "group": "Điện thoại, Tablet",
+      "categoryName": "Máy tính bảng"
+    },
+    {
+      "id": 24,
+      "title": "Huawei MatePad 11.5 S 2026",
+      "category": "tablets",
+      "brand": "Huawei",
+      "price": 8990000,
+      "discountPercentage": 7,
+      "finalPrice": 8361000.0,
+      "rating": 4.8,
+      "stock": 52,
+      "thumbnail": "huawei-matepad-11-5-s-2026_1.webp",
+      "images": [
+        "huawei-matepad-11-5-s-2026_1.webp"
+      ],
+      "groupSlug": "dien-thoai-tablet",
+      "group": "Điện thoại, Tablet",
+      "categoryName": "Máy tính bảng"
+    },
+    {
+      "id": 25,
+      "title": "Lenovo Legion Tab Gen 5",
+      "category": "tablets",
+      "brand": "Lenovo",
+      "price": 12990000,
+      "discountPercentage": 5,
+      "finalPrice": 12340000.0,
+      "rating": 4.5,
+      "stock": 65,
+      "thumbnail": "lenovo-legion-tab-gen-5_1.webp",
+      "images": [
+        "lenovo-legion-tab-gen-5_1.webp"
+      ],
+      "groupSlug": "dien-thoai-tablet",
+      "group": "Điện thoại, Tablet",
+      "categoryName": "Máy tính bảng"
+    },
+    {
+      "id": 26,
+      "title": "Lenovo Legion Tab Pro Gen 2 kèm bút, bàn phím",
+      "category": "tablets",
+      "brand": "Lenovo",
+      "price": 19990000,
+      "discountPercentage": 5,
+      "finalPrice": 18990000.0,
+      "rating": 4.2,
+      "stock": 78,
+      "thumbnail": "may-tinh-bang-lenovo-legion-tab-pro-gen-2-zahd0452vn-kem-but-ban-phim.webp",
+      "images": [
+        "may-tinh-bang-lenovo-legion-tab-pro-gen-2-zahd0452vn-kem-but-ban-phim.webp"
+      ],
+      "groupSlug": "dien-thoai-tablet",
+      "group": "Điện thoại, Tablet",
+      "categoryName": "Máy tính bảng"
+    },
+    {
+      "id": 27,
+      "title": "Lenovo Yoga Tab TB710",
+      "category": "tablets",
+      "brand": "Lenovo",
+      "price": 7990000,
+      "discountPercentage": 9,
+      "finalPrice": 7271000.0,
+      "rating": 4.9,
+      "stock": 91,
+      "thumbnail": "lenovo-yoga-tab-tb710-4_1.webp",
+      "images": [
+        "lenovo-yoga-tab-tb710-4_1.webp"
+      ],
+      "groupSlug": "dien-thoai-tablet",
+      "group": "Điện thoại, Tablet",
+      "categoryName": "Máy tính bảng"
+    },
+    {
+      "id": 28,
+      "title": "AirPods 4",
+      "category": "audio",
+      "brand": "Apple",
+      "price": 3490000,
+      "discountPercentage": 5,
+      "finalPrice": 3316000.0,
+      "rating": 4.6,
+      "stock": 14,
+      "thumbnail": "apple-airpods-4-thumb.webp",
+      "images": [
+        "apple-airpods-4-thumb.webp"
+      ],
+      "groupSlug": "am-thanh-mic",
+      "group": "Âm thanh, Mic thu âm",
+      "categoryName": "Tai nghe"
+    },
+    {
+      "id": 29,
+      "title": "AirPods 5 sạc không dây",
+      "category": "audio",
+      "brand": "Apple",
+      "price": 4990000,
+      "discountPercentage": 0,
+      "finalPrice": 4990000.0,
+      "rating": 4.3,
+      "stock": 27,
+      "thumbnail": "apple-airpods-5-sac-khong-day.webp",
+      "images": [
+        "apple-airpods-5-sac-khong-day.webp"
+      ],
+      "groupSlug": "am-thanh-mic",
+      "group": "Âm thanh, Mic thu âm",
+      "categoryName": "Tai nghe"
+    },
+    {
+      "id": 30,
+      "title": "AirPods 5 sạc có dây",
+      "category": "audio",
+      "brand": "Apple",
+      "price": 4690000,
+      "discountPercentage": 0,
+      "finalPrice": 4690000.0,
+      "rating": 4.0,
+      "stock": 40,
+      "thumbnail": "apple-airpods-5-sac-co-day.webp",
+      "images": [
+        "apple-airpods-5-sac-co-day.webp"
+      ],
+      "groupSlug": "am-thanh-mic",
+      "group": "Âm thanh, Mic thu âm",
+      "categoryName": "Tai nghe"
+    },
+    {
+      "id": 31,
+      "title": "Tai nghe JBL Wave Beam",
+      "category": "audio",
+      "brand": "JBL",
+      "price": 1490000,
+      "discountPercentage": 15,
+      "finalPrice": 1266000.0,
+      "rating": 4.7,
+      "stock": 53,
+      "thumbnail": "tai-nghe-khong-day-jbl-wave-beam-0000.webp",
+      "images": [
+        "tai-nghe-khong-day-jbl-wave-beam-0000.webp"
+      ],
+      "groupSlug": "am-thanh-mic",
+      "group": "Âm thanh, Mic thu âm",
+      "categoryName": "Tai nghe"
+    },
+    {
+      "id": 32,
+      "title": "Tai nghe Sennheiser Momentum True Wireless 5",
+      "category": "audio",
+      "brand": "Sennheiser",
+      "price": 7990000,
+      "discountPercentage": 8,
+      "finalPrice": 7351000.0,
+      "rating": 4.4,
+      "stock": 66,
+      "thumbnail": "tai-nghe-sennheiser-momentum-true-wireless-5-1126.webp",
+      "images": [
+        "tai-nghe-sennheiser-momentum-true-wireless-5-1126.webp"
+      ],
+      "groupSlug": "am-thanh-mic",
+      "group": "Âm thanh, Mic thu âm",
+      "categoryName": "Tai nghe"
+    },
+    {
+      "id": 33,
+      "title": "Apple Watch LTE",
+      "category": "smartwatches",
+      "brand": "Apple",
+      "price": 11990000,
+      "discountPercentage": 6,
+      "finalPrice": 11271000.0,
+      "rating": 4.1,
+      "stock": 79,
+      "thumbnail": "apple_lte_3_70.webp",
+      "images": [
+        "apple_lte_3_70.webp"
+      ],
+      "groupSlug": "dong-ho-camera",
+      "group": "Đồng hồ, Camera",
+      "categoryName": "Đồng hồ thông minh"
+    },
+    {
+      "id": 34,
+      "title": "Amazfit smartwatch",
+      "category": "smartwatches",
+      "brand": "Amazfit",
+      "price": 4990000,
+      "discountPercentage": 10,
+      "finalPrice": 4491000.0,
+      "rating": 4.8,
+      "stock": 92,
+      "thumbnail": "amazfit_2_17.webp",
+      "images": [
+        "amazfit_2_17.webp"
+      ],
+      "groupSlug": "dong-ho-camera",
+      "group": "Đồng hồ, Camera",
+      "categoryName": "Đồng hồ thông minh"
+    },
+    {
+      "id": 35,
+      "title": "Microphone DJI Mic Mini 2 (1 TX + 1 RX)",
+      "category": "microphones",
+      "brand": "DJI",
+      "price": 2790000,
+      "discountPercentage": 5,
+      "finalPrice": 2650000.0,
+      "rating": 4.5,
+      "stock": 15,
+      "thumbnail": "microphone-dien-thoai-dji-mic-mini-2-1-tx-1-rx0202.webp",
+      "images": [
+        "microphone-dien-thoai-dji-mic-mini-2-1-tx-1-rx0202.webp"
+      ],
+      "groupSlug": "am-thanh-mic",
+      "group": "Âm thanh, Mic thu âm",
+      "categoryName": "Micro thu âm"
+    },
+    {
+      "id": 36,
+      "title": "Microphone DJI Mic Mini 2 (2 TX + 1 RX)",
+      "category": "microphones",
+      "brand": "DJI",
+      "price": 3890000,
+      "discountPercentage": 5,
+      "finalPrice": 3696000.0,
+      "rating": 4.2,
+      "stock": 28,
+      "thumbnail": "microphone-dien-thoai-dji-mic-mini-2-2-tx-1-rx-7.webp",
+      "images": [
+        "microphone-dien-thoai-dji-mic-mini-2-2-tx-1-rx-7.webp"
+      ],
+      "groupSlug": "am-thanh-mic",
+      "group": "Âm thanh, Mic thu âm",
+      "categoryName": "Micro thu âm"
+    },
+    {
+      "id": 37,
+      "title": "Microphone không dây Gochek Ultra S24",
+      "category": "microphones",
+      "brand": "Gochek",
+      "price": 790000,
+      "discountPercentage": 20,
+      "finalPrice": 632000.0,
+      "rating": 4.9,
+      "stock": 41,
+      "thumbnail": "microphone-thu-am-khong-day-gochek-ultra-s24-s2403_2_.webp",
+      "images": [
+        "microphone-thu-am-khong-day-gochek-ultra-s24-s2403_2_.webp"
+      ],
+      "groupSlug": "am-thanh-mic",
+      "group": "Âm thanh, Mic thu âm",
+      "categoryName": "Micro thu âm"
+    },
+    {
+      "id": 38,
+      "title": "Camera hành trình Insta360 X5 Essentials Bundle",
+      "category": "cameras",
+      "brand": "Insta360",
+      "price": 15990000,
+      "discountPercentage": 5,
+      "finalPrice": 15190000.0,
+      "rating": 4.6,
+      "stock": 54,
+      "thumbnail": "camera-hanh-trinh-insta-360-x5-essentials-bundle.webp",
+      "images": [
+        "camera-hanh-trinh-insta-360-x5-essentials-bundle.webp"
+      ],
+      "groupSlug": "dong-ho-camera",
+      "group": "Đồng hồ, Camera",
+      "categoryName": "Camera"
+    },
+    {
+      "id": 39,
+      "title": "Camera IMOU IPC-A32E không dây 3MP",
+      "category": "cameras",
+      "brand": "IMOU",
+      "price": 690000,
+      "discountPercentage": 15,
+      "finalPrice": 586000.0,
+      "rating": 4.3,
+      "stock": 67,
+      "thumbnail": "camera-imou-ipc-a32e-khong-day-3mp_2.webp",
+      "images": [
+        "camera-imou-ipc-a32e-khong-day-3mp_2.webp"
+      ],
+      "groupSlug": "dong-ho-camera",
+      "group": "Đồng hồ, Camera",
+      "categoryName": "Camera"
+    },
+    {
+      "id": 40,
+      "title": "Combo camera hành động DJI Action 4",
+      "category": "cameras",
+      "brand": "DJI",
+      "price": 8990000,
+      "discountPercentage": 10,
+      "finalPrice": 8091000.0,
+      "rating": 4.0,
+      "stock": 80,
+      "thumbnail": "combo-camera-hanh-dong-dji-action-4_7_.webp",
+      "images": [
+        "combo-camera-hanh-dong-dji-action-4_7_.webp"
+      ],
+      "groupSlug": "dong-ho-camera",
+      "group": "Đồng hồ, Camera",
+      "categoryName": "Camera"
+    },
+    {
+      "id": 41,
+      "title": "DJI Osmo Pocket 4 Pro Standard Combo",
+      "category": "cameras",
+      "brand": "DJI",
+      "price": 14990000,
+      "discountPercentage": 0,
+      "finalPrice": 14990000.0,
+      "rating": 4.7,
+      "stock": 93,
+      "thumbnail": "dji-osmo-pocket-4-pro-standard-combo.webp",
+      "images": [
+        "dji-osmo-pocket-4-pro-standard-combo.webp"
+      ],
+      "groupSlug": "dong-ho-camera",
+      "group": "Đồng hồ, Camera",
+      "categoryName": "Camera"
+    },
+    {
+      "id": 42,
+      "title": "Máy in HP LaserJet M211d",
+      "category": "printers",
+      "brand": "HP",
+      "price": 3990000,
+      "discountPercentage": 8,
+      "finalPrice": 3671000.0,
+      "rating": 4.4,
+      "stock": 16,
+      "thumbnail": "may-in-hp-laserjet-m211d-9yf82a_2_.webp",
+      "images": [
+        "may-in-hp-laserjet-m211d-9yf82a_2_.webp"
+      ],
+      "groupSlug": "pc-man-hinh-may-in",
+      "group": "PC, Màn hình, Máy in",
+      "categoryName": "Máy in"
+    },
+    {
+      "id": 43,
+      "title": "Máy in HP LaserJet M211dw",
+      "category": "printers",
+      "brand": "HP",
+      "price": 4890000,
+      "discountPercentage": 8,
+      "finalPrice": 4499000.0,
+      "rating": 4.1,
+      "stock": 29,
+      "thumbnail": "may-in-hp-laserjet-m211dw-9yf83a.webp",
+      "images": [
+        "may-in-hp-laserjet-m211dw-9yf83a.webp"
+      ],
+      "groupSlug": "pc-man-hinh-may-in",
+      "group": "PC, Màn hình, Máy in",
+      "categoryName": "Máy in"
+    },
+    {
+      "id": 44,
+      "title": "Máy in laser Brother HL-L2321D",
+      "category": "printers",
+      "brand": "Brother",
+      "price": 3190000,
+      "discountPercentage": 10,
+      "finalPrice": 2871000.0,
+      "rating": 4.8,
+      "stock": 42,
+      "thumbnail": "may-in-laser-brother-hl-l2321d.webp",
+      "images": [
+        "may-in-laser-brother-hl-l2321d.webp"
+      ],
+      "groupSlug": "pc-man-hinh-may-in",
+      "group": "PC, Màn hình, Máy in",
+      "categoryName": "Máy in"
+    },
+    {
+      "id": 45,
+      "title": "Máy giặt Panasonic 8.2kg NA-F82Y01DRV",
+      "category": "appliances",
+      "brand": "Panasonic",
+      "price": 6990000,
+      "discountPercentage": 12,
+      "finalPrice": 6151000.0,
+      "rating": 4.5,
+      "stock": 55,
+      "thumbnail": "may-giat-panasonic-8-2kg-na-f82y01drv_4_.webp",
+      "images": [
+        "may-giat-panasonic-8-2kg-na-f82y01drv_4_.webp"
+      ],
+      "groupSlug": "tivi-dien-may",
+      "group": "Tivi, Điện máy",
+      "categoryName": "Điện máy"
+    },
+    {
+      "id": 46,
+      "title": "Máy giặt Panasonic Inverter 11.5kg NA-V115FA1LV",
+      "category": "appliances",
+      "brand": "Panasonic",
+      "price": 12990000,
+      "discountPercentage": 10,
+      "finalPrice": 11691000.0,
+      "rating": 4.2,
+      "stock": 68,
+      "thumbnail": "may-giat-panasonic-inverter-11-5kg-na-v115fa1lv_1_.webp",
+      "images": [
+        "may-giat-panasonic-inverter-11-5kg-na-v115fa1lv_1_.webp"
+      ],
+      "groupSlug": "tivi-dien-may",
+      "group": "Tivi, Điện máy",
+      "categoryName": "Điện máy"
+    },
+    {
+      "id": 47,
+      "title": "Máy giặt sấy Aqua Inverter 10kg/7kg",
+      "category": "appliances",
+      "brand": "Aqua",
+      "price": 11990000,
+      "discountPercentage": 10,
+      "finalPrice": 10791000.0,
+      "rating": 4.9,
+      "stock": 81,
+      "thumbnail": "may-giat-say-aqua-inverter-giat-10kg-say-7kg-aqd-ah1051j-ps.1.webp",
+      "images": [
+        "may-giat-say-aqua-inverter-giat-10kg-say-7kg-aqd-ah1051j-ps.1.webp"
+      ],
+      "groupSlug": "tivi-dien-may",
+      "group": "Tivi, Điện máy",
+      "categoryName": "Điện máy"
+    },
+    {
+      "id": 48,
+      "title": "PC CPS Creator AI A147",
+      "category": "pcs",
+      "brand": "CellphoneS",
+      "price": 25990000,
+      "discountPercentage": 5,
+      "finalPrice": 24690000.0,
+      "rating": 4.6,
+      "stock": 94,
+      "thumbnail": "pc-cps-creator-ai-a147.webp",
+      "images": [
+        "pc-cps-creator-ai-a147.webp"
+      ],
+      "groupSlug": "pc-man-hinh-may-in",
+      "group": "PC, Màn hình, Máy in",
+      "categoryName": "PC"
+    },
+    {
+      "id": 49,
+      "title": "PC CPS Creator Ultra AI A149",
+      "category": "pcs",
+      "brand": "CellphoneS",
+      "price": 35990000,
+      "discountPercentage": 5,
+      "finalPrice": 34190000.0,
+      "rating": 4.3,
+      "stock": 17,
+      "thumbnail": "pc-cps-creator-ultra-ai-a149.webp",
+      "images": [
+        "pc-cps-creator-ultra-ai-a149.webp"
+      ],
+      "groupSlug": "pc-man-hinh-may-in",
+      "group": "PC, Màn hình, Máy in",
+      "categoryName": "PC"
+    },
+    {
+      "id": 50,
+      "title": "PC CPS D01",
+      "category": "pcs",
+      "brand": "CellphoneS",
+      "price": 14990000,
+      "discountPercentage": 5,
+      "finalPrice": 14240000.0,
+      "rating": 4.0,
+      "stock": 30,
+      "thumbnail": "pc-cps-d01-26101.webp",
+      "images": [
+        "pc-cps-d01-26101.webp"
+      ],
+      "groupSlug": "pc-man-hinh-may-in",
+      "group": "PC, Màn hình, Máy in",
+      "categoryName": "PC"
+    },
+    {
+      "id": 51,
+      "title": "PC CPS Gaming G1",
+      "category": "pcs",
+      "brand": "CellphoneS",
+      "price": 19990000,
+      "discountPercentage": 6,
+      "finalPrice": 18791000.0,
+      "rating": 4.7,
+      "stock": 43,
+      "thumbnail": "pc-cps-gaming-g1-1026.webp",
+      "images": [
+        "pc-cps-gaming-g1-1026.webp"
+      ],
+      "groupSlug": "pc-man-hinh-may-in",
+      "group": "PC, Màn hình, Máy in",
+      "categoryName": "PC"
+    },
+    {
+      "id": 52,
+      "title": "PC CPS Gaming G2",
+      "category": "pcs",
+      "brand": "CellphoneS",
+      "price": 27990000,
+      "discountPercentage": 6,
+      "finalPrice": 26311000.0,
+      "rating": 4.4,
+      "stock": 56,
+      "thumbnail": "pc-cps-gaming-g2-1026.webp",
+      "images": [
+        "pc-cps-gaming-g2-1026.webp"
+      ],
+      "groupSlug": "pc-man-hinh-may-in",
+      "group": "PC, Màn hình, Máy in",
+      "categoryName": "PC"
+    },
+    {
+      "id": 53,
+      "title": "PC CPS Văn phòng S1 AMD",
+      "category": "pcs",
+      "brand": "CellphoneS",
+      "price": 9990000,
+      "discountPercentage": 8,
+      "finalPrice": 9191000.0,
+      "rating": 4.1,
+      "stock": 69,
+      "thumbnail": "pc-cps-van-phong-s1-amd_2.webp",
+      "images": [
+        "pc-cps-van-phong-s1-amd_2.webp"
+      ],
+      "groupSlug": "pc-man-hinh-may-in",
+      "group": "PC, Màn hình, Máy in",
+      "categoryName": "PC"
+    }
+  ],
+  "total": 53,
+  "categories": [
+    {
+      "slug": "dien-thoai-tablet",
+      "name": "Điện thoại, Tablet",
+      "subcategories": [
+        {
+          "slug": "smartphones",
+          "name": "Điện thoại",
+          "count": 10
+        },
+        {
+          "slug": "tablets",
+          "name": "Máy tính bảng",
+          "count": 9
+        }
+      ],
+      "count": 19
+    },
+    {
+      "slug": "laptop",
+      "name": "Laptop",
+      "subcategories": [
+        {
+          "slug": "laptops",
+          "name": "Laptop",
+          "count": 3
+        }
+      ],
+      "count": 3
+    },
+    {
+      "slug": "am-thanh-mic",
+      "name": "Âm thanh, Mic thu âm",
+      "subcategories": [
+        {
+          "slug": "audio",
+          "name": "Tai nghe",
+          "count": 5
+        },
+        {
+          "slug": "microphones",
+          "name": "Micro thu âm",
+          "count": 3
+        }
+      ],
+      "count": 8
+    },
+    {
+      "slug": "dong-ho-camera",
+      "name": "Đồng hồ, Camera",
+      "subcategories": [
+        {
+          "slug": "smartwatches",
+          "name": "Đồng hồ thông minh",
+          "count": 2
+        },
+        {
+          "slug": "cameras",
+          "name": "Camera",
+          "count": 4
+        }
+      ],
+      "count": 6
+    },
+    {
+      "slug": "phu-kien",
+      "name": "Phụ kiện",
+      "subcategories": [
+        {
+          "slug": "accessories",
+          "name": "Phụ kiện khác",
+          "count": 0
+        }
+      ],
+      "count": 0
+    },
+    {
+      "slug": "pc-man-hinh-may-in",
+      "name": "PC, Màn hình, Máy in",
+      "subcategories": [
+        {
+          "slug": "pcs",
+          "name": "PC",
+          "count": 6
+        },
+        {
+          "slug": "monitors",
+          "name": "Màn hình",
+          "count": 1
+        },
+        {
+          "slug": "printers",
+          "name": "Máy in",
+          "count": 3
+        }
+      ],
+      "count": 10
+    },
+    {
+      "slug": "tivi-dien-may",
+      "name": "Tivi, Điện máy",
+      "subcategories": [
+        {
+          "slug": "tvs",
+          "name": "Tivi",
+          "count": 4
+        },
+        {
+          "slug": "appliances",
+          "name": "Điện máy",
+          "count": 3
+        }
+      ],
+      "count": 7
+    }
+  ]
+}

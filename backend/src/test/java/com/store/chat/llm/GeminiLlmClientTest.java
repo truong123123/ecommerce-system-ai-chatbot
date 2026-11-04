@@ -138,4 +138,68 @@ class GeminiLlmClientTest {
                 .isInstanceOf(LlmException.class)
                 .hasMessageContaining("Gemini API key is not configured");
     }
+
+    @Test
+    @DisplayName("Hỗ trợ modelOverride khi gọi generate")
+    void generate_withModelOverride_usesSpecifiedModel() {
+        String mockResponseJson = """
+                {
+                  "candidates": [
+                    {
+                      "content": {
+                        "parts": [
+                          { "text": "Trả lời từ model override." }
+                        ],
+                        "role": "model"
+                      },
+                      "finishReason": "STOP"
+                    }
+                  ]
+                }
+                """;
+
+        mockServer.expect(requestTo("https://generativelanguage.googleapis.com/v1beta/models/gemini-fallback-model:generateContent"))
+                .andExpect(method(HttpMethod.POST))
+                .andExpect(header("x-goog-api-key", "test-secret-key-123"))
+                .andRespond(withSuccess(mockResponseJson, MediaType.APPLICATION_JSON));
+
+        LlmResponse response = geminiClient.generate(
+                List.of(LlmMessage.user("Xin chào")),
+                List.of(),
+                "gemini-fallback-model"
+        );
+
+        mockServer.verify();
+        assertThat(response.getText()).isEqualTo("Trả lời từ model override.");
+        assertThat(response.getModel()).isEqualTo("gemini-fallback-model");
+    }
+
+    @Test
+    @DisplayName("Lỗi HTTP 429 khi hết hạn mức ngày: ném LlmException với statusCode=429 và dailyQuota=true")
+    void generate_http429DailyQuota_setsFlag() {
+        String errBody = """
+                {
+                  "error": {
+                    "code": 429,
+                    "message": "Resource has been exhausted (e.g. check quota). Quota exceeded per day.",
+                    "status": "RESOURCE_EXHAUSTED"
+                  }
+                }
+                """;
+
+        mockServer.expect(requestTo("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"))
+                .andExpect(method(HttpMethod.POST))
+                .andRespond(org.springframework.test.web.client.response.MockRestResponseCreators.withRawStatus(429)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(errBody));
+
+        assertThatThrownBy(() -> geminiClient.generate(List.of(LlmMessage.user("Alo")), List.of()))
+                .isInstanceOf(LlmException.class)
+                .satisfies(ex -> {
+                    LlmException llmEx = (LlmException) ex;
+                    assertThat(llmEx.getStatusCode()).isEqualTo(429);
+                    assertThat(llmEx.isDailyQuota()).isTrue();
+                });
+    }
 }
+

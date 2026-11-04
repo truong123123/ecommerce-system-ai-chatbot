@@ -40,6 +40,8 @@ jwt:
 app:
   cookie:
     secure: ${APP_COOKIE_SECURE:false}
+  security:
+    trusted-proxies: ${TRUSTED_PROXIES:127.0.0.1,::1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16}
 
 vnpay:
   tmnCode: ${VNPAY_TMN_CODE:}
@@ -61,12 +63,17 @@ management:
 llm:
   provider: ${LLM_PROVIDER:gemini}
   api-key: ${LLM_API_KEY:}
-  model: ${LLM_MODEL:gemini-1.5-flash}
+  model: ${LLM_MODEL:}
+  fallback-models: ${LLM_FALLBACK_MODELS:}
   connect-timeout-seconds: ${LLM_CONNECT_TIMEOUT_SECONDS:3}
   read-timeout-seconds: ${LLM_READ_TIMEOUT_SECONDS:20}
+  cooldown-seconds: ${CHAT_LLM_COOLDOWN_SECONDS:300}
+  max-tool-rounds: ${CHAT_MAX_TOOL_ROUNDS:2}
+  log-retention-days: ${CHAT_LOG_RETENTION_DAYS:30}
   rate-limit:
-    per-minute: ${LLM_RATE_LIMIT_PER_MINUTE:10}
-    per-day: ${LLM_RATE_LIMIT_PER_DAY:100}
-    system-daily-limit: ${LLM_SYSTEM_DAILY_LIMIT:1000}
+    system-daily-limit: ${CHAT_SYSTEM_DAILY_LIMIT:200}
+    system-minute-limit: ${CHAT_SYSTEM_MINUTE_LIMIT:8}
+    per-key-daily-limit: ${CHAT_KEY_DAILY_LIMIT:30}
+    per-key-minute-limit: ${CHAT_KEY_MINUTE_LIMIT:5}
 
 

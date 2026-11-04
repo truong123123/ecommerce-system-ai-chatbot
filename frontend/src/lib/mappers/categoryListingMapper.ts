@@ -1,6 +1,7 @@
 import { ProductItem } from '@/services/productService';
 import { SharedProduct } from '@/components/common/ProductCard';
 import { extractSpecs as extractLaptopSpecs } from './laptopMapper';
+import { getCloudinaryTransformedUrl } from '@/utils/image';
 
 export const PLACEHOLDER_IMG = '/images/placeholder-product.svg';
 
@@ -23,10 +24,10 @@ export function calculateDiscountPercent(
  */
 export function getSafeImageUrl(item: ProductItem): string {
   if (item.primaryImage && item.primaryImage.trim() !== '') {
-    return item.primaryImage.trim();
+    return getCloudinaryTransformedUrl(item.primaryImage.trim());
   }
   if (item.images && item.images.length > 0 && item.images[0]?.trim() !== '') {
-    return item.images[0].trim();
+    return getCloudinaryTransformedUrl(item.images[0].trim());
   }
   return PLACEHOLDER_IMG;
 }

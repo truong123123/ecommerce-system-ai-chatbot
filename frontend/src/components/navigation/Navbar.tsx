@@ -2,13 +2,18 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { Search, ShoppingBag, Menu, X, ChevronRight, User, CircleUser, LayoutGrid, ChevronDown, MapPin, Check, LogOut } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Search, ShoppingBag, Menu, X, ChevronRight, User, CircleUser, LayoutGrid, ChevronDown, MapPin, Check, LogOut, Trash2, Clock, Zap, Award, Truck, RotateCcw, Flame, AlertCircle } from 'lucide-react';
 import styles from './Navbar.module.css';
+import { ADMIN_SEARCH_CONFIG } from '../../config/adminSearchConfig';
 import { categoryService } from '../../services/categoryService';
 import { brandService } from '../../services/brandService';
 import { productService } from '../../services/productService';
 import { useCartStore } from '../../store/cartStore';
 import { authService, UserSession } from '../../services/authService';
+import { accountService } from '../../services/accountService';
+import { LocationProvince } from '@/types/checkout';
+import { checkoutService, clearProvincesCache } from '../../services/checkoutService';
 
 const getDisplayName = (user: UserSession): string => {
   if (!user || !user.name) {
@@ -66,71 +71,41 @@ const DEFAULT_CATEGORY_ITEMS: CategoryMenuItem[] = [
   { id: 'tv-appliances', title: 'Tivi, Điện máy', href: '/category/tv-appliances', icon: '📺' },
 ];
 
-const PROVINCES = [
-  'Hồ Chí Minh',
-  'Hà Nội',
-  'Đà Nẵng',
-  'Cần Thơ',
-  'Hải Phòng',
-  'An Giang',
-  'Bà Rịa - Vũng Tàu',
-  'Bắc Giang',
-  'Bắc Kạn',
-  'Bạc Liêu',
-  'Bắc Ninh',
-  'Bến Tre',
-  'Bình Định',
-  'Bình Dương',
-  'Bình Phước',
-  'Bình Thuận',
-  'Cà Mau',
-  'Cao Bằng',
-  'Đắk Lắk',
-  'Đắk Nông',
-  'Điện Biên',
-  'Đồng Nai',
-  'Đồng Tháp',
-  'Gia Lai',
-  'Hà Giang',
-  'Hà Nam',
-  'Hà Tĩnh',
-  'Hải Dương',
-  'Hậu Giang',
-  'Hòa Bình',
-  'Hưng Yên',
-  'Khánh Hòa',
-  'Kiên Giang',
-  'Kon Tum',
-  'Lai Châu',
-  'Lâm Đồng',
-  'Lạng Sơn',
-  'Lào Cai',
-  'Long An',
-  'Nam Định',
-  'Nghệ An',
-  'Ninh Bình',
-  'Ninh Thuận',
-  'Phú Thọ',
-  'Phú Yên',
-  'Quảng Bình',
-  'Quảng Nam',
-  'Quảng Ngãi',
-  'Quảng Ninh',
-  'Quảng Trị',
-  'Sóc Trăng',
-  'Sơn La',
-  'Tây Ninh',
-  'Thái Bình',
-  'Thái Nguyên',
-  'Thanh Hóa',
-  'Thừa Thiên Huế',
-  'Tiền Giang',
-  'Trà Vinh',
-  'Tuyên Quang',
-  'Vĩnh Long',
-  'Vĩnh Phúc',
-  'Yên Bái',
-];
+export const normalizeVietnamese = (str: string): string => {
+  if (!str) return '';
+  return str
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/đ/g, 'd')
+    .replace(/Đ/g, 'd')
+    .trim();
+};
+
+const matchesLocationSearch = (province: LocationProvince, query: string): boolean => {
+  if (!query || !query.trim()) return true;
+  const qNorm = normalizeVietnamese(query);
+  const nameNorm = normalizeVietnamese(province.name);
+  if (nameNorm.includes(qNorm)) return true;
+  if (province.code === qNorm) return true;
+  // Hỗ trợ từ viết tắt / tên gọi thông dụng
+  if ((qNorm === 'hcm' || qNorm === 'tphcm' || qNorm === 'ho chi minh') && (province.code === '79' || nameNorm.includes('ho chi minh'))) {
+    return true;
+  }
+  if ((qNorm === 'hn' || qNorm === 'ha noi') && (province.code === '01' || nameNorm.includes('ha noi'))) {
+    return true;
+  }
+  if ((qNorm === 'dn' || qNorm === 'da nang') && (province.code === '48' || nameNorm.includes('da nang'))) {
+    return true;
+  }
+  if ((qNorm === 'hp' || qNorm === 'hai phong') && (province.code === '31' || nameNorm.includes('hai phong'))) {
+    return true;
+  }
+  if ((qNorm === 'ct' || qNorm === 'can tho') && (province.code === '92' || nameNorm.includes('can tho'))) {
+    return true;
+  }
+  return false;
+};
 
 const NAV_CATEGORIES: NavCategory[] = [
   {
@@ -370,6 +345,8 @@ export const clearNavbarMegaMenuCache = () => {
 };
 
 export const Navbar: React.FC = () => {
+  const router = useRouter();
+  const searchContainerRef = useRef<HTMLDivElement>(null);
   const [categoryItems, setCategoryItems] = useState<CategoryMenuItem[]>(() => {
     return cachedMegaMenuData ? cachedMegaMenuData.categoryItems : DEFAULT_CATEGORY_ITEMS;
   });
@@ -379,7 +356,13 @@ export const Navbar: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [isCategoryOpen, setIsCategoryOpen] = useState<boolean>(false);
   const [hoveredCategoryItem, setHoveredCategoryItem] = useState<string | null>(null);
-  const [selectedLocation, setSelectedLocation] = useState<string>('Hồ Chí Minh');
+  const [provinces, setProvinces] = useState<LocationProvince[]>([]);
+  const [isLoadingProvinces, setIsLoadingProvinces] = useState<boolean>(false);
+  const [provincesError, setProvincesError] = useState<string | null>(null);
+  const [selectedProvince, setSelectedProvince] = useState<LocationProvince>({
+    code: '79',
+    name: 'Thành phố Hồ Chí Minh',
+  });
   const [isLocationOpen, setIsLocationOpen] = useState<boolean>(false);
   const [locationSearch, setLocationSearch] = useState<string>('');
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
@@ -388,8 +371,77 @@ export const Navbar: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [scrolled, setScrolled] = useState<boolean>(false);
 
-  const { fetchCart, getTotalCount } = useCartStore();
+  // Đóng popover tìm kiếm khi click ra ngoài
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(e.target as Node)) {
+        setIsSearchOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleSearchSubmit = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      setIsSearchOpen(false);
+    }
+  };
+
+  const handleSelectTrendingItem = (query: string, href?: string) => {
+    setSearchQuery(query);
+    setIsSearchOpen(false);
+    if (href && href !== '#') {
+      router.push(href);
+    } else {
+      router.push(`/search?q=${encodeURIComponent(query)}`);
+    }
+  };
+
+  const { fetchCart, getTotalCount, cartData, removeItem } = useCartStore();
   const cartCount = getTotalCount();
+  const cartItems = cartData?.items || [];
+  const cartSubtotal =
+    cartData?.summary?.subtotal ??
+    cartItems.reduce(
+      (sum, item) => sum + (Number(item.price) || 0) * (item.quantity || 1),
+      0
+    );
+  const [isCartBumping, setIsCartBumping] = useState<boolean>(false);
+  const [addedCartDiff, setAddedCartDiff] = useState<number>(1);
+  const prevCartCountRef = useRef<number | null>(null);
+  const cartBumpTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    // Tránh kích hoạt animation khi render lần đầu
+    if (prevCartCountRef.current === null) {
+      prevCartCountRef.current = cartCount;
+      return;
+    }
+
+    if (cartCount > prevCartCountRef.current) {
+      const diff = cartCount - prevCartCountRef.current;
+      setAddedCartDiff(diff);
+      setIsCartBumping(true);
+
+      if (cartBumpTimerRef.current) {
+        clearTimeout(cartBumpTimerRef.current);
+      }
+      cartBumpTimerRef.current = setTimeout(() => {
+        setIsCartBumping(false);
+      }, 1000);
+    }
+
+    prevCartCountRef.current = cartCount;
+    return () => {
+      if (cartBumpTimerRef.current) {
+        clearTimeout(cartBumpTimerRef.current);
+      }
+    };
+  }, [cartCount]);
+
   const [currentUser, setCurrentUser] = useState<UserSession | null>(null);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState<boolean>(false);
   const userMenuTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -590,13 +642,124 @@ export const Navbar: React.FC = () => {
     };
   }, []);
 
-  useEffect(() => {
+  const loadProvinces = async () => {
+    setIsLoadingProvinces(true);
+    setProvincesError(null);
     try {
-      const saved = localStorage.getItem('user_location');
-      if (saved) setSelectedLocation(saved);
-    } catch {
-      // ignore
+      const data = await checkoutService.getProvinces();
+      setProvinces(data);
+      return data;
+    } catch (err: any) {
+      console.error('Lỗi khi tải danh sách tỉnh thành:', err);
+      setProvincesError('Không thể kết nối máy chủ để lấy danh sách tỉnh/thành.');
+      return null;
+    } finally {
+      setIsLoadingProvinces(false);
     }
+  };
+
+  useEffect(() => {
+    let isMounted = true;
+    async function initLocation() {
+      let currentLoc: LocationProvince | null = null;
+      try {
+        const savedInfo = localStorage.getItem('user_location_info');
+        if (savedInfo) {
+          const parsed = JSON.parse(savedInfo);
+          if (parsed && typeof parsed.code === 'string' && typeof parsed.name === 'string') {
+            currentLoc = parsed;
+          }
+        } else {
+          const legacyName = localStorage.getItem('user_location');
+          if (legacyName) {
+            currentLoc = { code: '', name: legacyName };
+          }
+        }
+      } catch {
+        // ignore
+      }
+
+      setIsLoadingProvinces(true);
+      setProvincesError(null);
+      try {
+        const list = await checkoutService.getProvinces();
+        if (!isMounted) return;
+        setProvinces(list);
+
+        // Kiểm tra xem người dùng có đăng nhập và có địa chỉ mặc định không
+        const currentUser = authService.getCurrentUser();
+        let defaultAddrProvince: string | null = null;
+        if (currentUser) {
+          try {
+            const addresses = await accountService.getAddresses();
+            const def = addresses.find((a) => a.isDefault);
+            if (def && def.province) {
+              defaultAddrProvince = def.province;
+            }
+          } catch {
+            // ignore
+          }
+        }
+
+        // 1. Ưu tiên địa chỉ mặc định tài khoản nếu có và hợp lệ
+        if (defaultAddrProvince) {
+          const normDef = normalizeVietnamese(defaultAddrProvince);
+          const matchedByAccount = list.find((p) => {
+            const pNorm = normalizeVietnamese(p.name);
+            return pNorm === normDef || pNorm.includes(normDef) || normDef.includes(pNorm);
+          });
+          if (matchedByAccount) {
+            setSelectedProvince(matchedByAccount);
+            localStorage.setItem('user_location_info', JSON.stringify({ code: matchedByAccount.code, name: matchedByAccount.name }));
+            localStorage.setItem('user_location', matchedByAccount.name);
+            return;
+          }
+        }
+
+        // 2. Khôi phục từ localStorage nếu code/tên hợp lệ trong danh sách API
+        if (currentLoc) {
+          let matched: LocationProvince | undefined;
+          if (currentLoc.code) {
+            matched = list.find((p) => p.code === currentLoc.code);
+          }
+          if (!matched && currentLoc.name) {
+            const normName = normalizeVietnamese(currentLoc.name);
+            matched = list.find((p) => {
+              const pNorm = normalizeVietnamese(p.name);
+              return pNorm === normName || pNorm.includes(normName) || normName.includes(pNorm);
+            });
+          }
+          if (matched) {
+            setSelectedProvince(matched);
+            localStorage.setItem('user_location_info', JSON.stringify({ code: matched.code, name: matched.name }));
+            localStorage.setItem('user_location', matched.name);
+            return;
+          }
+        }
+
+        // 3. Mặc định Thành phố Hồ Chí Minh (code: "79")
+        const defaultHCM = list.find((p) => p.code === '79') || list[0];
+        if (defaultHCM) {
+          setSelectedProvince(defaultHCM);
+          localStorage.setItem('user_location_info', JSON.stringify({ code: defaultHCM.code, name: defaultHCM.name }));
+          localStorage.setItem('user_location', defaultHCM.name);
+        }
+      } catch (err: any) {
+        console.error('Lỗi khi nạp dữ liệu tỉnh/thành:', err);
+        if (isMounted) {
+          setProvincesError('Không thể kết nối máy chủ để lấy danh sách tỉnh/thành.');
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoadingProvinces(false);
+        }
+      }
+    }
+
+    initLocation();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   useEffect(() => {
@@ -607,19 +770,34 @@ export const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleSelectLocation = (province: string) => {
-    setSelectedLocation(province);
+  const handleSelectLocation = (province: LocationProvince) => {
+    setSelectedProvince(province);
     try {
-      localStorage.setItem('user_location', province);
+      localStorage.setItem('user_location_info', JSON.stringify({ code: province.code, name: province.name }));
+      localStorage.setItem('user_location', province.name);
     } catch {
       // ignore
     }
+
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(
+        new CustomEvent('location_changed', {
+          detail: { code: province.code, name: province.name },
+        })
+      );
+    }
+
     setIsLocationOpen(false);
     setLocationSearch('');
   };
 
-  const filteredProvinces = PROVINCES.filter((p) =>
-    p.toLowerCase().includes(locationSearch.toLowerCase().trim())
+  const handleRetryLoadProvinces = async () => {
+    clearProvincesCache();
+    await loadProvinces();
+  };
+
+  const filteredProvinces = provinces.filter((p) =>
+    matchesLocationSearch(p, locationSearch)
   );
 
   const handleMouseEnterCategory = () => {
@@ -754,6 +932,44 @@ export const Navbar: React.FC = () => {
 
   return (
     <>
+      {/* 1. TOP MARQUEE ANNOUNCEMENT BAR (TỰ DI CHUYỂN, KHÔNG ẤN ĐƯỢC) */}
+      <div className={styles.topAnnouncementBar} aria-hidden="true">
+        <div className={styles.marqueeTrack}>
+          {[1, 2].map((loopIdx) => (
+            <React.Fragment key={loopIdx}>
+              <span className={styles.marqueeItem}>
+                <Zap size={12} color="#fef08a" />
+                <span>Lên đời tiết kiệm</span>
+              </span>
+              <span className={styles.marqueeDot}>•</span>
+              <span className={styles.marqueeItem}>
+                <Award size={12} color="#93c5fd" />
+                <span>Sản phẩm <strong>Chính hãng - Xuất VAT đầy đủ</strong></span>
+              </span>
+              <span className={styles.marqueeDot}>•</span>
+              <span className={styles.marqueeItem}>
+                <Truck size={12} color="#86efac" />
+                <span><strong>Giao nhanh - Miễn phí</strong> cho đơn 300k</span>
+              </span>
+              <span className={styles.marqueeDot}>•</span>
+              <span className={styles.marqueeItem}>
+                <RotateCcw size={12} color="#fca5a5" />
+                <span><strong>Thu cũ giá ngon</strong> - Trợ giá tốt nhất</span>
+              </span>
+              <span className={styles.marqueeDot}>•</span>
+              <span className={styles.marqueeItem}>
+                <span>🛡️ Bảo hành 12 tháng 1 đổi 1</span>
+              </span>
+              <span className={styles.marqueeDot}>•</span>
+              <span className={styles.marqueeItem}>
+                <span>💳 Trả góp 0% lãi suất qua thẻ tín dụng</span>
+              </span>
+              <span className={styles.marqueeDot}>•</span>
+            </React.Fragment>
+          ))}
+        </div>
+      </div>
+
       <header 
         className={`${styles.navHeader} ${isDropdownOpen || isSearchOpen || isBagOpen || isCategoryOpen || isLocationOpen || scrolled ? styles.navHeaderActive : ''}`}
         onMouseLeave={handleMouseLeaveNav}
@@ -762,10 +978,10 @@ export const Navbar: React.FC = () => {
         <div className={styles.navContainer}>
           {/* Logo & Category Button Group */}
           <div className={styles.navLeft}>
-            {/* Apple Logo */}
+            {/* TruongStore Logo */}
             <Link 
               href="/" 
-              className={styles.navLogo}
+              className={styles.cpsLogo}
               onMouseEnter={() => {
                 setActiveCategory(null);
                 setIsCategoryOpen(false);
@@ -773,11 +989,17 @@ export const Navbar: React.FC = () => {
                 setIsBagOpen(false);
                 setIsSearchOpen(false);
               }}
-              aria-label="Apple Home"
+              aria-label="TruongStore Trang chủ"
             >
-              <svg height="17" viewBox="0 0 17 21" width="14" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                <path d="m15.575 12.308c.036 3.123 2.76 4.167 2.79 4.18-.024.08-.435 1.5-1.434 2.966-.864 1.266-1.763 2.529-3.178 2.555-1.391.026-1.84-.827-3.433-.827-1.594 0-2.09.801-3.411.853-1.368.052-2.414-1.37-3.284-2.628-1.78-2.57-3.14-7.262-1.31-10.444 0.908-1.579 2.534-2.579 4.312-2.605 1.343-.026 2.61.908 3.433.908.823 0 2.362-1.121 3.98-0.954.678.028 2.585.273 3.808 2.065-.098.06-2.274 1.325-2.25 3.431zM11.59 3.468c.613-.743 1.027-1.777.914-2.812-.884.036-1.95.589-2.585 1.332-.569.658-.96 1.714-.827 2.724 0.985.076 1.986-.501 2.498-1.244z"/>
-              </svg>
+              <div className={styles.logoBadge}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={styles.logoSvg}>
+                  <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="#0071e3" />
+                  <path d="M2 17L12 22L22 17" stroke="#0071e3" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M2 12L12 17L22 12" stroke="#0071e3" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                <span className={styles.logoText}>Truong</span>
+                <span className={styles.logoS}>Store</span>
+              </div>
             </Link>
 
             {/* Khối nút Danh mục & Chi nhánh (cách logo thoáng hơn) */}
@@ -910,31 +1132,47 @@ export const Navbar: React.FC = () => {
                     setIsSearchOpen(false);
                     setIsBagOpen(false);
                   }}
+                  title={selectedProvince.name}
                 >
                   <MapPin size={15} strokeWidth={2.4} />
-                  <span>{selectedLocation}</span>
+                  <span>{selectedProvince.name.replace(/^Thành phố\s+/i, 'TP. ')}</span>
                   <ChevronDown size={14} strokeWidth={2.4} className={`${styles.locationChevron} ${isLocationOpen ? styles.locationChevronRotated : ''}`} />
                 </button>
 
                 {/* Modal / Dropdown chọn Tỉnh Thành */}
                 {isLocationOpen && (
-                  <div className={styles.locationDropdown}>
+                  <div className={styles.locationDropdown} role="dialog" aria-modal="true" aria-label="Chọn tỉnh thành">
                     <div className={styles.locationHeaderBar}>
                       <div className={styles.locationSearchBox}>
-                        <Search size={15} />
+                        <Search size={15} className={styles.locationSearchIcon} />
                         <input 
                           type="text"
-                          placeholder="Nhập tên tỉnh thành..."
+                          placeholder="Tìm tỉnh, thành phố (VD: ha noi, hcm)..."
                           value={locationSearch}
                           onChange={(e) => setLocationSearch(e.target.value)}
                           className={styles.locationSearchInput}
                           autoFocus
+                          aria-label="Tìm kiếm tỉnh thành"
                         />
+                        {locationSearch && (
+                          <button
+                            type="button"
+                            onClick={() => setLocationSearch('')}
+                            className={styles.locationSearchClear}
+                            aria-label="Xóa từ khóa tìm kiếm"
+                          >
+                            <X size={13} />
+                          </button>
+                        )}
                       </div>
                       <button 
                         type="button" 
                         className={styles.locationCloseBtn}
-                        onClick={() => setIsLocationOpen(false)}
+                        onClick={() => {
+                          setIsLocationOpen(false);
+                          setLocationSearch('');
+                        }}
+                        aria-label="Đóng popup chọn tỉnh thành"
                       >
                         Đóng <X size={15} />
                       </button>
@@ -942,25 +1180,75 @@ export const Navbar: React.FC = () => {
 
                     <div className={styles.locationBody}>
                       <p className={styles.locationSubtitle}>
-                        Vui lòng chọn tỉnh, thành phố để biết chính xác giá, khuyến mãi và tồn kho
+                        Vui lòng chọn tỉnh, thành phố để đồng bộ khu vực mua sắm & dịch vụ
                       </p>
 
-                      <div className={styles.locationGrid}>
-                        {filteredProvinces.map((prov) => {
-                          const isSelected = prov === selectedLocation;
-                          return (
-                            <button
-                              key={prov}
-                              type="button"
-                              className={`${styles.locationItem} ${isSelected ? styles.locationItemActive : ''}`}
-                              onClick={() => handleSelectLocation(prov)}
-                            >
-                              <span>{prov}</span>
-                              {isSelected && <Check size={14} strokeWidth={2.8} className={styles.locationCheckIcon} />}
-                            </button>
-                          );
-                        })}
-                      </div>
+                      {/* Loading State (Skeleton) */}
+                      {isLoadingProvinces && (
+                        <div className={styles.locationSkeletonGrid}>
+                          {Array.from({ length: 8 }).map((_, i) => (
+                            <div key={i} className={styles.locationSkeletonItem}>
+                              <div className={styles.skeletonText} />
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Error State */}
+                      {!isLoadingProvinces && provincesError && (
+                        <div className={styles.locationErrorBox}>
+                          <AlertCircle size={22} className={styles.errorIcon} />
+                          <p className={styles.errorMsg}>{provincesError}</p>
+                          <button
+                            type="button"
+                            className={styles.retryBtn}
+                            onClick={handleRetryLoadProvinces}
+                          >
+                            <RotateCcw size={14} />
+                            <span>Thử lại</span>
+                          </button>
+                        </div>
+                      )}
+
+                      {/* Empty State */}
+                      {!isLoadingProvinces && !provincesError && filteredProvinces.length === 0 && (
+                        <div className={styles.locationEmptyBox}>
+                          <Search size={24} className={styles.emptyIcon} />
+                          <p className={styles.emptyMsg}>
+                            Không tìm thấy tỉnh/thành phố phù hợp với từ khóa <strong>"{locationSearch}"</strong>
+                          </p>
+                          <button
+                            type="button"
+                            className={styles.clearSearchBtn}
+                            onClick={() => setLocationSearch('')}
+                          >
+                            Xóa bộ lọc tìm kiếm
+                          </button>
+                        </div>
+                      )}
+
+                      {/* Danh sách 34 tỉnh/thành (2 cột Desktop / 1 cột Mobile) */}
+                      {!isLoadingProvinces && !provincesError && filteredProvinces.length > 0 && (
+                        <div className={styles.locationGrid}>
+                          {filteredProvinces.map((prov) => {
+                            const isSelected = prov.code === selectedProvince.code;
+                            return (
+                              <button
+                                key={prov.code}
+                                type="button"
+                                className={`${styles.locationItem} ${isSelected ? styles.locationItemActive : ''}`}
+                                onClick={() => handleSelectLocation(prov)}
+                                title={prov.name}
+                              >
+                                <span className={styles.locationItemName}>{prov.name}</span>
+                                {isSelected && (
+                                  <Check size={15} strokeWidth={2.8} className={styles.locationCheckIcon} />
+                                )}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}
@@ -968,72 +1256,290 @@ export const Navbar: React.FC = () => {
             </div>
           </div>
 
-          {/* Desktop Nav Items */}
-          <nav className={styles.desktopNav} aria-label="Global Navigation">
-            {NAV_CATEGORIES.map((cat) => (
-              <Link
-                key={cat.id}
-                href={cat.href}
-                onMouseEnter={() => handleMouseEnterItem(cat.id)}
-                className={`${styles.navItem} ${activeCategory === cat.id ? styles.navItemActive : ''}`}
-              >
-                {cat.name}
-              </Link>
-            ))}
-          </nav>
-
-          {/* Right Actions (Search & Bag) */}
-          <div className={styles.actionIcons}>
-            {/* Search Button */}
-            <button
-              onClick={() => {
-                setIsSearchOpen(!isSearchOpen);
-                setIsBagOpen(false);
-                setIsUserMenuOpen(false);
-                setActiveCategory(null);
-              }}
-              className={styles.iconButton}
-              aria-label="Tìm kiếm"
-            >
-              <Search size={15} strokeWidth={2.2} />
-            </button>
-
-            {/* Bag Button */}
-            <button
-              onClick={() => {
-                setIsBagOpen(!isBagOpen);
-                setIsSearchOpen(false);
-                setIsUserMenuOpen(false);
-                setActiveCategory(null);
-              }}
-              className={styles.iconButton}
-              style={{ position: 'relative' }}
-              aria-label="Giỏ hàng"
-            >
-              <ShoppingBag size={15} strokeWidth={2.2} />
-              {cartCount > 0 && (
-                <span
-                  style={{
-                    position: 'absolute',
-                    top: '-4px',
-                    right: '-4px',
-                    background: '#d70018',
-                    color: '#ffffff',
-                    borderRadius: '9999px',
-                    fontSize: '10px',
-                    fontWeight: 'bold',
-                    minWidth: '15px',
-                    height: '15px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: '0 3px',
-                  }}
+          {/* KHUNG TÌM KIẾM TRỰC TIẾP & POPOVER ĐỀ XUẤT THEO Ý ADMIN (CHUẨN IMAGE 1 & 3) */}
+          <div className={styles.searchWrapper} ref={searchContainerRef}>
+            <form onSubmit={handleSearchSubmit} className={styles.searchBox}>
+              <Search size={16} className={styles.searchIcon} />
+              <input
+                type="text"
+                className={styles.searchInput}
+                placeholder="Bạn muốn mua gì hôm nay?"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onFocus={() => {
+                  setIsSearchOpen(true);
+                  setIsCategoryOpen(false);
+                  setIsLocationOpen(false);
+                  setIsBagOpen(false);
+                  setIsUserMenuOpen(false);
+                }}
+                aria-label="Tìm kiếm sản phẩm"
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  className={styles.searchClearBtn}
+                  onClick={() => setSearchQuery('')}
+                  aria-label="Xóa nội dung tìm kiếm"
                 >
-                  {cartCount}
-                </span>
+                  <X size={14} />
+                </button>
               )}
-            </button>
+            </form>
+
+            {/* POPOVER TÌM KIẾM ĐỀ XUẤT DO ADMIN QUẢN LÝ (CHUẨN IMAGE 3) */}
+            {isSearchOpen && (
+              <div className={styles.searchPopover}>
+                {/* 1. Banner Chiến Dịch Hot Của Admin */}
+                {ADMIN_SEARCH_CONFIG.banner && (
+                  <div
+                    className={styles.adminSearchBanner}
+                    onClick={() => handleSelectTrendingItem(ADMIN_SEARCH_CONFIG.banner.targetQuery, ADMIN_SEARCH_CONFIG.banner.href)}
+                  >
+                    <div className={styles.adminBannerLeft}>
+                      <img
+                        src={ADMIN_SEARCH_CONFIG.banner.imageUrl}
+                        alt="Promo"
+                        className={styles.adminBannerImg}
+                      />
+                      <div className={styles.adminBannerInfo}>
+                        <span className={styles.adminBannerTitle}>
+                          {ADMIN_SEARCH_CONFIG.banner.title}
+                        </span>
+                        <span className={styles.adminBannerSub}>
+                          {ADMIN_SEARCH_CONFIG.banner.subtitle}
+                        </span>
+                      </div>
+                    </div>
+                    <span className={styles.adminBannerCta}>
+                      {ADMIN_SEARCH_CONFIG.banner.ctaText}
+                    </span>
+                  </div>
+                )}
+
+                {/* 2. Tiêu Đề Xu Hướng Tìm Kiếm */}
+                <div className={styles.searchTrendingHeader}>
+                  <Flame size={15} color="#f97316" />
+                  <span>{ADMIN_SEARCH_CONFIG.trendingTitle || 'Xu hướng tìm kiếm'}</span>
+                </div>
+
+                {/* 3. Lưới 2 Cột Các Từ Khóa / Sản Phẩm Đề Xuất Của Admin */}
+                <div className={styles.searchTrendingGrid}>
+                  {ADMIN_SEARCH_CONFIG.trendingItems.map((item) => (
+                    <div
+                      key={item.id}
+                      className={styles.searchTrendingItem}
+                      onClick={() => handleSelectTrendingItem(item.query || item.name, item.href)}
+                    >
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className={styles.searchTrendingImg}
+                        loading="lazy"
+                        onError={(e) => {
+                          (e.currentTarget as HTMLImageElement).src = 'https://res.cloudinary.com/c7w3ycu9/image/upload/w_100,h_100,c_pad,b_white,q_auto,f_auto/v1793711824/products/iphone-17-pro-256-gb.webp';
+                        }}
+                      />
+                      <span className={styles.searchTrendingName}>{item.name}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Right Actions (Bag & User) */}
+          <div className={styles.actionIcons}>
+            {/* Bag Button & Interactive Dropdown */}
+            <div className={styles.bagWrapper}>
+              <button
+                onClick={() => {
+                  setIsBagOpen(!isBagOpen);
+                  setIsSearchOpen(false);
+                  setIsUserMenuOpen(false);
+                  setActiveCategory(null);
+                }}
+                className={styles.bagButton}
+                aria-label="Giỏ hàng"
+              >
+                <span className={`${styles.bagIcon} ${isCartBumping ? styles.bagIconWiggle : ''}`}>
+                  <ShoppingBag size={16} strokeWidth={2.2} />
+                </span>
+                <span className={styles.bagLabelText}>Giỏ hàng</span>
+                {cartCount > 0 && (
+                  <span
+                    key={cartCount}
+                    className={`${styles.cartBadge} ${isCartBumping ? styles.cartBadgeBump : ''}`}
+                  >
+                    {cartCount}
+                  </span>
+                )}
+                {isCartBumping && (
+                  <>
+                    <span className={styles.cartPulseRing} aria-hidden="true" />
+                    <span className={styles.floatingPlusCount} aria-hidden="true">
+                      +{addedCartDiff > 0 ? addedCartDiff : 1}
+                    </span>
+                  </>
+                )}
+              </button>
+
+              {/* Interactive Mini Cart Popover Panel */}
+              {isBagOpen && (
+                <div className={styles.bagDropdown} onClick={(e) => e.stopPropagation()}>
+                  {/* Header */}
+                  <div className={styles.bagHeader}>
+                    <div className={styles.bagHeaderLeft}>
+                      <div className={styles.bagHeaderIconWrap}>
+                        <ShoppingBag size={15} strokeWidth={2.4} />
+                      </div>
+                      <span className={styles.bagHeaderTitle}>Giỏ hàng của bạn</span>
+                      {cartCount > 0 && (
+                        <span className={styles.bagHeaderBadge}>{cartCount} sản phẩm</span>
+                      )}
+                    </div>
+                    <button
+                      type="button"
+                      className={styles.bagCloseBtn}
+                      onClick={() => setIsBagOpen(false)}
+                      aria-label="Đóng"
+                    >
+                      <X size={15} />
+                    </button>
+                  </div>
+
+                  {/* Body */}
+                  {cartItems.length === 0 ? (
+                    <div className={styles.bagEmptyState}>
+                      <div className={styles.bagEmptyIcon}>
+                        <ShoppingBag size={34} strokeWidth={1.5} />
+                      </div>
+                      <p className={styles.bagEmptyTitle}>Giỏ hàng của bạn đang trống</p>
+                      <p className={styles.bagEmptyDesc}>
+                        Hãy khám phá hàng ngàn siêu phẩm công nghệ với ưu đãi hấp dẫn hôm nay!
+                      </p>
+                      <Link
+                        href="/category/phone-tablet"
+                        className={styles.bagEmptyBtn}
+                        onClick={() => setIsBagOpen(false)}
+                      >
+                        Khám phá sản phẩm
+                      </Link>
+                      <Link
+                        href="/orders"
+                        className={styles.bagOrdersLink}
+                        onClick={() => setIsBagOpen(false)}
+                      >
+                        <Clock size={13} />
+                        <span>Xem đơn hàng đã mua</span>
+                      </Link>
+                    </div>
+                  ) : (
+                    <>
+                      {/* Scrollable Items List */}
+                      <div className={styles.bagItemsList}>
+                        {cartItems.map((item) => (
+                          <div key={item.variantId || item.cartItemId} className={styles.bagItemRow}>
+                            <Link
+                              href={item.slug ? `/products/${item.slug}` : '/cart'}
+                              className={styles.bagItemImageWrap}
+                              onClick={() => setIsBagOpen(false)}
+                            >
+                              <img
+                                src={item.imageUrl || '/placeholder.png'}
+                                alt={item.name}
+                                className={styles.bagItemImage}
+                                onError={(e) => {
+                                  (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=100&q=80';
+                                }}
+                              />
+                            </Link>
+
+                            <div className={styles.bagItemInfo}>
+                              <Link
+                                href={item.slug ? `/products/${item.slug}` : '/cart'}
+                                className={styles.bagItemName}
+                                title={item.name}
+                                onClick={() => setIsBagOpen(false)}
+                              >
+                                {item.name}
+                              </Link>
+
+                              {item.attributes && Object.values(item.attributes).filter(Boolean).length > 0 && (
+                                <div className={styles.bagItemVariantPill}>
+                                  {Object.values(item.attributes).filter(Boolean).join(' • ')}
+                                </div>
+                              )}
+
+                              <div className={styles.bagItemPriceRow}>
+                                <span className={styles.bagItemPrice}>
+                                  {item.price ? item.price.toLocaleString('vi-VN') + '₫' : '0₫'}
+                                </span>
+                                <span className={styles.bagItemQty}>x{item.quantity}</span>
+                              </div>
+                            </div>
+
+                            <button
+                              type="button"
+                              className={styles.bagItemRemoveBtn}
+                              title="Xóa sản phẩm"
+                              aria-label={`Xóa ${item.name}`}
+                              onClick={async (e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                if (item.variantId) {
+                                  await removeItem(item.variantId);
+                                }
+                              }}
+                            >
+                              <Trash2 size={13} />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Footer */}
+                      <div className={styles.bagFooter}>
+                        {/* Free Shipping Hint */}
+                        <div className={styles.bagShippingHint}>
+                          <span className={styles.bagShippingIcon}>🚚</span>
+                          <span>Miễn phí giao hàng cho đơn từ <strong>300.000₫</strong></span>
+                        </div>
+
+                        {/* Subtotal */}
+                        <div className={styles.bagSubtotalRow}>
+                          <span className={styles.bagSubtotalLabel}>Tạm tính:</span>
+                          <span className={styles.bagSubtotalValue}>
+                            {cartSubtotal.toLocaleString('vi-VN')}₫
+                          </span>
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className={styles.bagActions}>
+                          <Link
+                            href="/cart"
+                            className={styles.bagCheckoutBtn}
+                            onClick={() => setIsBagOpen(false)}
+                          >
+                            <span>Xem chi tiết giỏ hàng</span>
+                            <ChevronRight size={15} strokeWidth={2.4} />
+                          </Link>
+
+                          <Link
+                            href="/orders"
+                            className={styles.bagOrdersLink}
+                            onClick={() => setIsBagOpen(false)}
+                          >
+                            <Clock size={13} />
+                            <span>Xem đơn hàng đã mua</span>
+                          </Link>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
 
             {/* User / Login / Admin Button */}
             {currentUser ? (
@@ -1094,11 +1600,12 @@ export const Navbar: React.FC = () => {
             ) : (
               <Link
                 href="/login"
-                className={styles.iconButton}
+                className={styles.loginNavBtn}
                 aria-label="Đăng nhập"
                 title="Đăng nhập tài khoản"
               >
-                <User size={15} strokeWidth={2.2} />
+                <span>Đăng nhập</span>
+                <CircleUser size={16} strokeWidth={2.2} />
               </Link>
             )}
 
@@ -1149,102 +1656,6 @@ export const Navbar: React.FC = () => {
             ))}
           </div>
         </div>
-
-        {/* Interactive Search Overlay */}
-        {isSearchOpen && (
-          <div className={styles.searchDropdown}>
-            <div style={{ maxWidth: '640px', margin: '0 auto', padding: '0 20px' }}>
-              <div 
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '12px',
-                  borderBottom: '2px solid #0066cc',
-                  paddingBottom: '8px',
-                }}
-              >
-                <Search size={20} color="#0066cc" />
-                <input
-                  type="text"
-                  placeholder="Tìm kiếm apple.com hoặc hỗ trợ..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  autoFocus
-                  style={{
-                    width: '100%',
-                    border: 'none',
-                    outline: 'none',
-                    fontSize: '18px',
-                    fontWeight: 500,
-                    background: 'transparent',
-                    color: '#1d1d1f'
-                  }}
-                />
-                <button 
-                  onClick={() => setIsSearchOpen(false)}
-                  style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(0,0,0,0.5)' }}
-                >
-                  <X size={20} />
-                </button>
-              </div>
-
-              {/* Quick Links in Search */}
-              <div style={{ marginTop: '24px' }}>
-                <div style={{ fontSize: '12px', color: 'rgba(0,0,0,0.48)', marginBottom: '12px', fontWeight: 500 }}>
-                  Liên kết nhanh
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  {['Tìm cửa hàng Apple Store', 'Phụ kiện cho iPhone 15 Pro', 'Apple Trade In', 'Hỗ trợ AppleCare+'].map((text, i) => (
-                    <Link 
-                      key={i} 
-                      href="#" 
-                      onClick={() => setIsSearchOpen(false)}
-                      style={{ 
-                        fontSize: '14px', 
-                        color: '#1d1d1f', 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        gap: '8px',
-                        padding: '4px 0'
-                      }}
-                    >
-                      <ChevronRight size={14} color="#0066cc" />
-                      <span>{text}</span>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Interactive Shopping Bag Dropdown */}
-        {isBagOpen && (
-          <div className={styles.bagDropdown}>
-            <div style={{ textAlign: 'center', padding: '16px 0', color: 'rgba(0,0,0,0.8)', fontSize: '14px', fontWeight: 600 }}>
-              {cartCount > 0
-                ? `Giỏ hàng của bạn (${cartCount} sản phẩm)`
-                : 'Giỏ hàng của bạn đang trống.'}
-            </div>
-            <div style={{ borderTop: '1px solid rgba(0,0,0,0.08)', paddingTop: '14px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              <Link 
-                href="/cart" 
-                style={{ fontSize: '13px', color: '#d70018', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '6px' }}
-                onClick={() => setIsBagOpen(false)}
-              >
-                <ShoppingBag size={14} />
-                <span>Vào Xem Giỏ Hàng</span>
-              </Link>
-              <Link 
-                href="/orders" 
-                style={{ fontSize: '13px', color: '#0066cc', display: 'flex', alignItems: 'center', gap: '6px' }}
-                onClick={() => setIsBagOpen(false)}
-              >
-                <span>Đơn Hàng Đã Mua</span>
-              </Link>
-            </div>
-          </div>
-        )}
 
         {/* Mobile Vertical Navigation Overlay */}
         {isMobileMenuOpen && (

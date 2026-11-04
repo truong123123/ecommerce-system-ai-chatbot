@@ -354,26 +354,97 @@ class ToolsUnitTest {
         assertThat(result.getResultJson()).doesNotContain("0987654321");
     }
 
+    @Test
+    @DisplayName("B1: get_order_status: LLM cố truyền thêm customerId/customer_id trong args thì bị bỏ qua")
+    void getOrderStatus_spoofedCustomerIdInArgs_ignored() {
+        Customer alice = Customer.builder().customerId(10L).email("alice@store.com").build();
+        Customer bob = Customer.builder().customerId(20L).email("bob@store.com").build();
+
+        Order bobsOrder = Order.builder()
+                .orderId(100L)
+                .orderCode("ORD-BOB-01")
+                .customer(bob)
+                .status(OrderStatus.confirmed)
+                .build();
+
+        when(orderRepository.findByOrderCode("ORD-BOB-01")).thenReturn(Optional.of(bobsOrder));
+
+        ChatContext aliceCtx = new ChatContext(alice);
+        // LLM cố giả mạo bằng cách truyền customerId=20 trong args
+        Map<String, Object> maliciousArgs = Map.of(
+                "orderId", "ORD-BOB-01",
+                "customerId", 20,
+                "customer_id", 20
+        );
+        ToolExecutionResult result = getOrderStatusTool.execute(maliciousArgs, aliceCtx);
+
+        // Tool phải bỏ qua customerId trong args và dựa vào aliceCtx, từ chối vì không phải đơn của Alice
+        assertThat(result.getResultJson()).contains("Không tìm thấy đơn hàng");
+    }
+
     // ==========================================
-    // 6. GetPolicyTool Tests
+    // 6. GetPolicyTool Tests (A3: Grounded Policies)
     // ==========================================
     @Test
-    @DisplayName("get_policy: lấy chính sách hợp lệ chứa đánh dấu TODO")
-    void getPolicy_validTopic_containsTodoMarker() {
+    @DisplayName("A3: get_policy: chủ đề hợp lệ trả về thông tin đã xác thực verified=true và source")
+    void getPolicy_validTopic_returnsVerifiedTrue() {
         ChatContext ctx = new ChatContext(null);
-        ToolExecutionResult result = getPolicyTool.execute(Map.of("topic", "warranty"), ctx);
+        ToolExecutionResult result = getPolicyTool.execute(Map.of("topic", "shipping"), ctx);
 
-        assertThat(result.getResultJson()).contains("bảo hành");
-        assertThat(result.getResultJson()).contains("TODO: chủ shop xác nhận");
+        assertThat(result.getResultJson()).contains("Chính sách vận chuyển");
+        assertThat(result.getResultJson()).contains("\"verified\":true");
+        assertThat(result.getResultJson()).contains("\"source\":");
     }
 
     @Test
-    @DisplayName("get_policy: chủ đề không hợp lệ trả về danh sách chủ đề được phép")
+    @DisplayName("A3: get_policy: chủ đề chưa có số liệu chi tiết trả về verified=false kèm hướng dẫn liên hệ")
+    void getPolicy_unverifiedTopic_returnsVerifiedFalse() {
+        ChatContext ctx = new ChatContext(null);
+        ToolExecutionResult result = getPolicyTool.execute(Map.of("topic", "installment"), ctx);
+
+        assertThat(result.getResultJson()).contains("Chính sách trả góp");
+        assertThat(result.getResultJson()).contains("\"verified\":false");
+        assertThat(result.getResultJson()).contains("liên hệ");
+    }
+
+    @Test
+    @DisplayName("A3: get_policy: chủ đề không hợp lệ trả về lỗi và verified=false")
     void getPolicy_invalidTopic_returnsError() {
         ChatContext ctx = new ChatContext(null);
         ToolExecutionResult result = getPolicyTool.execute(Map.of("topic", "tuyendung"), ctx);
 
         assertThat(result.getResultJson()).contains("Chủ đề không hợp lệ");
+        assertThat(result.getResultJson()).contains("\"verified\"");
+        assertThat(result.getResultJson()).contains("false");
         assertThat(result.getResultJson()).contains("warranty");
+    }
+
+    @Test
+    @DisplayName("A3: policies.vi.json không còn sót số liệu tự bịa (1.000.000, 2h, 0%)")
+    void policiesFile_containsNoInventedMetrics() throws Exception {
+        org.springframework.core.io.ClassPathResource resource = new org.springframework.core.io.ClassPathResource("chat/policies.vi.json");
+        String content = new String(resource.getInputStream().readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
+
+        assertThat(content).doesNotContain("1.000.000");
+        assertThat(content).doesNotContain("2h");
+        assertThat(content).doesNotContain("0%");
+    }
+
+    @Test
+    @DisplayName("A3: get_policy: ưu tiên đọc từ DB product_commitments trước khi fallback")
+    void getPolicy_readsFromDatabaseFirst() {
+        org.springframework.jdbc.core.JdbcTemplate mockJdbc = org.mockito.Mockito.mock(org.springframework.jdbc.core.JdbcTemplate.class);
+        when(mockJdbc.query(anyString(), any(org.springframework.jdbc.core.RowMapper.class), any(), any()))
+                .thenReturn(List.of("Bảo hành 1 đổi 1 trong 30 ngày"));
+
+        GetPolicyTool dbPolicyTool = new GetPolicyTool(objectMapper, mockJdbc);
+        dbPolicyTool.init();
+
+        ChatContext ctx = new ChatContext(null);
+        ToolExecutionResult result = dbPolicyTool.execute(Map.of("topic", "warranty"), ctx);
+
+        assertThat(result.getResultJson()).contains("database: table product_commitments");
+        assertThat(result.getResultJson()).contains("Bảo hành 1 đổi 1");
+        assertThat(result.getResultJson()).contains("\"verified\":true");
     }
 }

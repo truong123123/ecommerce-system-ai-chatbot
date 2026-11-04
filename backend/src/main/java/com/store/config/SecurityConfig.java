@@ -99,11 +99,32 @@ public class SecurityConfig {
                 // 4. Dashboard: Chỉ ADMIN, MANAGER, ACCOUNTANT
                 .requestMatchers("/dashboard/**").hasAnyRole("ADMIN", "MANAGER", "ACCOUNTANT")
 
-                // 5. Admin & Staff RBAC
-                .requestMatchers("/admin/**").hasAnyRole("ADMIN", "MANAGER", "SALES", "WAREHOUSE", "SUPPORT", "ACCOUNTANT")
+                // 5. Admin & Staff RBAC phân quyền chi tiết
+                // Kho vận & Chi nhánh: ADMIN, MANAGER, WAREHOUSE
+                .requestMatchers("/admin/inventory", "/admin/inventory/**",
+                        "/admin/stores", "/admin/stores/**").hasAnyRole("ADMIN", "MANAGER", "WAREHOUSE")
+                // Giao dịch thanh toán: ADMIN, MANAGER, ACCOUNTANT, SALES
+                .requestMatchers("/admin/payments", "/admin/payments/**").hasAnyRole("ADMIN", "MANAGER", "ACCOUNTANT", "SALES")
+                // Khách hàng CRM: ADMIN, MANAGER, SALES, SUPPORT
+                .requestMatchers("/admin/customers", "/admin/customers/**").hasAnyRole("ADMIN", "MANAGER", "SALES", "SUPPORT")
+                // Khuyến mãi & Flash Sale: ADMIN, MANAGER, SALES
+                .requestMatchers("/admin/flash-sales", "/admin/flash-sales/**", "/admin/flash-sale", "/admin/flash-sale/**").hasAnyRole("ADMIN", "MANAGER")
+                .requestMatchers("/admin/coupons", "/admin/coupons/**").hasAnyRole("ADMIN", "MANAGER", "SALES")
+                // Đánh giá & Hỗ trợ khách hàng: ADMIN, MANAGER, SUPPORT
+                .requestMatchers("/admin/reviews", "/admin/reviews/**",
+                        "/admin/support", "/admin/support/**").hasAnyRole("ADMIN", "MANAGER", "SUPPORT")
+                // Quản trị Nhân viên & Cấu hình hệ thống: Chỉ ADMIN
+                .requestMatchers("/admin/staff", "/admin/staff/**", "/admin/settings", "/admin/settings/**").hasRole("ADMIN")
+                // Showcase & Banners: ADMIN, MANAGER
+                .requestMatchers("/admin/category-showcase", "/admin/category-showcase/**",
+                        "/admin/laptop-showcase", "/admin/laptop-showcase/**",
+                        "/admin/watch-showcase", "/admin/watch-showcase/**",
+                        "/admin/banners", "/admin/banners/**").hasAnyRole("ADMIN", "MANAGER")
                 .requestMatchers(org.springframework.http.HttpMethod.POST, "/categories/**", "/brands/**", "/products/**", "/banners/**").hasAnyRole("ADMIN", "MANAGER")
                 .requestMatchers(org.springframework.http.HttpMethod.PUT, "/categories/**", "/brands/**", "/products/**", "/banners/**").hasAnyRole("ADMIN", "MANAGER")
                 .requestMatchers(org.springframework.http.HttpMethod.DELETE, "/categories/**", "/brands/**", "/products/**", "/banners/**").hasAnyRole("ADMIN", "MANAGER")
+                // Các endpoint admin chung: Tất cả vai trò nhân sự hợp lệ
+                .requestMatchers("/admin", "/admin/**").hasAnyRole("ADMIN", "MANAGER", "SALES", "WAREHOUSE", "SUPPORT", "ACCOUNTANT")
 
                 // 6. Mặc định: Yêu cầu xác thực (deny-by-default)
                 .anyRequest().authenticated();

@@ -62,6 +62,12 @@ public class GetOrderStatusTool implements ChatTool {
             return ToolExecutionResult.of("{\"error\": \"Mã đơn hàng không hợp lệ.\"}");
         }
 
+        // B1. Ràng buộc bảo mật: customerId LUÔN lấy từ ChatContext (xác thực từ SecurityContext),
+        // tuyệt đối không lấy từ tham số LLM hay body request.
+        if (args.containsKey("customerId") || args.containsKey("customer_id")) {
+            log.warn("Phát hiện tham số customerId/customer_id do LLM truyền vào, bỏ qua để bảo vệ dữ liệu.");
+        }
+
         Customer currentCustomer = ctx.getCurrentCustomer();
         Optional<Order> orderOpt = Optional.empty();
 

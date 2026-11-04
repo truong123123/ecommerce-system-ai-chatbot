@@ -4,8 +4,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.store.config.LlmProperties;
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
@@ -23,7 +24,7 @@ public class GeminiLlmClient implements LlmClient {
     private final RestClient restClient;
     private final ObjectMapper objectMapper;
 
-    @org.springframework.beans.factory.annotation.Autowired
+    @Autowired
     public GeminiLlmClient(LlmProperties properties, RestClient.Builder restClientBuilder, ObjectMapper objectMapper) {
         this(properties, restClientBuilder, objectMapper, true);
     }
@@ -51,6 +52,13 @@ public class GeminiLlmClient implements LlmClient {
         this.objectMapper = objectMapper;
     }
 
+    @PostConstruct
+    public void init() {
+        if (!properties.isConfigured()) {
+            log.warn("Chatbot chạy chế độ fallback: thiếu LLM_API_KEY/LLM_MODEL");
+        }
+    }
+
     @Override
     public String getProviderName() {
         return "gemini";
@@ -58,19 +66,26 @@ public class GeminiLlmClient implements LlmClient {
 
     @Override
     public LlmResponse generate(List<LlmMessage> messages, List<ToolDeclaration> tools) {
+        return generate(messages, tools, null);
+    }
+
+    @Override
+    public LlmResponse generate(List<LlmMessage> messages, List<ToolDeclaration> tools, String modelOverride) {
         if (!properties.hasApiKey()) {
             throw new LlmException("Gemini API key is not configured");
         }
 
-        String model = properties.getModel();
+        String model = (modelOverride != null && !modelOverride.isBlank())
+                ? modelOverride.trim()
+                : properties.getModel();
         if (model == null || model.isBlank()) {
-            model = "gemini-1.5-flash";
+            throw new LlmException("Gemini model is not configured");
         }
 
         Map<String, Object> payload = buildPayload(messages, tools);
 
         try {
-            String url = "/v1beta/models/" + model + ":generateContent";
+            String url = "/v1beta/models/" + model.trim() + ":generateContent";
 
             String responseBody = restClient.post()
                     .uri(url)
@@ -83,8 +98,26 @@ public class GeminiLlmClient implements LlmClient {
 
             return parseResponse(responseBody, model);
         } catch (RestClientResponseException e) {
-            log.error("Gemini API responded with error status {}: {}", e.getStatusCode(), e.getStatusText());
-            throw new LlmException("Gemini API returned error: " + e.getStatusCode(), e);
+            int statusCode = e.getStatusCode().value();
+            boolean isDailyQuota = false;
+            String errBody = "";
+            try {
+                errBody = e.getResponseBodyAsString();
+            } catch (Exception ignored) {
+            }
+
+            if (statusCode == 404 || statusCode == 400) {
+                log.error("Gemini API error (HTTP {}): Model '{}' không tồn tại hoặc tham số không hợp lệ. Chi tiết: {}", statusCode, model, errBody);
+            } else if (statusCode == 429) {
+                String lower = (errBody != null) ? errBody.toLowerCase() : "";
+                if (lower.contains("per day") || lower.contains("perday") || lower.contains("daily") || lower.contains("per_day") || (lower.contains("quota") && lower.contains("day"))) {
+                    isDailyQuota = true;
+                }
+                log.warn("Gemini API vượt quá hạn mức quota (HTTP 429, model={}, dailyQuota={}): {}", model, isDailyQuota, errBody);
+            } else {
+                log.error("Gemini API error (HTTP {}): {}", statusCode, e.getStatusText());
+            }
+            throw new LlmException("Gemini API returned error: " + statusCode, statusCode, isDailyQuota, e);
         } catch (LlmException e) {
             throw e;
         } catch (Exception e) {
@@ -126,100 +159,115 @@ public class GeminiLlmClient implements LlmClient {
                 if (msg.getContent() != null && !msg.getContent().isBlank()) {
                     parts.add(Map.of("text", msg.getContent()));
                 }
-                if (msg.getToolCalls() != null && !msg.getToolCalls().isEmpty()) {
+                if (msg.getToolCalls() != null) {
                     for (ToolCall tc : msg.getToolCalls()) {
-                        Map<String, Object> fnCall = new LinkedHashMap<>();
-                        fnCall.put("name", tc.getName());
-                        fnCall.put("args", tc.getArguments() != null ? tc.getArguments() : Collections.emptyMap());
-                        parts.add(Map.of("functionCall", fnCall));
+                        Map<String, Object> part = new LinkedHashMap<>();
+                        Map<String, Object> fc = new LinkedHashMap<>();
+                        fc.put("name", tc.getName());
+                        fc.put("args", tc.getArguments() != null ? tc.getArguments() : Collections.emptyMap());
+                        if (tc.getCallId() != null) {
+                            fc.put("id", tc.getCallId());
+                        }
+                        part.put("functionCall", fc);
+                        if (tc.getThoughtSignature() != null) {
+                            part.put("thoughtSignature", tc.getThoughtSignature());
+                        }
+                        parts.add(part);
                     }
                 }
             } else if (msg.getRole() == LlmMessage.Role.TOOL) {
-                contentMap.put("role", "function");
-                ToolResult tr = msg.getToolResult();
-                if (tr != null) {
-                    Map<String, Object> fnResponse = new LinkedHashMap<>();
-                    fnResponse.put("name", tr.getName());
-                    // Đóng gói output dưới dạng JSON Object cho Gemini
-                    fnResponse.put("response", Map.of("output", tr.getContent() != null ? tr.getContent() : ""));
-                    parts.add(Map.of("functionResponse", fnResponse));
+                // Trong Gemini generateContent API, functionResponse nằm dưới role: "user"
+                contentMap.put("role", "user");
+                Map<String, Object> funcResponse = new LinkedHashMap<>();
+                String toolName = msg.getToolResult() != null ? msg.getToolResult().getName() : "";
+                String toolContent = msg.getToolResult() != null ? msg.getToolResult().getContent() : msg.getContent();
+                funcResponse.put("name", toolName);
+
+                Object responseObj;
+                try {
+                    responseObj = objectMapper.readValue(toolContent, new TypeReference<Map<String, Object>>() {});
+                } catch (Exception ex) {
+                    responseObj = Map.of("result", toolContent != null ? toolContent : "");
                 }
+                funcResponse.put("response", responseObj);
+                parts.add(Map.of("functionResponse", funcResponse));
             }
 
-            if (!parts.isEmpty()) {
-                contentMap.put("parts", parts);
-                contents.add(contentMap);
-            }
+            contentMap.put("parts", parts);
+            contents.add(contentMap);
         }
         payload.put("contents", contents);
 
-        // 3. Khai báo Tools (Function Declarations)
+        // 3. Khai báo danh sách Tools
         if (tools != null && !tools.isEmpty()) {
-            List<Map<String, Object>> funcDeclarations = new ArrayList<>();
-            for (ToolDeclaration td : tools) {
+            List<Map<String, Object>> functionDeclarations = new ArrayList<>();
+            for (ToolDeclaration tool : tools) {
                 Map<String, Object> decl = new LinkedHashMap<>();
-                decl.put("name", td.getName());
-                decl.put("description", td.getDescription() != null ? td.getDescription() : "");
-                if (td.getParameters() != null) {
-                    decl.put("parameters", td.getParameters());
+                decl.put("name", tool.getName());
+                decl.put("description", tool.getDescription());
+                if (tool.getParameters() != null) {
+                    decl.put("parameters", tool.getParameters());
                 }
-                funcDeclarations.add(decl);
+                functionDeclarations.add(decl);
             }
-            payload.put("tools", List.of(Map.of("functionDeclarations", funcDeclarations)));
+            payload.put("tools", List.of(Map.of("functionDeclarations", functionDeclarations)));
         }
 
         return payload;
     }
 
-    LlmResponse parseResponse(String responseJson, String model) {
-        if (responseJson == null || responseJson.isBlank()) {
-            throw new LlmException("Empty response received from Gemini");
-        }
-
+    LlmResponse parseResponse(String responseBody, String modelName) {
         try {
-            JsonNode root = objectMapper.readTree(responseJson);
+            JsonNode root = objectMapper.readTree(responseBody);
             JsonNode candidates = root.path("candidates");
-            if (!candidates.isArray() || candidates.isEmpty()) {
-                log.warn("Gemini response has no candidates: {}", responseJson);
-                return LlmResponse.ofText("Xin lỗi, tôi không thể xử lý yêu cầu lúc này.", model);
+            if (candidates.isMissingNode() || !candidates.isArray() || candidates.isEmpty()) {
+                throw new LlmException("No candidates returned by Gemini API");
             }
 
-            JsonNode firstCandidate = candidates.get(0);
-            JsonNode parts = firstCandidate.path("content").path("parts");
-            if (!parts.isArray() || parts.isEmpty()) {
-                return LlmResponse.ofText("", model);
-            }
+            JsonNode candidate = candidates.get(0);
+            JsonNode content = candidate.path("content");
+            JsonNode parts = content.path("parts");
 
             StringBuilder textBuilder = new StringBuilder();
             List<ToolCall> toolCalls = new ArrayList<>();
 
-            for (JsonNode part : parts) {
-                if (part.has("text")) {
-                    textBuilder.append(part.get("text").asText());
-                }
-                if (part.has("functionCall")) {
-                    JsonNode fnCall = part.get("functionCall");
-                    String fnName = fnCall.path("name").asText();
-                    Map<String, Object> args = new HashMap<>();
-                    if (fnCall.has("args")) {
-                        args = objectMapper.convertValue(fnCall.get("args"), new TypeReference<Map<String, Object>>() {});
+            if (parts.isArray()) {
+                for (JsonNode part : parts) {
+                    if (part.has("text")) {
+                        textBuilder.append(part.get("text").asText());
                     }
-                    toolCalls.add(ToolCall.builder().name(fnName).arguments(args).build());
+                    if (part.has("functionCall")) {
+                        JsonNode fnCall = part.get("functionCall");
+                        String fnName = fnCall.path("name").asText();
+                        JsonNode argsNode = fnCall.path("args");
+                        Map<String, Object> args = objectMapper.convertValue(argsNode, new TypeReference<Map<String, Object>>() {});
+
+                        String thoughtSig = null;
+                        if (part.has("thoughtSignature")) {
+                            thoughtSig = part.path("thoughtSignature").asText();
+                        } else if (part.has("thought_signature")) {
+                            thoughtSig = part.path("thought_signature").asText();
+                        }
+
+                        String callId = fnCall.has("id") ? fnCall.path("id").asText() : null;
+
+                        toolCalls.add(ToolCall.builder()
+                                .name(fnName)
+                                .arguments(args)
+                                .thoughtSignature(thoughtSig)
+                                .callId(callId)
+                                .build());
+                    }
                 }
             }
 
-            if (!toolCalls.isEmpty()) {
-                return LlmResponse.builder()
-                        .text(textBuilder.length() > 0 ? textBuilder.toString() : null)
-                        .toolCalls(toolCalls)
-                        .model(model)
-                        .build();
-            }
-
-            return LlmResponse.ofText(textBuilder.toString().trim(), model);
+            String text = textBuilder.toString().trim();
+            return new LlmResponse(text.isEmpty() ? null : text, toolCalls, modelName);
         } catch (Exception e) {
-            log.error("Failed to parse Gemini response: {}", e.getMessage());
-            throw new LlmException("Error parsing Gemini response: " + e.getMessage(), e);
+            if (e instanceof LlmException) {
+                throw (LlmException) e;
+            }
+            throw new LlmException("Failed to parse Gemini response: " + e.getMessage(), e);
         }
     }
 }

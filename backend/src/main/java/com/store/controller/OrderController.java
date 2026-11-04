@@ -37,7 +37,8 @@ public class OrderController {
                         || a.getAuthority().equalsIgnoreCase("ROLE_SALES")
                         || a.getAuthority().equalsIgnoreCase("ROLE_WAREHOUSE")
                         || a.getAuthority().equalsIgnoreCase("ROLE_SUPPORT")
-                        || a.getAuthority().equalsIgnoreCase("ROLE_MANAGER"));
+                        || a.getAuthority().equalsIgnoreCase("ROLE_MANAGER")
+                        || a.getAuthority().equalsIgnoreCase("ROLE_ACCOUNTANT"));
     }
 
     private Optional<Customer> getAuthenticatedCustomer(Authentication auth) {
@@ -78,7 +79,7 @@ public class OrderController {
                     .body(Map.of("message", "Vui lòng đăng nhập để xem thông tin đơn hàng."));
         }
 
-        Optional<Order> orderOpt = orderRepository.findById(id);
+        Optional<Order> orderOpt = orderRepository.findByIdWithItems(id).or(() -> orderRepository.findById(id));
         if (orderOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(Map.of("message", "Không tìm thấy đơn hàng với mã ID: " + id));
@@ -118,7 +119,7 @@ public class OrderController {
             return ResponseEntity.badRequest().body(Map.of("message", "Thiếu trạng thái status"));
         }
 
-        Optional<Order> orderOpt = orderRepository.findById(id);
+        Optional<Order> orderOpt = orderRepository.findByIdWithItems(id).or(() -> orderRepository.findById(id));
         if (orderOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(Map.of("message", "Không tìm thấy đơn hàng với mã ID: " + id));

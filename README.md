@@ -17,7 +17,8 @@ Ecommerce System AI Chatbot is a full-stack, production-grade e-commerce applica
 7. [API Endpoints Reference](#api-endpoints-reference)
 8. [Database Schema & Migrations](#database-schema--migrations)
 9. [Security Implementation](#security-implementation)
-10. [License](#license)
+10. [Quyền riêng tư của chatbot](#quyền-riêng-tư-của-chatbot-ai-chatbot-privacy--compliance)
+11. [License](#license)
 
 ---
 
@@ -321,6 +322,29 @@ Dự án cung cấp bộ công cụ script phục vụ kiểm thử và thao tá
 - **Password Hashing**: BCrypt hashing with configurable work factor.
 - **JWT Authentication**: Short-lived access tokens signed via HMAC SHA-256 keys.
 - **CORS Policy**: Configured to restrict origin requests exclusively to approved frontend domains.
+
+---
+
+## Quyền riêng tư của chatbot (AI Chatbot Privacy & Compliance)
+
+Để bảo vệ thông tin cá nhân và đảm bảo an toàn dữ liệu người dùng khi tương tác với Trợ lý AI (Google Gemini), hệ thống tuân thủ các quy định bảo mật:
+
+1. **Dữ liệu được lưu trữ**:
+   - Chỉ lưu trữ nội dung tin nhắn dạng văn bản trao đổi giữa người dùng và trợ lý AI trong bảng `chat_messages` nhằm phục vụ việc duy trì ngữ cảnh phiên hội thoại (tối đa 10 lượt gần nhất theo `session_id`).
+   - Tuyệt đối **KHÔNG lưu trữ payload chi tiết đơn hàng** (danh sách món, giá tiền, địa chỉ, SĐT người nhận) trả về từ tool `get_order_status` vào cơ sở dữ liệu: hệ thống chỉ ghi nhận tên tool đã gọi mà không lưu nội dung trả về.
+2. **Che dữ liệu cá nhân (PII Masking)**:
+   - Trước khi lưu vào bảng `chat_messages`, hệ thống tự động làm mờ thông tin cá nhân:
+     - Số điện thoại (`0xxxxxxxxx`, `+84...`) được thay thế bằng `[SĐT]`.
+     - Địa chỉ email được thay thế bằng `[EMAIL]`.
+   - Nội dung gốc chỉ được sử dụng tạm thời trong bộ nhớ của tiến trình xử lý request để gửi tới LLM.
+3. **Ẩn danh hóa địa chỉ IP**:
+   - Địa chỉ IP client không bao giờ được lưu dạng thô (plain text). Hệ thống băm địa chỉ IP bằng SHA-256 (`ip_hash`) trước khi lưu nhằm mục đích kiểm soát hạn mức tần suất (Rate Limiting) và chống tấn công brute-force.
+4. **Thời hạn lưu trữ và tự động dọn dẹp**:
+   - Dữ liệu hội thoại được lưu trữ tối đa trong **30 ngày** (cấu hình qua biến môi trường `CHAT_LOG_RETENTION_DAYS`).
+   - Tác vụ định kỳ tự động (`ChatLogRetentionScheduler`) chạy hàng ngày lúc 03:00 sáng để xóa sạch các bản ghi `chat_messages` cũ hơn số ngày cấu hình.
+5. **Lưu ý về gói dịch vụ LLM (Google AI Studio Free Tier)**:
+   - Khi sử dụng gói miễn phí của Google Gemini (Google AI Studio Free Tier), dữ liệu gửi lên API có thể được bên thứ ba sử dụng để cải thiện sản phẩm theo điều khoản của nhà cung cấp.
+   - **Khuyến cáo người dùng**: Tuyệt đối không nhập mật khẩu, mã OTP, số thẻ ngân hàng hoặc các dữ liệu bí mật cá nhân vào khung trò chuyện.
 
 ---
 

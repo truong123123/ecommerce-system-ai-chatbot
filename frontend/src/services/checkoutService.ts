@@ -21,6 +21,12 @@ export function redirectToLogin(fromPath: string = '/checkout'): string {
   return target;
 }
 
+let cachedProvinces: LocationProvince[] | null = null;
+
+export const clearProvincesCache = () => {
+  cachedProvinces = null;
+};
+
 export const checkoutService = {
   // 1. Lấy thông tin preview checkout
   async getPreview(variantIds: number[], quantities?: number[]): Promise<CheckoutPreviewData> {
@@ -63,9 +69,13 @@ export const checkoutService = {
     }
   },
 
-  // 4. Lấy danh sách tỉnh/thành
+  // 4. Lấy danh sách tỉnh/thành (Có cache bộ nhớ trong phiên làm việc)
   async getProvinces(): Promise<LocationProvince[]> {
+    if (cachedProvinces && cachedProvinces.length > 0) {
+      return cachedProvinces;
+    }
     const response = await apiClient.get<LocationProvince[]>('/locations/provinces');
+    cachedProvinces = response.data;
     return response.data;
   },
 

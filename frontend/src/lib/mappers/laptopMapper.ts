@@ -1,6 +1,7 @@
 import { ApiBanner, ApiProduct } from '../../types/showcase';
 import { LaptopBanner, LaptopProduct } from '../../types/laptop';
 import { LAPTOP_CONFIG } from '../../config/laptopShowcase';
+import { getCloudinaryTransformedUrl } from '../../utils/image';
 
 /**
  * Extracts human-readable technical specifications from variant attributes.
@@ -86,7 +87,7 @@ export function toLaptopProduct(api: ApiProduct): LaptopProduct {
     category: (api.categorySlug || 'laptop').toLowerCase(),
     image:
       api.primaryImage && api.primaryImage.trim() !== ''
-        ? api.primaryImage
+        ? getCloudinaryTransformedUrl(api.primaryImage)
         : LAPTOP_CONFIG.PLACEHOLDER_IMAGE,
     price,
     oldPrice,

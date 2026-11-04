@@ -86,6 +86,7 @@ export const ProductCard = memo(function ProductCard({
             className={styles.prodImage}
             loading={priority ? 'eager' : 'lazy'}
             priority={priority}
+            unoptimized={Boolean(imgSrc && imgSrc.startsWith('http'))}
             onError={() => setImgSrc(PLACEHOLDER_IMG)}
           />
         </div>

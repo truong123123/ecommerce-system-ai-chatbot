@@ -18,7 +18,7 @@
 }
 
 /* =======================================================
-   CỘT TRÁI: BANNER DỌC
+   CỘT TRÁI: BANNER DỌC NGUYÊN KHỐI
 ======================================================= */
 .bannerCol {
   width: 250px;
@@ -42,6 +42,7 @@
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   position: relative;
   display: flex;
+  flex-direction: column;
   text-decoration: none;
 }
 
@@ -54,14 +55,19 @@
   position: relative;
   width: 100%;
   height: 100%;
+  min-height: 100%;
+  flex: 1;
   overflow: hidden;
 }
 
 .posterImage {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: top center;
+  object-position: center;
   display: block;
   transition: transform 0.3s ease;
 }
@@ -476,4 +482,42 @@
   .productGrid {
     grid-template-columns: repeat(2, 1fr);
   }
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 20px;
+  background: #f9fafb;
+  border-radius: 12px;
+  border: 1px dashed #e5e7eb;
+  text-align: center;
+  gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.emptyTitle {
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.emptyBtn {
+  background: #d70018;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.emptyBtn:hover {
+  background: #b90015;
 }

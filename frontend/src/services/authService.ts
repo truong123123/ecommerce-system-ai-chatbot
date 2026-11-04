@@ -104,5 +104,13 @@ export const authService = {
     const user = this.getCurrentUser();
     return String(user?.role).toLowerCase() === 'admin';
   },
+
+  // Kiểm tra vai trò nhân viên (Staff) nói chung
+  isStaff(): boolean {
+    const user = this.getCurrentUser();
+    if (!user) return false;
+    const r = String(user.role).toLowerCase();
+    return ['admin', 'manager', 'sales', 'warehouse', 'support', 'accountant'].includes(r);
+  },
 };
 

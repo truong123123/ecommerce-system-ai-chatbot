@@ -1,5 +1,6 @@
 import { ApiBanner, ApiBrand, ApiProduct, Banner, BrandFilter, Product } from '../../types/showcase';
 import { SHOWCASE_CONFIG } from '../../config/showcase';
+import { getCloudinaryTransformedUrl } from '../../utils/image';
 
 /**
  * Pure mapper: Converts backend ApiProduct to frontend Product ViewModel.
@@ -38,7 +39,7 @@ export function toProduct(api: ApiProduct): Product {
     brandSlug: (api.brandName || '').toLowerCase().replace(/\s+/g, '-'),
     category,
     image: api.primaryImage && api.primaryImage.trim() !== ''
-      ? api.primaryImage
+      ? getCloudinaryTransformedUrl(api.primaryImage)
       : SHOWCASE_CONFIG.PLACEHOLDER_IMAGE,
     price,
     oldPrice,

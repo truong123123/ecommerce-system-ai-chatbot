@@ -29,5 +29,17 @@ vnpay:
 llm:
   provider: gemini
   api-key: test-api-key
-  model: gemini-1.5-flash
+  model: test-flash-model
+  connect-timeout-seconds: 3
+  read-timeout-seconds: 5
+  cooldown-seconds: 300
+  max-tool-rounds: 2
+  fallback-models: ""
+  log-retention-days: 30
+  rate-limit:
+    system-daily-limit: 200
+    system-minute-limit: 8
+    per-key-daily-limit: 30
+    per-key-minute-limit: 5
+
 

@@ -15,6 +15,7 @@ import {
   ProductReviewItem
 } from '../types/productDetail';
 import { API_BASE_URL } from '@/lib/env';
+import { getCloudinaryTransformedUrl } from '../utils/image';
 
 // Mapping friendly Vietnamese labels for technical specification keys
 const SPEC_KEY_LABELS: Record<string, string> = {
@@ -120,7 +121,7 @@ function mapBackendToFullDetail(data: any): FullProductDetail {
 
   // 2. Images directly from product_images
   const images = (data.images || []).map((img: any, idx: number) => ({
-    url: img.url,
+    url: getCloudinaryTransformedUrl(img.url),
     alt: `${data.name || 'Sản phẩm'} - Ảnh ${idx + 1}`,
     type: 'image' as const,
     title: img.isPrimary ? 'Ảnh chính' : `Ảnh ${idx + 1}`
@@ -128,7 +129,7 @@ function mapBackendToFullDetail(data: any): FullProductDetail {
 
   if (images.length === 0 && data.primaryImage) {
     images.push({
-      url: data.primaryImage,
+      url: getCloudinaryTransformedUrl(data.primaryImage),
       alt: data.name || 'Ảnh sản phẩm',
       type: 'image' as const,
       title: 'Ảnh chính'

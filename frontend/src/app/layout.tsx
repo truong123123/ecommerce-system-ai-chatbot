@@ -8,7 +8,7 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: 'truongngstore - Hệ thống bán lẻ công nghệ chính hãng',
+  title: 'TruongStore - Hệ thống bán lẻ công nghệ chính hãng',
   description: 'Khám phá thế giới công nghệ, điện thoại, laptop, phụ kiện chính hãng giá tốt.',
 };
 
