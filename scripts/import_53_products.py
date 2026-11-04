@@ -6,11 +6,24 @@ import psycopg2
 from psycopg2.extras import Json
 
 # Database connection settings
+env_path = os.path.join(os.path.dirname(__file__), "..", ".env")
+if os.path.exists(env_path):
+    with open(env_path, "r", encoding="utf-8") as env_f:
+        for line in env_f:
+            line = line.strip()
+            if line and not line.startswith("#") and "=" in line:
+                k, v = line.split("=", 1)
+                os.environ.setdefault(k.strip(), v.strip())
+
 DB_HOST = os.environ.get("DB_HOST", "localhost")
 DB_PORT = os.environ.get("DB_PORT", "5432")
 DB_NAME = os.environ.get("DB_NAME", "store_dev")
 DB_USER = os.environ.get("DB_USER", "postgres")
-DB_PASS = os.environ.get("DB_PASSWORD", "oW4NxO3BQ260pn7UUVYjiBNUKzmA2rOv")
+DB_PASS = os.environ.get("DB_PASSWORD") or os.environ.get("SPRING_DATASOURCE_PASSWORD")
+
+if not DB_PASS:
+    print("Error: DB_PASSWORD or SPRING_DATASOURCE_PASSWORD must be set in environment or .env file.")
+    sys.exit(1)
 
 data_path = os.path.join(os.path.dirname(__file__), "..", "sanpham", "products.cloudinary.json")
 if not os.path.exists(data_path):
