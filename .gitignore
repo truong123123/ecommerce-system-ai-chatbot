@@ -22,6 +22,7 @@ target/
 
 # Ignore Local Word & Excel Report Files (Do not push to Git)
 *.docx
+!Baocao_Doan_chuyendeCNTT.docx
 *.xlsx
 BAO_CAO_TIEN_DO.docx
 
