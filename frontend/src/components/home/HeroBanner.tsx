@@ -100,7 +100,11 @@ export const HeroBanner: React.FC = () => {
         if (res.ok) {
           const data = await res.json();
           if (Array.isArray(data) && data.length > 0) {
-            setBanners(data);
+            // Lọc đúng các banner thuộc Hero Slider (không lấy banner đứng chuyên mục)
+            const heroOnly = data.filter((b: any) => b.bgColor !== 'category_phone' && b.bgColor !== 'category_laptop' && b.bgColor !== 'category_watch');
+            if (heroOnly.length > 0) {
+              setBanners(heroOnly);
+            }
           }
         }
       } catch (err) {

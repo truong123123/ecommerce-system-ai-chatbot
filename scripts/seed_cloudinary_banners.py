@@ -3,7 +3,7 @@ import psycopg2
 
 sys.stdout.reconfigure(encoding='utf-8')
 
-banners_data = [
+hero_banners = [
     {
         "title": "Galaxy S26 Ultra",
         "headline": "Đặt trước nhận quà khủng",
@@ -11,6 +11,7 @@ banners_data = [
         "imageUrl": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793859058/banners/471331_S26-Series-1200x375.webp",
         "primaryBtnText": "Đặt ngay",
         "primaryBtnLink": "/products/samsung-galaxy-s26-ultra",
+        "bgColor": "hero",
         "displayOrder": 1,
         "isActive": True
     },
@@ -21,6 +22,7 @@ banners_data = [
         "imageUrl": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793859066/banners/iphone-18-web-082925157.webp",
         "primaryBtnText": "Mua ngay",
         "primaryBtnLink": "/products/iphone-17-pro-256gb",
+        "bgColor": "hero",
         "displayOrder": 2,
         "isActive": True
     },
@@ -31,6 +33,7 @@ banners_data = [
         "imageUrl": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793859060/banners/666649_KV-HUAWEI-WATCH-GT-7-Series-1200x375.webp",
         "primaryBtnText": "Khám phá",
         "primaryBtnLink": "/products?category=dong-ho",
+        "bgColor": "hero",
         "displayOrder": 3,
         "isActive": True
     },
@@ -41,6 +44,7 @@ banners_data = [
         "imageUrl": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793859062/banners/702904_KV-SS-A18-_-A08-1200x375-25w.webp",
         "primaryBtnText": "Xem chi tiết",
         "primaryBtnLink": "/products?category=dien-thoai",
+        "bgColor": "hero",
         "displayOrder": 4,
         "isActive": True
     },
@@ -51,6 +55,7 @@ banners_data = [
         "imageUrl": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793859063/banners/860851_OPPO-Find-X10-Series-web.webp",
         "primaryBtnText": "Tìm hiểu thêm",
         "primaryBtnLink": "/products?category=dien-thoai",
+        "bgColor": "hero",
         "displayOrder": 5,
         "isActive": True
     },
@@ -61,6 +66,7 @@ banners_data = [
         "imageUrl": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793859067/banners/iphone-duo-web-084156526.webp",
         "primaryBtnText": "Đăng ký nhận tin",
         "primaryBtnLink": "/products/iphone-air",
+        "bgColor": "hero",
         "displayOrder": 6,
         "isActive": True
     },
@@ -71,7 +77,33 @@ banners_data = [
         "imageUrl": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793859064/banners/astra-2-web-083724546.webp",
         "primaryBtnText": "Trải nghiệm ngay",
         "primaryBtnLink": "/products",
+        "bgColor": "hero",
         "displayOrder": 7,
+        "isActive": True
+    }
+]
+
+vertical_banners = [
+    {
+        "title": "iPhone Titan Đột Phá",
+        "headline": "Chuyên mục Điện thoại",
+        "subHeadline": "Khám phá siêu phẩm công nghệ",
+        "imageUrl": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793865061/banners/vertical/poster_iphone_duo.jpg",
+        "primaryBtnText": "Xem ngay",
+        "primaryBtnLink": "/products/iphone-17-pro-256gb",
+        "bgColor": "category_phone",
+        "displayOrder": 1,
+        "isActive": True
+    },
+    {
+        "title": "Redmi Note Đỉnh Cao",
+        "headline": "Chuyên mục Điện thoại",
+        "subHeadline": "Chụp nét chuẩn flagship",
+        "imageUrl": "https://res.cloudinary.com/c7w3ycu9/image/upload/v1793865064/banners/vertical/poster_redmi_note17.jpg",
+        "primaryBtnText": "Xem ngay",
+        "primaryBtnLink": "/products",
+        "bgColor": "category_phone",
+        "displayOrder": 2,
         "isActive": True
     }
 ]
@@ -85,8 +117,6 @@ def main():
         port=5432
     )
     cur = conn.cursor()
-    
-    # Clear old placeholder banners
     cur.execute("DELETE FROM banners;")
     print("Cleared existing banners.")
     
@@ -94,11 +124,11 @@ def main():
     INSERT INTO banners (
         title, headline, sub_headline, image_url,
         primary_btn_text, primary_btn_link,
-        display_order, is_active, created_at
-    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, NOW());
+        bg_color, display_order, is_active, created_at
+    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, NOW());
     """
     
-    for b in banners_data:
+    for b in hero_banners:
         cur.execute(insert_sql, (
             b["title"],
             b["headline"],
@@ -106,15 +136,30 @@ def main():
             b["imageUrl"],
             b["primaryBtnText"],
             b["primaryBtnLink"],
+            b["bgColor"],
             b["displayOrder"],
             b["isActive"]
         ))
-        print(f"Inserted: {b['title']} -> {b['imageUrl']}")
+        print(f"Hero Banner: {b['title']}")
+        
+    for b in vertical_banners:
+        cur.execute(insert_sql, (
+            b["title"],
+            b["headline"],
+            b["subHeadline"],
+            b["imageUrl"],
+            b["primaryBtnText"],
+            b["primaryBtnLink"],
+            b["bgColor"],
+            b["displayOrder"],
+            b["isActive"]
+        ))
+        print(f"Vertical Poster: {b['title']}")
         
     conn.commit()
     cur.close()
     conn.close()
-    print("Successfully seeded all 7 Cloudinary banners!")
+    print("Database updated with Hero Banners and Category Vertical Banners!")
 
 if __name__ == '__main__':
     main()

@@ -13,6 +13,13 @@ import {
 } from '../../../types/categoryShowcase';
 import { showcaseService } from '../../../services/showcaseService';
 
+const CLOUDINARY_VERTICAL_PRESETS = [
+  { name: 'iPhone Titan Duo', path: 'https://res.cloudinary.com/c7w3ycu9/image/upload/v1793865061/banners/vertical/poster_iphone_duo.jpg' },
+  { name: 'Redmi Note 17', path: 'https://res.cloudinary.com/c7w3ycu9/image/upload/v1793865064/banners/vertical/poster_redmi_note17.jpg' },
+  { name: 'Phone Hand', path: 'https://res.cloudinary.com/c7w3ycu9/image/upload/v1793865068/banners/vertical/banner_phone_hand.jpg' },
+  { name: 'Fashion Model', path: 'https://res.cloudinary.com/c7w3ycu9/image/upload/v1793865073/banners/vertical/banner_fashion_model.jpg' },
+];
+
 const STATUS_OPTIONS: { value: ProductStatusType; label: string }[] = [
   { value: 'none', label: 'Không có nhãn' },
   { value: 'pre_order', label: 'Hàng đặt trước' },
@@ -395,33 +402,35 @@ export default function AdminCategoryShowcasePage() {
                   </div>
 
                   <div className={styles.formGroup}>
-                    <label className={styles.label}>Đường dẫn ảnh Banner (Image Link) *</label>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <label className={styles.label}>Đường dẫn ảnh Banner Cloudinary (Image Link) *</label>
+                      {b.imageUrl?.includes('cloudinary.com') && (
+                        <span style={{ fontSize: '11px', color: '#10b981', fontWeight: 600 }}>✓ Link Cloudinary CDN hợp lệ</span>
+                      )}
+                    </div>
                     <input
                       type="text"
                       className={styles.input}
                       value={b.imageUrl}
-                      placeholder="/images/banners/poster_iphone_duo.jpg"
+                      placeholder="https://res.cloudinary.com/..."
                       onChange={(e) => handleUpdateBanner(b.id, 'imageUrl', e.target.value)}
                     />
                     <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginTop: '6px' }}>
-                      <span style={{ fontSize: '11px', color: '#9ca3af', width: '100%' }}>Gợi ý ảnh có sẵn:</span>
-                      {[
-                        { name: 'iPhone Titan', path: '/images/banners/poster_iphone_duo.jpg' },
-                        { name: 'Redmi Note', path: '/images/banners/poster_redmi_note17.jpg' },
-                        { name: 'Phone Hand', path: '/images/banners/banner_phone_hand.jpg' },
-                        { name: 'Fashion Model', path: '/images/banners/banner_fashion_model.jpg' },
-                      ].map((preset) => (
+                      <span style={{ fontSize: '11px', color: '#38bdf8', width: '100%', fontWeight: 600 }}>☁️ Chọn nhanh từ kho Cloudinary (Banner Dọc 270x400):</span>
+                      {CLOUDINARY_VERTICAL_PRESETS.map((preset) => (
                         <button
                           key={preset.path}
                           type="button"
                           style={{
-                            padding: '3px 8px',
+                            padding: '4px 10px',
                             fontSize: '11px',
-                            borderRadius: '4px',
-                            border: '1px solid #374151',
-                            background: b.imageUrl === preset.path ? '#2563eb' : '#1f2937',
+                            fontWeight: 600,
+                            borderRadius: '6px',
+                            border: b.imageUrl === preset.path ? '1px solid #0066cc' : '1px solid rgba(255,255,255,0.12)',
+                            background: b.imageUrl === preset.path ? '#0066cc' : '#1e293b',
                             color: '#f3f4f6',
                             cursor: 'pointer',
+                            transition: 'all 0.15s ease',
                           }}
                           onClick={() => handleUpdateBanner(b.id, 'imageUrl', preset.path)}
                         >

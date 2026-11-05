@@ -1,9 +1,9 @@
 import { CategoryShowcaseData, ShowcaseBannerItem, ShowcaseProduct } from '../types/categoryShowcase';
 import { API_BASE_URL } from '@/lib/env';
 import { getCloudinaryTransformedUrl } from '../utils/image';
+import apiClient from './api';
 
 export const showcaseService = {
-  // Lấy dữ liệu thuần túy từ Database PostgreSQL (qua Spring Boot REST API)
   // Lấy dữ liệu thuần túy từ Database PostgreSQL (qua Spring Boot REST API)
   async fetchFromDatabase(): Promise<CategoryShowcaseData> {
     try {
@@ -13,22 +13,31 @@ export const showcaseService = {
       ]);
 
       let banners: ShowcaseBannerItem[] = [
-        { id: '1', title: 'iPhone 16 Series', imageUrl: '/images/banners/poster_iphone_duo.jpg', targetLink: '/products' },
-        { id: '2', title: 'Redmi Note 13 Pro 5G', imageUrl: '/images/banners/poster_redmi_note17.jpg', targetLink: '/products' },
+        {
+          id: 'cat-banner-1',
+          title: 'iPhone Titan Đột Phá',
+          imageUrl: 'https://res.cloudinary.com/c7w3ycu9/image/upload/v1793865061/banners/vertical/poster_iphone_duo.jpg',
+          targetLink: '/products/iphone-17-pro-256gb',
+        },
+        {
+          id: 'cat-banner-2',
+          title: 'Redmi Note Đỉnh Cao',
+          imageUrl: 'https://res.cloudinary.com/c7w3ycu9/image/upload/v1793865064/banners/vertical/poster_redmi_note17.jpg',
+          targetLink: '/products',
+        },
       ];
+
       if (bannerRes.ok) {
         const rawBanners = await bannerRes.json();
         if (Array.isArray(rawBanners)) {
+          // Lọc chính xác các banner đứng của chuyên mục Điện thoại
           const phoneBanners = rawBanners.filter((b: any) => {
-            const title = (b.title || '').toLowerCase();
-            const link = (b.primaryBtnLink || '').toLowerCase();
+            const bg = (b.bgColor || '').toLowerCase();
             const img = (b.imageUrl || '').toLowerCase();
-            return (
-              (title.includes('iphone') || title.includes('redmi') || title.includes('galaxy') || title.includes('phone') || title.includes('thoại')) ||
-              (img.includes('poster_iphone') || img.includes('poster_redmi'))
-            );
+            return bg === 'category_phone' || img.includes('/vertical/') || img.includes('poster_');
           });
-          if (phoneBanners.length >= 2) {
+
+          if (phoneBanners.length > 0) {
             banners = phoneBanners.slice(0, 2).map((b: any) => ({
               id: String(b.id),
               title: b.title || '',
@@ -162,27 +171,25 @@ export const showcaseService = {
     }
   },
 
-  // Lưu Banner đơn lẻ vào PostgreSQL
+  // Lưu Banner đơn lẻ vào PostgreSQL qua apiClient có xác thực CSRF & Cookie
   async saveBannerToSql(banner: ShowcaseBannerItem): Promise<boolean> {
     try {
       const isExisting = /^\d+$/.test(banner.id);
-      const url = isExisting ? `${API_BASE_URL}/banners/${banner.id}` : `${API_BASE_URL}/banners`;
-      const method = isExisting ? 'PUT' : 'POST';
-
       const payload = {
         title: banner.title,
         imageUrl: banner.imageUrl,
         primaryBtnLink: banner.targetLink,
+        bgColor: 'category_phone',
         isActive: true,
       };
 
-      const res = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-
-      return res.ok;
+      if (isExisting) {
+        const res = await apiClient.put(`/admin/banners/${banner.id}`, payload);
+        return res.status >= 200 && res.status < 300;
+      } else {
+        const res = await apiClient.post('/admin/banners', payload);
+        return res.status >= 200 && res.status < 300;
+      }
     } catch (e) {
       console.error('Lỗi khi lưu banner vào SQL:', e);
       return false;
@@ -193,10 +200,8 @@ export const showcaseService = {
   async deleteBannerFromSql(bannerId: string): Promise<boolean> {
     try {
       if (/^\d+$/.test(bannerId)) {
-        const res = await fetch(`${API_BASE_URL}/banners/${bannerId}`, {
-          method: 'DELETE',
-        });
-        return res.ok;
+        const res = await apiClient.delete(`/admin/banners/${bannerId}`);
+        return res.status >= 200 && res.status < 300;
       }
       return true;
     } catch (e) {
@@ -230,43 +235,38 @@ export const showcaseService = {
     }
   },
 
-  // Cập nhật sản phẩm trực tiếp vào PostgreSQL ngay khi thay đổi
+  // Cập nhật sản phẩm trực tiếp vào PostgreSQL
   async updateProductToSql(
     id: string,
     updates: { name?: string; price?: number; image?: string; description?: string }
   ): Promise<boolean> {
     try {
       if (!/^\d+$/.test(id)) return false;
-      const res = await fetch(`${API_BASE_URL}/products/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updates),
-      });
-      if (res.ok && typeof window !== 'undefined') {
+      const res = await apiClient.put(`/admin/products/${id}`, updates);
+      if (res.status >= 200 && res.status < 300 && typeof window !== 'undefined') {
         window.dispatchEvent(new Event('category-showcase-updated'));
+        return true;
       }
-      return res.ok;
+      return false;
     } catch (e) {
       console.error('Lỗi khi cập nhật sản phẩm vào SQL:', e);
       return false;
     }
   },
 
-  // Xoá sản phẩm khỏi PostgreSQL (soft delete isActive = false)
+  // Xoá sản phẩm khỏi PostgreSQL
   async deleteProductFromSql(id: string): Promise<boolean> {
     try {
       if (!/^\d+$/.test(id)) return true;
-      const res = await fetch(`${API_BASE_URL}/products/${id}`, {
-        method: 'DELETE',
-      });
-      if (res.ok && typeof window !== 'undefined') {
+      const res = await apiClient.delete(`/admin/products/${id}`);
+      if (res.status >= 200 && res.status < 300 && typeof window !== 'undefined') {
         window.dispatchEvent(new Event('category-showcase-updated'));
+        return true;
       }
-      return res.ok;
+      return false;
     } catch (e) {
       console.error('Lỗi khi xoá sản phẩm khỏi SQL:', e);
       return false;
     }
   },
 };
-

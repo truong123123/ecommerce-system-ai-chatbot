@@ -22,8 +22,8 @@ interface BannerItem {
   createdAt: string;
 }
 
-// Kho ảnh banner Cloudinary chuẩn tỉ lệ 1200x375 CellphoneS
-const CLOUDINARY_BANNER_PRESETS = [
+// 1. Kho banner ngang Hero Slider (1200x375)
+const CLOUDINARY_HERO_PRESETS = [
   {
     name: 'Galaxy S26 Ultra',
     title: 'Galaxy S26 Ultra',
@@ -89,6 +89,46 @@ const CLOUDINARY_BANNER_PRESETS = [
   },
 ];
 
+// 2. Kho banner dọc Chuyên mục Điện thoại (270x400)
+const CLOUDINARY_VERTICAL_PRESETS = [
+  {
+    name: 'iPhone Titan Duo',
+    title: 'iPhone Titan Đột Phá',
+    headline: 'Chuyên mục Điện thoại',
+    subHeadline: 'Khám phá siêu phẩm công nghệ',
+    imageUrl: 'https://res.cloudinary.com/c7w3ycu9/image/upload/v1793865061/banners/vertical/poster_iphone_duo.jpg',
+    primaryBtnLink: '/products/iphone-17-pro-256gb',
+    primaryBtnText: 'Xem ngay',
+  },
+  {
+    name: 'Redmi Note 17',
+    title: 'Redmi Note Đỉnh Cao',
+    headline: 'Chuyên mục Điện thoại',
+    subHeadline: 'Chụp nét chuẩn flagship',
+    imageUrl: 'https://res.cloudinary.com/c7w3ycu9/image/upload/v1793865064/banners/vertical/poster_redmi_note17.jpg',
+    primaryBtnLink: '/products',
+    primaryBtnText: 'Xem ngay',
+  },
+  {
+    name: 'Phone Hand Banner',
+    title: 'Flagship Trên Tay',
+    headline: 'Trải nghiệm cầm nắm đỉnh cao',
+    subHeadline: 'Thiết kế sang trọng, hiệu năng vượt trội',
+    imageUrl: 'https://res.cloudinary.com/c7w3ycu9/image/upload/v1793865068/banners/vertical/banner_phone_hand.jpg',
+    primaryBtnLink: '/products?category=dien-thoai',
+    primaryBtnText: 'Khám phá',
+  },
+  {
+    name: 'Fashion Model Banner',
+    title: 'Phong Cách Đẳng Cấp',
+    headline: 'Thời trang & Công nghệ',
+    subHeadline: 'Phụ kiện và điện thoại xu hướng mới',
+    imageUrl: 'https://res.cloudinary.com/c7w3ycu9/image/upload/v1793865073/banners/vertical/banner_fashion_model.jpg',
+    primaryBtnLink: '/products',
+    primaryBtnText: 'Khám phá',
+  },
+];
+
 const QUICK_LINKS = [
   { label: 'Tất cả sản phẩm', url: '/products' },
   { label: 'Điện thoại', url: '/products?category=dien-thoai' },
@@ -106,6 +146,7 @@ export default function AdminBannersPage() {
   const [deleteBanner, setDeleteBanner] = useState<BannerItem | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [alert, setAlert] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+  const [filterType, setFilterType] = useState<'all' | 'hero' | 'category_phone'>('all');
 
   const fetchBanners = async () => {
     try {
@@ -132,6 +173,7 @@ export default function AdminBannersPage() {
       headline: '',
       subHeadline: '',
       imageUrl: '',
+      bgColor: 'hero',
       primaryBtnText: 'Xem ngay',
       primaryBtnLink: '/products',
       displayOrder: banners.length + 1,
@@ -141,10 +183,13 @@ export default function AdminBannersPage() {
 
   const openEditModal = (b: BannerItem) => {
     setIsEditing(true);
-    setModalBanner({ ...b });
+    setModalBanner({
+      ...b,
+      bgColor: b.bgColor || 'hero',
+    });
   };
 
-  const handleSelectPreset = (preset: typeof CLOUDINARY_BANNER_PRESETS[0]) => {
+  const handleSelectPreset = (preset: typeof CLOUDINARY_HERO_PRESETS[0]) => {
     if (!modalBanner) return;
     setModalBanner({
       ...modalBanner,
@@ -205,37 +250,66 @@ export default function AdminBannersPage() {
 
   const activeCount = banners.filter((b) => b.isActive).length;
 
+  const filteredBanners = banners.filter((b) => {
+    if (filterType === 'all') return true;
+    if (filterType === 'hero') return b.bgColor === 'hero' || !b.bgColor;
+    if (filterType === 'category_phone') return b.bgColor === 'category_phone';
+    return true;
+  });
+
   const columns: Column<BannerItem>[] = [
     {
       key: 'id',
       title: 'Mã',
-      width: '70px',
+      width: '65px',
       sortable: true,
       render: (item) => <span style={{ color: '#94a3b8', fontFamily: 'monospace' }}>#{item.id}</span>,
     },
     {
       key: 'imageUrl',
-      title: 'Hình ảnh Banner (1200x375)',
+      title: 'Hình ảnh Banner',
       width: '180px',
       render: (item) => {
         const isCloudinary = item.imageUrl?.includes('cloudinary.com');
+        const isVertical = item.bgColor === 'category_phone';
         return (
-          <div>
-            <div style={{ width: 150, height: 48, borderRadius: 6, overflow: 'hidden', background: '#0f172a', border: '1px solid rgba(255,255,255,0.1)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div
+              style={{
+                width: isVertical ? 42 : 140,
+                height: 48,
+                borderRadius: 6,
+                overflow: 'hidden',
+                background: '#0f172a',
+                border: '1px solid rgba(255,255,255,0.1)',
+                flexShrink: 0,
+              }}
+            >
               <img
                 src={item.imageUrl}
                 alt={item.title}
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 onError={(e) => {
-                  (e.target as any).src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="150" height="48" fill="%2364748b"><text x="35" y="28">No Image</text></svg>';
+                  (e.target as any).src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="48" fill="%2364748b"><text x="15" y="28">No Image</text></svg>';
                 }}
               />
             </div>
-            {isCloudinary && (
-              <span style={{ fontSize: '0.65rem', color: '#38bdf8', marginTop: 2, display: 'inline-block', fontWeight: 600 }}>
-                ☁️ Cloudinary CDN
-              </span>
-            )}
+            <div>
+              {isVertical ? (
+                <span style={{ fontSize: '0.7rem', color: '#f59e0b', background: 'rgba(245,158,11,0.15)', padding: '2px 6px', borderRadius: 4, fontWeight: 700, display: 'inline-block' }}>
+                  📱 Banner Dọc (ĐT)
+                </span>
+              ) : (
+                <span style={{ fontSize: '0.7rem', color: '#38bdf8', background: 'rgba(56,189,248,0.15)', padding: '2px 6px', borderRadius: 4, fontWeight: 700, display: 'inline-block' }}>
+                  🖥️ Hero Slider
+                </span>
+              )}
+              {isCloudinary && (
+                <div style={{ fontSize: '0.62rem', color: '#10b981', marginTop: 2, fontWeight: 600 }}>
+                  ☁️ Cloudinary
+                </div>
+              )}
+            </div>
           </div>
         );
       },
@@ -259,7 +333,7 @@ export default function AdminBannersPage() {
     {
       key: 'displayOrder',
       title: 'Thứ tự',
-      width: '90px',
+      width: '80px',
       sortable: true,
       align: 'center',
       render: (item) => (
@@ -271,7 +345,7 @@ export default function AdminBannersPage() {
     {
       key: 'isActive',
       title: 'Trạng thái',
-      width: '130px',
+      width: '120px',
       align: 'center',
       render: (item) => (
         <StatusBadge
@@ -284,7 +358,7 @@ export default function AdminBannersPage() {
     {
       key: 'id',
       title: 'Hành động',
-      width: '150px',
+      width: '140px',
       align: 'center',
       render: (item) => (
         <div className={styles.actionGroup} style={{ justifyContent: 'center' }}>
@@ -312,8 +386,8 @@ export default function AdminBannersPage() {
       {/* Header */}
       <div className={styles.pageHeader}>
         <div className={styles.titleArea}>
-          <h1>Quản lý Banner Quảng cáo (Hero Slider)</h1>
-          <p>Điều hướng banner Slider trang chủ CellphoneS, liên kết Cloudinary CDN và các chiến dịch khuyến mãi</p>
+          <h1>Quản lý Banner Quảng cáo (Banners)</h1>
+          <p>Điều hướng Hero Slider trang chủ, Banner dọc chuyên mục Điện thoại qua Cloudinary CDN</p>
         </div>
 
         <div className={styles.headerButtons}>
@@ -343,7 +417,7 @@ export default function AdminBannersPage() {
         <div className={styles.statCard}>
           <div className={`${styles.statIcon} ${styles.statIconSuccess}`}>✓</div>
           <div>
-            <div style={{ fontSize: '0.8rem', color: '#94a3b8' }}>Đang chiếu trang chủ</div>
+            <div style={{ fontSize: '0.8rem', color: '#94a3b8' }}>Đang hiển thị</div>
             <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#10b981' }}>{activeCount} banner</div>
           </div>
         </div>
@@ -352,20 +426,72 @@ export default function AdminBannersPage() {
           <div className={`${styles.statIcon}`} style={{ background: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8' }}>☁️</div>
           <div>
             <div style={{ fontSize: '0.8rem', color: '#94a3b8' }}>Hệ thống lưu trữ</div>
-            <div style={{ fontSize: '1.1rem', fontWeight: 700, color: '#38bdf8' }}>Cloudinary CDN (1200x375)</div>
+            <div style={{ fontSize: '1.1rem', fontWeight: 700, color: '#38bdf8' }}>Cloudinary CDN</div>
           </div>
         </div>
+      </div>
+
+      {/* Bộ lọc vị trí */}
+      <div style={{ display: 'flex', gap: 8, marginBottom: 14 }}>
+        <button
+          type="button"
+          onClick={() => setFilterType('all')}
+          style={{
+            padding: '6px 14px',
+            borderRadius: 6,
+            fontSize: '0.82rem',
+            fontWeight: 600,
+            border: '1px solid rgba(255,255,255,0.1)',
+            background: filterType === 'all' ? '#0066cc' : '#1e293b',
+            color: '#fff',
+            cursor: 'pointer',
+          }}
+        >
+          Tất cả ({banners.length})
+        </button>
+        <button
+          type="button"
+          onClick={() => setFilterType('hero')}
+          style={{
+            padding: '6px 14px',
+            borderRadius: 6,
+            fontSize: '0.82rem',
+            fontWeight: 600,
+            border: '1px solid rgba(255,255,255,0.1)',
+            background: filterType === 'hero' ? '#0066cc' : '#1e293b',
+            color: '#fff',
+            cursor: 'pointer',
+          }}
+        >
+          🖥️ Hero Slider Trang chủ ({banners.filter((b) => b.bgColor === 'hero' || !b.bgColor).length})
+        </button>
+        <button
+          type="button"
+          onClick={() => setFilterType('category_phone')}
+          style={{
+            padding: '6px 14px',
+            borderRadius: 6,
+            fontSize: '0.82rem',
+            fontWeight: 600,
+            border: '1px solid rgba(255,255,255,0.1)',
+            background: filterType === 'category_phone' ? '#0066cc' : '#1e293b',
+            color: '#fff',
+            cursor: 'pointer',
+          }}
+        >
+          📱 Banner Dọc Chuyên mục ĐT ({banners.filter((b) => b.bgColor === 'category_phone').length})
+        </button>
       </div>
 
       {/* Table */}
       <AdminDataTable
         columns={columns}
-        data={banners}
+        data={filteredBanners}
         keyExtractor={(item) => item.id}
         searchPlaceholder="Tìm theo tiêu đề, headline, link..."
         searchFields={['title', 'headline', 'primaryBtnLink']}
         isLoading={isLoading}
-        emptyMessage="Chưa có banner nào trong hệ thống"
+        emptyMessage="Chưa có banner nào phù hợp với bộ lọc"
       />
 
       {/* Modal Add / Edit */}
@@ -373,7 +499,7 @@ export default function AdminBannersPage() {
         <div className={styles.modalOverlay} onClick={() => setModalBanner(null)}>
           <div
             className={styles.modalDialog}
-            style={{ maxWidth: '780px' }}
+            style={{ maxWidth: '800px' }}
             onClick={(e) => e.stopPropagation()}
           >
             <div className={styles.modalHeader}>
@@ -385,45 +511,95 @@ export default function AdminBannersPage() {
 
             <form onSubmit={handleSaveBanner}>
               <div className={styles.modalBody}>
-                {/* 1. Kho ảnh Cloudinary có sẵn (Click là điền ngay) */}
+                {/* Chọn Vị trí Banner */}
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>Vị trí hiển thị (Loại Banner) *</label>
+                  <select
+                    className={styles.formInput}
+                    value={modalBanner.bgColor || 'hero'}
+                    onChange={(e) => setModalBanner({ ...modalBanner, bgColor: e.target.value })}
+                  >
+                    <option value="hero">🖥️ Hero Slider Trang chủ (Tỉ lệ 1200x375 ngang)</option>
+                    <option value="category_phone">📱 Banner Dọc Chuyên mục Điện thoại (Tỉ lệ 270x400 đứng)</option>
+                  </select>
+                </div>
+
+                {/* Kho ảnh Cloudinary có sẵn */}
                 <div style={{ marginBottom: 18, background: 'rgba(255,255,255,0.03)', padding: 14, borderRadius: 10, border: '1px solid rgba(255,255,255,0.08)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
                     <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#38bdf8' }}>
-                      ☁️ Kho ảnh Cloudinary có sẵn (Click để chọn nhanh)
+                      ☁️ Kho ảnh Cloudinary có sẵn (Click là tự động điền)
                     </span>
-                    <span style={{ fontSize: '0.72rem', color: '#94a3b8' }}>Tỉ lệ chuẩn 1200x375</span>
+                    <span style={{ fontSize: '0.72rem', color: '#94a3b8' }}>
+                      {modalBanner.bgColor === 'category_phone' ? 'Mẫu Banner Dọc 270x400' : 'Mẫu Hero Slider 1200x375'}
+                    </span>
                   </div>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: 8 }}>
-                    {CLOUDINARY_BANNER_PRESETS.map((preset, idx) => {
-                      const isSelected = modalBanner.imageUrl === preset.imageUrl;
-                      return (
-                        <div
-                          key={idx}
-                          onClick={() => handleSelectPreset(preset)}
-                          style={{
-                            border: isSelected ? '2px solid #0066cc' : '1px solid rgba(255,255,255,0.12)',
-                            borderRadius: 8,
-                            padding: 4,
-                            cursor: 'pointer',
-                            background: isSelected ? 'rgba(0,102,204,0.18)' : '#0f172a',
-                            transition: 'all 0.18s ease',
-                          }}
-                          title={`Click để dùng: ${preset.name}`}
-                        >
-                          <div style={{ width: '100%', height: 42, borderRadius: 4, overflow: 'hidden' }}>
-                            <img src={preset.imageUrl} alt={preset.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  {modalBanner.bgColor === 'category_phone' ? (
+                    /* Preset Dọc */
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 8 }}>
+                      {CLOUDINARY_VERTICAL_PRESETS.map((preset, idx) => {
+                        const isSelected = modalBanner.imageUrl === preset.imageUrl;
+                        return (
+                          <div
+                            key={idx}
+                            onClick={() => handleSelectPreset(preset)}
+                            style={{
+                              border: isSelected ? '2px solid #f59e0b' : '1px solid rgba(255,255,255,0.12)',
+                              borderRadius: 8,
+                              padding: 6,
+                              cursor: 'pointer',
+                              background: isSelected ? 'rgba(245,158,11,0.18)' : '#0f172a',
+                              transition: 'all 0.18s ease',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: 8,
+                            }}
+                            title={`Dùng mẫu: ${preset.name}`}
+                          >
+                            <div style={{ width: 34, height: 48, borderRadius: 4, overflow: 'hidden', flexShrink: 0 }}>
+                              <img src={preset.imageUrl} alt={preset.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            </div>
+                            <div style={{ fontSize: '0.72rem', fontWeight: 600, color: isSelected ? '#f59e0b' : '#cbd5e1' }}>
+                              {preset.name}
+                            </div>
                           </div>
-                          <div style={{ fontSize: '0.72rem', fontWeight: 600, color: isSelected ? '#38bdf8' : '#cbd5e1', marginTop: 4, textAlign: 'center', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                            {preset.name}
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    /* Preset Ngang */
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: 8 }}>
+                      {CLOUDINARY_HERO_PRESETS.map((preset, idx) => {
+                        const isSelected = modalBanner.imageUrl === preset.imageUrl;
+                        return (
+                          <div
+                            key={idx}
+                            onClick={() => handleSelectPreset(preset)}
+                            style={{
+                              border: isSelected ? '2px solid #0066cc' : '1px solid rgba(255,255,255,0.12)',
+                              borderRadius: 8,
+                              padding: 4,
+                              cursor: 'pointer',
+                              background: isSelected ? 'rgba(0,102,204,0.18)' : '#0f172a',
+                              transition: 'all 0.18s ease',
+                            }}
+                            title={`Click để dùng: ${preset.name}`}
+                          >
+                            <div style={{ width: '100%', height: 42, borderRadius: 4, overflow: 'hidden' }}>
+                              <img src={preset.imageUrl} alt={preset.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            </div>
+                            <div style={{ fontSize: '0.72rem', fontWeight: 600, color: isSelected ? '#38bdf8' : '#cbd5e1', marginTop: 4, textAlign: 'center', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                              {preset.name}
+                            </div>
                           </div>
-                        </div>
-                      );
-                    })}
-                  </div>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
 
-                {/* 2. Link hình ảnh Cloudinary (Image URL) */}
+                {/* Link hình ảnh Cloudinary */}
                 <div className={styles.formGroup}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
                     <label className={styles.formLabel} style={{ marginBottom: 0 }}>
@@ -447,14 +623,27 @@ export default function AdminBannersPage() {
                   {/* Real-time Banner Preview */}
                   {modalBanner.imageUrl && (
                     <div style={{ marginTop: 10 }}>
-                      <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginBottom: 4 }}>Xem trước hiển thị (Tỉ lệ 1200x375):</div>
-                      <div style={{ width: '100%', aspectRatio: '1200 / 375', maxHeight: '180px', borderRadius: 10, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.15)', background: '#0a0f1d' }}>
+                      <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginBottom: 4 }}>
+                        Xem trước hiển thị thực tế:
+                      </div>
+                      <div
+                        style={{
+                          width: modalBanner.bgColor === 'category_phone' ? '140px' : '100%',
+                          aspectRatio: modalBanner.bgColor === 'category_phone' ? '270 / 380' : '1200 / 375',
+                          maxHeight: '180px',
+                          borderRadius: 10,
+                          overflow: 'hidden',
+                          border: '1px solid rgba(255,255,255,0.15)',
+                          background: '#0a0f1d',
+                          margin: '0 auto',
+                        }}
+                      >
                         <img
                           src={modalBanner.imageUrl}
                           alt="preview"
                           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                           onError={(e) => {
-                            (e.target as any).src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="180" fill="%2364748b"><text x="220" y="95">Link hình ảnh không hợp lệ</text></svg>';
+                            (e.target as any).src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="150" fill="%2364748b"><text x="80" y="80">Link ảnh không hợp lệ</text></svg>';
                           }}
                         />
                       </div>
@@ -462,10 +651,10 @@ export default function AdminBannersPage() {
                   )}
                 </div>
 
-                {/* 3. Tiêu đề & Headline */}
+                {/* Tiêu đề & Headline */}
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                   <div className={styles.formGroup}>
-                    <label className={styles.formLabel}>Tiêu đề Tab (Title) *</label>
+                    <label className={styles.formLabel}>Tiêu đề Banner *</label>
                     <input
                       type="text"
                       required
@@ -477,7 +666,7 @@ export default function AdminBannersPage() {
                   </div>
 
                   <div className={styles.formGroup}>
-                    <label className={styles.formLabel}>Khẩu hiệu ngắn (Headline)</label>
+                    <label className={styles.label}>Khẩu hiệu / Phụ đề</label>
                     <input
                       type="text"
                       className={styles.formInput}
@@ -488,56 +677,42 @@ export default function AdminBannersPage() {
                   </div>
                 </div>
 
-                {/* 4. Link liên kết & Nút bấm */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-                  <div className={styles.formGroup}>
-                    <label className={styles.formLabel}>Đường dẫn đích khi click (Link URL)</label>
-                    <input
-                      type="text"
-                      className={styles.formInput}
-                      placeholder="VD: /products/samsung-galaxy-s26-ultra"
-                      value={modalBanner.primaryBtnLink || ''}
-                      onChange={(e) => setModalBanner({ ...modalBanner, primaryBtnLink: e.target.value })}
-                    />
-                    {/* Gợi ý link nhanh */}
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginTop: 6 }}>
-                      {QUICK_LINKS.map((ql, idx) => (
-                        <button
-                          key={idx}
-                          type="button"
-                          onClick={() => setModalBanner({ ...modalBanner, primaryBtnLink: ql.url })}
-                          style={{
-                            fontSize: '0.68rem',
-                            padding: '2px 6px',
-                            background: 'rgba(255,255,255,0.06)',
-                            border: '1px solid rgba(255,255,255,0.1)',
-                            borderRadius: 4,
-                            color: '#94a3b8',
-                            cursor: 'pointer',
-                          }}
-                        >
-                          + {ql.label}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className={styles.formGroup}>
-                    <label className={styles.formLabel}>Chữ trên nút (Button Text)</label>
-                    <input
-                      type="text"
-                      className={styles.formInput}
-                      placeholder="VD: Mua ngay"
-                      value={modalBanner.primaryBtnText || ''}
-                      onChange={(e) => setModalBanner({ ...modalBanner, primaryBtnText: e.target.value })}
-                    />
+                {/* Link liên kết */}
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>Đường dẫn đích khi click (Link URL)</label>
+                  <input
+                    type="text"
+                    className={styles.formInput}
+                    placeholder="VD: /products/samsung-galaxy-s26-ultra"
+                    value={modalBanner.primaryBtnLink || ''}
+                    onChange={(e) => setModalBanner({ ...modalBanner, primaryBtnLink: e.target.value })}
+                  />
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginTop: 6 }}>
+                    {QUICK_LINKS.map((ql, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => setModalBanner({ ...modalBanner, primaryBtnLink: ql.url })}
+                        style={{
+                          fontSize: '0.68rem',
+                          padding: '2px 6px',
+                          background: 'rgba(255,255,255,0.06)',
+                          border: '1px solid rgba(255,255,255,0.1)',
+                          borderRadius: 4,
+                          color: '#94a3b8',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        + {ql.label}
+                      </button>
+                    ))}
                   </div>
                 </div>
 
-                {/* 5. Thứ tự & Trạng thái hiển thị */}
+                {/* Thứ tự & Kích hoạt */}
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                   <div className={styles.formGroup}>
-                    <label className={styles.formLabel}>Thứ tự hiển thị (Order)</label>
+                    <label className={styles.formLabel}>Thứ tự hiển thị</label>
                     <input
                       type="number"
                       className={styles.formInput}
@@ -555,7 +730,7 @@ export default function AdminBannersPage() {
                           checked={modalBanner.isActive ?? true}
                           onChange={(e) => setModalBanner({ ...modalBanner, isActive: e.target.checked })}
                         />
-                        Kích hoạt hiển thị trang chủ
+                        Kích hoạt hiển thị
                       </label>
                     </div>
                   </div>
