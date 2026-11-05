@@ -1,5 +1,7 @@
 package com.store.specification;
 
+import com.store.entity.Brand;
+import com.store.entity.Category;
 import com.store.entity.Product;
 import com.store.entity.ProductVariant;
 import jakarta.persistence.criteria.*;
@@ -13,6 +15,21 @@ public class ProductSpecification {
 
     public static Specification<Product> filter(
             List<Integer> categoryIds,
+            Integer brandId,
+            String brandSlug,
+            String keyword,
+            Boolean isHot,
+            Boolean isNew,
+            BigDecimal minPrice,
+            BigDecimal maxPrice,
+            Boolean activeOnly
+    ) {
+        return filter(categoryIds, null, brandId, brandSlug, keyword, isHot, isNew, minPrice, maxPrice, activeOnly);
+    }
+
+    public static Specification<Product> filter(
+            List<Integer> categoryIds,
+            List<Integer> keywordCategoryIds,
             Integer brandId,
             String brandSlug,
             String keyword,
@@ -52,12 +69,35 @@ public class ProductSpecification {
                 predicates.add(cb.equal(root.get("isNew"), isNew));
             }
 
-            // 6. Lọc theo từ khóa tìm kiếm
+            // 6. Lọc theo từ khóa tìm kiếm (tìm kiếm đa trường: tên, model, mô tả, danh mục, thương hiệu)
             if (keyword != null && !keyword.trim().isEmpty()) {
                 String pattern = "%" + keyword.trim().toLowerCase() + "%";
-                Predicate nameMatch = cb.like(cb.lower(root.get("name")), pattern);
-                Predicate modelMatch = cb.like(cb.lower(cb.coalesce(root.get("modelCode"), "")), pattern);
-                predicates.add(cb.or(nameMatch, modelMatch));
+                List<Predicate> keywordPredicates = new ArrayList<>();
+
+                // Tên & model
+                keywordPredicates.add(cb.like(cb.lower(root.get("name")), pattern));
+                keywordPredicates.add(cb.like(cb.lower(cb.coalesce(root.get("modelCode"), "")), pattern));
+
+                // Mô tả
+                keywordPredicates.add(cb.like(cb.lower(cb.coalesce(root.get("description"), "")), pattern));
+
+                // Danh mục trực tiếp (tên & slug)
+                Join<Product, Category> catJoin = root.join("category", JoinType.LEFT);
+                keywordPredicates.add(cb.like(cb.lower(cb.coalesce(catJoin.get("name"), "")), pattern));
+                keywordPredicates.add(cb.like(cb.lower(cb.coalesce(catJoin.get("slug"), "")), pattern));
+
+                // Thương hiệu (tên & slug)
+                Join<Product, Brand> brandJoin = root.join("brand", JoinType.LEFT);
+                keywordPredicates.add(cb.like(cb.lower(cb.coalesce(brandJoin.get("name"), "")), pattern));
+                keywordPredicates.add(cb.like(cb.lower(cb.coalesce(brandJoin.get("slug"), "")), pattern));
+
+                // Danh mục con cháu nếu từ khóa khớp tên/nhóm danh mục
+                if (keywordCategoryIds != null && !keywordCategoryIds.isEmpty()) {
+                    keywordPredicates.add(root.get("category").get("categoryId").in(keywordCategoryIds));
+                }
+
+                predicates.add(cb.or(keywordPredicates.toArray(new Predicate[0])));
+                query.distinct(true);
             }
 
             // 7. Lọc theo khoảng giá (minPrice, maxPrice) qua product_variants

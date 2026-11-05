@@ -134,6 +134,57 @@ class ToolsUnitTest {
         assertThat(result.getResultJson()).contains("\"count\":0");
     }
 
+    @Test
+    @DisplayName("search_products: tự động bóc tách giá và làm sạch từ khóa tự nhiên (Điện thoại dưới 20 triệu)")
+    void searchProducts_cleansKeywordAndExtractsPrice() {
+        ProductResponseDto pDto = ProductResponseDto.builder()
+                .id(7L)
+                .name("Samsung Galaxy A37")
+                .slug("samsung-galaxy-a37")
+                .price(BigDecimal.valueOf(9990000))
+                .variants(List.of(ProductResponseDto.VariantDto.builder().variantId(701L).salePrice(BigDecimal.valueOf(8991000)).build()))
+                .build();
+
+        when(productService.getProducts(any(), eq("dien-thoai"), any(), any(), isNull(), any(), any(), any(), eq(BigDecimal.valueOf(20000000L)), anyInt(), anyInt(), anyInt(), eq(true)))
+                .thenReturn(ProductPageResponseDto.builder().items(List.of(pDto)).totalElements(1).build());
+        when(inventoryRepository.getAvailableStockByVariantId(701L)).thenReturn(10);
+
+        ChatContext ctx = new ChatContext(null);
+        ToolExecutionResult result = searchProductsTool.execute(Map.of("keyword", "Điện thoại dưới 20 triệu"), ctx);
+
+        assertThat(result.getResultJson()).contains("Samsung Galaxy A37");
+        assertThat(result.getProducts()).hasSize(1);
+        assertThat(result.getProducts().get(0).getName()).isEqualTo("Samsung Galaxy A37");
+    }
+
+    @Test
+    @DisplayName("search_products: khi không có sản phẩm dưới mức giá maxPrice, kích hoạt fallback và thêm ghi chú advisory")
+    void searchProducts_fallbackWithAdvisoryWhenOutOfBudget() {
+        ProductResponseDto pDto = ProductResponseDto.builder()
+                .id(7L)
+                .name("Samsung Galaxy A37")
+                .slug("samsung-galaxy-a37")
+                .price(BigDecimal.valueOf(9990000))
+                .variants(List.of(ProductResponseDto.VariantDto.builder().variantId(701L).salePrice(BigDecimal.valueOf(8991000)).build()))
+                .build();
+
+        // Lần đầu với maxPrice = 5.000.000 -> 0 sản phẩm
+        when(productService.getProducts(any(), eq("dien-thoai"), any(), any(), isNull(), any(), any(), any(), eq(BigDecimal.valueOf(5000000)), anyInt(), anyInt(), anyInt(), eq(true)))
+                .thenReturn(ProductPageResponseDto.builder().items(Collections.emptyList()).totalElements(0).build());
+
+        // Lần fallback bỏ maxPrice -> tìm thấy sản phẩm
+        when(productService.getProducts(any(), eq("dien-thoai"), any(), any(), isNull(), any(), any(), isNull(), isNull(), anyInt(), anyInt(), anyInt(), eq(true)))
+                .thenReturn(ProductPageResponseDto.builder().items(List.of(pDto)).totalElements(1).build());
+        when(inventoryRepository.getAvailableStockByVariantId(701L)).thenReturn(5);
+
+        ChatContext ctx = new ChatContext(null);
+        ToolExecutionResult result = searchProductsTool.execute(Map.of("category", "dien-thoai", "maxPrice", 5000000), ctx);
+
+        assertThat(result.getResultJson()).contains("advisory");
+        assertThat(result.getResultJson()).contains("Samsung Galaxy A37");
+        assertThat(result.getProducts()).hasSize(1);
+    }
+
     // ==========================================
     // 2. GetProductDetailTool Tests
     // ==========================================

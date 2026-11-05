@@ -118,8 +118,14 @@ public class ProductServiceImpl implements ProductService {
             }
         }
 
+        List<Integer> keywordCategoryIds = null;
+        if (keyword != null && !keyword.isBlank()) {
+            keywordCategoryIds = resolveCategoryIdsForKeyword(keyword.trim());
+        }
+
         Specification<Product> spec = ProductSpecification.filter(
                 categoryIds,
+                keywordCategoryIds,
                 resolvedBrandId,
                 brandSlug,
                 keyword,
@@ -725,6 +731,56 @@ public class ProductServiceImpl implements ProductService {
                 .variants(variantDtos)
                 .images(imageUrls)
                 .build();
+    }
+
+    private List<Integer> resolveCategoryIdsForKeyword(String kw) {
+        if (kw == null || kw.isBlank()) return Collections.emptyList();
+        String lower = kw.toLowerCase().trim();
+        String unaccented = removeDiacritics(lower);
+
+        List<Category> allCategories = categoryRepository.findAll();
+        Set<Integer> matchedIds = new HashSet<>();
+
+        for (Category c : allCategories) {
+            String cName = c.getName() != null ? c.getName().toLowerCase() : "";
+            String cNameUnaccented = removeDiacritics(cName);
+            String cSlug = c.getSlug() != null ? c.getSlug().toLowerCase() : "";
+
+            boolean match = (!cName.isEmpty() && (cName.contains(lower) || lower.contains(cName)))
+                    || (!cNameUnaccented.isEmpty() && (cNameUnaccented.contains(unaccented) || unaccented.contains(cNameUnaccented)))
+                    || (!cSlug.isEmpty() && (cSlug.contains(unaccented.replace(" ", "-")) || unaccented.replace(" ", "-").contains(cSlug)));
+
+            // Hỗ trợ từ khóa đồng nghĩa tiếng Việt phổ biến cho thiết bị di động / công nghệ
+            if (!match) {
+                if ((lower.contains("điện thoại") || unaccented.contains("dien thoai") || lower.contains("đt") || unaccented.contains("dt") || lower.contains("smartphone") || lower.contains("phone"))
+                        && (cSlug.equals("dien-thoai") || cSlug.equals("phone-tablet"))) {
+                    match = true;
+                } else if ((lower.contains("máy tính bảng") || unaccented.contains("may tinh bang") || lower.contains("tablet") || lower.contains("ipad"))
+                        && cSlug.equals("may-tinh-bang")) {
+                    match = true;
+                } else if ((lower.contains("tai nghe") || unaccented.contains("tai nghe") || lower.contains("headphone") || lower.contains("airpods"))
+                        && (cSlug.equals("tai-nghe") || cSlug.equals("audio"))) {
+                    match = true;
+                } else if ((lower.contains("đồng hồ") || unaccented.contains("dong ho") || lower.contains("smartwatch") || lower.contains("apple watch"))
+                        && (cSlug.equals("dong-ho") || cSlug.equals("watch-camera"))) {
+                    match = true;
+                } else if ((lower.contains("laptop") || unaccented.contains("may tinh xach tay") || lower.contains("macbook"))
+                        && cSlug.equals("laptop")) {
+                    match = true;
+                }
+            }
+
+            if (match) {
+                matchedIds.addAll(categoryService.getCategoryAndDescendantIds(c.getCategoryId()));
+            }
+        }
+        return new ArrayList<>(matchedIds);
+    }
+
+    private String removeDiacritics(String text) {
+        if (text == null) return "";
+        String normalized = java.text.Normalizer.normalize(text, java.text.Normalizer.Form.NFD);
+        return normalized.replaceAll("\\p{InCombiningDiacriticalMarks}+", "").replace("đ", "d").replace("Đ", "d");
     }
 
     private String generateSlug(String input) {
