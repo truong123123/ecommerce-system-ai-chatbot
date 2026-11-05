@@ -122,6 +122,7 @@ export const LaptopShowcaseClient: React.FC<LaptopShowcaseClientProps> = ({
         <div className={styles.bannerCol} aria-label="Banners khuyến mãi Laptop & PC">
           {banners.slice(0, 2).map((b, index) => {
             const currentImg = bannerImages[b.id] || LAPTOP_CONFIG.PLACEHOLDER_IMAGE;
+            const isCustomGraphic = currentImg && currentImg !== LAPTOP_CONFIG.PLACEHOLDER_IMAGE;
             return (
               <Link
                 key={b.id}
@@ -134,6 +135,7 @@ export const LaptopShowcaseClient: React.FC<LaptopShowcaseClientProps> = ({
                     src={currentImg}
                     alt={b.title}
                     fill
+                    unoptimized={Boolean(currentImg && currentImg.startsWith('http'))}
                     sizes="(max-width: 1024px) 100vw, 250px"
                     className={styles.posterImage}
                     priority={index === 0}
@@ -144,11 +146,13 @@ export const LaptopShowcaseClient: React.FC<LaptopShowcaseClientProps> = ({
                       }));
                     }}
                   />
-                  <div className={styles.posterOverlay}>
-                    <span className={styles.posterBadge}>Laptop & PC</span>
-                    <h3 className={styles.posterTitle}>{b.title}</h3>
-                    <span className={styles.posterBtn}>MUA NGAY &gt;</span>
-                  </div>
+                  {!isCustomGraphic && (
+                    <div className={styles.posterOverlay}>
+                      <span className={styles.posterBadge}>Laptop & PC</span>
+                      <h3 className={styles.posterTitle}>{b.title}</h3>
+                      <span className={styles.posterBtn}>MUA NGAY &gt;</span>
+                    </div>
+                  )}
                 </div>
               </Link>
             );
