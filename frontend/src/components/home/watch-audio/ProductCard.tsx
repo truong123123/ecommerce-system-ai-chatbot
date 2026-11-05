@@ -32,7 +32,7 @@ export const ProductCard = memo(function ProductCard({
           <span aria-hidden="true" />
         )}
         {hasInstallment ? (
-          <span className={styles.installmentBadge}>{product.installmentText}</span>
+          <span className={styles.installmentBadge}>Trả góp 0%</span>
         ) : (
           <span aria-hidden="true" />
         )}
@@ -66,19 +66,24 @@ export const ProductCard = memo(function ProductCard({
             <span className={styles.oldPrice}>{formatVND(product.oldPrice!)}</span>
           )}
         </div>
+
+        {/* 3. Promotional text (Tmember & T-Student badges) */}
+        {(product.tmemberDiscountText || product.studentDiscountText) && (
+          <div className={styles.promosBox}>
+            {product.tmemberDiscountText && (
+              <span className={styles.promoPillSmember}>{product.tmemberDiscountText}</span>
+            )}
+            {product.studentDiscountText && (
+              <span className={styles.promoPillStudent}>{product.studentDiscountText}</span>
+            )}
+          </div>
+        )}
+
+        {/* 4. Installment note */}
+        {product.installmentText && (
+          <p className={styles.installmentNote}>{product.installmentText}</p>
+        )}
       </Link>
-
-      {/* 3. Promotional text (render ONLY if returned from backend) */}
-      {product.tmemberDiscountText && (
-        <div className={styles.promosBox}>
-          <span className={styles.promoPillSmember}>{product.tmemberDiscountText}</span>
-        </div>
-      )}
-
-      {/* 4. Installment note (render ONLY if returned from backend) */}
-      {product.installmentText && (
-        <p className={styles.installmentNote}>{product.installmentText}</p>
-      )}
 
       {/* 5. Card Footer: Delivery badge, real rating (if any), and isolated accessible favorite button */}
       <div className={styles.cardFooter}>

@@ -64,7 +64,7 @@ export const ProductCard = memo(function ProductCard({
           <span aria-hidden="true" />
         )}
         {hasInstallment ? (
-          <span className={styles.installmentBadge}>{product.installmentText}</span>
+          <span className={styles.installmentBadge}>Trả góp 0%</span>
         ) : (
           <span aria-hidden="true" />
         )}

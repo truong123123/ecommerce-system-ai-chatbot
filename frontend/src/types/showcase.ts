@@ -86,8 +86,9 @@ export interface Product {
   discountPercent: number | null; // Only non-null if genuine discount exists
   rating: number | null; // Only if returned by backend; NO fake 5-star rating
   reviewCount: number | null;
-  tmemberDiscountText: string | null; // Real only; null if backend doesn't provide
-  installmentText: string | null; // Real only; null if backend doesn't provide
+  tmemberDiscountText?: string | null;
+  studentDiscountText?: string | null;
+  installmentText?: string | null;
   isHot: boolean;
   isNew: boolean;
 }
