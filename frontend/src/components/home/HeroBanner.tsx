@@ -9,42 +9,80 @@ import { API_BASE_URL } from '@/lib/env';
 const DEFAULT_BANNERS: Banner[] = [
   {
     id: 1,
-    title: 'iPhone 16 Pro Max',
-    headline: 'Titan Tự Nhiên. Sức Mạnh A18 Pro.',
-    subHeadline: 'Camera Fusion 48MP với nút Điều khiển Camera hoàn toàn mới. Viền mỏng nhất trên iPhone.',
-    primaryBtnText: 'Mua ngay',
-    primaryBtnLink: '/products',
-    secondaryBtnText: 'Khám phá thêm',
-    secondaryBtnLink: '/products',
-    bgColor: '#0a0a0c',
-    textColor: '#f5f5f7',
-    imageUrl: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=1600&auto=format&fit=crop&q=80',
+    title: 'Galaxy S26 Ultra',
+    headline: 'Đặt trước nhận quà khủng',
+    subHeadline: 'Thu cũ lên đời trợ giá tới 5 Triệu - Trả góp 0%',
+    imageUrl: 'https://res.cloudinary.com/c7w3ycu9/image/upload/v1793859058/banners/471331_S26-Series-1200x375.webp',
+    primaryBtnText: 'Đặt ngay',
+    primaryBtnLink: '/products/samsung-galaxy-s26-ultra',
+    displayOrder: 1,
+    isActive: true,
   },
   {
     id: 2,
-    title: 'MacBook Pro M3 Max',
-    headline: 'Bứt phá mọi giới hạn hiệu năng.',
-    subHeadline: 'Màn hình Liquid Retina XDR cực đỉnh. Pin lên đến 22 giờ liên tục cho công việc chuyên nghiệp.',
-    primaryBtnText: 'Tìm hiểu thêm',
-    primaryBtnLink: '/products',
-    secondaryBtnText: 'Xem tùy chọn',
-    secondaryBtnLink: '/products',
-    bgColor: '#0d0d11',
-    textColor: '#ffffff',
-    imageUrl: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=1600&auto=format&fit=crop&q=80',
+    title: 'iPhone 18 Series',
+    headline: 'Sẵn hàng giá tốt',
+    subHeadline: 'Ưu đãi thanh toán ngân hàng - Trả góp 0%',
+    imageUrl: 'https://res.cloudinary.com/c7w3ycu9/image/upload/v1793859066/banners/iphone-18-web-082925157.webp',
+    primaryBtnText: 'Mua ngay',
+    primaryBtnLink: '/products/iphone-17-pro-256gb',
+    displayOrder: 2,
+    isActive: true,
   },
   {
     id: 3,
-    title: 'Apple Watch Ultra 2',
-    headline: 'Mỏng hơn. Bền bỉ hơn. Đột phá.',
-    subHeadline: 'Vỏ titan đen mới cùng dây đeo Milanese titan. Màn hình sáng nhất từ trước tới nay.',
+    title: 'Huawei Watch GT 7',
+    headline: 'Đỉnh cao pin 2 tuần',
+    subHeadline: 'Thiết kế thể thao sang trọng - Theo dõi sức khỏe chuyên sâu',
+    imageUrl: 'https://res.cloudinary.com/c7w3ycu9/image/upload/v1793859060/banners/666649_KV-HUAWEI-WATCH-GT-7-Series-1200x375.webp',
+    primaryBtnText: 'Khám phá',
+    primaryBtnLink: '/products?category=dong-ho',
+    displayOrder: 3,
+    isActive: true,
+  },
+  {
+    id: 4,
+    title: 'Galaxy A18 & A08',
+    headline: 'Siêu pin 25W - Giá hời',
+    subHeadline: 'Màn hình 90Hz mượt mà - Pin 5000mAh bền bỉ',
+    imageUrl: 'https://res.cloudinary.com/c7w3ycu9/image/upload/v1793859062/banners/702904_KV-SS-A18-_-A08-1200x375-25w.webp',
+    primaryBtnText: 'Xem chi tiết',
+    primaryBtnLink: '/products?category=dien-thoai',
+    displayOrder: 4,
+    isActive: true,
+  },
+  {
+    id: 5,
+    title: 'OPPO Find X10 Series',
+    headline: 'Nhiếp ảnh bậc thầy',
+    subHeadline: 'Camera Hasselblad cao cấp - Sạc siêu tốc 100W',
+    imageUrl: 'https://res.cloudinary.com/c7w3ycu9/image/upload/v1793859063/banners/860851_OPPO-Find-X10-Series-web.webp',
+    primaryBtnText: 'Tìm hiểu thêm',
+    primaryBtnLink: '/products?category=dien-thoai',
+    displayOrder: 5,
+    isActive: true,
+  },
+  {
+    id: 6,
+    title: 'iPhone Duo Siêu Phẩm',
+    headline: 'Đăng ký sớm có lợi thế',
+    subHeadline: 'Đột phá thiết kế kép - Màn hình tràn viền',
+    imageUrl: 'https://res.cloudinary.com/c7w3ycu9/image/upload/v1793859067/banners/iphone-duo-web-084156526.webp',
+    primaryBtnText: 'Đăng ký nhận tin',
+    primaryBtnLink: '/products/iphone-air',
+    displayOrder: 6,
+    isActive: true,
+  },
+  {
+    id: 7,
+    title: 'Astra 2 AI',
+    headline: 'Tương lai công nghệ AI',
+    subHeadline: 'Xử lý AI tức thì on-device - Trải nghiệm thông minh đỉnh cao',
+    imageUrl: 'https://res.cloudinary.com/c7w3ycu9/image/upload/v1793859064/banners/astra-2-web-083724546.webp',
     primaryBtnText: 'Trải nghiệm ngay',
     primaryBtnLink: '/products',
-    secondaryBtnText: 'Đặt mua',
-    secondaryBtnLink: '/products',
-    bgColor: '#161617',
-    textColor: '#f5f5f7',
-    imageUrl: 'https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=1600&auto=format&fit=crop&q=80',
+    displayOrder: 7,
+    isActive: true,
   },
 ];
 
@@ -66,7 +104,6 @@ export const HeroBanner: React.FC = () => {
           }
         }
       } catch (err) {
-        // Fallback silently to DEFAULT_BANNERS if backend is unreachable
         console.warn('Backend banners API unavailable, using fallback data.', err);
       }
     };
@@ -93,88 +130,99 @@ export const HeroBanner: React.FC = () => {
 
   return (
     <section className={styles.sectionContainer} aria-label="Khuyến mãi nổi bật">
+      {/* Khung Banner Chính (CellphoneS Style - Tỉ lệ chuẩn 1200x375) */}
       <div
         className={styles.bannerWrapper}
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
-        <div key={currentBanner.id} className={styles.bannerSlide}>
-          <div className={styles.textCol}>
-            <span className={styles.productBadge}>{currentBanner.title}</span>
-            <h1 className={styles.headline}>{currentBanner.headline}</h1>
-            <p className={styles.subHeadline}>{currentBanner.subHeadline}</p>
-
-            <div className={styles.buttonGroup}>
-              {currentBanner.primaryBtnText && (
-                <Link
-                  href={currentBanner.primaryBtnLink || '#'}
-                  className={styles.btnPrimary}
-                >
-                  {currentBanner.primaryBtnText}
-                </Link>
-              )}
-              {currentBanner.secondaryBtnText && (
-                <Link
-                  href={currentBanner.secondaryBtnLink || '#'}
-                  className={styles.btnSecondary}
-                >
-                  {currentBanner.secondaryBtnText}
-                </Link>
-              )}
-            </div>
-          </div>
-
-          {currentBanner.imageUrl && (
-            <div className={styles.imageCol}>
+        <Link
+          href={currentBanner.primaryBtnLink || '/products'}
+          className={styles.bannerLink}
+          title={currentBanner.title}
+        >
+          <div key={currentBanner.id} className={styles.bannerSlide}>
+            {currentBanner.imageUrl ? (
               <img
                 src={currentBanner.imageUrl}
                 alt={currentBanner.title}
                 className={styles.bannerImg}
                 onError={(e) => {
-                  (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=1600&auto=format&fit=crop&q=80';
+                  (e.target as HTMLImageElement).src =
+                    'https://res.cloudinary.com/c7w3ycu9/image/upload/v1793859058/banners/471331_S26-Series-1200x375.webp';
                 }}
               />
-            </div>
-          )}
-        </div>
+            ) : (
+              <div className={styles.fallbackCard}>
+                <span className={styles.fallbackBadge}>{currentBanner.title}</span>
+                <h1 className={styles.fallbackHeadline}>{currentBanner.headline}</h1>
+                <p className={styles.fallbackSubHeadline}>{currentBanner.subHeadline}</p>
+                {currentBanner.primaryBtnText && (
+                  <span className={styles.fallbackBtn}>{currentBanner.primaryBtnText}</span>
+                )}
+              </div>
+            )}
+          </div>
+        </Link>
 
-        {/* Slide Indicators & Navigation Buttons */}
+        {/* Nút điều hướng mũi tên bán nguyệt (CellphoneS Signature Style) */}
         {banners.length > 1 && (
           <>
             <button
               type="button"
               className={`${styles.arrowBtn} ${styles.prevBtn}`}
-              onClick={() => setCurrentIndex((prev) => (prev - 1 + banners.length) % banners.length)}
-              aria-label="Previous slide"
+              onClick={(e) => {
+                e.preventDefault();
+                setCurrentIndex((prev) => (prev - 1 + banners.length) % banners.length);
+              }}
+              aria-label="Banner trước"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="15 18 9 12 15 6" />
               </svg>
             </button>
             <button
               type="button"
               className={`${styles.arrowBtn} ${styles.nextBtn}`}
-              onClick={() => setCurrentIndex((prev) => (prev + 1) % banners.length)}
-              aria-label="Next slide"
+              onClick={(e) => {
+                e.preventDefault();
+                setCurrentIndex((prev) => (prev + 1) % banners.length);
+              }}
+              aria-label="Banner tiếp theo"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="9 18 15 12 9 6" />
               </svg>
             </button>
-            <div className={styles.indicators}>
-              {banners.map((_, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  className={`${styles.dot} ${idx === currentIndex ? styles.dotActive : ''}`}
-                  onClick={() => setCurrentIndex(idx)}
-                  aria-label={`Go to slide ${idx + 1}`}
-                />
-              ))}
-            </div>
           </>
         )}
       </div>
+
+      {/* Thanh Tabs Tiêu Đề Dưới Banner (Phong cách CellphoneS đặc trưng) */}
+      {banners.length > 1 && (
+        <div
+          className={styles.tabsContainer}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
+          {banners.map((item, idx) => {
+            const isActive = idx === currentIndex;
+            return (
+              <button
+                key={item.id || idx}
+                type="button"
+                className={`${styles.tabItem} ${isActive ? styles.tabItemActive : ''}`}
+                onClick={() => setCurrentIndex(idx)}
+                title={item.title}
+              >
+                <div className={styles.tabTitle}>{item.title}</div>
+                <div className={styles.tabSub}>{item.headline || item.subHeadline || 'Giá cực tốt'}</div>
+                {isActive && <div className={styles.activeBar} />}
+              </button>
+            );
+          })}
+        </div>
+      )}
     </section>
   );
 };
